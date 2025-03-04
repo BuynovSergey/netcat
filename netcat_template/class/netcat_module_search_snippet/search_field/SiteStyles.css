@@ -1,0 +1,10 @@
+& { line-height: 1; }
+
+.search-block { display: block; width: 100%; }
+.search-block > * { width: 100%; }
+.search-block-form { white-space: nowrap; display: flex; align-items: center; }
+.search-block-input.full { width: 100%; }
+.search-block-input.set { max-width: 100%; }
+.search-block-button { display: block; }
+
+@nc-container (max-width: 1420px) { .search-block { -webkit-box-ordinal-group: 3; -ms-flex-order: 2; order: 2; position: static; } }

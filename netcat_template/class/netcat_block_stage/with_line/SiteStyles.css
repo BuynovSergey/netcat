@@ -1,0 +1,22 @@
+.stage-item-stage-container {
+    display: flex;
+    column-gap: 30px;
+    align-items: center;
+}
+.stage-item-stage-number-box {
+    border: 1px solid var(--color, var(--tpl-color-brand));
+    border-radius: 10px;
+    padding: 16px;
+    margin: 0;
+    color: var(--color, var(--tpl-color-brand));
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+.stage-item-stage-line {
+    border-bottom: 1px solid var(--color, var(--tpl-color-brand));
+    width: 100%;
+}
+.tpl-block-list-objects > *:last-child .stage-item-stage-line {
+    border-bottom: none;
+}

@@ -1,0 +1,46 @@
+<? if ($nc_core->catalogue->get_current('Title_Sub_ID') == $sub) : ?>
+<div class='type_block auth_form'>
+	    <a class="close" href="#"></a>
+    <div class="title"><?= NETCAT_MODULE_AUTH_AUTHORIZATION ?></div>
+<? endif; ?>
+    <form method="post" action="/netcat/modules/auth/">
+        <input type='hidden' name='AuthPhase' value='1' />
+        <input type='hidden' name='REQUESTED_FROM' value='<?= isset($REQUESTED_FROM) ? htmlspecialchars($REQUESTED_FROM, ENT_QUOTES) : (strpos($_SERVER['REQUEST_URI'], 'netcat/modules/auth') !== false ? str_replace('http://', '', str_replace($_SERVER['HTTP_HOST'], '', $_SERVER['HTTP_REFERER'])) : $_SERVER['REQUEST_URI']) ?>' />
+        <input type='hidden' name='REQUESTED_BY' value='GET' />
+        <input type='hidden' name='catalogue' value='<?= $catalogue ?>' />
+        <input type='hidden' name='sub' value='<?= $sub ?>' />
+        <input type='hidden' name='cc' value='<?= $cc ?>' />
+        <div class="block">
+            <label><?= $nc_core->get_login_field_label(); ?></label>
+            <div class="input_text"><input type="text" name="AUTH_USER" value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>'><div class="left"></div><div class="right"></div></div>
+        </div>
+        <div class="block">
+            <label><?= NETCAT_MODULE_AUTH_PASSWORD ?></label>
+            <div class="input_text"><input type="password" name="AUTH_PW" value=""><div class="left"></div><div class="right"></div></div>
+        </div>
+        <? if ($nc_core->user->captcha_is_required()): ?>
+        <div class="block">
+            <div><?= nc_captcha_formfield(); ?></div>
+            <label><?= NETCAT_MODERATION_CAPTCHA ?></label>
+            <div class="input_text"><input type="text" name="nc_captcha_code" value=""><div class="left"></div><div class="right"></div></div>
+        </div>
+        <? endif; ?>
+        <? if ($ADMIN_AUTHTYPE == "manual" && $AUTHORIZATION_TYPE == "cookie") : ?>
+        <div class="block">
+            <input type='checkbox' name='loginsave' />
+            <label><?= NETCAT_MODULE_AUTH_SAVE ?></label>            
+        </div>
+        <? endif; ?>
+        <input type="hidden" value="1" name="AuthPhase">
+        <input type='submit' class='login_submit'  name='submit' value='<?= NETCAT_MODULE_AUTH_BUT_AUTORIZE ?>' />
+        <? if ($AuthPhase && $REQUEST_URI != $REQUESTED_FROM) : ?><br/><br/><a href='<?= $REQUESTED_FROM ?>'><?= NETCAT_MODULE_AUTH_BUT_BACK ?></a><? endif; ?>
+        <a id="rem_pwd" href="/netcat/modules/auth/password_recovery.php">Забыли пароль?</a>
+    </form>
+    <!--<div id="login_social">
+        <div id="social_name">Войти через социальные сети</div>
+        <div class="social_block"><img src="/images/template1/i/images_".$template_settings['color_scheme']."/vk_open.jpg" alt="" /></div>
+        <div class="social_block"><img src="/images/template1/i/images_".$template_settings['color_scheme']."/facebook_login.jpg" alt="" /></div>
+        <div class="social_block last"><img src="/images/template1/i/images_".$template_settings['color_scheme']."/twitter_login.jpg" alt="" /></div>
+        <div class="clear"></div>-->
+    </div>
+<?= $nc_core->catalogue->get_current('Title_Sub_ID') == $sub ?" </div>" : "" ?>

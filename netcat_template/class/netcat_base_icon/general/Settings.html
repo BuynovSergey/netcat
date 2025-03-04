@@ -1,0 +1,18 @@
+<?php
+$cc_settings = nc_get_visual_settings($cc_env['Sub_Class_ID']);
+$styles = array();
+if ($cc_settings['iconColor'] !== 'inherit') {
+    $styles[] = "--tpl-object--icon-color:var(--tpl-color-" . $cc_settings['iconColor'] . ")";
+}
+if ($cc_settings['iconDecor'] !== 'none' && $cc_settings['iconDecorColor'] !== 'inherit') {
+    $styles[] = "--tpl-object--icon-decor-color:var(--tpl-color-" . $cc_settings['iconDecorColor'] . ")";
+}
+$styles = " style='" . implode(";", $styles) . "'";
+
+$icon_class = array();
+$icon_class[] = "tpl-icon";
+$icon_class[] = "tpl-text-" . $cc_settings['iconSize'];
+if ($cc_settings['iconDecor'] !== 'none') {
+    $icon_class[] = "icon-decor-" . $cc_settings['iconDecor'];
+}
+$icon_class = " class='" . implode(" ", $icon_class) . "'";

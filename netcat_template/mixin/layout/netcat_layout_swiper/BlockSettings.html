@@ -1,0 +1,125 @@
+<div class="nc-mixins-mixin-settings-netcat-layout-swiper">
+
+    <div class="nc-mixins-mixin-settings-netcat-layout-swiper-slides-per-view">
+        <label>
+            Количество одновременно отображаемых слайдов:
+            <span style="display: block">
+            <select name="mixin.settings.slides_per_view">
+                <option value="auto">сколько поместится</option>
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Отображение текущего положения слайдера:
+            <span style="display: block">
+            <select name="mixin.settings.pagination_type">
+                <option value="">нет</option>
+                <option value="bullets">«биатлон» (точки-буллеты с подсветкой текущего слайда)</option>
+                <option value="progressbar">полоса-индикатор (progress bar)</option>
+                <option value="fraction">номер слайда</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Полоса прокрутки:
+            <span style="display: block">
+            <select name="mixin.settings.show_scrollbar">
+                <option value="">нет</option>
+                <option value="after_interaction">показывать после смены слайда</option>
+                <option value="always">показывать всегда</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-netcat-layout-swiper-effect">
+        <label>
+            Смена слайдов:
+            <span style="display: block">
+            <select name="mixin.settings.effect">
+                <option value="slide">сдвиг (slide)</option>
+                <option value="fade">исчезновение и появление (fade)</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Скорость смены слайдов:
+            <input type="number" name="mixin.settings.speed" value="300" min="0" class="nc--medium">
+            мс
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Расстояние между слайдами:
+            <input type="number" name="mixin.settings.space_between" value="" min="0" class="nc--medium">
+            пикс.
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.show_arrows" value="1" checked>
+            Показывать стрелки «Вперёд» и «Назад»
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.loop" value="1">
+            Закольцевать (бесконечная прокрутка вперёд и назад)
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.autoplay" value="1">
+            Автоматическое перелистывание
+        </label>
+        <label>
+            каждые
+            <input type="number" name="mixin.settings.autoplay_delay" value="10" min="1" class="nc--small">
+            секунд
+        </label>
+    </div>
+
+</div>
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-layout-swiper',
+        settings = $nc(prefix),
+        effects = settings.find(prefix + '-effect');
+
+    // при показе нескольких слайдов fade не работает
+    settings.find(prefix + '-slides-per-view select')
+        .off(prefix)
+        .on('change' + prefix, function () {
+            var value = $nc(this).val();
+            if (value == 1) {
+                effects.show();
+            } else {
+                effects.hide().find('select').val('slide');
+            }
+        })
+        .change();
+})();
+</script>

@@ -1,0 +1,55 @@
+<?
+echo $f_AdminCommon;
+// получаем данные
+list($mess_array_all, $tagText) = nc_tag_cloud_show_result($tag, $tagsub, $tagcc);
+// выводим нужные сообщения
+$totRows = count($mess_array_all);
+$cc_env['totRows'] = $totRows;
+if ($tag && $mess_array_all) {
+    $messCount = 1;
+    unset($mess_array);
+    $mess_array_all[] = 1; // чтобы цикл выполнился один лишний раз
+    foreach ($mess_array_all AS $value) {
+        if ($messCount > $curPos && ($messCount - $curPos - 1) <= $recNum && ($messCount - $curPos) > 0) {
+            if (($value['Sub_Class_ID'] == $mess_cc || !$mess_cc) && ($messCount - $curPos) <= $recNum) {
+                if (!$mess_cc) {
+                    $mess_sub = $value['Subdivision_ID'];
+                    $mess_cc = $value['Sub_Class_ID'];
+                }
+                $mess_array[] = $value['Message_ID'];
+            } else {
+                if ($mess_array) {
+                    $messages_str = join(",", $mess_array);
+                    $content.=s_list_class($mess_sub, $mess_cc, opt($messages_str, "&tags_messages=$messages_str")."&isTitle=2&preTitle=1&showNav=0");
+                }
+                unset($mess_array);
+                $messages_str = "";
+                $mess_array[] = $value['Message_ID'];
+                $mess_sub = $value['Subdivision_ID'];
+                $mess_cc = $value['Sub_Class_ID'];
+            }
+        }
+        ++$messCount;
+    }
+}
+?>
+<div class='nc_list'>
+    <h3>
+        <? if ($tag) {
+            ?>Тег — <? if ((int) $tagsub || (int) $tagcc) { ?>
+                <a href='<?= $SUB_FOLDER.$current_sub['Hidden_URL'] ?>?tag=<?= htmlspecialchars($tag, ENT_QUOTES) ?>' title='вывести все сообщения с этим тегом'><?= $tagText ?></a><?
+    } else {
+        echo $tagText;
+    }
+} else {
+            ?>Популярные теги<?
+    }
+        ?>
+    </h3>
+    <?
+    if ($content && $tag) {
+        echo $content;
+    } else {
+        echo nc_tag_cloud_all($catalogue, "<a href='$SUB_FOLDER/tags/%TAG_LINK%TAG_SUB_LINK' style='font-size:%TAG_HEIGHT%; \".opt('%TAG_HEIGHT'>160, 'line-height:1em;').\"'>%TAG_NAME</a>");
+    }
+?>

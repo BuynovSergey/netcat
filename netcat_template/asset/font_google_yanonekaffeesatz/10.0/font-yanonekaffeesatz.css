@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Yanone Kaffeesatz ExtraLight'), local('YanoneKaffeesatz-ExtraLight'), url(https://fonts.gstatic.com/s/yanonekaffeesatz/v10/3y9-6aknfjLm_3lMKjiMgmUUYBs04YfUPv-uPNU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Yanone Kaffeesatz Light'), local('YanoneKaffeesatz-Light'), url(https://fonts.gstatic.com/s/yanonekaffeesatz/v10/3y9-6aknfjLm_3lMKjiMgmUUYBs04YewPf-uPNU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(https://fonts.gstatic.com/s/yanonekaffeesatz/v10/3y976aknfjLm_3lMKjiMgmUUYBs04Y8fH-w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Yanone Kaffeesatz Bold'), local('YanoneKaffeesatz-Bold'), url(https://fonts.gstatic.com/s/yanonekaffeesatz/v10/3y9-6aknfjLm_3lMKjiMgmUUYBs04YegOv-uPNU.woff) format('woff');
+}

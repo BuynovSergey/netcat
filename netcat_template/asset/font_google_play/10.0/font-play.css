@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Play';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Play Regular'), local('Play-Regular'), url(https://fonts.gstatic.com/s/play/v10/6aez4K2oVqwIvtE2GQ.woff) format('woff');
+}
+@font-face {
+  font-family: 'Play';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Play Bold'), local('Play-Bold'), url(https://fonts.gstatic.com/s/play/v10/6ae84K2oVqwItm4TCpQy3A.woff) format('woff');
+}

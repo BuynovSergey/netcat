@@ -1,0 +1,14 @@
+
+</div>
+
+<script>
+    const fileSize = document.querySelector(".tpl-block-<?= $cc ?>-list .item-size");
+    const iconSize = document.querySelector(".tpl-block-<?= $cc ?>-list .tpl-icon");
+
+    if (iconSize && fileSize) {
+        const fileWrapper = document.getElementById("file-wrapper-<?= $cc ?>");
+        const itemName = document.querySelector(".tpl-block-<?= $cc ?>-list .item-name");
+
+        itemName ? fileWrapper.style.setProperty("--tpl-object-icon-size", `${iconSize.clientWidth}px`) : fileSize.style.paddingLeft = "0px";
+    }
+</script>

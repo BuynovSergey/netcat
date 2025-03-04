@@ -1,0 +1,147 @@
+
+    <?php if ($cc_settings["map_mode"] !== "map-none"): ?>
+        <?php if (strpos($cc_settings["contacts_layout"], "inside") !== false): ?>
+            <div class="balloon-template"></div>
+        <?php endif ?>
+
+        <div class="contact-map <?= $cc_settings["map_mode"] ?>"><?= $cc_settings["map_mode"] == "map-iframe" &&
+            $cc_settings["map_iframe"] ? $cc_settings["map_iframe"] : "" ?></div>
+    <?php endif ?>
+</div>
+
+<?php $map_namespace = preg_replace("/\d/", "", nc_generate_random_string(6)) ?>
+
+<script>
+    (function () {
+        if (window.$) {
+            $(init);
+        } else {
+            document.addEventListener("DOMContentLoaded", init);
+        }
+
+
+        function init() {
+            const mapContainer = $("#contacts-corporate-<?= $cc ?> .contact-map");
+
+            function changeBalloonContent(content) {
+                const balloonTemplate = $("#contacts-corporate-<?= $cc ?> .balloon-template");
+
+                if (balloonTemplate !== null) {
+                    balloonTemplate.html(content);
+                }
+            }
+
+            if (mapContainer !== null && mapContainer.hasClass("map-iframe")) {
+                changeBalloonContent($("#contacts-corporate-<?= $cc ?> .contact-item").html());
+            }
+
+            if (mapContainer !== null && mapContainer.hasClass("map-api")) {
+                const scriptUrl = "https://api-maps.yandex.ru/2.1/?apikey=<?= $cc_settings["map_api_key"] ?>&lang=ru_RU&ns=" + "<?= $map_namespace ?>";
+                let namespace;
+
+                loadScript(scriptUrl)
+                    .then(() => {
+                        namespace = <?= $map_namespace ?>;
+                        namespace.ready(() => {
+                            initMap($("#contacts-corporate-<?= $cc ?> .contact-map")[0]);
+                            changeBalloonContent($("#contacts-corporate-<?= $cc ?> .contact-item").html());
+                        });
+                    });
+
+                function loadScript(src) {
+                    return new Promise((resolve, reject) => {
+                        if (typeof namespace !== "undefined") {
+                            return resolve();
+                        }
+
+                        const script = document.createElement("script");
+                        script.src = src;
+                        script.onload = () => resolve();
+                        script.onerror = () => reject(new Error(`Failed to load script ${src}`));
+                        document.body.appendChild(script);
+                    });
+                }
+
+                function initMap(selector) {
+                    const yandexMap = new namespace.Map(selector, {
+                        center: [37.64, 55.76],
+                        zoom: 15,
+                        controls: ["zoomControl"],
+                    });
+
+                    const clusterer = new namespace.Clusterer();
+                    const promises = [];
+                    const payload = [];
+
+                    <?= nc_array_json($geo_objects) ?>.forEach(properties => {
+                        const promise = () => {
+                            if (properties.coordinates) {
+                                payload.push({
+                                    coords: properties.coordinates.split(","),
+                                    ...properties
+                                });
+
+                                return Promise.resolve();
+                            } else {
+                                return namespace.geocode(properties.address, { results: 1 })
+                                    .then(result => payload.push({
+                                        coords: result.geoObjects.get(0).geometry.getCoordinates(),
+                                        ...properties
+                                    }))
+                            }
+                        }
+
+                        promises.push(promise());
+                    });
+
+                    Promise.all(promises).then(() => {
+                        const showContacts = !$("#contacts-corporate-<?= $cc ?>").hasClass("contacts-none");
+
+                        payload.forEach(data => {
+                            const properties = {};
+
+                            if (!showContacts) {
+                                properties.balloonContent = `<div style="padding:30px">${$(`#contacts-corporate-<?= $cc ?> #item-${data.id}`).html()}</div>`;
+                            }
+
+
+                            const placemark = new namespace.Placemark(data.coords,
+                                {
+                                    id: data.id,
+                                    ...properties
+                                },
+                                {
+                                    iconLayout: "default#image",
+                                    iconImageHref: "<?= $cc_settings["placemark_icon"] ? $cc_settings["placemark_icon"]->get_path() :
+                                        nc_component_path($cc_env["Real_Class_ID"]) . "marker-map.png" ?>",
+                                    iconImageSize: [32, 32]
+                                }
+                            );
+
+                            placemark.events.add("click", (e) => {
+                                const coords = e.get("target").geometry.getCoordinates().map(Number);
+
+                                yandexMap.panTo(coords, {
+                                    delay: 1000
+                                })
+
+                                if (showContacts) {
+                                    changeBalloonContent($(`#contacts-corporate-<?= $cc ?> #item-${placemark.properties.get("id")}`).html())
+                                }
+                            })
+
+                            clusterer.add(placemark);
+                        });
+
+                        yandexMap.geoObjects.add(clusterer);
+                        yandexMap.setBounds(clusterer.getBounds(), { checkZoomRange: true }).then(() => {
+                            if (payload.length === 1) {
+                                yandexMap.setZoom(15)
+                            }
+                        });
+                    })
+                }
+            }
+        }
+    })()
+</script>

@@ -1,0 +1,41 @@
+<?php
+
+$input = $nc_core->input;
+$maxRows = $maxRows ?: 100;
+
+// Временное сохранение кол-ва отображаемых объектов
+if ($rows_per_page = (int)$input->fetch_get('maxRows')) {
+    $maxRows = abs($rows_per_page);
+    if (empty($_SESSION['table_view_settings'])) {
+        $_SESSION['table_view_settings'] = array();
+    }
+    $_SESSION['table_view_settings'][$cc]['maxRows'] = $maxRows;
+}
+
+// Чтение и применение временных настроек
+if (isset($_SESSION['table_view_settings']) && !empty($_SESSION['table_view_settings'][$cc])) {
+    $table_view_settings = $_SESSION['table_view_settings'][$cc];
+
+    if (!empty($table_view_settings['maxRows'])) {
+        $maxRows = (int)$table_view_settings['maxRows'];
+    }
+}
+
+if ($input->fetch_post('table_view_settings') && $cc_env['Class_ID']) {
+	$field_table = nc_db_table::make('Field');
+	$field_table->where('Class_ID', $cc_env['Class_ID'])->update(array('InTableView'=>0));
+
+	if (isset($_POST['in_table_view'])) {
+		foreach ($input->fetch_post('in_table_view') as $field_id) {
+			$field_table->where_id($field_id)->update(array('InTableView'=>1));
+		}
+	}
+
+    $in_table_view_standart = '';
+
+    if (isset($_POST['in_table_view_standart'])) {
+        $in_table_view_standart = $db->escape(json_encode($input->fetch_post('in_table_view_standart')));
+    }
+
+    $db->query("UPDATE `Class` SET `FieldsInTableView` = '$in_table_view_standart' WHERE `Class_ID` = {$cc_env['Class_ID']}");
+}

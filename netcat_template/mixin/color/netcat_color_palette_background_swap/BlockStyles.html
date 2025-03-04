@@ -1,0 +1,16 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$colors = array(
+    '--tpl-color-background-main' => '--tpl-color-aba',
+    '--tpl-color-background-accent' => '--tpl-color-abm',
+);
+
+$color_generator = new nc_tpl_color_generator();
+
+return "$selector {
+{$color_generator->generate_swapped_colors_css($colors)}
+background-color: var(--tpl-color-background-main);
+}\n";

@@ -1,0 +1,43 @@
+<? $goods_data = nc_subdivision_goods_data::for_subdivision($sub)->get_first_item(); ?>
+<div class="tpl-block-page-block <?= !$cc_settings['background_pattern'] ? 'tpl-layout-disable-bg-pattern' : ''; ?>">
+    <div style="height: <?= $cc_settings['padding_top'];?>px;"></div>
+    <?= $f_AdminCommon; ?>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-description">
+                <span class="tpl-infoblock-field-text">
+                    <?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?>
+                </span>
+            </div>
+        <? endif; ?>
+    </div>
+    <div class="tpl-block-cover">
+        <div class="tpl-block-background" style="background-color: <?= $cc_settings['background_color']; ?>"></div>
+        <div class="tpl-block-container <?= ($goods_data && $cc_settings['show_price']) ? "tpl-layout-with-price" : "tpl-layout-without-price" ?>">
+            <? if ($goods_data && $cc_settings['show_price']) { ?>
+                <div class="tpl-block-information<?= $goods_data && $goods_data['DiscountValue'] ? " tpl-layout-discount" : "" ?>">
+                    <? if ($goods_data): ?>
+                        <?= nc_subdivision_goods_data::for_subdivision($sub)->get_edit_trigger_overlay(); ?>
+                        <div class="tpl-block-discount">
+                            <?= $goods_data['OriginalPrice'] ?> <?= $goods_data['OriginalPriceCurrency'] ?>
+                        </div>
+                        <div class="tpl-block-price-label">Цена</div>
+                        <div class="tpl-block-price">
+                            <?= $goods_data['ItemPrice'] ?> <?= $goods_data['ItemPriceCurrency'] ?>
+                        </div>
+                        <hr/>
+                        <div class="tpl-block-saving">
+                            Экономия
+                            <span>
+                                <?= $goods_data['DiscountValue'] ?><?= $goods_data['DiscountInPercent'] ? '&thinsp;%' : ' ' . $goods_data['DiscountCurrency'] ?>
+                            </span>
+                        </div>
+                    <? endif; ?>
+                </div>
+            <? } ?>
+
+            <div class="tpl-block-form">

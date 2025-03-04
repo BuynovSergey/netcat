@@ -1,0 +1,113 @@
+
+
+         </form>
+     </div>
+     <div class="nc-modal-dialog-footer">
+         <button data-action="submit">Сохранить</button>
+         <button data-action="close">Отмена</button>
+     </div>
+     <script>
+         (function() {
+             var c = nc.ui.modal_dialog.get_current_dialog().get_part('body'),
+                 variants = c.find('.tpl-block-item-variant'),
+                 variant_select_container = c.find('.tpl-block-item-variant-select'),
+                 variant_select = variant_select_container.find('select[name=item_variant]'),
+                 variant_name_input = variant_select_container.find('input[type=text]'),
+                 variant_rename_button = variant_select_container.find('.tpl-link-rename-toggle');
+
+             // переименование вариантов товаров
+             variant_rename_button.click(function(e) {
+                 if (variant_select_container.hasClass('tpl-state-not-renaming')) {
+                     // переключение в режим переименования
+                     var variant_id = variant_select.val(),
+                         input_name = 'nc_multiple_changes[' + variant_id + '][VariantName]';
+                     c.find('input[type=hidden][name="' + input_name + '"]').remove();
+                     variant_name_input
+                         .attr('name', input_name)
+                         .val($nc.trim(variant_select.find('option:selected').text()))
+                         .data('id', variant_id)
+                         .keyup(e, function(e) {
+                             if (e.keyCode == 13) {
+                                 // применение изменений по Enter
+                                 variant_rename_button.click();
+                             }
+                         });
+                     setTimeout(function() { variant_name_input.select(); }, 1);
+                 }
+                 else {
+                     // применение названия
+                     var new_name = variant_name_input.val();
+                     c.find('form').append($nc('<input />', {
+                         type: 'hidden',
+                         name: variant_name_input.attr('name'),
+                         value: new_name
+                     }));
+                     variant_select.find('option[value=' + variant_name_input.data('id') + ']').html(new_name);
+                 }
+
+                 variant_select_container.toggleClass('tpl-state-not-renaming');
+                 e.preventDefault();
+             });
+
+             // отмена переименования
+             variant_select_container.find('.tpl-link-rename-cancel').click(function(e) {
+                 variant_select_container.addClass('tpl-state-not-renaming');
+                 variant_name_input.attr('name', '');
+                 e.preventDefault();
+             });
+
+             // переключение вариантов
+             variant_select.change(function() {
+                 variants.hide().filter('[data-id=' + $nc(this).val() + ']').show();
+             });
+
+
+             // обновление названия валюты — сразу во всех полях
+             var currency_inputs = c.find('input[name*=OriginalPriceCurrency]').change(function() {
+                 currency_inputs.val($nc(this).val());
+             });
+
+             // обновление цены со скидкой
+             variants.each(function() {
+                 var variant = $nc(this),
+                     original_price_input = variant.find('input[name*=OriginalPrice]'),
+                     discount_value_input = variant.find('input[name*=DiscountValue]'),
+                     item_price_span = variant.find('.tpl-field-item-price'),
+                     item_price_input = variant.find('input[name*=ItemPrice]'),
+                     discount_in_percent_select = variant.find('select[name*=DiscountInPercent]'),
+
+                     has_decimal_part = function(value) {
+                         return /[.,]/.test(value.toString()) ;
+                     },
+                     parse_number = function(value) {
+                         return parseFloat(value.toString().replace(/\s+/, '').replace(',', '.')) || 0;
+                     },
+                     is_in_percent = function() {
+                         return discount_in_percent_select.val()  == '1';
+                     },
+
+                     calculate_item_price = function() {
+                         var original_price = parse_number(original_price_input.val()),
+                             discount_value = parse_number(discount_value_input.val()),
+                             in_percent = is_in_percent(),
+                             num_decimal_places = has_decimal_part(original_price_input.val()) || (!in_percent && has_decimal_part(discount_value)) ? 2 : 0,
+                             item_price = (original_price - (in_percent ? original_price * discount_value / 100 : discount_value)).toFixed(num_decimal_places);
+                         item_price_span.html(item_price);
+                         item_price_input.val(item_price);
+                     };
+
+                 original_price_input.on('input', calculate_item_price);
+                 discount_in_percent_select.on('change', calculate_item_price);
+                 discount_value_input.on('input', function() {
+                     if (this.value >= 100 && is_in_percent()) {
+                         discount_in_percent_select.val(0);
+                     }
+                     calculate_item_price();
+                 });
+             });
+
+
+         })();
+     </script>
+ </div>
+

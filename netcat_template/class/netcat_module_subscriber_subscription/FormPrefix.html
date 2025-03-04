@@ -1,0 +1,7 @@
+<?=( !$totRows && $nc_status != 1 ? "Нет рассылок" : "").
+( $nc_status == 1 ? "На указанный e'mail отправлен код подтверждения" : "").
+( $nc_status == 2 ? "Неверный email" : "").
+( $nc_status == 3 ? "Не выбрана рассылка" : "").
+( $nc_status == 4 ? "Неправильно введены символы, изображенные на картинке" : "").
+( $nc_status == 5 ? "Письмо с подтверждением подписки Вам выслано повторно" : "")?>
+<form action='<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>modules/subscriber/index.php' method='post'> 

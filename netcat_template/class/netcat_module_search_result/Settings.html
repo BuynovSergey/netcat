@@ -1,0 +1,19 @@
+<?
+global $nc_search;
+$nc_data = array();
+$input = $nc_core->input;
+$search_query = nc_search_util::convert($input->fetch_get('search_query'),1);
+
+if ($search_query) {
+  $search_query = $nc_search->make_query_string($search_query, $search_query_exclude);
+  if (!$recNum) { $recNum = $maxRows; }
+  $params = "&field=$field&interval=$interval&intervalvalue=$intervalvalue&intervalunit=$intervalunit" .
+            "&sortby=$sortby&sortdirection=$sortdirection&language=$language" .
+            "&curPos=$curPos&recNum=$recNum&nologging=$nologging";
+  $show_time = ($interval && $intervalvalue && $intervalunit) || ($sortby == 'last_modified');
+  $results = $nc_data = $nc_search->get_results($search_query, $input->fetch_get('area'), $params);
+  $totRows = $results->get_total_count();
+  // запрос мог быть изменён в get_results(); нам нужен изменённый запрос для листалки страниц
+  $nc_core->input->_GET['search_query'] = nc_search_util::convert($results->get_query_string()); // это hack, запросто может перестать работать!
+}
+?>

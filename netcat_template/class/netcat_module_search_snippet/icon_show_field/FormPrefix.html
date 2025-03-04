@@ -1,0 +1,34 @@
+<?php /* Не забываем, что данный компонент может быть не один на странице. */ ?>
+<?php $additional = mt_rand(-1 * mt_getrandmax(), mt_getrandmax()); ?>
+<?= $f_AdminCommon; ?>
+<?php $fieldWidth = ($cc_settings['fieldWidth'] == 'set' && $cc_settings['fieldWidthSize'] > 0 ? "width: {$cc_settings['fieldWidthSize']}{$cc_settings['fieldWidthUnit']}" : ""); ?>
+<style>
+<?php if ($cc_settings['iconColor'] !== 'inherit') { ?>
+    #<?= $nc_block_id; ?> .tpl-icon path { fill: var(--tpl-color-<?= $cc_settings['iconColor']; ?>); }
+<?php } ?>
+<?php if ($cc_settings['iconDecor'] !== 'none' && $cc_settings['iconDecorColor'] !== 'inherit') { ?>
+    #<?= $nc_block_id; ?> .tpl-icon[class*='icon-decor-'] { border: 1px solid var(--tpl-color-<?= $cc_settings['iconDecorColor']; ?>); }
+    #<?= $nc_block_id; ?> .tpl-icon[class*='icon-decor-'][class*='-fill'] { background-color: var(--tpl-color-<?= $cc_settings['iconDecorColor']; ?>); }
+<?php } ?>
+</style>
+<?php $icon = nc_get_svg_for_embedding(nc_core()->DOCUMENT_ROOT . nc_core()->HTTP_TEMPLATE_PATH . 'icon/themify_icons/search.svg'); ?>
+<?php
+$icon_class = array();
+$icon_class[] = "search-block-button";
+$icon_class[] = "js-open-btn";
+$icon_class[] = "tpl-icon";
+$icon_class[] = "tpl-text-" . $cc_settings['iconSize'];
+$icon_class[] = $cc_settings['iconDecor'] !== 'none' ? "icon-decor-" . $cc_settings['iconDecor'] : "";
+?>
+<div class="search-block">
+    <a href="" class="<?= implode(" ", $icon_class); ?>" id="nc-search-button<?= $additional; ?>"><?= $icon; ?></a>
+    <form class="search-block-form" action="<?= nc_folder_path($current_catalogue['Search_Result_Sub_ID']); ?>"
+          id="nc-search-form-drop<?= $additional; ?>">
+        <input type="search" class="search-block-input nc-search-input <?= $cc_settings['fieldWidth']; ?>"
+               name="search_query" value='<?= isset($search_query) ? $search_query : ''; ?>' style="<?= $fieldWidth; ?>"
+               placeholder="<?= $cc_settings['placeholder']; ?>">
+        <?php if ($cc_settings['buttonText']): ?>
+            <button class="search-block-button" type="submit"><?= $cc_settings['buttonText']; ?></button>
+        <?php endif; ?>
+    </form>
+</div>

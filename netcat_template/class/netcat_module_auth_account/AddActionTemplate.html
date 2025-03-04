@@ -1,0 +1,13 @@
+<?
+
+$nc_auth->pa_operation ( $f_Type, $f_Sum, $f_ToUserID, $f_Description, 1);
+if($inside_admin) {
+ ob_end_clean();
+ header("Location: ".$goBackLink."&inside_admin=1");
+ exit;
+}
+else {
+  echo "Счет пополнен";
+ echo "<br /><br />".$goBack;
+}
+?>

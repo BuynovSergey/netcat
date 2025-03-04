@@ -1,0 +1,34 @@
+<?php
+
+$styles = array();
+
+if ($cc_settings["title_font_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--title-color: var(--tpl-color-" . $cc_settings["title_font_color"] . ")";
+}
+
+$styles[] = "--tpl-object--image-ratio: " . str_replace(":", "/", $cc_settings["image_ratio"]) . ";";
+$styles = " style='" . implode("; ", $styles) . "'";
+
+$f_Slider_big = array(
+    'prefix' => "<div class='slider-big-image'>",
+    'record' => "<div class='image'><img src='%Path%' /></div>",
+    'divider' => " ",
+    'suffix' => "</div>",
+    'i' => 1,
+);
+
+$f_Slider_preview = array(
+    'prefix' => "<div class='slider-preview-list'>",
+    'record' => "<a href='%Path%'><span><img src='%Preview%' /></span></a>",
+    'divider' => " ",
+    'suffix' => "</div>",
+    'i' => 1,
+);
+
+$f_Slider_tiles = array(
+    'prefix' => "",
+    'record' => "<div class='image'><img src='%Path%' /></div>",
+    'divider' => " ",
+    'suffix' => "",
+    'i' => 1,
+);

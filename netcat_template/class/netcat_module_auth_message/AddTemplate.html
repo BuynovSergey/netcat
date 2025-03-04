@@ -1,0 +1,51 @@
+<?
+if (!$uid)
+    $uid = $f_UserID ? $f_UserID : $f_ToUser;
+$f_Parent_Message_ID = ($f_Parent_Message_ID ? $f_Parent_Message_ID : $f_RowID);
+$uid = intval($uid);
+$to_user = $db->get_var("SELECT `" . $AUTHORIZE_BY . "` FROM `User` WHERE `User_ID` = '" . $uid . "'");
+
+$reSubject = '';
+if ($f_Subject && !$warnText) {
+    $reSubject = nc_preg_replace('/^Re[d+]:(.*)$/', 'Re[' . (nc_substr($f_Subject, 3) + 1) . ']:$1', $f_Subject);
+    if ($f_Subject == $reSubject)
+        $reSubject = preg_replace('/^Re:(.*)$/', 'Re[2]:$1', $f_Subject);
+    if ($f_Subject == $reSubject)
+        $reSubject = "Re: $f_Subject";
+}
+
+echo $warnText . "<br/>";
+
+if (!$inside_admin && $to_user && $uid != $current_user['User_ID'] && $nc_core->get_settings('pm_allow', 'auth')) {
+    ?>
+    <div class='nc_form'>
+    <? if ($action != 'full') { ?><div class='nc_header'>Сообщения для: <b><?= $to_user ?></b></div><? } ?>
+        <form id='addForm' name='addForm' method='post' action='<?= $SUB_FOLDER ?>/netcat/add.php'>
+            <input type='hidden' name='cc' value='<?= $cc ?>' />
+            <input type='hidden' name='sub' value='<?= $sub ?>' />
+            <input type='hidden' name='catalogue' value='<?= $catalogue ?>' />
+            <input type='hidden' name='curPos' value='<?= $curPos ?>' />
+            <input type='hidden' name='posting' value='1' />
+            <input type='hidden' name='f_Checked' value='1' />
+            <input type='hidden' name='uid' value='<?= $uid ?>' />
+            <input type='hidden' name='f_ToUser' value='<?= $uid ?>' />
+            <input type='hidden' name='f_Parent_Message_ID' value='<?= $f_Parent_Message_ID ?>' />
+    <?= $nc_core->token->get_input() ?>
+
+            <div>
+                <input type='input' name='f_Subject' class='text' tabindex='1' value='<?= htmlspecialchars(($reSubject ? $reSubject : $f_Subject), ENT_QUOTES) ?>' />
+            </div><br/>
+
+    <?= nc_bbcode_bar('this', 'addForm', 'f_Message', 1, array("COLOR", "SMILE", "B", "I", "U", "S", "LIST", "QUOTE", "CODE", "IMG", "URL")) ?><br>
+            <div>
+                <style type='text/css'> div.textarea, textarea#f_Message { width: 100%; } </style>
+                <textarea name='f_Message' id='f_Message' tabindex='2'><?= ($action != 'full' ? htmlspecialchars($f_Message) : NULL) ?></textarea>
+            </div>
+            <br/>
+
+            <div style='text-align:right'>
+                <button type='submit' tabindex='4' style='font-weight:bold'>Отправить сообщение</button>
+            </div>
+        </form>
+    </div>
+<? } ?>

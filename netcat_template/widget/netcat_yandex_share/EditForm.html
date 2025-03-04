@@ -1,0 +1,113 @@
+<?php
+$service_list = $nc_core->db->get_results("SELECT `Field_Name`,`Description` FROM `Field` WHERE `Widget_Class_ID` = '$Widget_Class_ID' AND `Field_Name` LIKE 'service_%'");
+$service_list = $service_list ?: array();
+?>
+
+<div class="nc-form nc--vertical">
+    <div class='nc-form-row nc--horizontal'>
+        <label>Внешний вид:</label>
+        <label>
+            <input type='radio' name='f_type' value='icon' <?= ($f_type !== 'counter' ? "checked" : ""); ?>>
+            только иконки
+        </label>
+        <label>
+            <input type='radio' name='f_type' value='counter' <?= ($f_type === 'counter' ? "checked" : ""); ?>>
+            иконки+счетчики
+        </label>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Количество иконок:</label>
+        <input type='number' name='f_countIcon' value='<?= intval($f_countIcon); ?>' id='f_countIcon' class='nc--small' min="0" max="<?= count($service_list); ?>" maxlength="4">
+        <label>[для остальных добавляется меню, 0 - все выбранные]</label>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Размер иконок:</label>
+        <div class='nc-select'>
+            <select name='f_size' class='nc--large'>
+                <option value='m' <?= ($f_size !== 's' ? "selected" : ""); ?>>большой</option>
+                <option value='s' <?= ($f_size === 's' ? "selected" : ""); ?>>маленький</option>
+            </select>
+            <i class='nc-caret'></i>
+        </div>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Язык блока:</label>
+        <div class='nc-select'>
+            <select name='f_lang' class='nc--large'>
+                <option value='ru' <?= ($f_lang === 'ru' || $f_lang === '' ? "selected" : ""); ?>>русский</option>
+                <option value='az' <?= ($f_lang === 'az' ? "selected" : ""); ?>>азербайджанский</option>
+                <option value='be' <?= ($f_lang === 'be' ? "selected" : ""); ?>>белорусский</option>
+                <option value='en' <?= ($f_lang === 'en' ? "selected" : ""); ?>>английский</option>
+                <option value='hy' <?= ($f_lang === 'hy' ? "selected" : ""); ?>>армянский</option>
+                <option value='ka' <?= ($f_lang === 'ka' ? "selected" : ""); ?>>грузинский</option>
+                <option value='kk' <?= ($f_lang === 'kk' ? "selected" : ""); ?>>казахский</option>
+                <option value='ro' <?= ($f_lang === 'ro' ? "selected" : ""); ?>>румынский</option>
+                <option value='tr' <?= ($f_lang === 'tr' ? "selected" : ""); ?>>турецкий</option>
+                <option value='tt' <?= ($f_lang === 'tt' ? "selected" : ""); ?>>татарский</option>
+                <option value='uk' <?= ($f_lang === 'uk' ? "selected" : ""); ?>>украинский</option>
+            </select>
+            <i class='nc-caret'></i>
+        </div>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Позиция кнопки <i>Скопировать ссылку</i>:</label>
+        <div class='nc-select'>
+            <select name='f_copy' class='nc--large'>
+                <option value='last' <?= ($f_copy === 'last' ? "selected" : ""); ?>>внизу списка</option>
+                <option value='first' <?= ($f_copy === 'first' ? "selected" : ""); ?>>вверху списка</option>
+                <option value='hidden' <?= ($f_copy === 'hidden' ? "selected" : ""); ?>>не отображается</option>
+            </select>
+            <i class='nc-caret'></i>
+        </div>
+        <label>[будет отображаться, если параметр <i>Количество иконок</i> > 0]</label>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Направление списка кнопок:</label>
+        <div class='nc-select'>
+            <select name='f_direction' class='nc--large'>
+                <option value='horizontal' <?= ($f_direction === 'horizontal' ? "selected" : ""); ?>>горизонтальное</option>
+                <option value='vertical' <?= ($f_direction === 'vertical' ? "selected" : ""); ?>>вертикальное</option>
+            </select>
+            <i class='nc-caret'></i>
+        </div>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Направление открытия pop-up:</label>
+        <div class='nc-select'>
+            <select name='f_popup_direction' class='nc--large'>
+                <option value='bottom' <?= ($f_popup_direction === 'bottom' ? "selected" : ""); ?>>вниз</option>
+                <option value='top' <?= ($f_popup_direction === 'top' ? "selected" : ""); ?>>вверх</option>
+            </select>
+            <i class='nc-caret'></i>
+        </div>
+    </div>
+
+    <div class='nc-form-row nc--horizontal'>
+        <label>Расположение pop-up относительно контейнера блока:</label>
+        <div class='nc-select'>
+            <select name='f_popup_position' class='nc--large'>
+                <option value='inner' <?= ($f_popup_position === 'inner' ? "selected" : ""); ?>>внутри контейнера</option>
+                <option value='outer' <?= ($f_popup_position === 'outer' ? "selected" : ""); ?>>снаружи контейнера</option>
+            </select>
+            <i class='nc-caret'></i>
+        </div>
+        <label>[Значение <i>снаружи контейнера</i> может понадобиться в том случае, если из-за специфики верстки вашего сайта pop-up обрезается соседними элементами страницы.]</label>
+    </div>
+
+    <div class='nc-form-row'>
+        <label>Набор сервисов:*</label>
+        <?php foreach ($service_list as $service) { ?>
+            <label>
+                <?php $field_name = "f_{$service->Field_Name}"; ?>
+                <input name="<?= $field_name ?>" value='1' type='checkbox' <?= (${$field_name} ? "checked='checked'" : ""); ?>>
+                <?= $service->Description ?>
+            </label>
+        <?php } ?>
+    </div>
+</div>

@@ -1,0 +1,384 @@
+<?php
+
+/** @var int $cc ID инфоблока, для которого производится установка значений пользовательских настроек */
+/** @var string $custom_settings_html HTML с полями пользовательских настроек шаблона компонента */
+$nc_core = nc_core::get_object();
+$infoblock_data = $nc_core->sub_class->get_by_id($cc);
+
+
+/**
+ * В пользовательских настройках компонента меню есть поле 'menu_submenu_settings',
+ * в который в виде JSON записывается информация о настройках вложенных уровней меню
+ * в виде массива с числовыми ключами.
+ * Каждый элемент массива является объектом со свойствами:
+ * — only_active (0|1) — выводить только для открытого раздела
+ * — template (string|number) — ключевое слово или ID шаблона компонента меню
+ * — settings (object) — массив со значениями пользовательских настроек для подменю
+ */
+
+$infoblock_custom_settings = $infoblock_data['Sub_Class_Settings'];
+$submenu_settings_json = nc_array_value($infoblock_custom_settings, 'menu_submenu_settings', '{}');
+$submenu_settings = json_decode($submenu_settings_json, true) ?: array();
+
+$component_templates = $nc_core->component->get_component_templates($infoblock_data['Class_ID'], 'useful');
+
+?>
+
+<div class="nc-block-menu-custom-settings nc-block-menu-custom-settings-container">
+    <?= $custom_settings_html ?>
+    <input type="hidden" name="custom_settings[menu_submenu_settings]"
+           value="<?= htmlspecialchars($submenu_settings_json) ?>">
+</div>
+
+<div class="nc-block-menu-submenu"<?= (!$submenu_settings ? ' style="display: none"' : '') ?>>
+    <div class="nc-margin-vertical-medium" style="font-weight: bold; font-size: 120%;">Подменю</div>
+    <div class="nc-block-menu-submenu-levels">
+        <?php
+
+        /**
+         * Возвращает блок с полями настроек шаблона компонента для подменю
+         * (все пользовательские настройки, кроме начинающихся с 'menu_').
+         * @param array $component_template_data все свойства инфоблока
+         * @param array $values значения, которые нужно установить в форме
+         * @return string html
+         */
+        $make_submenu_settings_fields = function(array $component_template_data, array $values = array()) {
+            $custom_settings_template = $component_template_data['CustomSettingsTemplate'];
+            if (!$custom_settings_template) {
+                return '';
+            }
+
+            $form = new nc_a2f($custom_settings_template, 'settings');
+            $form->set_initial_values();
+            $form->set_values($values);
+
+            $result = '';
+            foreach ($form->get_fields() as $field_name => $field) {
+
+                // настройки, начинающиеся с 'menu_', предназначены только для меню верхнего уровня
+                if ($field->skip_in_form() || strpos($field_name, 'menu_') === 0) {
+                    continue;
+                }
+
+                if ($field->get_type() === 'checkbox') {
+                    $template = '<div class="nc-field"><label>%VALUE %CAPTION</label></div>';
+                } else {
+                    $template = '<div class="nc-field"><span class="nc-field-caption">%CAPTION:</span>%VALUE</div>';
+                }
+
+                $result .= $field->render($template);
+            }
+            return $result;
+        };
+
+        /**
+         * Выводит блок с параметрами уровня подменю
+         * @param string|int $level
+         * @param array $settings
+         */
+        $print_submenu_div = function($level, $settings = array()) use ($component_templates, $make_submenu_settings_fields) {
+            ?>
+            <div class="nc-block-menu-submenu-level nc-margin-bottom-large">
+                <div style="display: table-row">
+                    <div style="display: table-cell; padding-right: 20px;">
+                        Уровень <span class="nc-block-menu-submenu-level-number"><?= $level ?></span>
+                    </div>
+                    <div style="display: table-cell">
+                        <div class="nc-block-menu-submenu-settings">
+                            <select name="only_active" style="margin-right: 5px">
+                                <option value="0">выводить для всех разделов</option>
+                                <option value="1"<?= nc_array_value($settings, 'only_active') ? 'selected' : '' ?>>
+                                    раскрывать только для открытого раздела
+                                </option>
+                            </select>
+
+                            <select name="template">
+                                <?php
+                                $template_settings_fields = '';
+                                $selected_template = nc_array_value($settings, 'template');
+                                foreach ($component_templates as $component_template) {
+                                    $template_id_or_keyword = $component_template['Keyword'] ?: $component_template['Class_ID'];
+                                    $is_current = $selected_template == $component_template['Keyword'] || $selected_template == $component_template['Class_ID'];
+                                    print '<option value="' . $template_id_or_keyword . '"' . ($is_current ? ' selected' : '') . '>' .
+                                        nc_lcfirst($component_template['Class_Name']) .
+                                        '</option>';
+
+                                    $template_settings_fields .=
+                                        '<div class="nc-block-menu-custom-settings-container" data-template="' . $template_id_or_keyword . '"' .
+                                        ($is_current ? '' : ' style="display:none"') . '>' .
+                                        $make_submenu_settings_fields($component_template, nc_array_value($settings, 'settings', array())) .
+                                        "</div>\n";
+                                }
+                                ?>
+                            </select>
+                            <span class="nc-block-menu-submenu-mixin-settings">
+                                <a class="nc-btn nc--lighten" style="margin: 0 0 10px 4px; height: 36px; vertical-align: top">
+                                    Оформление
+                                </a>
+                                <?php
+                                $mixin_settings = nc_array_value($settings, 'mixins');
+                                foreach (array('Index', 'IndexItem') as $scope) {
+                                    foreach (array($scope . '_Mixin_Settings', $scope . '_Mixin_Preset_ID', $scope . '_Mixin_BreakpointType') as $property) {
+                                        ?><input type="hidden" name="mixins[<?= $property ?>]"
+                                           value="<?= htmlspecialchars(nc_array_value($mixin_settings, $property)) ?>"><?
+                                    }
+                                }
+                                ?>
+                            </span>
+                        </div>
+                        <div class="nc-block-menu-submenu-custom-settings">
+                            <?= $template_settings_fields ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        };
+
+        $preselected_template = $nc_core->component->get_by_id($infoblock_data['Class_Template_ID'], 'Keyword') ?: $infoblock_data['Class_ID'];
+        foreach ($submenu_settings as $level => $settings) {
+            $print_submenu_div($level + 1, $settings);
+            $preselected_template = $settings['template'];
+        }
+
+        ?>
+    </div>
+    <div class="nc-block-menu-submenu-level-template" style="display: none">
+        <?php
+        $print_submenu_div('', array('template' => $preselected_template));
+        ?>
+    </div>
+</div>
+
+<xmp style="display: none" class="nc-block-menu-submenu-level-mixin-dialog-template">
+    <div class="nc-modal-dialog">
+        <div class="nc-modal-dialog-header">
+            <h2>Оформление подменю %LEVEL%-го уровня</h2>
+        </div>
+        <div class="nc-modal-dialog-body">
+            <form class="nc-form">
+            <?php
+                $editor_container_id = 'nc_menu_sublevel_mixin_editor';
+            ?>
+            <div class="nc-infoblock-settings-dialog-mixin-tabs">
+                <div data-tab-caption="Оформление блока подменю">
+                    <div id="<?= $editor_container_id ?>_index"></div>
+                </div>
+                <div data-tab-caption="Оформление пунктов меню">
+                    <div id="<?= $editor_container_id ?>_index_item"></div>
+                </div>
+            </div>
+            <script>
+                // Редактор для меню
+                new nc_mixin_settings_editor({
+                    target: '#<?= $editor_container_id ?>_index',
+                    field_name_prefix: 'Index',
+                    component_template_id: '<?= $infoblock_data['Class_Template_ID'] ?>',
+                    infoblock_id: <?= $infoblock_data['Sub_Class_ID'] ?>,
+                    own_settings: JSON.parse('%Index_Mixin_Settings%'),
+                    breakpoint_type: '%Index_Mixin_BreakpointType%',
+                    // ↓ @todo fix for different component templates
+                    mixin_presets: <?= nc_array_json($nc_core->sub_class->get_mixin_preset_options($cc, nc_tpl_mixin::SCOPE_INDEX)) ?>,
+                    show_preset_select: false, // @todo fix: should be true
+                    show_breakpoint_type_select: true
+                });
+
+                // Редактор для пунктов меню
+                new nc_mixin_settings_editor({
+                    target: '#<?= $editor_container_id ?>_index_item',
+                    field_name_prefix: 'IndexItem',
+                    component_template_id: '<?= $infoblock_data['Class_Template_ID'] ?>',
+                    infoblock_id: <?= $infoblock_data['Sub_Class_ID'] ?>,
+                    own_settings: JSON.parse('%IndexItem_Mixin_Settings%'),
+                    breakpoint_type: '%IndexItem_Mixin_BreakpointType%',
+                    // ↓ @todo fix for different component templates
+                    mixin_presets: <?= nc_array_json($nc_core->sub_class->get_mixin_preset_options($cc, nc_tpl_mixin::SCOPE_INDEX_ITEM)) ?>,
+                    show_preset_select: false, // @todo fix: should be true
+                    show_breakpoint_type_select: true
+                });
+            </script>
+            </form>
+        </div>
+        <div class="nc-modal-dialog-footer">
+            <button class="nc-block-menu-submenu-mixins-save"><?= NETCAT_REMIND_SAVE_SAVE ?></button>
+            <button data-action="close"><?= CONTROL_BUTTON_CANCEL ?></button>
+        </div>
+    </div>
+</xmp>
+
+<script>
+(function() {
+    var dialog = nc.ui.modal_dialog.get_current_dialog(),
+        settings_div = dialog.find('.nc-block-menu-custom-settings'),
+        get_input = function(name) { return settings_div.find('[name="custom_settings[' + name + ']"]'); },
+        menu_type_select = get_input('menu_type'),
+        menu_root_select = get_input('menu_root'),
+        menu_root_div = menu_root_select.closest('.nc-field'),
+        menu_root_site_div = get_input('menu_root_level_from_site').closest('.nc-field'),
+        menu_root_current_div = get_input('menu_root_level_from_current').closest('.nc-field'),
+        menu_selected_subdivision_id = get_input('menu_selected_subdivision_id').closest('.nc-field'),
+        submenu_display_select = get_input('submenu_display_type'),
+        submenu_settings_input = get_input('menu_submenu_settings'),
+        submenu_div = dialog.find('.nc-block-menu-submenu'),
+        submenu_levels_div = submenu_div.find('.nc-block-menu-submenu-levels');
+
+    // изменение типа меню
+    menu_type_select.change(function() {
+        menu_root_div.add(menu_root_site_div).add(menu_root_current_div).add(menu_selected_subdivision_id)
+            .toggle($nc(this).val() !== 'selected');
+        menu_root_select.change();
+    }).change();
+
+    // изменение точки отсчёта для поиска корня меню
+    menu_root_select.change(function() {
+        var menu_root = $nc(this).val(),
+            menu_is_not_custom = menu_type_select.val() !== 'selected';
+        menu_root_site_div.toggle(menu_is_not_custom && menu_root === 'site');
+        menu_root_current_div.toggle(menu_is_not_custom && menu_root === 'current');
+        menu_selected_subdivision_id.toggle(menu_is_not_custom && menu_root === 'selected');
+    }).change();
+
+    function toggle_submenu_block() {
+        var submenu_type = submenu_display_select.val();
+        submenu_div.toggle(submenu_display_select.length > 0 && submenu_type !== 'none' && submenu_type !== 'repeat');
+        if (submenu_div.is(':visible') && !$nc('.nc-block-menu-submenu-level:visible').length) {
+            add_submenu_level();
+        }
+        save_submenu_settings();
+    }
+    submenu_display_select.change(toggle_submenu_block);
+
+    // Показ/скрытие выбора символа подменю (для всех уровней, в т. ч. ещё не добавленных)
+    var submenu_type_select_selector = 'select[name*="[submenu_display_type]"]';
+    dialog.get_part('body').on('change', submenu_type_select_selector, function() {
+        var submenu_display_select = $nc(this);
+        submenu_display_select
+            .closest('.nc-block-menu-custom-settings-container')
+            .find('select[name*="[submenu_symbol]"]')
+            .parent('.nc-field')
+            .toggle(submenu_display_select.val() !== 'none');
+    });
+    $nc(submenu_type_select_selector).change();
+
+    // сохранение настроек подменю в виде JSON в пользовательскую настройку menu_submenu_settings
+    function save_submenu_settings() {
+        var all_settings = [];
+        submenu_levels_div.find('.nc-block-menu-submenu-level:visible').each(function() {
+            var level_settings = {};
+            var inputs_to_save = $nc(this).find(
+                '.nc-block-menu-submenu-settings [name], ' + // общие настройки (only_active, template)
+                '.nc-block-menu-submenu-custom-settings > div:visible [name]' // настройки для выбранного шаблона
+            );
+            inputs_to_save.each(function() {
+                if (this.type === 'checkbox' && !this.checked) {
+                    return;
+                }
+                var name = this.name,
+                    value = $nc(this).val(),
+                    bracket_position = name.indexOf('['); // двумерные массивы вида 'settings[property]'
+                if (bracket_position === -1) {
+                    level_settings[name] = value;
+                } else {
+                    var key1 = name.substring(0, bracket_position),
+                        key2 = name.substring(bracket_position + 1, name.length - 1);
+                    if (!(key1 in level_settings)) {
+                        level_settings[key1] = {};
+                    }
+                    level_settings[key1][key2] = value;
+                }
+            });
+            all_settings.push(level_settings);
+        });
+        submenu_settings_input.val(JSON.stringify(all_settings));
+    }
+
+    // обработчики событий для блока с настройками уровня подменю
+    function init_submenu_level_listeners(submenu_level_div) {
+        // показ нужного блока с настройками при смене шаблона подменю
+        submenu_level_div.find('select[name=template]').change(function() {
+            submenu_level_div.find('.nc-block-menu-submenu-custom-settings > div').hide()
+                .filter('[data-template=' + $nc(this).val() + ']').show();
+        });
+        // показ или удаление следующего уровня подменю в зависимости от значения submenu_display_type
+        submenu_level_div.find('[name="settings[submenu_display_type]"]').change(function() {
+            var submenu_type = $nc(this).val();
+            if (submenu_type === 'none' || submenu_type === 'repeat') {
+                submenu_level_div.nextAll().hide().find('[name="settings[submenu_display_type]"]').val('none');
+            } else {
+                add_submenu_level();
+            }
+        }).change();
+
+        // открытие диалога миксинов
+        var mixins_span = submenu_level_div.find('.nc-block-menu-submenu-mixin-settings');
+        mixins_span.find('.nc-btn').click(function() {
+            var dialog_html = dialog.find('.nc-block-menu-submenu-level-mixin-dialog-template').html();
+            dialog_html = dialog_html.replace('%LEVEL%', submenu_level_div.find('.nc-block-menu-submenu-level-number').html());
+
+            ['Index', 'IndexItem'].forEach(function(scope) {
+                [scope + '_Mixin_Settings', /*scope + '_Mixin_Preset_ID',*/ scope + '_Mixin_BreakpointType'].forEach(function(key) {
+                    var value = mixins_span.find('[name="mixins[' + key + ']"]').val() || '{}';
+                    dialog_html = dialog_html.replace('%' + key + '%', value.replace("'", "\\'"));
+                });
+            });
+
+            nc.ui.modal_dialog({
+                full_markup: dialog_html,
+                confirm_close: false,
+                on_show: function(dialog) {
+                    // Сохранение настроек из диалога с настройками миксинов в основной диалог
+                    dialog.find('.nc-block-menu-submenu-mixins-save').click(function() {
+                        ['Index', 'IndexItem'].forEach(function(scope) {
+                            [scope + '_Mixin_Settings', /*scope + '_Mixin_Preset_ID',*/ scope + '_Mixin_BreakpointType'].forEach(function(property) {
+                                var dialog_value = dialog.find('[name="data[' + property + ']"]').val();
+                                mixins_span.find('[name="mixins[' + property + ']"]').val(dialog_value).change();
+                            });
+                        });
+                        dialog.destroy();
+                    });
+                }
+            }).open();
+        });
+
+        // сохранение настроек в JSON
+        submenu_level_div.find('[name]').change(save_submenu_settings);
+    }
+
+    submenu_levels_div.find('.nc-block-menu-submenu-level').each(function() {
+        init_submenu_level_listeners($nc(this));
+    });
+
+    // добавление нового уровня подменю
+    function add_submenu_level() {
+        var hidden_level = submenu_levels_div.find('.nc-block-menu-submenu-level:hidden').first();
+        if (hidden_level.length) {
+            hidden_level.show();
+        } else {
+            var level_number = submenu_levels_div.find('.nc-block-menu-submenu-level').length + 1,
+                new_level_div = submenu_div.find('.nc-block-menu-submenu-level-template > div').clone();
+            new_level_div.find('.nc-block-menu-submenu-level-number').html(level_number);
+            new_level_div.appendTo(submenu_levels_div).show();
+            init_submenu_level_listeners(new_level_div);
+            new_level_div.find('[name=template]').change();
+        }
+    }
+
+    // подстраховка на случай преждевременного срабатывания change из JS в настройках шаблона,
+    // которое приведёт к потере menu_submenu_settings (из-за того, что на момент срабатывания диалог скрыт) —
+    // выполнение save_submenu_settings() после открытия диалога
+    setTimeout(save_submenu_settings, 10);
+
+    // подстраховка на случай неправильных настроек блока, когда выбран показ меню,
+    // но нет настроек для него
+    var submenu_type = submenu_display_select.val();
+    if (
+        submenu_display_select.length > 0 &&
+        submenu_type !== 'none' && submenu_type !== 'repeat' &&
+        submenu_div.find('.nc-block-menu-submenu-level:visible').length === 0
+    ) {
+        submenu_div.show();
+        add_submenu_level();
+    }
+
+})();
+</script>

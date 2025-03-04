@@ -1,0 +1,141 @@
+.item-size {
+    position: relative;
+}
+
+.item-size * {
+    width: 100%;
+    height: 100%;
+}
+
+.item-size img {
+    max-width: 100%;
+}
+
+.item-size:before {
+    display: block;
+    content: "";
+    width: 100%;
+}
+
+.item-size:not(.size-real):not(.realSize) > .item-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.size- {
+    padding-top: var(--tpl-image-padding-top);
+}
+
+.size-5by1 {
+    padding-top: 20%; /* (1:5)*100% */
+}
+
+.size-4by1 {
+    padding-top: 25%; /* (1:4)*100% */
+}
+
+.size-3by1 {
+    padding-top: 33.33%; /* (1:3)*100% */
+}
+
+.size-2by1 {
+    padding-top: 50%; /* (1:2)*100% */
+}
+
+.size-16by9 {
+    padding-top: 56.25%; /* (9:16)*100% */
+}
+
+.size-1-62by1 {
+    padding-top: 61.72%; /* (1:1.62)*100% */
+}
+
+.size-3by2 {
+    padding-top: 66.66%; /* (2:3)*100% */
+}
+
+.size-4by3 {
+    padding-top: 75%; /* (3:4)*100% */ /*padding-top: calc( (33.333% - 20px) * (3/4) ); !* (9:16)*100% *!*/
+}
+
+.size-1by1 {
+    padding-top: 100%; /* (1:2)*100% */
+}
+
+.size-3by4 {
+    padding-top: 133.33%; /* (4:3)*100% */
+}
+
+.size-2by3 {
+    padding-top: 150%; /* (3:2)*100% */
+}
+
+.size-9by16 {
+    padding-top: 177.77%; /* (16:9)*100% */
+}
+
+.size-1by1-62 {
+    padding-top: 162%; /* (1.62:1)*100% */
+}
+
+.size-1by2 {
+    padding-top: 200%; /* (1:2)*100% */
+}
+
+.size-1by3 {
+    padding-top: 300%; /* (3:1)*100% */
+}
+
+.size-1by4 {
+    padding-top: 400%; /* (4:1)*100% */
+}
+
+.size-1by5 {
+    padding-top: 500%; /* (5:1)*100% */
+}
+
+.item-image * {
+    width: 100%;
+    height: 100%;
+}
+
+.item-image img {
+    max-width: 100%;
+}
+
+.item-image:not([class^='.image-']) img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.image-fill img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: fill;
+}
+
+.image-contain img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.image-cover img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.image-none img {
+    object-fit: none;
+}

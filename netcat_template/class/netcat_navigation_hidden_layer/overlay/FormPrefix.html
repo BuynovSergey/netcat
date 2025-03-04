@@ -1,0 +1,160 @@
+
+<?php var_dump($cc) ?>
+<?= $f_AdminCommon; ?>
+<style>
+    <?php if ($cc_settings['closerDecor'] !== 'none' && $cc_settings['closerDecorColor'] !== 'inherit') { ?>
+    <?= $nc_component_css_selector; ?>
+    .overlay-close[class*='icon-decor-'] {
+        border: 1px solid var(--tpl-color-<?= $cc_settings['closerDecorColor']; ?>);
+    }
+
+    <?= $nc_component_css_selector; ?>
+    .overlay-close[class*='icon-decor-'][class*='-fill'] {
+        background-color: var(--tpl-color-<?= $cc_settings['closerDecorColor']; ?>);
+    }
+
+    <?php } ?>
+    <?= $nc_component_css_selector; ?>
+    .nc-area {
+        background-color: var(--tpl-color-<?= $cc_settings['foregroundColor']; ?>);
+    }
+</style>
+
+<?php
+$icon_class = array();
+$icon_class[] = "dropdown-button-icon";
+$icon_class[] = "tpl-icon";
+
+switch ($cc_settings['displayAs']) {
+    case "inherit":
+        $icon_class[] = "tpl-text-" . $cc_settings['iconSize'];
+        $icon_class[] = $cc_settings['iconDecor'] !== 'none' ? "icon-decor-" . $cc_settings['iconDecor'] : "";
+        $icon = "<span class='" . implode(" ", $icon_class) . "'>" .
+            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'>" .
+            "<path d='M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z' />" .
+            "</svg>" .
+            "</span>";
+        break;
+    case "image":
+        $icon = "<span class='" . implode(" ", $icon_class) . "'>" . ($cc_settings['image'] ? $cc_settings['image']->as_img() : "") .
+            "</span>";
+        break;
+    case "image_text":
+        $icon = "<span class='" . implode(" ", $icon_class) . "'>" . ($cc_settings['image'] ? $cc_settings['image']->as_img() : "") .
+            "</span>";
+        $text = "<span class='dropdown-button-text tpl-text-default'>" . $cc_settings['buttonText'] . "</span>";
+        break;
+    case "text":
+        $text = "<span class='dropdown-button-text tpl-text-default'>" . $cc_settings['buttonText'] . "</span>";
+        break;
+}
+?>
+<div class="overlay-button" style="<?= $block_styles ?>"><?= isset($icon) ? $icon : ''; ?><?= isset($text) ? $text : ''; ?></div>
+
+<div class="overlay-container" style="display: none; <?= $block_styles ?>">
+    <div class="overlay-background"></div>
+    <div class="overlay-body">
+        <div class="overlay-close tpl-icon tpl-text-<?= $cc_settings['closerSize']; ?> <?= $cc_settings['closerDecor'] != 'none' ?
+            "icon-decor-" . $cc_settings['closerDecor'] : ""; ?>">
+            <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.12537 3.125L47.631 47.0055" stroke="var(--tpl-object--closer-color, #000000)" stroke-width="4"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M47.6304 3.125L3.12476 47.0055" stroke="var(--tpl-object--closer-color, #000000)" stroke-width="4"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <?= nc_area('netcat_block_hidden_layer_cc_' . $cc); ?>
+    </div>
+</div>
+
+
+<?php if (!isset($GLOBALS['NAV_HIDDEN_LAYER_DROPDOWN_OVERLAY_ADDED'])):
+    $GLOBALS['NAV_HIDDEN_LAYER_OVERLAY_ASSETS_ADDED'] = true;
+    ?>
+    <script>
+        function navHiddenLayerInitOverlay(blockId, options) {
+            let $block = $("#" + blockId),
+                visibleClass = "overlay-container_visible",
+                leavingClass = "overlay-container_leaving",
+                $portal = $("<div></div>").appendTo("body"),
+                $overlay = $block.find(".overlay-container").appendTo($portal),
+                $overlayBody = $overlay.find(".overlay-body"),
+                $overlayBg = $overlay.find(".overlay-background"),
+                $closer = $overlay.find(".overlay-close"),
+                closerPos = options.closerPosition || "right",
+                bodyMargin = document.body.style.marginTop;
+
+            if (bodyMargin) {
+                $overlay.css({
+                    top: bodyMargin,
+                    height: "calc(100vh - " + bodyMargin + ")"
+                });
+            }
+            $overlay.css({ display: "" });
+            $overlay.addClass("overlay-container_side_" + options.blockSide);
+            $overlayBody.css("width", options.blockWidth);
+            $overlayBg.css({
+                background: options.backgroundColor === "dark" ? "#000" : "#FFF",
+                opacity: (1 - options.backgroundOpacity / 100),
+            });
+
+            if (closerPos === "none") {
+                $closer.hide();
+            } else {
+                var closerCss = {
+                    top: options.closerOffsetY + "px",
+                };
+                closerCss[closerPos] = options.closerOffsetX + "px";
+                $closer.css(closerCss);
+            }
+
+            // копируем классы в портал
+            $portal.attr("class", $block.attr("class"));
+
+            function handleEsc(e) {
+                if (e.which === 27) {
+                    hide();
+                }
+            }
+
+            function show() {
+                $overlay.addClass(visibleClass);
+                var bodyBox = document.body.getBoundingClientRect();
+                $("body").css({
+                    overflow: "hidden",
+                    width: bodyBox.width + "px",
+                }).on("keydown", handleEsc);
+                var bodyOffset = bodyBox.left - document.body.getBoundingClientRect().left;
+                if (bodyOffset !== 0) {
+                    $("body").css({ position: "relative", left: bodyOffset + "px" });
+                }
+            }
+
+            function hide() {
+                $overlayBody.one("transitionend", function () {
+                    $overlay.removeClass(visibleClass).removeClass(leavingClass);
+                });
+                $overlay.addClass(leavingClass);
+                $("body").css({
+                    overflow: "",
+                    width: "",
+                    position: "",
+                    left: "",
+                }).off("keydown", handleEsc);
+            }
+
+            $overlayBg.on("click", hide);
+            $closer.on("click", hide);
+            $block.on("click", show);
+        }
+    </script>
+<?php endif; ?>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        navHiddenLayerInitOverlay(
+            '<?= $nc_block_id ?>',
+            JSON.parse('<?= json_encode($cc_settings) ?>')
+        );
+    });
+</script>

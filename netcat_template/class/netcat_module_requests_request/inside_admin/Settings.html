@@ -1,0 +1,140 @@
+<?
+
+if (!$inside_admin) {
+    die("Шаблон может использоваться только в панели управления.");
+}
+
+$maxRows = 50; // записей на странице
+$query_where = "1";
+$query_order = "a.`Created` DESC";
+
+$ignore_sub = 1;
+$ignore_cc = 1;
+
+/**
+ * text_filter: «поиск»
+ */
+if (!isset($text_filter)) {
+    $text_filter = '';
+}
+
+$text_filter = trim($text_filter);
+if (strlen($text_filter)) {
+
+    $db = nc_db();
+    $query_where_conditions = array(0);
+
+    // (a) Возможно, ID заявки (+игнорировать request_status)
+    if (is_numeric($text_filter)) {
+        $last_request_status = $db->get_var("SELECT MAX(`Message_ID`) FROM `Message{$classID}`");
+        if ($text_filter <= $last_request_status) {
+            $query_where_conditions[] = "a.`Message_ID` = " . (int)$text_filter;
+            $request_status = -1;
+        }
+    }
+
+    // (б) Возможно, номер телефона (начиная с четырёх символов)
+    if (strlen($text_filter) > 3 && preg_match('/^[\d\s\-\.\(\)\+]+$/', $text_filter)) {
+        $phone_digits = preg_split('//', preg_replace('/\D/', '', $text_filter));
+        $phone_regexp = join('[^0-9]*', $phone_digits);
+        $query_where_conditions[] = "a.`Phone` REGEXP '$phone_regexp'";
+    }
+
+    $text_filter_escaped = $db->escape($text_filter);
+
+    // (в) Email, имя или источник?
+    if (strlen($text_filter) >= 3 && preg_match('/^\w[\w\d@\.\-\_]+$/i', $text_filter)) {
+        $query_where_conditions[] = "a.`Email` LIKE '%$text_filter_escaped%'";
+        $query_where_conditions[] = "a.`Name` LIKE '%$text_filter_escaped%'";
+        $query_where_conditions[] = "a.`Source_Infoblock_FormName` LIKE '%$text_filter_escaped%'";
+    }
+
+    $query_where = "(" . join(" OR ", $query_where_conditions) . ")";
+}
+
+/*
+ * request_status:
+ *   -1:  любые заявки
+ *   0:   новые заявки
+ *   >0:  ID статуса заказа
+ */
+
+if (!isset($request_status)) {
+    $request_status = -1; // "ANY"
+}
+
+if ($request_status != -1) {
+    if ($request_status > 0) {
+        $query_where .= " AND a.Status = " . (int)$request_status;
+    } else {
+        $query_where .= " AND (a.Status IS NULL OR a.Status = 0)"; // new requests
+    }
+}
+
+/*
+ * date_from - date_to
+ */
+ 
+if (!isset($date_from)) {
+    $date_from = '';
+}
+
+if (!isset($date_to)) {
+    $date_to = '';
+}
+
+$date_from_raw = explode('.', $date_from);
+$date_to_raw = explode('.', $date_to);
+
+if (count($date_from_raw) == 3) {
+    $date_from_raw = "{$date_from_raw[2]}-{$date_from_raw[1]}-{$date_from_raw[0]}";
+    $date_from_raw = strtotime($date_from_raw);
+    if ($date_from_raw) {
+        $date_from_raw = date('Y-m-d', $date_from_raw);
+    } else {
+        $date_from_raw = '';
+        $date_from = '';
+    }
+} else {
+    $date_from_raw = '';
+    $date_from = '';
+}
+
+if (count($date_to_raw) == 3) {
+    $date_to_raw = "{$date_to_raw[2]}-{$date_to_raw[1]}-{$date_to_raw[0]}";
+    $date_to_raw = strtotime($date_to_raw);
+    if ($date_to_raw) {
+        $date_to_raw = date('Y-m-d', $date_to_raw);
+    } else {
+        $date_to_raw = '';
+        $date_to = '';
+    }
+} else {
+    $date_to_raw = '';
+    $date_to = '';
+}
+
+if ($date_from_raw || $date_to_raw) {
+    if (!$date_from_raw && !$date_to_raw) {
+        $date_from_raw = '';
+        $date_to_raw = '';
+        $date_from = '';
+        $date_to = '';
+    } else {
+        if ($date_from_raw && !$date_to_raw) {
+            $query_where .= " AND a.Created > '{$date_from_raw} 00:00:00' ";
+        } else if ($date_to_raw && !$date_from_raw) {
+            $query_where .= " AND a.Created < '{$date_to_raw} 23:59:59' ";
+        } else {
+            $query_where .= " AND a.Created BETWEEN '{$date_from_raw} 00:00:00' AND '{$date_to_raw} 23:59:59' ";
+        }
+        if (!$date_from_raw) {
+            $date_from = '';
+        }
+        if (!$date_to_raw) {
+            $date_to = '';
+        }
+    }
+}
+
+$query_where .= " AND 1 = 1";

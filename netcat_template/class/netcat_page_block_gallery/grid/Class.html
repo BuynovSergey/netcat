@@ -1,0 +1,29 @@
+<!-- FormPrefix -->
+<div class="tpl-block-page-block <?= ($totRows == 1 || $totRows == 2) ? " tpl-block-grid-{$totRows}" : "" ; ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <?= $f_AdminCommon; ?>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-description">
+                <span class="tpl-infoblock-field-text"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></span>
+            </div>
+        <? endif; ?>
+
+        <div class="tpl-block-container"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="tpl-block-item">
+                <?= $f_AdminButtons; ?>
+    <?= nc_image_edit_inline('Slide', $f_RowID, $cc) ?>
+    <?php if ($f_SlideDescription) { ?>
+        <div class="tpl-block-caption"><?= $f_SlideDescription; ?></div>
+    <?php } ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div><!-- /FormSuffix -->

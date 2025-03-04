@@ -1,0 +1,35 @@
+<? 
+if ( isset($GLOBALS['date'])) list( $year, $month, $day ) = explode('-', $GLOBALS['date']);
+if( !isset($year) || !$year) $year = date('Y');
+if( !isset($month) || !$month) $month= date('m');
+if( !isset($day) || !$day) $day = date('d');
+
+if ( nc_module_check_by_keyword("comments") ) $nc_comments = new nc_comments($cc);
+
+$groupHeader = false;
+
+if ($cc_settings['ListingStyle']=='fixed' && !$recNum) $recNum = $cc_settings['FixedNumRows'];
+
+// подписка на новости
+$subscribe_link_text = false;
+if ( nc_module_check_by_keyword("subscriber", 0 ) && $MODULE_VARS['subscriber']['VERSION'] > 1 && !$admin_mode ) {
+  try {
+    $nc_subscriber = nc_subscriber::get_object();
+    // пользователь уже подписан на рассылку?
+    if ( $nc_subscriber->is_subscribe_to_cc($cc) ) {
+      $subscribe_link_text = "Отписаться от рассылки";
+    }
+    else {
+      // получение номера рассылки для текущего компонента в разделе
+      $mailer_id = $nc_subscriber->get_mailer_by_cc($cc, 'Mailer_ID');
+      // проверка прав
+      if ( $nc_subscriber->check_rights($mailer_id) ) {
+         $subscribe_link_text = "Подписаться";  
+      }
+    }
+  }
+  catch ( Exception $e ) {
+    ; 
+  }
+}
+?>

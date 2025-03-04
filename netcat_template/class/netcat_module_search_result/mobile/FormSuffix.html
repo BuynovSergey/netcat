@@ -1,0 +1,21 @@
+<? 
+if ($totRows>$f_RowNum) {
+   ?></ol>
+     <div class='nc_search_pages'><div class='nc_search_nav'><strong><?=NETCAT_MODULE_SEARCH_PAGES?>:</strong>
+      <?
+      if ($prevLink) { ?>
+             <span class='nc_search_prev'><a class='prev' href='<?=$prevLink?>'><?=NETCAT_MODULE_SEARCH_RESULTS_PREV?></a></span><?
+      } else { ?>
+             <span class='nc_search_inactive'><?=NETCAT_MODULE_SEARCH_RESULTS_PREV?></span><? 
+      } 
+      if ($nextLink) { ?>
+             <span class='nc_search_next'><a class='next' href='<?=$nextLink?>'><?=NETCAT_MODULE_SEARCH_RESULTS_NEXT?></a></span><? 
+      } else {
+          ?><span class='nc_search_inactive'><?=NETCAT_MODULE_SEARCH_RESULTS_NEXT?></span><?
+      } ?>
+    </div>
+      <?=nc_browse_messages($cc_env, 10)?>
+     </div>  
+      <?
+}
+?>

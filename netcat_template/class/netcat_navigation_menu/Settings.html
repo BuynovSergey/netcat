@@ -1,0 +1,171 @@
+<?php
+/** @var array $parent_sub_tree родительские разделы в обратном порядке */
+// Есть два режима использования шаблона компонента меню:
+// 1) Блок с меню вставлен в область страницы.
+//    В этом случае настройки берутся из настроек инфоблока ($cc_settings).
+// 2) Вывод подменю из родительского меню (рекурсивный вызов nc_objects_list()).
+//    Это происходит, если у инфоблока выбраны шаблоны для вывода подменю.
+
+// Переменная, показывающая, что это вложенное меню
+// (защита от некорректного срабатывания, если в запросе передана одна из используемых переменных)
+$menu_is_submenu_value = 'menu' . $_SERVER['REQUEST_TIME'];
+
+// Ссылки заданы вручную? ($cc_settings['menu_type'] === 'selected'; возможно только для первого уровня меню)
+$menu_is_custom = false;
+
+// Если $menu_is_submenu отсутствует или содержит «неправильное» значение — это корневой уровень
+if (empty($menu_is_submenu) || $menu_is_submenu !== $menu_is_submenu_value) {
+    $menu_settings = $cc_settings;
+    $menu_level = 1;
+
+    $menu_submenu_settings_level = -1;
+    $menu_submenu_settings = json_decode($cc_settings['menu_submenu_settings'] ?: '{}', true) ?: array();
+    $menu_submenu_settings[-1] =   // для единообразного получения настроек корневого и следующих уровней
+        array(
+            'settings' => $cc_settings,
+            'template' => $nc_ctpl ?: $cc_env['Class_Template_ID'] ?: $cc_env['Class_ID']
+        ) + $cc_settings;
+
+    if ($cc_settings['menu_type'] === 'selected') {
+        // вручную выбранные разделы
+        $menu_is_custom = true;
+        $menu_parent_id = 0;
+    } else if ($cc_settings['menu_root'] === 'selected') {
+        // выбранный в настройках меню раздел
+        $menu_parent_id = (int)$cc_settings['menu_selected_subdivision_id'];
+    } else if ($cc_settings['menu_root'] === 'site') {
+        if ($cc_settings['menu_root_level_from_site']) {
+            // N-й уровень от корня сайта
+            $parent_sub_tree_index = count($parent_sub_tree) - $cc_settings['menu_root_level_from_site'] - 1;
+            $menu_parent_id = isset($parent_sub_tree[$parent_sub_tree_index]) ? $parent_sub_tree[$parent_sub_tree_index]['Subdivision_ID'] : -1;
+        } else {
+            // меню для корня сайта
+            $menu_parent_id = 0;
+        }
+    } else if ($cc_settings['menu_root'] === 'current') {
+        // меню для текущего раздела или для N-го уровня наверх
+        $menu_parent_id = isset($parent_sub_tree[$cc_settings['menu_root_level_from_current']])
+            ? $parent_sub_tree[$cc_settings['menu_root_level_from_current']]['Subdivision_ID']
+            : -1;
+    }
+} else {
+    /** @var array $menu_submenu_settings */
+    /** @var int   $menu_submenu_settings_level */
+    // $menu_settings содержит «дополнительные» общие настройки: например, 'only_active', 'template'
+    $menu_settings = $menu_submenu_settings[$menu_submenu_settings_level];
+    // $cc_settings содержит пользовательские настройки шаблона (как при обычном использовании)
+    $cc_settings = $menu_settings['settings'];
+}
+
+$menu_submenu_only_active = nc_array_value($menu_settings, 'only_active');
+
+if ($menu_is_custom) {
+    // Пункты меню выбраны вручную; выбираем сразу информацию по разделам,
+    // чтобы не делать много дополнительных запросов
+    $ignore_all = true;
+    $message_select =
+        "SELECT `a`.`Message_ID`,
+                `menu`.*,
+                0 AS `current`,
+                0 AS `active`
+           FROM `Message$classID` AS `a`,
+                `Subdivision` AS `menu`
+          WHERE `a`.`Sub_Class_ID` = $cc
+            AND `a`.`Checked` = 1
+            AND `a`.`Parent_Message_ID` = $menu_parent_id
+            AND `a`.`Subdivision` = `menu`.`Subdivision_ID`
+          ORDER BY `a`.`Priority`";
+} else {
+    $nc_data = $menu_parent_id >= 0 ? $nc_core->nav->as_array()->get_sub($menu_parent_id) : array();
+    $cc_env['MaxRecordsInInfoblock'] = 0; // не выводить кнопку добавления пунктов меню
+}
+
+if ($cc_settings['submenu_display_type'] === 'none') {
+    // Если в $menu_submenu_settings ничего нет, подменю не добавляется
+    $make_submenu = false;
+} else {
+    // Функция для вставки подменю
+    $submenu_repeat = nc_array_value($cc_settings, 'submenu_display_type') === 'repeat';
+    $next_submenu_settings_level = $menu_submenu_settings_level + ($submenu_repeat ? 0 : 1);
+    $submenu_params = array(
+        'nc_ctpl' => $menu_submenu_settings[$next_submenu_settings_level]['template'],
+        'menu_is_submenu' => $menu_is_submenu_value,
+        'menu_level' => $menu_level + 1,
+        'menu_submenu_settings' => $menu_submenu_settings,
+        'menu_submenu_settings_level' => $next_submenu_settings_level,
+    );
+    $make_submenu = function($menu_parent_id) use ($submenu_params, $cc, $nc_mixins_css_class, $nc_mixins_list_css_class, $cc_env) {
+        $submenu = nc_objects_list(
+            0,
+            $cc,
+            $submenu_params + array('menu_parent_id' => $menu_parent_id)
+        )->get_content(); // содержимое блока без добавления разметки для частичной загрузки подменю
+
+        if (strpos($submenu, '<!-- EMPTY SUBMENU -->')) {
+            return '';
+        }
+
+        // Оформление (миксины) подменю
+        $settings_level = $submenu_params['menu_submenu_settings_level'];
+        $css_class_suffix = '-sub' . $menu_parent_id;
+
+        if ($settings_level == -1) {
+            $mixin_settings_array = $cc_env;
+        } else if (isset($submenu_params['menu_submenu_settings'][$settings_level]['mixins'])) {
+            $mixin_settings_array = $submenu_params['menu_submenu_settings'][$settings_level]['mixins'];
+        } else {
+            $mixin_settings_array = array();
+        }
+
+        $container_attributes = '';
+
+        if ($mixin_settings_array) {
+            $nc_core = nc_core::get_object();
+
+            nc_tpl_mixin_assembler::assemble(
+                ".$nc_mixins_css_class$css_class_suffix",
+                ".$nc_mixins_list_css_class$css_class_suffix",
+                nc_tpl_mixin::SCOPE_INDEX,
+                $mixin_settings_array
+            );
+
+            $container_breakpoints = $nc_core->page->get_meta('Index_Breakpoints');
+
+            nc_tpl_mixin_assembler::assemble(
+                ".$nc_mixins_list_css_class$css_class_suffix > *",
+                '',
+                nc_tpl_mixin::SCOPE_INDEX_ITEM,
+                $mixin_settings_array
+            );
+
+            $list_breakpoints = $nc_core->page->get_meta('IndexItem_Breakpoints');
+
+            if ($container_breakpoints || $list_breakpoints) {
+                $container_attributes = ' data-nc-b="' . trim("$container_breakpoints $list_breakpoints") . '"';
+            }
+        }
+
+        $submenu = trim($submenu);
+        $submenu = preg_replace("/\b$nc_mixins_css_class\b(.*?['\"])/", "$nc_mixins_css_class$css_class_suffix$1$container_attributes", $submenu, 1);
+        $submenu = preg_replace("/\b$nc_mixins_list_css_class\b(.*?['\"])/", "$nc_mixins_list_css_class$css_class_suffix$1", $submenu, 1);
+
+        return $submenu;
+    };
+}
+
+if ($admin_mode) {
+    $current_subdivision_path = $_SERVER['REQUEST_URI'];
+} else if ($nc_core->page->get_routing_result('action') === 'index' && count($_GET) < (isset($_GET['REQUEST_URI']) ? 2 : 1)) {
+    $current_subdivision_path = (string)nc_folder_path($nc_core->page->get_routing_result('folder_id'));
+} else {
+    $current_subdivision_path = false;
+}
+
+$get_menu_item_href = function ($f_Subdivision_ID) use ($admin_mode, $nc_core, $catalogue, $current_subdivision_path) {
+    if ($admin_mode) {
+        $href = $nc_core->SUB_FOLDER . $nc_core->HTTP_ROOT_PATH . '?catalogue=' . $catalogue . '&sub=' . $f_Subdivision_ID;
+    } else {
+        $href = (string)nc_folder_path($f_Subdivision_ID);
+    }
+    return $href === $current_subdivision_path ? null : $href;
+};

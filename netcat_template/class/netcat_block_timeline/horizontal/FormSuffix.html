@@ -1,0 +1,21 @@
+</div>
+<script>
+    (function () {
+        const getNumericValue = (value) => parseInt(value) ? value : '0px'; // *gap может иметь значение вида 'normal'
+        const stages = document.getElementById("<?= $nc_block_id ?>");
+        const listBlock = stages.querySelector(".tpl-block-list-objects");
+
+        function updateBeforeWidthAndHeight() {
+            const computedStyle = getComputedStyle(listBlock);
+            const computedValue = listBlock.offsetWidth > 768
+                                  ? getNumericValue(computedStyle.columnGap)
+                                  : getNumericValue(computedStyle.rowGap);
+            listBlock.style.setProperty("--tpl-object-line-width-gap", computedValue);
+            listBlock.style.setProperty("--tpl-object-line-height-gap", computedValue);
+        }
+
+        window.addEventListener("resize", updateBeforeWidthAndHeight);
+        window.addEventListener("DOMContentLoaded", updateBeforeWidthAndHeight);
+        updateBeforeWidthAndHeight();
+    })()
+</script>

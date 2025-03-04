@@ -1,0 +1,98 @@
+<?php
+
+$styles = array();
+
+if ($cc_settings["icon_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-color: var(--tpl-color-" . $cc_settings['icon_color'] . ")";
+}
+
+if ($cc_settings["icon_decor_color"] !== "none" && $cc_settings["icon_decor_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-decor-color: var(--tpl-color-" . $cc_settings["icon_decor_color"] . ")";
+}
+
+if ($cc_settings["title_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--title-color: var(--tpl-color-" . $cc_settings["title_color"] . ")";
+}
+
+$styles[] = "--tpl-object--image-ratio: " . str_replace(":", "/", $cc_settings["image_ratio"]) . ";";
+
+$styles = " style='" . implode("; ", $styles) . "'";
+
+$icon_class = array();
+$icon_class[] = "tpl-icon";
+
+if ($cc_settings["icon_decor"] !== "none") {
+    $icon_class[] = "icon-decor-" . $cc_settings["icon_decor"];
+}
+
+$icon_class = implode(" ", $icon_class);
+
+
+if (!function_exists('nc_social_icons')) {
+    function nc_social_icons($text, $template) {
+        $social = array(
+            "vk.com" => array('vk', 'Вконтакте', '#0089FA'),
+            "facebook.com" => array('facebook', 'Facebook', '#3b5998'),
+            "ok.ru" => array('odnoklassniki', 'Одноклассники', '#F57C20'),
+            "plus.google.com" => array('google-plus', 'Google+', '#DB4437'),
+            "pinterest.com" => array('pinterest', 'Pinterest', '#E60023'),
+            "twitter.com" => array('twitter', 'Twitter', '#1DA1F2'),
+            "del.icio.us" => array('vk', 'Delicious', '#C3C3C3'),
+            "digg.com" => array('digg', 'Digg', '#A500B5'),
+            "reddit.com" => array('reddit', 'Reddit', '#FF4500'),
+            "linkedin.com" => array('linkedin', 'LinkedIn', '#0077B5'),
+            "renren-inc.com" => array('renren', 'Renren', '#F8B400'),
+            "tumblr.com" => array('tumblr', 'Tumblr', '#35465C'),
+            "whatsapp.com" => array('whatsapp', 'WhatsApp', '#25D366'),
+            "skype.com" => array('skype', 'Skype', '#00AFF0'),
+            "telegram.org" => array('telegram', 'Telegram', "#2AABEE"),
+            "t.me" => array('telegram', 'Telegram', "#2AABEE"),
+            "instagram.com" => array('instagram', 'Instagram', '#C13584'),
+            "instagr.am" => array('instagram', 'Instagram', '#C13584'),
+        );
+
+        $urls = preg_split("/(\\r\\n|\n| |,)/", $text);
+
+        $return = "";
+        foreach ($urls as $url) {
+            preg_match_all(
+                '/^
+	                [a-z][a-z0-9+\-.]*:\/\/              # Scheme
+	                ([a-z0-9\-._~%!$&\'()*+,;=]+@)?      # User
+	                (?P<host>[a-z0-9\-._~%]+             # Named or IPv4 host
+	                |\[[a-z0-9\-._~%!$&\'()*+,;=:]+\])   # IPv6+ host
+	                /ix',
+                $url,
+                $result,
+                PREG_PATTERN_ORDER
+            );
+
+            $host = str_replace("www.", "", isset($result['host'][0]) ? $result['host'][0] : '');
+
+            if (!empty($social[$host][0])) {
+                $arrSearch = array(
+                    '%URL',
+                    '%ICON',
+                    '%NAME',
+                );
+
+                $arrReplace = array(
+                    $url,
+                    nc_get_icon_from_library(
+                        'font_awesome',
+                        isset($social[$host][0]) ? $social[$host][0] : '',
+                        array(
+                            "width" => 24,
+                            "height" => 24,
+                            "fill" => $social[$host][2] ?: "",
+                        )
+                    ),
+                    $social[$host][1],
+                );
+                $return .= str_replace($arrSearch, $arrReplace, $template);
+            }
+        }
+
+        return $return;
+    }
+}

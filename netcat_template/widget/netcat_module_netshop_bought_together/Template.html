@@ -1,0 +1,60 @@
+<?php
+
+// Параметры:
+/** @var int $f_Component_ID */
+/** @var int|array $f_Item_ID */
+$component_id = (int)$f_Component_ID;
+$item_ids = join(', ', array_map('intval', (array)$f_Item_ID));
+
+$netshop = nc_netshop::get_instance();
+$order_table = $netshop->get_setting('OrderComponentID');
+
+$limit = 10;
+
+$sql = "SELECT `Item_ID`, `Item_Type`, COUNT(`Netshop_OrderGoods_ID`) AS `Count`
+          FROM `Netshop_OrderGoods` AS `a`
+          JOIN `Message{$order_table}` AS `b`
+            ON (`a`.`Order_Component_ID`={$order_table} AND `a`.`Order_ID`=`b`.`Message_ID`)
+         WHERE `Order_ID` IN (
+                    SELECT `Order_ID`
+                      FROM `Netshop_OrderGoods`
+                     WHERE `Item_Type` = $component_id
+                       AND `Item_ID` IN ($item_ids)
+               )
+           AND NOT (`Item_Type` = $component_id AND `Item_ID` IN ($item_ids))
+         GROUP BY Item_Type, Item_ID
+         ORDER BY `Count` DESC
+         LIMIT $limit";
+
+$rows = (array)nc_db()->get_results($sql, ARRAY_A);
+
+$goods = new nc_netshop_item_collection();
+$goods->set_index_property('_ItemKey'); // обеспечит уникальность товаров в коллекции
+
+foreach ($rows as $row) {
+    try {
+        $item = nc_netshop_item::by_id($row['Item_Type'], $row['Item_ID']);
+        if (!$item['Sub_Class_ID']) { throw new Exception(''); } // seems that the item data is missing
+        if ($item->has_parent()) { $item = $item['_Parent']; }
+        $goods->add($item);
+    }
+    catch (Exception $e) {}
+}
+
+if (count($goods)) {
+    echo '<div class="tpl-widget-netshop-bought-together">',
+         '<h2>С этим товаром обычно покупают</h2>',
+         '<div class="tpl-block-list-objects">';
+
+    $i = 1;
+    foreach ($goods as $item) {
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', array(
+            'Item' => $item,
+            'ListName' => 'Покупают вместе',
+            'ListPosition' => $i + 1,
+        ));
+        $i++;
+    }
+    
+    echo '</div></div>';
+}

@@ -1,0 +1,43 @@
+<?php
+
+$settings = $nc_core->get_settings('', 'auth');
+$mailer = new CMIMEMail();
+
+$from_email = $system_env['SpamFromEmail'] ?: "no-reply@" . $HTTP_HOST;
+$from_name = $system_env['SpamFromName'] ?: $current_catalogue['Catalogue_Name'];
+
+// подтверждение через почту
+if ($settings['confirm']) {
+    $mailinfo = $nc_auth->get_confirm_mail($message);
+    $mail_body = nc_mail_attachment_attach($mailer, $mailinfo['body'], 'auth_confirm_' . $catalogue);
+    $mailer->mailbody(strip_tags($mail_body), $mailinfo['html'] ? $mail_body : "");
+    $mailer->send($f_Email, $from_email, $from_email, $mailinfo['subject'], $from_name);
+
+    echo "<div class='tpl-text-default-paragraph'>На Ваш почтовый ящик было выслано письмо со ссылкой для подтверждения регистрации.</div>";
+}
+
+// премодерация администратором
+if ($settings['premoderation']) {
+    echo "<div class='tpl-text-default-paragraph'>Ваша учетная запись будет активирована после проверки администратора.</div>";
+}
+
+// подтверждение не нужно
+if (!$settings['premoderation'] && !$settings['confirm']) {
+    echo "Регистрация прошла успешно.<br/>";
+    // авторизация после регистрации
+    if ($settings['autoauthorize']) {
+        $nc_core->user->authorize_by_id($message);
+        echo "<div class='tpl-text-default-paragraph'>Сейчас Вы будете перемещены на главную страницу.</div>";
+        echo "<meta http-equiv='refresh' content='2;url=" . nc_get_scheme() . '://' . $HTTP_HOST . "/' />";
+    }
+}
+
+// оповещение администратора
+if ($settings['notify_admin'] && $system_env['SpamFromEmail']) {
+    $mailinfo = $nc_auth->get_notify_admin_mail($message);
+    $mailer->mailbody(strip_tags($mailinfo['body']), $mailinfo['html'] ? $mailinfo['body'] : "");
+    $mail_body = nc_mail_attachment_attach($mailer, $mailinfo['body'], 'auth_notify_' . $catalogue);
+    $mailer->mailbody(strip_tags($mail_body), $mailinfo['html'] ? $mail_body : "");
+    $mailer->send($system_env['SpamFromEmail'], $from_email, $from_email, $mailinfo['subject'], $from_name);
+}
+?>

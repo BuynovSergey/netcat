@@ -1,0 +1,91 @@
+$advsearchform["prefix"] = "
+<form class='nc_search' method='GET'>
+<table class='nc_search_extra_form'>";
+
+$advsearchform["input"] = "
+    <tr>
+        <td>
+            <div class='param'>
+                <div class='caption'>" . NETCAT_MODULE_SEARCH_FIND_CAPTION . ":</div>
+            </div>
+        </td>
+
+        <td>
+            <div class='input'>
+                <input type='text' name='search_query' value='$inputvalue' />
+            </div>
+        </td>
+    </tr>";
+
+$advsearchform["exclude"] = "
+    <tr>
+        <td>
+            <div class='param'>
+                <div class='caption'>" . NETCAT_MODULE_SEARCH_EXCLUDE_CAPTION . ":</div>
+            </div>
+        </td>
+
+        <td>
+            <div class='input'>
+                <input type='text' name='search_query_exclude' value='' />
+            </div>
+        </td>
+    </tr>";
+
+$advsearchform["field"] = "
+    <tr>
+        <td>
+            <div class='param'>
+                <div class='caption'>" . NETCAT_MODULE_SEARCH_FIELD_CAPTION . ":</div>
+            </div>
+        </td>
+
+        <td>
+            <div>
+                    <input type='radio' name='field' value='' checked='checked' id='nc_search_field_any' />
+                    " . NETCAT_MODULE_SEARCH_FIELD_ANY . "
+                   <input type='radio' name='field' value='title' id='nc_search_field_title' />
+                   " . NETCAT_MODULE_SEARCH_FIELD_TITLE . "
+           </div>
+       </td>
+   </tr>";
+
+$advsearchform["interval"] = "
+    <tr>
+        <td style='vertical-align: top; padding-top: 15px; '>
+            <div class='param'>
+                <div class='caption'>" . NETCAT_MODULE_SEARCH_TIME_CAPTION . ":</div>
+            </div>
+        </td>
+
+        <td>
+            <div>
+                    <input type='radio' name='interval' value='' checked='checked' id='nc_search_datetime_any' />
+                    " . NETCAT_MODULE_SEARCH_TIME_ANY . "
+                    <input type='radio' name='interval' value='1' id='nc_search_datetime_interval' />
+                    " . NETCAT_MODULE_SEARCH_TIME_LAST . "
+                    <input class='interval_value' type='input' name='intervalvalue' value='1' size='2' />
+                    <div style='display: inline-block; width: 120px'>
+                    <select class='interval_unit' name='intervalunit' style='width: 120px;'>
+                        <option value='hour'>" . NETCAT_MODULE_SEARCH_TIME_LAST_HOURS . "</option>
+                        <option value='day'>" . NETCAT_MODULE_SEARCH_TIME_LAST_DAYS . "</option>
+                        <option value='week'>" . NETCAT_MODULE_SEARCH_TIME_LAST_WEEKS . "</option>
+                        <option value='month'>" . NETCAT_MODULE_SEARCH_TIME_LAST_MONTHS . "</option>
+                    </select>
+                    </div>
+            </div>
+        </td>
+    </tr>";
+
+$advsearchform["suffix"] = "
+    <tr>
+        <td></td>
+
+        <td>
+            <div class='submit'>
+                <button class='submit' type='submit'>" . htmlspecialchars(NETCAT_MODULE_SEARCH_SUBMIT_BUTTON_TEXT) . "</button>
+            </div>
+        </td>
+    </tr>
+</table>
+</form>";

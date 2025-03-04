@@ -1,0 +1,48 @@
+<?php
+
+$netshop = nc_netshop::get_instance();
+$db = nc_db();
+
+$order_table = $netshop->get_setting('OrderComponentID');
+$site_id = (int)$netshop->get_catalogue_id();
+
+$sql = "SELECT `Item_ID`, `Item_Type`
+          FROM `Netshop_OrderGoods` AS `a`
+          JOIN `Message{$order_table}` AS `b`
+            ON (`a`.`Order_Component_ID`={$order_table} AND `a`.`Order_ID`=`b`.`Message_ID`)
+         WHERE `Catalogue_ID` = $site_id   
+         ORDER BY `Order_ID` DESC
+         LIMIT 10";
+
+$rows = (array)nc_db()->get_results($sql, ARRAY_A);
+
+$goods = new nc_netshop_item_collection();
+$goods->set_index_property('_ItemKey'); // обеспечит уникальность товаров в коллекции
+
+foreach ($rows as $row) {
+    try {
+        $item = nc_netshop_item::by_id($row['Item_Type'], $row['Item_ID']);
+        if (!$item['Sub_Class_ID']) { throw new Exception(''); } // seems that the item data is missing
+        if ($item->has_parent()) { $item = $item['_Parent']; }
+        $goods->add($item);
+    }
+    catch (Exception $e) {}
+}
+
+if (count($goods)) {
+    echo '<div class="tpl-widget-netshop-bought-recently">',
+         '<h2>Недавно купили</h2>',
+         '<div class="tpl-block-list-objects">';
+
+    $i = 1;
+    foreach ($goods as $item) {
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', array(
+            'Item' => $item,
+            'ListName' => 'Недавно купили',
+            'ListPosition' => $i + 1,
+        ));
+        $i++;
+    }
+
+    echo '</div></div>';
+}

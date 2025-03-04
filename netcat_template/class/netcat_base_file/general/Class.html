@@ -1,0 +1,71 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+
+<div id="file-wrapper-<?= $cc ?>" class="file-wrapper" <?= $styles; ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+
+    <?php
+
+    if ((string)$f_Icon != '') {
+        $_icon = nc_embed_icon($classID, $f_RowID, 'Icon');
+    } else {
+        $_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M38 18h-8V6H18v12h-8l14 14 14-14zM10 36v4h28v-4H10z"/></svg>';
+    }
+
+    if ($cc_settings['linkOn'] === 'icon' || $cc_settings['linkOn'] === 'all') {
+        $_icon = "<a href='" . $f_File . "' class='" . implode(" ", $icon_class) . "'>$_icon</a>";
+    } else {
+        $_icon = "<span class='" . implode(" ", $icon_class) . "'>" . $_icon . "</span>";
+    }
+
+    $_name = ($f_Name ?: pathinfo($f_File_name, PATHINFO_FILENAME));
+
+    if ($cc_settings['linkOn'] === 'name' || $cc_settings['linkOn'] === 'all') {
+        $_name = "<a href='" . $f_File . "' class='item-name $cc_settings[title_font_size]'>$_name</a>";
+    } else {
+        $_name = "<span class='item-name'>" . $_name . "</span>";
+    }
+
+    $_size = "";
+
+    if ($cc_settings['showSize'] === 'on') {
+        $_size = "<span class='item-size $cc_settings[extension_font_size]'>" . strtoupper(pathinfo($f_File_name, PATHINFO_EXTENSION)) .
+            ", " .
+            nc_bytes2size($f_File_size) .
+            "</span>";
+    }
+
+    switch ($cc_settings['displayAs']) {
+        case "icon":
+            $_return = "<div class='item-file-name-wrapper'>" . $_icon . $_size . "</div>";
+            break;
+        case "name":
+            $_return = $_name . $_size;
+            break;
+        case "full":
+        default:
+            $_return = "<div class='item-file-name-wrapper'>" . $_icon . $_name . "</div>" . $_size;
+            break;
+    }
+    ?>
+
+    <div class="object-item <?= $cc_settings["displayAs"] !== "name" ? "iconpos-" . $cc_settings['iconPosition'] :
+        "" ?>"><?= $_return; ?></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+</div>
+
+<script>
+    const fileSize = document.querySelector(".tpl-block-<?= $cc ?>-list .item-size");
+    const iconSize = document.querySelector(".tpl-block-<?= $cc ?>-list .tpl-icon");
+
+    if (iconSize && fileSize) {
+        const fileWrapper = document.getElementById("file-wrapper-<?= $cc ?>");
+        const itemName = document.querySelector(".tpl-block-<?= $cc ?>-list .item-name");
+
+        itemName ? fileWrapper.style.setProperty("--tpl-object-icon-size", `${iconSize.clientWidth}px`) : fileSize.style.paddingLeft = "0px";
+    }
+</script>
+<!-- /FormSuffix -->

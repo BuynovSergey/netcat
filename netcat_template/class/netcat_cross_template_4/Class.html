@@ -1,0 +1,51 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+<?php
+$secondary_text = '';
+$secondary_title = '';
+
+if (!empty($f_Date)) {
+    if (date("Ymd") === $f_Date_year . $f_Date_month . $f_Date_day) {
+        $secondary_text = "Сегодня, {$f_Date_hours}:{$f_Date_minutes}";
+        $secondary_title = $f_Date_day . ' ' . $months_number_to_text[(int)$f_Date_month];
+    } elseif (date("Ymd", strtotime("yesterday")) === $f_Date_year . $f_Date_month . $f_Date_day) {
+        $secondary_text = "Вчера, {$f_Date_hours}:{$f_Date_minutes}";
+        $secondary_title = $f_Date_day . ' ' . $months_number_to_text[(int)$f_Date_month];
+    } else {
+        $secondary_text = "{$f_Date_day} {$months_number_to_text[(int)$f_Date_month]} {$f_Date_year}, {$f_Date_hours}:{$f_Date_minutes}";
+        $secondary_title = $secondary_text;
+    }
+
+    if ($admin_mode) {
+        $secondary_text = nc_edit_inline('Date', $f_RowID, $cc_env['Sub_Class_ID']);
+    }
+
+    if (isset($f_Author) && $f_Author) {
+        $secondary_text .= ' ' . nc_edit_inline('Author', $f_RowID, $cc_env['Sub_Class_ID']);
+    }
+} elseif (isset($f_Author) && $f_Author) {
+    $secondary_text = nc_edit_inline('Author', $f_RowID, $cc_env['Sub_Class_ID']);
+} elseif (isset($f_Price) && $f_Price) {
+    $secondary_text = nc_edit_inline('Price', $f_RowID, $cc_env['Sub_Class_ID']);
+} elseif (isset($f_Period) && $f_Period) {
+    $secondary_text = "<i class='far fa-calendar-alt'></i> "
+        . nc_edit_inline('Period', $f_RowID, $cc_env['Sub_Class_ID']);
+}
+
+?>
+
+<div class='object-item'>
+    <a class="object-item-link tpl-text-default" href="<?= !empty($f_Link) ? $f_Link : $fullLink; ?>">
+        <?= nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+        <?php if ($secondary_text): ?>
+            <span class='object-item-secondary-text tpl-text-alt-small' title='<?= $secondary_title; ?>'>
+                <?= $secondary_text; ?>
+            </span>
+        <?php endif; ?>
+    </a>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

@@ -1,0 +1,18 @@
+<?= $f_AdminCommon ?>
+<div class="tpl-block-page-block <?= !$cc_settings['background_pattern'] ? 'tpl-layout-disable-bg-pattern' : ''; ?>" style="background-color: <?= $cc_settings['background_color']; ?>">
+    <div class="tpl-block-header">
+        <div class="tpl-block-title-icon"></div>
+
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-prefix"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></div>
+        <? endif; ?>
+    </div>
+
+    <div class="tpl-block-content">
+        <div class="tpl-block-slider">
+            <div class="tpl-block-container">
+                <div class="swiper-wrapper">

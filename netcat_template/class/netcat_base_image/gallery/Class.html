@@ -1,0 +1,28 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+<div class='object-item' <?= $styles ?>>
+    <?= $f_AdminButtons; ?>
+    <div class="item-size size-<?= ($cc_settings['objectSize'] === 'custom' ? '' : $cc_settings['objectSize']) ?>">
+        <?php $img = nc_image_edit_inline(
+            'Image',
+            $f_RowID,
+            $cc_env['Sub_Class_ID'],
+            array('alt' => strip_tags($f_Title), 'title' => strip_tags($f_Title))
+        ); ?>
+
+        <?php if ($cc_settings['lightbox'] == 'on'): ?>
+            <a href="<?= $f_Image; ?>" data-lightbox="roadtrip" class="item-image image-<?= $cc_settings['imageSize']; ?>"
+                    title="<?= strip_tags($f_Title); ?>"><?= $img; ?></a>
+        <?php else: ?>
+            <div class="item-image image-<?= $cc_settings['imageSize']; ?>"><?= $img; ?></div>
+        <?php endif; ?>
+    </div>
+
+    <?php if ($cc_settings["show_title"] && isset($f_Title) && $f_Title): ?>
+        <div class="tpl-text-default-paragraph"><?= $f_Title ?></div>
+    <?php endif ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+<!-- /FormSuffix -->

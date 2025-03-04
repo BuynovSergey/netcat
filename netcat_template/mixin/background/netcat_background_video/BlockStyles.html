@@ -1,0 +1,11 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+return "
+$list_selector {position:relative;z-index:5}
+$selector > .tpl-block-list > .bg-video {position:absolute;left:0;top:0;right:0;bottom:0;width:100%;overflow:hidden;opacity:{$settings['opacity']};z-index:4;display:flex;align-items:center}
+$selector > .tpl-block-list > .bg-video video {object-fit: cover}
+";

@@ -1,0 +1,60 @@
+// Общие компоненты формы
+$form_start = "<form class='nc_search' action='$actionurl' method='GET'>";
+$input = "<input class='text' type='text' size='$inputsize' name='search_query'" .
+         " id='nc_search_query' value='$inputvalue' />";
+$submit = "<input class='submit' type='submit' value='" . htmlspecialchars($submitname) . "' />";
+$advanced = (!in_array($showadvancedlink, array(1, true, "on", "yes")) ? "" :
+    "<div class='advancedlink'><a href='$actionurl?advanced=1'>" .
+       NETCAT_MODULE_SEARCH_ADVANCED_LINK_TEXT .
+    "</a></div>");
+
+// Форма поиска без уточнения области
+$searchform["empty"]["prefix"] = $form_start . $input . $submit;
+$searchform["empty"]["active"] = "";
+$searchform["empty"]["unactive"] = "";
+$searchform["empty"]["divider"] = "";
+$searchform["empty"]["suffix"] = $advanced . "</form>";
+
+// Форма поиска со скрытой областью поиска
+$searchform["hidden"]["prefix"] = $form_start . $input . $submit;
+$searchform["hidden"]["active"] = "<input type='hidden' id='nc_search_area_%AREANUM' name='area[]' value='%AREA' />";
+$searchform["hidden"]["unactive"] = "<input type='hidden' id='nc_search_area_%AREANUM' name='area[]' value='%AREA' />";
+$searchform["hidden"]["divider"] = " ";
+$searchform["hidden"]["suffix"] = $advanced . "</form>";
+
+// Форма поиска с выбором области поиска радиокнопкой
+$searchform["radio"]["prefix"] = $form_start . $input . $submit . "<div class='areas'>";
+$searchform["radio"]["unactive"] =
+  "<span class='radio'><input type='radio' id='nc_search_area_%AREANUM' name='area' value='%AREA' />" .
+  "<label for='nc_search_area_%AREANUM'>%NAME</label></span>";
+$searchform["radio"]["active"] =
+  "<span class='radio'><input type='radio' id='nc_search_area_%AREANUM' name='area' value='%AREA' checked='checked' /> " .
+  "<label for='nc_search_area_%AREANUM'>%NAME</label></span>";
+$searchform["radio"]["divider"] = " ";
+$searchform["radio"]["suffix"] = "</div>" . $advanced . "</form>";
+
+// Форма поиска с выбором области поиска чекбоксом
+$searchform["checkbox"]["prefix"] = $form_start . $input . $submit . "<div class='areas'>";
+$searchform["checkbox"]["unactive"] =
+  "<span class='checkbox'><input type='checkbox' id='nc_search_area_%AREANUM' name='area[]' value='%AREA' />" .
+  "<label for='nc_search_area_%AREANUM'>%NAME</label></span>";
+$searchform["checkbox"]["active"] =
+  "<span class='checkbox'><input type='checkbox' id='nc_search_area_%AREANUM' name='area' value='%AREA' checked='checked' /> " .
+  "<label for='nc_search_area_%AREANUM'>%NAME</label></span>";
+$searchform["checkbox"]["divider"] = " ";
+$searchform["checkbox"]["suffix"] = "</div>" . $advanced . "</form>";
+
+// Форма поиска с выбором области поиска выпадающим списком
+$searchform["select"]["prefix"] = $form_start . $input . "<select name='area' class='area_select'>";
+$searchform["select"]["unactive"] = "<option value='%AREA'>%NAME</option>";
+$searchform["select"]["active"] = "<option value='%AREA' selected='1'>%NAME</option>";
+$searchform["select"]["divider"] = "\n";
+$searchform["select"]["suffix"] = "</select>" . $submit . $advanced . "</form>";
+
+// Форма поиска с выбором области поиска ссылкой (нажатие на ссылку перезагружает
+// текущую страницу с параметром &area=; для использования на странице поиска)
+$searchform["links"]["prefix"] = $form_start . $input . $submit . "<div class='areas'>";
+$searchform["links"]["unactive"] = "<span class='link'><a href='%URL&amp;area=%AREA'>%NAME</a></span>";
+$searchform["links"]["active"] = "<span class='link link_active'>%NAME</span>";
+$searchform["links"]["divider"] = " ";
+$searchform["links"]["suffix"] = "</div>" . $advanced . "</form>";

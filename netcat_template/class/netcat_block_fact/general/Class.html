@@ -1,0 +1,51 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon ?>
+
+<div class="advantages blocks-layout-<?= $cc_settings["blocks_layout"] ?> <?= $cc_settings["icon_position"] ?>">
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+<<?= ($f_Link && !$admin_mode ? "a href='$f_Link'" : "div"); ?> class="object-item"<?= $styles ?>>
+    <?= $f_AdminButtons ?>
+
+    <?php if ($cc_settings["icon_position"] !== "icon-none"): ?>
+        <div class="object-item-image">
+            <?php
+            $icon = (string)$f_Image ? $f_Image->as_icon() :
+                ($cc_settings["default_icon"] ? $cc_settings["default_icon"]->as_icon() : ""); ?>
+            <div class="<?= $icon_class ?>"><?= $icon ?></div>
+        </div>
+    <?php endif ?>
+
+    <?php if ($cc_settings["blocks_layout"] == "all" || $cc_settings["blocks_layout"] == "title"): ?>
+        <div class="object-item-title <?= $cc_settings["title_classname"] ?>"><?= nc_edit_inline(
+                "Title",
+                $f_RowID,
+                $cc_env["Sub_Class_ID"]
+            ) ?></div>
+    <?php endif ?>
+
+    <?php if ($cc_settings["blocks_layout"] == "all" || $cc_settings["blocks_layout"] == "description"): ?>
+        <div class="tpl-text-default-paragraph object-item-description"><?= nc_edit_inline(
+                "SubTitle",
+                $f_RowID,
+                $cc_env["Sub_Class_ID"]
+            ) ?>
+        </div>
+    <?php endif ?>
+
+</<?= ($f_Link && !$admin_mode ? "a" : "div"); ?>><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+</div>
+
+<script>
+    (function () {
+        document.querySelectorAll("svg.tpl-icon").forEach(icon => {
+            if (icon.getAttribute("data-library")) {
+                icon.classList.add("library-icon")
+            }
+        })
+    })()
+</script>
+<!-- /FormSuffix -->

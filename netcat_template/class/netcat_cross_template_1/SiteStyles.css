@@ -1,0 +1,7 @@
+.object-item { text-decoration: none; color: var(--tpl-color-foreground-main); padding: 0; }
+.object-item .item-image { position: relative; }
+.object-item .item-image::before { display: block; content: ""; width: 100%; padding-top: var(--tpl-object-item--image-padding-top); }
+.object-item .item-image .image { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
+.object-item .item-image .image img { max-width: 100%; width: 100%; height: 100%; object-fit: cover; }
+.object-item .item-image * { width: 100%; height: 100%; }
+.tpl-color-brand { color: var(--tpl-color-brand); }

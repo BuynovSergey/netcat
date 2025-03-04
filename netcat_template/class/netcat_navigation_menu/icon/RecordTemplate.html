@@ -1,0 +1,59 @@
+<?/* Служебная часть */
+for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
+    if($fetch_row[$f_RowNum] instanceof Iterator) {
+        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");
+    } else {
+        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");
+    }
+    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {
+        extract($value);
+    }
+    eval($cc_env["convert2txt"]);
+    ob_start();
+/* Конец служебной части */?>
+
+<?php
+    if ($menu_is_custom) {
+        // Для вручную отобранных ссылок нужно установить $f_current, $f_active
+        $f_current = $f_Subdivision_ID == $sub;
+        $f_active = $f_current || $nc_core->subdivision->is_parent_of($sub, $f_Subdivision_ID);
+    }
+
+    $sub_menu = null;
+
+    if ($make_submenu) {
+        if ((empty($menu_submenu_settings[$menu_level - 1]['only_active']) || $f_active)) {
+            $sub_menu = $make_submenu($f_Subdivision_ID);
+        }
+    }
+
+    $classes
+        = 'tpl-dropdown-trigger tpl-mixin-padding-pass-down menu-item'
+        . ($sub_menu ? ' menu-item-with-submenu' : '')
+        . ($f_active ? ' menu-item-active' : '')
+        . ($f_current ? ' menu-item-current' : '');
+
+    $href = $get_menu_item_href($f_Subdivision_ID);
+
+    $icon = nc_embed_icon('Subdivision', $f_Subdivision_ID, 'ncIcon');
+    if ($icon === '') {
+        $icon =
+            '<svg viewBox="0 0 48 48" class="tpl-icon tpl-state-default-color">' .
+            '<path d="M40 12H24l-4-4H8c-2.21 0-3.98 1.79-3.98 4L4 36c0 2.21 1.79 4 4 4h32c2.21 0 4-1.79 4-4V16c0-2.21-1.79-4-4-4zm0 24H8V16h32v20z"/>' .
+            '</svg>';
+    }
+
+    ?>
+    <li class="<?= $classes ?>">
+        <?= $f_AdminButtons; ?>
+        <a <?= ($href ? 'href="' . htmlspecialchars($href) . '"' : 'onclick="return !1"') ?>
+         class="menu-item-link tpl-mixin-padding-target" title="<?= htmlspecialchars($f_Subdivision_Name) ?>">
+            <span class="<?= $icon_classes; ?>"><?= $icon; ?></span>
+        </a>
+        <?= $sub_menu ?>
+    </li>
+
+<?/* Служебная часть */
+    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);
+}
+/* Конец служебной части */?>

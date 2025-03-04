@@ -1,0 +1,81 @@
+<?php
+
+const NC_PERM_MODULE_FILEMANAGER_FILE_VIEW = 'просмотр файлов';
+const NC_PERM_MODULE_FILEMANAGER_FILE_EDIT = 'редактирование содержимого файлов (кроме PHP, HTML, JS)';
+const NC_PERM_MODULE_FILEMANAGER_FILE_PROPERTY_EDIT = 'редактирование свойств файлов';
+const NC_PERM_MODULE_FILEMANAGER_FILE_DELETE = 'удаление файлов';
+
+const NETCAT_MODULE_FILEMANAGER_DESCRIPTION = 'Модуль позволяет управлять файлами на сервере';
+
+// admin
+const NETCAT_MODULE_FILEMANAGER_ADMIN_CURRENT = 'текущий уровень';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIR = 'файл/директория';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_SIZE = 'размер';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PERMISSION = 'права';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ACTION = 'действие';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_TOTAL = 'всего';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_UPLOAD_FILE = 'загрузить файл';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_CREATE_DIR = 'создать новую директорию';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DELETE = 'удаление';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_EDIT = 'редактирование';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DOWNLOAD = 'загрузка';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_SETTINGS = 'настройки';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ROOT_LINK = 'в начало';
+
+// buttons
+const NETCAT_MODULE_FILEMANAGER_ADMIN_SAVE_BUTTON = 'Сохранить';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_REWRITE_BUTTON = 'Заменить';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_REFRESH_BUTTON = 'Обновить';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DELETE_BUTTON = 'Удалить';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_CANCEL_BUTTON = 'Отменить';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_COPY_LINK_BUTTON = 'Ссылка на файл/папку';
+
+// dialogs
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIALOG_DIR_DELETE = 'Удалить директорию %s?';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIALOG_FILE_DELETE = 'Удалить файл %s?';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIALOG_FILE_REWRITE = 'Заменить файл %s?';
+
+// succesfully
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_UPDATED = 'Файл %s успешно изменён';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_UPLOADED = 'Файл %s успешно закачан';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_REWRITED = 'Файл %s успешно заменён';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_DELETED = 'Файл %s успешно удалён';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIR_CREATED = 'Директория %s успешно создана';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIR_DELETED = 'Директория %s успешно удалена';
+
+// other
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIR_V1 = 'директория';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIR_V2 = 'директории';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_DIR_V3 = 'директорий';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_V1 = 'файл';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_V2 = 'файла';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_FILE_V3 = 'файлов';
+
+// panel
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_OWNER = 'Права владельца';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_GROUP = 'Права группы';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_PUBLIC = 'Публичные права';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_READ = 'чтение';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_WRITE = 'запись';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_EXECUTE = 'выполнение';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_RENAME = 'Переименовать';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_CLOSE = 'Закрыть';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_PANEL_SAVE = 'Сохранить';
+
+// errors
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_DIR_NOT_EXIST = 'Директория %s не существует';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_DIR_ALREADY_EXIST = 'Директория %s уже существует';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_DIR_WRITE_PERMISSION = 'Недостаточно прав для записи в директорию %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_DIR_DELETE_PERMISSION = 'Недостаточно прав для удаления директории %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_DIR_READ_PERMISSION = 'Недостаточно прав для просмотра директории %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_DIR_CREATE = 'Ошибка создания директории %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_FILE_NOT_EXIST = 'Файл %s не существует';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_FILE_WRITE_PERMISSION = 'Недостаточно прав для записи файла %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_FILE_DELETE_PERMISSION = 'Недостаточно прав для удаления файла %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_FILE_READ_PERMISSION = 'Недостаточно прав для чтения файла %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_FILE_WRITE = 'Ошибка записи файла %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_FILE_UPLOAD = 'Ошибка загрузки файла %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_NOT_EXIST = 'Объект %s не существует';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_CHMOD = 'Невозможно изменить права на объект %s';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_UNDEFINED_ACTION = 'Действие недоступно';
+const NETCAT_MODULE_FILEMANAGER_ADMIN_ERROR_PATH = 'Недопустимое значение %s';

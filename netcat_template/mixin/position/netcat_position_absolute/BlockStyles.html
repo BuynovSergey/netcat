@@ -1,0 +1,21 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+$_zindex = $_top = $_left = $_right = $_bottom = "";
+if ($settings['top'] !== '') {
+    $_top = "top: {$settings['top']}{$settings['top_unit']};";
+}
+if ($settings['left'] !== '') {
+    $_left = "left: {$settings['left']}{$settings['left_unit']};";
+}
+if ($settings['right'] !== '') {
+    $_right = "right: {$settings['right']}{$settings['right_unit']};";
+}
+if ($settings['bottom'] !== '') {
+    $_bottom = "bottom: {$settings['bottom']}{$settings['bottom_unit']};";
+}
+if ($settings['zindex'] !== '') {
+    $_zindex = "z-index: {$settings['zindex']};";
+}
+return "{$selector} {position:absolute;{$_top}{$_left}{$_right}{$_bottom}{$_zindex}}";

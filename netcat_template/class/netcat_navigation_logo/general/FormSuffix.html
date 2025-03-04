@@ -1,0 +1,25 @@
+<script>
+    if (window.$) {
+        $(init);
+    } else {
+        document.addEventListener("DOMContentLoaded", init);
+    }
+
+    function init() {
+        const container = document.querySelector(".tpl-block-<?= $cc ?>");
+        const logo = container.querySelector(".tpl-icon");
+
+        function updateLogoHeight() {
+            const maxHeight = window.getComputedStyle(container).maxHeight;
+
+            if (maxHeight) {
+                logo.style.maxHeight = maxHeight;
+            }
+        }
+
+        if (container) {
+            updateLogoHeight();
+            window.addEventListener("resize", updateLogoHeight);
+        }
+    }
+</script>

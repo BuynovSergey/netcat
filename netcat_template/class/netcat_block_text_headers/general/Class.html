@@ -1,0 +1,22 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><article><?= $f_AdminButtons; ?>
+<?php if ($f_AdditionalTitle || $admin_mode) { ?>
+    <<?= $cc_settings['additionalTitleTag']; ?> class="tpl-text-<?= $cc_settings['additionalTitleClass']; ?>">
+        <?= nc_edit_inline('AdditionalTitle', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </<?= $cc_settings['additionalTitleTag']; ?>>
+<?php } ?>
+<<?= $cc_settings['titleTag']; ?> class="tpl-text-<?= $cc_settings['titleClass']; ?>">
+    <?= nc_edit_inline('Title', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+</<?= $cc_settings['titleTag']; ?>>
+<?php if ($f_Text || $admin_mode) { ?>
+    <div class="tpl-text-default-paragraph">
+        <?= nc_edit_inline('Text', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </div>
+<?php } ?>
+<?php if ($f_ButtonText && $f_ButtonURL) { ?>
+    <a href="<?= $f_ButtonURL; ?>" class="tpl-button"><?= $f_ButtonText; ?></a>
+<?php } ?>
+</article><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

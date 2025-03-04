@@ -1,0 +1,108 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$css = array();
+
+$table_selector = ".tpl-table";
+
+$generate_border_css = function ($settings, $side) {
+    return $settings["border"]["{$side}_width"] . "px " . $settings["border"]["{$side}_style"] . " " . $settings["border"]["{$side}_color"] . "";
+};
+
+// базовые настройки
+$table_style = array();
+$cell_style = array();
+$thead_style = array();
+
+$settings_table = $settings['table'];
+
+$table_style[] = "border-collapse: collapse;";
+$table_style[] = "border-spacing: 0;";
+
+$css[] = "$selector $table_selector {" . implode("", $table_style) . "}";
+
+$cell_style[] = "border-top:" . $generate_border_css($settings_table, 'horizontal') . ";";
+$cell_style[] = "border-bottom:" . $generate_border_css($settings_table, 'horizontal') . ";";
+$cell_style[] = "border-left:" . $generate_border_css($settings_table, 'vertical') . ";";
+$cell_style[] = "border-right:" . $generate_border_css($settings_table, 'vertical') . ";";
+
+if ($settings_table['padding']['lock_sides']) {
+    $cell_style[] = "padding: {$settings_table['padding']['top_value']}{$settings_table['padding']['top_unit']};";
+} else {
+    if ($settings_table['padding']['top_value'] !== '') {
+        $cell_style[] = "padding-top:{$settings_table['padding']['top_value']}{$settings_table['padding']['top_unit']};";
+    }
+    if ($settings_table['padding']['right_value'] !== '') {
+        $cell_style[] = "padding-right:{$settings_table['padding']['right_value']}{$settings_table['padding']['right_unit']};";
+    }
+    if ($settings_table['padding']['bottom_value'] !== '') {
+        $cell_style[] = "padding-bottom:{$settings_table['padding']['bottom_value']}{$settings_table['padding']['bottom_unit']};";
+    }
+    if ($settings_table['padding']['left_value'] !== '') {
+        $cell_style[] = "padding-left:{$settings_table['padding']['left_value']}{$settings_table['padding']['left_unit']};";
+    }
+}
+
+if ($settings_table['vertical-align']) {
+    $cell_style[] = "vertical-align: {$settings_table['vertical-align']};";
+}
+$cell_style[] = "background-color: var(--tpl-color-background-main);";
+
+$css[] = "$selector $table_selector tr > * {" . implode("", $cell_style) . "}";
+
+if ($settings_table['background_stripe'] && $settings_table['background_stripe_color']) {
+    $css[] = "$selector $table_selector tbody tr:nth-child(odd) > * {background-color:{$settings_table['background_stripe_color']};}";
+}
+
+// настройки заголовка
+$settings_thead = $settings['thead'];
+if ($settings_thead['background_color_selector'] === 'set' && $settings_thead['background_color']) {
+    $thead_style[] = "background-color: {$settings_thead['background_color']};";
+    $css[] = "$selector $table_selector thead tr > * {background-color: {$settings_thead['background_color']};}";
+}
+if (isset($settings_thead['text_color_selector']) && $settings_thead['text_color_selector'] === 'set' && $settings_thead['text_color']) {
+    $thead_style[] = "color: {$settings_thead['text_color']};";
+}
+if ($settings_thead['border_select'] === 'set') {
+    $thead_style[] = "border-top:" . $generate_border_css($settings_thead, 'top') . " !important;";
+    $thead_style[] = "border-bottom:" . $generate_border_css($settings_thead, 'bottom') . " !important;";
+    $thead_style[] = "border-left:" . $generate_border_css($settings_thead, 'left') . ";";
+    $thead_style[] = "border-right:" . $generate_border_css($settings_thead, 'left') . ";";
+    // если задан бордер у шапки, то первая строка tbody не должна иметь бордера, иногда он перекрывает бордер thead
+    $css[] = "$selector $table_selector thead + tbody tr:first-child > * {border-top:0;}";
+}
+if ($settings_thead['vertical_align']) {
+    $thead_style[] = "vertical-align: {$settings_thead['vertical_align']};";
+}
+if ($thead_style) {
+    $css[] = "$selector $table_selector thead tr > * {" . implode("", $thead_style) . "}";
+}
+
+if ($settings_table["border"]["horizontal_display"] === 'inner') {
+    $css[] = "$selector $table_selector tr:first-child > * {border-top:0;}";
+    $css[] = "$selector $table_selector tr:last-child > * {border-bottom:0;}";
+
+    $css[] = "$selector $table_selector thead + tbody tr:first-child > * {border-top:" . $generate_border_css($settings_table, 'horizontal') . ";}";
+} else {
+    // принудительно добавляем, так при наследовании рамка может быть пустой.
+    $css[] = "$selector $table_selector tr:first-child > * {border-top:" . $generate_border_css($settings_table, 'horizontal') . ";}";
+    $css[] = "$selector $table_selector tr:last-child > * {border-bottom:" . $generate_border_css($settings_table, 'horizontal') . ";}";
+}
+if ($settings_table["border"]["vertical_display"] === 'inner') {
+    $css[] = "$selector $table_selector tr > *:first-child {border-left:0;}";
+    $css[] = "$selector $table_selector tr > *:last-child {border-right:0;}";
+} else {
+    // принудительно добавляем, так при наследовании рамка может быть пустой.
+    $css[] = "$selector $table_selector tr > *:first-child {border-left:" . $generate_border_css($settings_table, 'vertical') . ";}";
+    $css[] = "$selector $table_selector tr > *:last-child  {border-right:" . $generate_border_css($settings_table, 'vertical') . ";}";
+}
+
+if ($settings_table['lock_column']) {
+    $css[] = "$selector {position: relative;z-index: 1;margin: auto;overflow: auto;}";
+    $css[] = "$selector $table_selector {min-width:320px;}";
+    $css[] = "$selector $table_selector tr > *:first-child {position:-webkit-sticky;position:sticky;left:0;z-index:2;}";
+}
+
+return implode("\n", $css);

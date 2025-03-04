@@ -1,0 +1,21 @@
+
+</div>
+
+<script>
+    (function () {
+        document.addEventListener("DOMContentLoaded", () => {
+            if ("<?= $cc_settings["collapse_option"] ?>" === "expand") {
+                $(".faq-item").removeClass("collapsed");
+            }
+
+            if ("<?= $cc_settings["collapse_option"] ?>" === "expand_first") {
+                $(".faq-item").eq(0).removeClass("collapsed");
+            }
+
+            $("#<?=$cc?> .faq-header").on("click", function () {
+                const currentAnswer = $(this).parents(".faq-item").find(".faq-answer");
+                currentAnswer.slideToggle(200, () => $(this).parents(".faq-item").toggleClass("collapsed"));
+            })
+        })
+    })()
+</script>

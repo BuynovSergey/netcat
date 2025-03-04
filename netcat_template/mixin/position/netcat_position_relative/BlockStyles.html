@@ -1,0 +1,11 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+$_zindex = "";
+
+if ($settings['zindex'] !== '') {
+    $_zindex = "z-index: {$settings['zindex']};";
+}
+
+return "{$selector} {position:relative; {$_zindex} }";

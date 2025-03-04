@@ -1,0 +1,68 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class="plan<?= $f_IsSelected ? " selected" : "" ?>">
+        <?= $f_AdminButtons; ?>
+
+        <div class="plan-header">
+            <div class="plan-title tpl-text-header5"><?= nc_edit_inline("Name", $f_RowID, $cc_env["Sub_Class_ID"]) ?></div>
+            <?php if ($f_Subtitle): ?>
+                <div class="plan-subtitle tpl-text-alt"><?= nc_edit_inline(
+                        "Subtitle",
+                        $f_RowID,
+                        $cc_env["Sub_Class_ID"]
+                    ) ?></div>
+            <?php endif ?>
+        </div>
+
+        <div class="plan-body<?= empty($f_Items) ? " empty-list" : "" ?>">
+            <?php
+            $items = !empty($f_Items) ? explode("\n", $f_Items) : array();
+            if ($items):?>
+                <div class="plan-items">
+                    <?php foreach ($items as $item): ?>
+                        <div class="plan-item">
+                            <div class="plan-item-icon">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.75 7.625L5.75 12.625L13.25 1.375" stroke="#CC2530" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="plan-item-name tpl-text-alt"><?= trim($item) ?></div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            <?php endif ?>
+        </div>
+
+        <div class="plan-footer">
+            <?php if ($f_Price): ?>
+                <div class="plan-price-wrapper">
+                    <span class="plan-price tpl-text-header5"><?= nc_edit_inline("Price", $f_RowID, $cc_env["Sub_Class_ID"]) ?></span>
+                    <?php if ($f_Period): ?>
+                        <span class="plan-period tpl-text-alt"><?= nc_edit_inline("Period", $f_RowID, $cc_env["Sub_Class_ID"]) ?></span>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
+
+            <?php if ($cc_settings["button_mode"] !== "mode-none"): ?>
+                <?php $class_name = $f_IsSelected ? "tpl-button-primary" : "tpl-button-secondary"; ?>
+
+                <?php if ($cc_settings["button_mode"] == "mode-link"): ?>
+                    <a href="<?= $f_ButtonLink ?: '#' ?>"
+                            class="plan-button tpl-text-alt tpl-button <?= $class_name ?>"><?= $f_ButtonCaption ?></a>
+
+                <?php elseif ($cc_settings["button_mode"] == "mode-requests" && nc_module_check_by_keyword("requests")): ?>
+                    <?= nc_requests::make_form_popup_button(
+                        $cc,
+                        "default",
+                        array(
+                            'button_caption' => $f_ButtonCaption ?: "Заказать",
+                            "button_custom_class_list" => "plan-button tpl-button " .
+                                ($f_IsSelected ? "tpl-button-primary" : "tpl-button-secondary"),
+                            'Comment' => 'Заказ на товар «' . htmlspecialchars($f_Name) . '».',
+                        )
+                    ) ?>
+                <?php endif ?>
+            <?php endif ?>
+        </div>
+    </div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

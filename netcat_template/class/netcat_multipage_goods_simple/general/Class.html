@@ -1,0 +1,72 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<?php if ($curPos < $recNum): ?>
+    <meta name='subdivision' data-page-type="goods index" data-subdivision-id="<?= $sub; ?>"
+            data-subdivision-name="<?= $current_sub['Subdivision_Name']; ?>"/>
+<?php endif; ?>
+
+<div class="goods-simple" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+    if ($has_netshop) {
+        $item = new nc_netshop_item($res[$f_RowNum]);
+    } else {
+        $item = $res[$f_RowNum];
+    }
+    $item_parent_id = $item['Parent_Message_ID'] ?: $item['Message_ID'];
+    $item_list_key = $item['Class_ID'] . ':' . $item_parent_id;
+    $item_in_stock = (!$nc_core->get_settings('IgnoreStockUnitsValue', 'netshop') ? ($item['StockUnits'] > 0) : true);
+    $in_cart = isset($netshop_cart_items[$item_list_key]['Qty']);
+    ?>
+    <div>
+        <?= $f_AdminButtons; ?>
+        <?php if (!empty($f_Details)): ?><a href="<?= $fullLink ?>" class="object-item-link"><?php endif; ?>
+            <div class="objects-item" data-class-id="<?= $item['Class_ID']; ?>"
+                    data-item-id="<?= $item_parent_id; ?>">
+                <?php if ($f_Image): ?>
+                    <div class='item-image-wrapper'>
+                        <?= $f_Image->as_img(array('alt' => $f_Name)); ?>
+                    </div>
+                <?php endif ?>
+
+                <div class="item-name tpl-text-<?= $cc_settings["title_font_size"] ?>">
+                    <?= nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+                </div>
+
+                <div class="item-params tpl-text-default">
+                    <p><?= nc_edit_inline('Description', $f_RowID, $cc_env['Sub_Class_ID']); ?></p>
+                </div>
+
+                <?php if ($f_Price): ?>
+                    <?php if ($cc_settings["buttonType"] !== "none" && $has_netshop): ?>
+                        <form action="<?= $netshop->get_add_to_cart_url() ?>" method="post" class="item-form">
+                            <input type="hidden" name="redirect_url" value="<?= $_SERVER["REQUEST_URI"] ?>"/>
+                            <input type="hidden" name="cart_mode" value="add"/>
+                            <input type="hidden" name="items[]" value="<?= $item['Class_ID'] . ':' . $item_parent_id; ?>"/>
+                            <input type="hidden" name="item_id" value="<?= $item_parent_id; ?>"/>
+                            <input type="hidden" name="class_id" value="<?= $item['Class_ID']; ?>"/>
+                            <div class="item-price tpl-text-default"><?= $item['ItemPriceF'] ?></div>
+                            <div class="item-count  tpl-text-default">
+                                <input type="hidden" name="qty" value="1"/>
+                                <?= $button($in_cart, $item_in_stock); ?>
+                            </div>
+                        </form>
+                    <?php else: ?>
+                        <div class="item-price tpl-text-default-paragraph"><?= $f_Price . ' ' .
+                            ($f_Currency === 'RUR' || $f_Currency === 'RUB' ? '₽' : $f_Currency) ?></div>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+            </div>
+            <?php if (!empty($f_Details)): ?>
+        </a>
+    <?php endif; ?>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+
+<?= ($has_netshop ? nc_netshop_goods_scripts() : '') ?><!-- /FormSuffix -->

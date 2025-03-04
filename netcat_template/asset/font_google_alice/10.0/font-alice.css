@@ -1,0 +1,6 @@
+@font-face {
+  font-family: 'Alice';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Alice Regular'), local('Alice-Regular'), url(https://fonts.gstatic.com/s/alice/v10/OpNCnoEEmtHa6GcKrgg.woff) format('woff');
+}

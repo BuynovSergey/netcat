@@ -1,0 +1,21 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+<div class="logos" <?= $styles; ?>>
+    <!-- /FormPrefix -->
+
+    <!-- RecordTemplate -->
+    <?= $f_AdminButtons; ?>
+    <a <?= $f_Link ? 'href="' . $f_Link . '" target="_blank"' : 'href="#"'; ?> class="partners-object">
+        <div class="partners-image">
+            <div class="image">
+                <?= $f_Image->as_img(array('title' => strip_tags($f_Title), 'alt' => strip_tags($f_Title))); ?>
+            </div>
+        </div>
+        <?php if ($cc_settings['showName'] === 'on' && $f_Title): ?>
+            <div class="tpl-text-header6"><?= $f_Title; ?></div>
+        <?php endif; ?>
+    </a>
+    <!-- /RecordTemplate -->
+    <!-- FormSuffix -->
+</div>
+<!-- /FormSuffix -->

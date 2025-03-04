@@ -1,0 +1,97 @@
+<div class="nc-mixins-mixin-settings-netcat-layout-columns">
+
+    <div class="nc-hint">
+        Должно быть указано количество или ширина колонок, или оба параметра сразу.
+    </div>
+
+    <div class="nc-mixins-mixin-settings-vertical-container">
+        <div>
+            <label>
+                Количество колонок:
+                <input type="number" class="nc--small" name="mixin.settings.column_count" min="2">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                Ширина колонок:
+                <input type="number" class="nc--small" name="mixin.settings.column_width" min="0"> пикс.
+                <input type="hidden" name="mixin.settings.column_width_unit" value="px">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                Промежуток:
+                <input type="number" class="nc--small" name="mixin.settings.column_gap" min="0"> пикс.
+                <input type="hidden" name="mixin.settings.column_gap_unit" value="px">
+            </label>
+        </div>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-vertical-container">
+        <div>
+            <label>
+                Заполнение колонок:
+                <select name="mixin.settings.column_fill" class="nc-mixins-mixin-settings-netcat-layout-columns-fill">
+                    <option value="">равномерное</option> <!-- 'balance' is the default value for column-fill -->
+                    <option value="auto">поочерёдное</option>
+                </select>
+            </label>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-layout-columns-height">
+            <label>
+                Высота колонки:
+                <input type="number" class="nc--medium" name="mixin.settings.column_height" min="0"> пикс.
+                <input type="hidden" name="mixin.settings.column_height_unit" value="px">
+            </label>
+        </div>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-vertical-container">
+        <div>
+            <label>
+                Линия между колонками:
+                <input type="number" class="nc--small" name="mixin.settings.column_rule_width" min="0">
+                пикс.
+                <input type="hidden" name="mixin.settings.column_rule_width_unit" value="px">
+            </label>
+        </div>
+
+        <div>
+            <select class="nc-field" name="mixin.settings.column_rule_style">
+                <option value="dashed">dashed</option>
+                <option value="dotted">dotted</option>
+                <option value="double">double</option>
+                <option value="groove">groove</option>
+                <option value="ridge">ridge</option>
+                <option value="inset">inset</option>
+                <option value="outset">outset</option>
+                <option value="solid" selected>solid</option>
+            </select>
+        </div>
+
+        <div>
+            <input class="nc-field" type="text" name="mixin.settings.column_rule_color" autocomplete="off"
+                    value="rgba(0, 0, 0, 0.3)"
+                    data-color-input=""
+                    data-mc-format="rgb"
+                    data-sync-color=""
+                    data-nc-swatches>
+        </div>
+    </div>
+
+</div>
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-layout-columns',
+        settings = $nc(prefix);
+
+    settings.find(prefix + '-fill')
+        .off(prefix)
+        .on('change' + prefix, function () {
+            settings.find(prefix + '-height').toggle(!!$nc(this).val());
+        })
+        .change();
+})();
+</script>

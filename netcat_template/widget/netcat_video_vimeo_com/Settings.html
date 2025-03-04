@@ -1,0 +1,8 @@
+<?
+$f_color = str_replace('#', '', $f_color);
+$color = ($f_color != '' ? '?color='.$f_color.'' : '');
+if (preg_match('#.*?vimeo.com/video/(.+?)($|?)#i', $f_url, $matches)) {
+  $code = $matches[1];
+} else {
+  $code = $f_url;
+}

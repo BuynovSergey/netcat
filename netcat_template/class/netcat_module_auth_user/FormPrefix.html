@@ -1,0 +1,11 @@
+<?=$f_AdminCommon;?>
+<?=$searchForm;?>
+<table class='nc_user_list'>
+<tr>
+   <th width='1%'>Аватара</th>
+   <th>Имя</th>
+    <?=($AUTH_USER_ID && $pm_allow  ? "<th width='1%'></th>" : "")?>
+    <?=( $allow_rel ? "<th width='15%'>Отношение</th>" : "" )?>
+    <th width='1%'>Статус</th>
+    <th width='1%'>Зарегистрирован</th>
+</tr>

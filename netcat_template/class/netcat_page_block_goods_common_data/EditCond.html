@@ -1,0 +1,8 @@
+<?
+
+/** @var nc_core $nc_core */
+$currency_forms = $nc_core->lang->get_ru_count_forms($f_OriginalPriceCurrency);
+
+$f_OriginalPriceCurrency = $nc_core->lang->get_ru_numerical_inclination($f_OriginalPrice, $currency_forms);
+$f_ItemPriceCurrency = $nc_core->lang->get_ru_numerical_inclination($f_ItemPrice, $currency_forms);
+$f_DiscountCurrency = $nc_core->lang->get_ru_numerical_inclination($f_DiscountValue, $currency_forms);

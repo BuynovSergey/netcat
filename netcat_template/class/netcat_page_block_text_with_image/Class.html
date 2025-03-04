@@ -1,0 +1,27 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+<div class="tpl-block-page-block">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <div class="tpl-block-content">
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="tpl-block-container">
+            <h3><?= nc_edit_inline('Title', $f_RowID, $cc) ?></h3>
+
+            <div class="tpl-block-text">
+                <span class="tpl-field-text"><?= nc_edit_inline('Text', $f_RowID, $cc) ?></span>
+            </div>
+
+            <?
+                if (nc_module_check_by_keyword('requests') && $cc_settings['show_form_and_button']) {
+                    echo nc_requests::make_form_popup_button($cc);
+                }
+            ?>
+
+        </div>
+        <div class="tpl-block-image"><?= nc_image_edit_inline('Image', $f_RowID, $cc) ?></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>
+<!-- /FormSuffix -->

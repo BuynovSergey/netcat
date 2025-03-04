@@ -1,0 +1,22 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+<section class="slider-item" style="background-image: <?= $f_Image ? "url('" . $f_Image . "')" : "none"; ?>;">
+    <div class="slider-content">
+        <div class="slider-header">
+            <div class="tpl-text-header2">
+                <?= nc_edit_inline('Title', $f_RowID, $cc); ?>
+            </div>
+        </div>
+        <div class="slider-postfix">
+            <div class="tpl-text-default-paragraph">
+                <?= nc_edit_inline('Text', $f_RowID, $cc); ?>
+            </div>
+        </div>
+        <?php if ($f_ButtonText && $f_ButtonLink): ?>
+            <a class="tpl-button" href="<?= $f_ButtonLink; ?>"><?= $f_ButtonText ?></a>
+        <?php endif; ?>
+    </div>
+</section><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

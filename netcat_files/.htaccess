@@ -1,0 +1,28 @@
+<IfModule mod_php4.c>
+ php_flag engine off
+</IfModule>
+
+<IfModule mod_php5.c>
+ php_flag engine off
+</IfModule>
+
+<IfModule mod_php7.c>
+ php_flag engine off
+</IfModule>
+
+# Uncomment this under Russian Apache:
+# CharsetDisable On
+
+## Uncomment this block to disable direct file access
+## RewriteCond %{REQUEST_FILENAME} !-f
+## prev line and this file must be in /netcat_files/File, Flash, Image and Media dirs
+#<ifModule mod_rewrite.c>
+#RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} -f
+## Если Netcat стоит в подпапке, например mysite, то
+## RewriteRule ^(.+)$ /mysite/netcat/require/e404.php?REQUEST_URI=$1 [L,QSA]
+## в противном случае
+#RewriteRule ^(.+)$ /netcat/require/e404.php?REQUEST_URI=$1 [L,QSA]
+#RewriteRule .* - [E=HTTP_IF_MODIFIED_SINCE:%{HTTP:If-Modified-Since}]
+#RewriteRule .* - [E=HTTP_IF_NONE_MATCH:%{HTTP:If-None-Match}]
+#</ifModule>

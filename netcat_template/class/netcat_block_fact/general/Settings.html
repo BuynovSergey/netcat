@@ -1,0 +1,28 @@
+<?php
+
+$styles = array();
+
+if ($cc_settings["icon_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-color: var(--tpl-color-" . $cc_settings["icon_color"] . ")";
+}
+
+if ($cc_settings["title_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--title-color: var(--tpl-color-" . $cc_settings["title_color"] . ")";
+}
+
+if ($cc_settings["icon_decor"] !== "none" && $cc_settings["icon_decor_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-decor-color: var(--tpl-color-" . $cc_settings["icon_decor_color"] . ")";
+}
+
+$styles[] = "--tpl-object-item--icon-space-text: " . str_replace(",", ".", ($cc_settings['text_space'] / 100)) . "em";
+$styles = " style='" . implode("; ", $styles) . "'";
+
+$icon_class = array();
+$icon_class[] = "tpl-icon";
+$icon_class[] = "tpl-text-" . $cc_settings["icon_size"];
+
+if ($cc_settings["icon_decor"] !== "none") {
+    $icon_class[] = "icon-decor-" . $cc_settings["icon_decor"];
+}
+
+$icon_class = implode(" ", $icon_class);

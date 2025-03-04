@@ -1,0 +1,22 @@
+<?php
+
+require_once nc_core('SYSTEM_FOLDER') . 'form/fields/data_source/nc_data_source.class.php';
+
+$template_folder = $nc_core->WIDGET_TEMPLATE_FOLDER . 'aggregator/' . $widget_id . '/';
+$template_file   = $template_folder . 'WidgetTemplate.html';
+$settings_file   = $template_folder . 'Settings.html';
+$css_path        = $nc_core->HTTP_TEMPLATE_PATH . "widget/aggregator/{$widget_id}/style.css";
+
+$data_source = new nc_data_source($f_data_source);
+
+if (file_exists($settings_file)) {
+    include $settings_file;
+}
+
+if ( ! isset($data)) {
+    $data = $data_source->get_data();
+}
+
+if ( ! file_exists($template_file)) {
+	$template_file = false;
+}

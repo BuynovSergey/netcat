@@ -1,0 +1,21 @@
+<div id='%ID' class='comments-block comments-block-reply'>
+    <div class='comments-block-icon'>
+        <svg viewBox='0 0 36 34' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><defs><path d='M35.595 14.248L21.75.402a1.385 1.385 0 0 0-2.365.98v6.97C9.827 9.007 1.92 16.38.72 26.008l-.71 5.665a1.38 1.38 0 0 0 1.374 1.557c.465 0 .917-.24 1.174-.652l1.393-2.232c3.208-5.13 8.738-8.194 14.79-8.194h.644v6.923a1.385 1.385 0 0 0 2.365.98L35.594 16.21a1.39 1.39 0 0 0 0-1.962zM22.153 25.732v-4.965c0-.764-.62-1.384-1.384-1.384h-2.03c-5.952 0-11.468 2.558-15.273 6.97 1.088-8.712 8.526-15.278 17.302-15.278.763 0 1.383-.62 1.383-1.385V4.725L32.657 15.23 22.153 25.73z' id='a'/></defs><use fill='#000' fill-rule='nonzero' transform='matrix(1 0 0 -1 0 33.23)' xlink:href='#a'/></svg>
+    </div>
+    <div id='%ID' class='comments-block-content'>
+        <div class='comments-block-user'>
+            <div class='comments-block-user-name'>
+                %USER_BLOCK
+            </div>
+            <div class='comments-block-user-date'>
+                ".date("d.m.Y", %DATE)."
+            </div>
+        </div>
+        <div class='comments-block-body'>
+            <div class='comments-block-body-rating'>%RATING_BLOCK</div>
+            <div class='comments-block-body-text'>%COMMENT</div>
+            <div class='comments-block-body-links'>%REPLY_LINK &nbsp; %EDIT_LINK &nbsp; %DELETE_LINK</div>
+        </div>
+    </div>
+</div>
+%REPLY_BLOCK

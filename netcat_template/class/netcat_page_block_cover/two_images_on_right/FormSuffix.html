@@ -1,0 +1,62 @@
+            <div class="tpl-block-item">
+
+                <? if ($cc_settings['show_header']): ?>
+                    <h1><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h1>
+                <? endif; ?>
+
+                <? if ($cc_settings['show_text']): ?>
+                    <div class="tpl-block-text">
+                        <p><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></p>
+                    </div>
+                <? endif; ?>
+
+                <?
+                    $goods_data = nc_subdivision_goods_data::for_subdivision($sub)->get_first_item();
+                    $only_price = !$goods_data || !$goods_data['DiscountValue'];
+                ?>
+
+                <? if ($goods_data && $cc_settings['show_price']) { ?>
+                    <div class="tpl-block-information ready <?= $only_price ? " tpl-layout-only-price" : "" ?>">
+                        <? if ($goods_data): ?>
+                            <?= nc_subdivision_goods_data::for_subdivision($sub)->get_edit_trigger_overlay(); ?>
+                            <? if ($only_price) { ?>
+                                <div class="tpl-block-part tpl-layout-allheight">
+                                    <div class="tpl-block-price"><?= $goods_data['ItemPrice'] ?> <?= $goods_data['ItemPriceCurrency'] ?></div>
+                                </div>
+                            <? } else { ?>
+                                <div class="tpl-block-part">
+                                    <div class="tpl-block-old-price"><?= $goods_data['OriginalPrice'] ?> <?= $goods_data['OriginalPriceCurrency'] ?></div>
+                                    <div class="tpl-block-price"><?= $goods_data['ItemPrice'] ?> <?= $goods_data['ItemPriceCurrency'] ?></div>
+                                </div>
+                                <div class="tpl-block-part">
+                                    <div class="tpl-block-discount-label">Скидка</div>
+                                    <div class="tpl-block-discount"><?= $goods_data['DiscountValue'] ?><?= $goods_data['DiscountInPercent'] ? '&thinsp;%' : ' ' . $goods_data['DiscountCurrency'] ?></div>
+                                </div>
+                            <? } ?>
+                        <? endif; ?>
+                    </div>
+                <? } ?>
+                <div class="tpl-block-form-container">
+                    <?
+                    if (nc_module_check_by_keyword('requests') && $cc_settings['show_form_and_button']) {
+                        echo nc_requests::make_form($cc);
+                    }
+                    ?>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom'];?>px;"></div>
+</div>
+<script type="text/javascript">
+		$(function(){
+			$('#<?= $nc_block_id; ?> .tpl-block-photo-small').removeClass('ready');
+			setTimeout(function(){
+				$('#<?= $nc_block_id; ?> .tpl-block-photo-large').removeClass('ready');
+			}, 100);
+			setTimeout(function(){
+				$('#<?= $nc_block_id; ?> .tpl-block-information').removeClass('ready');
+			}, 200);
+		})
+	</script>

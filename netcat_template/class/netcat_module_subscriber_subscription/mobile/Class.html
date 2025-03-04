@@ -1,0 +1,83 @@
+<!-- FormPrefix --><?=( !$totRows && $nc_status != 1 ? "Нет рассылок" : "").
+( $nc_status == 1 ? "На указанный e'mail отправлен код подтверждения" : "").
+( $nc_status == 2 ? "Неверный email" : "").
+( $nc_status == 3 ? "Не выбрана рассылка" : "").
+( $nc_status == 4 ? "Неправильно введены символы, изображенные на картинке" : "").
+( $nc_status == 5 ? "Письмо с подтверждением подписки Вам выслано повторно" : "")?>
+<form action='"<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>modules/subscriber/index.php' method='post'> 
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+// выборка рассылок, на которые подписан пользователь или на которые у него есть право на подписку
+if ( $f_subscribe ||  $nc_subscriber->check_rights($f_mailer_id) ) {
+  // начало категориий (Подписан или возможно подписаться)
+  if ( $cur_subscribe != $f_subscribe ) {
+    // нужно заврешить предыдущую таблицу, если она была
+    if ( $cur_subscribe  != -1 ) ?></table><br/><br/> <?
+    // вывод шапки таблицы 
+    if ( $f_subscribe ) { // шапка для 'уже подписан'
+      ?><div align='center' style='margin:7px 0; font-size:100%; font-weight:bold'>
+                  Ваши текущие подписки:
+                </div>
+                <table class='nc_user_list'>
+                  <tr>
+                    <th width='45%'>Рассылка</th>
+                    <?=($cc_settings['ShowPeriod'] ? "<th width='45%'>Периодичность получения</th>" : "")?>
+                    <th width='10%'>Отписаться</th>
+                 </tr><?
+   }
+   else { // шапка для 'возможно подписаться'
+?>
+<div align='left' style='margin:7px 0; font-size:100%; font-weight:bold'>Вы можете подписаться на :</div>
+<table class='nc_user_list'>
+<tr>
+    <th width='45%'>Рассылка</th>
+   <?=( $cc_settings['ShowPeriod'] ? "<th width='45%'>Периодичность получения</th>": "")?>
+    <th width='10%'>Подписаться</th>
+</tr><?
+  }
+$cur_subscribe = $f_subscribe;
+}
+?>
+// вывод рассылки
+<tr>
+ <td>$f_name</td>
+         <?=( $cc_settings['ShowPeriod'] ? "
+          <td align='center'>".($f_type == 1 ? nc_list_select("SubscriberPeriod", "period_".$f_mailer_id, $f_period,null,null,
+                                            "<select name='period_".$f_mailer_id."'>", null, null, true ) : "")."</td>" :"" 
+         )?>
+        <td align='center'><input type='checkbox' name='subscribe_<?=$f_mailer_id?>' value='<?=( $f_subscribe ? "-1" : "1")?>'></td>
+</tr><?
+
+}
+?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if ($totRows) { ?>
+</table>
+<? if (!$AUTH_USER_ID) { ?>
+<br><div align='left' style='margin:7px 0; font-size:100%; font-weight:bold'>Ваш email: <br><br><input type='text' value='' name='fields[Email]' /></div>
+<? }
+
+if (!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha']) { 
+echo nc_captcha_formfield() ?>
+<br><br><div align='left' style='margin:7px 0; font-size:100%; font-weight:bold'><?=NETCAT_MODERATION_CAPTCHA?>:</div>
+<br><input type='text' name='nc_captcha_code' size='10'><br><br> <? } ?>
+        
+
+<div align='right' style='margin:7px 0; font-size:100%; font-weight:bold'>
+
+<?if($AUTH_USER_ID) { ?>
+<span align='left' style='margin: 7px 10px 7px 0pt; font-size:100%; font-weight:bold'>
+                        Письма отсылаются на <?=$current_user[$email_field]?></span>
+<? } ?>
+
+<input type='submit' value='Сохранить все' />
+
+</div>
+<?=($current_user['UserType'] == 'pseudo' ? "<input type='hidden' name='auth_hash' value='$auth_hash' />" : "")?>
+<input type='hidden' name='redirect_url' value='<?=$_SERVER['REQUEST_URI']?>' />
+</form>
+
+<? } ?>
+
+<!-- /FormSuffix -->

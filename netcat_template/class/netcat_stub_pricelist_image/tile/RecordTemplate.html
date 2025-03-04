@@ -1,0 +1,21 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class="objects-item <?= $f_Marked ? "item-marked" : ""; ?>"<?= $styles; ?>>
+    <?= $f_AdminButtons; ?>
+    <?php if ($f_Image) { ?>
+        <div class='item-image'>
+            <div class="image">
+                <?= $f_Image->as_img(array('alt' => $f_Name)); ?>
+            </div>
+        </div>
+    <?php } ?>
+    <div class="item-name tpl-text-header4">
+        <?= nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </div>
+    <div class="item-params tpl-text-default-paragraph">
+        <?= nc_edit_inline('Description', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </div>
+    <div class="item-price tpl-text-header6">
+        <?= nc_edit_inline('Price', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </div>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

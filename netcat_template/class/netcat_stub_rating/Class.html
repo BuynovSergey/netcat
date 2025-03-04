@@ -1,0 +1,30 @@
+<!-- FormPrefix --><?
+if ($showUserWeight) {
+    echo $user_rating;
+} else {
+    if ($showWeight) {
+        echo $rating;
+    } else {
+        if ($current_user['User_ID'] && $cc_settings['Rating'] == "on") {
+      ?><form name='adminForm' enctype='multipart/form-data' method='post' action='<? echo $SUB_FOLDER.$HTTP_ROOT_PATH ?>add.php'>
+      <input name='cc' value='<? echo $cc ?>' type='hidden'>
+      <input name='sub' value='<? echo $sub ?>' type='hidden'>
+      <input name='catalogue' value='<? echo $catalogue ?>' type='hidden'>
+      <input name='posting' value='1' type='hidden'>
+      <input name='f_BackLink' value='<? echo $backlink ?>' type='hidden'>
+      <input name='f_Object_Sub_Class_ID' value='<? echo $scID ?>' type='hidden'>
+      <input name='f_Object_ID' value='<? echo $objID ?>' type='hidden'>
+      <input name='f_Object_Author_ID' value='<? echo $userID ?>' type='hidden'>
+      <input name='f_Object_voter_ID' value='<? echo $current_user['User_ID'] ?>' type='hidden'>
+      <input type='submit' name='RatingPlus' class='Rating_button' value='+' style='width:20px; height:20px;'>
+      <input type='submit' name='RatingMinus' class='Rating_button' value='&#8722;' style='width:20px; height:20px;'>
+      рейтинг (<? echo (int) $rating ?>)
+      </form><?
+        }
+    }
+}
+?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,151 @@
+<?php
+
+$properties = array(
+    'Тип' => $f_Type,
+    'Производитель' => $f_Vendor,
+    'Артикул' => $f_Article,
+);
+
+$properties = array_filter($properties);
+
+$property_fields = $nc_core->get_component($classID)->get_fields_by_name_prefix('Property_');
+
+foreach ($property_fields as $f) {
+    $property_value = $item[$f['name']];
+    if (is_scalar($property_value) && !strlen($property_value)) {
+        continue;
+    }
+    if (is_array($property_value)) {
+        $property_value = join(', ', $property_value);
+    }
+    if ($f['type'] == NC_FIELDTYPE_BOOLEAN) {
+        $property_value = $property_value ? 'да' : 'нет';
+    }
+    if ($property_value) {
+        $properties[$f['description']] = $property_value;
+    }
+}
+
+if ($f_Weight) {
+    $properties['Вес в упаковке'] = $f_Weight . ' г';
+}
+
+if ($f_PackageSize1) {
+    $sizes = array($f_PackageSize1, $f_PackageSize2, $f_PackageSize3);
+    $properties['Размер упаковки'] = implode(' × ', $sizes) . ' см';
+}
+
+?>
+
+<?= $f_AdminButtons ?>
+
+<?php if ($cc_settings['show_title_on_detail_page']): ?>
+    <h1 class="header"><?= $f_Name ?></h1>
+<?php endif; ?>
+
+<div class="top">
+    <?php
+    $img_list = array();
+    if ($f_Image) {
+        $img_list[] = $f_Image;
+    }
+    if ($f_Slider->count()) {
+        $img_list = array_merge($img_list, $f_Slider->records);
+    }
+
+    $thumb_w = $thumb_h = 150;
+
+    ?>
+    <?php if ($img_list): ?>
+        <div class="gallery">
+            <div class="fotorama-container">
+                <div class="fotorama not-ready" data-auto="false">
+                    <?php foreach ($img_list as $image): ?>
+                        <a href="<?= $image->to_string() ?>"><?= $image->resize($thumb_w * 2, $thumb_h * 2)->as_img() ?></a>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+
+            <script>
+                (function() {
+                    function init_fotorama() {
+                        let container = jQuery('.fotorama-container'),
+                            options = {
+                                nav: jQuery(window).width() > 450 ? 'thumbs' : 'dots',
+                                width: container.innerWidth(),
+                                maxheight: 600,
+                                thumbwidth: <?= $thumb_w ?>,
+                                thumbheight: <?= $thumb_h ?>,
+                                thumbmargin: 20,
+                                thumbborderwidth: 1,
+                                ratio: <?= str_replace(':', '/', $full_image_ratio) ?>,
+                                fit: '<?= $cc_settings['image_format'] ?>',
+                                allowfullscreen: true
+                            };
+                        container.find('.fotorama').fotorama(options).removeClass('not-ready');
+                    }
+
+                    function reinit_fotorama() {
+                        jQuery('.fotorama').addClass('not-ready').data('fotorama').destroy();
+                        setTimeout(init_fotorama, 1);
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        init_fotorama();
+                        jQuery(window).on('resize', reinit_fotorama);
+                    });
+                })();
+            </script>
+        </div>
+    <?php endif; ?>
+
+    <div class="top-text">
+        <?php if ($f_Description): ?>
+            <div class="description"><?= $f_Description ?></div>
+        <?php endif; ?>
+
+
+        <div class="price-and-button">
+            <?php if ($f_Price): ?>
+                <div class="price">
+                    <span class="item-price tpl-text-header4"><?= $format_price($f_Price) ?></span>
+                </div>
+            <?php endif; ?>
+            <?php if (nc_module_check_by_keyword('requests')): ?>
+                <div class="button">
+                    <?= nc_requests::make_form_popup_button(
+                        $cc,
+                        'default',
+                        array(
+                            'button_caption' => 'Заказать',
+                            'Comment' => 'Заказ на продукт «' . htmlspecialchars($f_Name) . '».',
+                        )
+                    ) ?>
+                </div>
+            <?php endif ?>
+        </div>
+
+        <?php if ($properties): ?>
+            <div class="property-block">
+                <h6>Характеристики</h6>
+                <div class="properties">
+                    <?php foreach ($properties as $name => $value): ?>
+                        <div class="property">
+                            <span class="property-name"><?= $name ?></span>
+                            <span class="property-value"><?= $value ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+
+    </div>
+</div>
+
+<?php if ($f_Details): ?>
+    <div class="details-wrapper">
+        <div class="details">
+            <?= $f_Details ?>
+        </div>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,112 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+
+        <tr>
+            <td><?= $f_RowID ?></td>
+            <? if ($nc_core->get_settings('PacketOperations')): ?>
+                <td>
+                    <input class='nc_multi_check' type='checkbox' onchange='nc_package_obj.select(<?= $f_RowID ?>, <?= $cc ?>)'>
+                </td>
+            <? endif ?>
+            <td>
+                <? if (!empty($f_AdminButtons_check)): ?>
+                <a onclick="parent.nc_action_message(this.href); return false;" href="<?= $f_AdminButtons_check ?>" class="nc--wide nc-label nc--<?= $f_Checked ? 'green' : 'red' ?>" title="<?= constant('NETCAT_MODERATION_OBJ_' . ($f_Checked ? 'ON' : 'OFF')) ?>">
+                    <?= constant('NETCAT_MODERATION_OBJ_' . ($f_Checked ? 'ON' : 'OFF')) ?>
+                </a>
+                <? endif; ?>
+            </td>
+
+            <? if (!$table_fields && !$standart_table_fields): ?>
+                <td><?= NETCAT_MODERATION_OBJECT . ' #' . $f_RowID ?></td>
+            <? else: ?>
+                <? foreach ($fields as $fieldname => $field): ?>
+                    <?php
+                        $class_for_multiselect = '';
+                        if ($field['type'] == NC_FIELDTYPE_MULTISELECT) {
+                            $class_for_multiselect = "nc-multiselect-column";
+                        }
+                    ?>
+                    <td class="<?= $f_Checked ? '' : 'nc-text-gray' ?> <?= $class_for_multiselect ?>">
+                        <?php
+                        if ($fieldname === 'User') {
+                            $user_id = $f_User_ID;
+                            $f_User = '';
+                            if ($user_id) {
+                                try {
+                                    $user_object = nc_core('user')->get_by_id($user_id);
+                                    $f_User = $user_object['Login'];
+                                } catch (Exception $e) {
+                                }
+                            }
+                            $value = $f_User;
+                        } else if ($fieldname === 'LastUser') {
+                            $user_id = $f_LastUser_ID;
+                            $f_LastUser = '';
+                            if ($user_id) {
+                                try {
+                                    $user_object = nc_core('user')->get_by_id($user_id);
+                                    $f_LastUser = $user_object['Login'];
+                                } catch (Exception $e) {
+                                }
+                            }
+                            $value = $f_LastUser;
+                        } else {
+                            $value = ${'f_' . $fieldname};
+
+                            if (($field['type'] == NC_FIELDTYPE_FILE) && strpos($field['format'], 'image/')) {
+                                $value = "<img src='{$value}' alt='' style='max-height:80px;max-width:80px'>";
+                            }
+
+                            if ($field['type'] == NC_FIELDTYPE_MULTISELECT && is_array($value)) {
+                                $value = nc_array_to_string($value, array('element' => "<span class='nc-label nc--light nc-multiselect-label'>%ELEMENT</span>"));
+                            }
+                        }
+                        ?>
+
+                        <?= $value ?>
+                    </td>
+                <? endforeach ?>
+            <? endif ?>
+
+            <? /* PRIORITY */ ?>
+            <td width="1">
+                <? if (!empty($f_AdminButtons_check)): ?>
+                <div class="nc-form">
+                    <input type="hidden" name="Checked[<?= $f_RowID; ?>]" value="<?= $f_Checked; ?>"/>
+                    <input type="text" name="priority[<?= $f_RowID; ?>]" size="3" value="<?= $f_Priority; ?>" class="nc--mini" maxlength="5" style="margin-top: -5px; margin-bottom: -7px;">
+                </div>
+                <? endif; ?>
+            </td>
+
+            <? /* ACTIONS */ ?>
+            <? if (isset($list_mode) && $list_mode == 'select'): ?>
+                <td class="nc--action nc--action-text-only" colspan="4">
+                    <a onclick="<?= $f_AdminButtons_select ?>" href="#"><?= NETCAT_MODERATION_SELECT_RELATED ?></a>
+                </td>
+            <? else: ?>
+                <td class='nc--action' width="1">
+                    <? if (!empty($f_AdminButtons_change)): ?>
+                    <a onclick="window.open('<?= $f_AdminButtons_copy ?>', 'nc_popup_test1', 'width=800,height=500,menubar=no,resizable=no,scrollbars=no,toolbar=no,resizable=yes'); return false;" href="#" title="<?= NETCAT_MODERATION_COPY_OBJECT ?>"><i class='nc-icon nc--copy'></i></a>
+                    <? endif; ?>
+                </td>
+                <td class='nc--action' width="1">
+                    <? if (!empty($f_AdminButtons_change)): ?>
+                    <a onclick="parent.nc_form(this.href); return false;" href="<?= $f_AdminButtons_change ?>" title="<?= NETCAT_MODERATION_CHANGE ?>"><i class='nc-icon nc--edit'></i></a>
+                    <? endif; ?>
+                </td>
+                <? if (!empty($f_AdminButtons_version)) : ?>
+                    <td class='nc--action' width="1">
+                        <a onclick="parent.nc_form(this.href); return false;" href="<?= $f_AdminButtons_version ?>" title="<?= NETCAT_MODERATION_VERSION ?>"><i class='nc-icon nc--clock'></i></a>
+                    </td>
+                <? else: ?>
+                    <td width="1" style='padding: 0; margin: 0;'></td>
+                <? endif; ?>
+                <td class='nc--action' width="1">
+                    <? if (!empty($f_AdminButtons_delete)): ?>
+                    <a onclick="parent.nc_action_message(this.href); return false;" href="<?= $f_AdminButtons_delete ?>" title="<?= NETCAT_MODERATION_DELETE ?>"><i class='nc-icon nc--remove'></i></a>
+                    <? endif; ?>
+                </td>
+            <? endif; ?>
+        </tr>
+
+
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

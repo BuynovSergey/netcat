@@ -1,0 +1,24 @@
+<?php if ($f_ie): ?>
+    <script src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+<?php endif; ?>
+<script src="https://yastatic.net/share2/share.js" async="async"></script>
+<?php
+$buttons = array();
+
+foreach ($service_list as $service) {
+    $field_name = "f_" . $service->Field_Name;
+    if (${$field_name}) {
+        $buttons[] = str_replace('service_', '', $service->Field_Name);
+    }
+}
+?>
+<div class="ya-share2" data-services="<?= implode(',', array_filter($buttons)); ?>"
+    <?= ($f_type === 'counter' ? " data-counter" : "")
+    . ($f_countIcon > 0 ? " data-limit='{$f_countIcon}'" : "")
+    . ($f_size === 's' ? " data-size='s'" : "")
+    . ($f_lang !== 'ru' ? " data-lang='{$f_lang}'" : "")
+    . ($f_copy !== 'last' ? " data-copy='{$f_copy}'" : "")
+    . ($f_direction !== 'horizontal' ? " data-direction='{$f_direction}'" : "")
+    . ($f_popup_direction !== 'bottom' ? " data-popup-direction='{$f_popup_direction}'" : "")
+    . ($f_popup_position !== 'inner' ? " data-popup-position='{$f_popup_position}'" : "")
+    ; ?>></div>

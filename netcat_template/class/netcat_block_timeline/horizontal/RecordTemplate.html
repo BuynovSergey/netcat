@@ -1,0 +1,27 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+
+    <div class="stage-item<?= $f_IsActive ? " active" : "" ?>">
+        <?= $f_AdminButtons ?>
+        <div class="stage-item-dot <?= $cc_settings["title_size"] ?>">
+            <?php if ($f_IsActive): ?>
+                <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9.5" cy="9.5" r="9" transform="rotate(-90 9.5 9.5)" fill="#FFFFFF" stroke="var(--tpl-color-brand, #000000)"/>
+                    <ellipse cx="9.5" cy="9.5" rx="4.5" ry="4.5" transform="rotate(-90 9.5 9.5)" fill="var(--tpl-color-brand, #FFFFFF)"/>
+                </svg>
+            <?php else: ?>
+                <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9.5" cy="9.5" r="9" transform="rotate(-90 9.5 9.5)" fill="#FFFFFF" stroke="var(--tpl-color-brand, #000000)"/>
+                </svg>
+            <?php endif ?>
+        </div>
+        <div class="stage-item-content">
+            <?php if (strlen($f_Name)): ?>
+                <div class="<?= $cc_settings["title_size"] ?> stage-item-title"><?= $f_Name ?></div>
+                <p><?= $f_Text ?></p>
+            <?php else: ?>
+                <div class="<?= $cc_settings["title_size"] ?> stage-item-title"><?= $f_Text ?></div>
+            <?php endif; ?>
+            <div class="<?= $cc_settings["period_size"] ?> stage-item-period"><?= $f_Period ?></div>
+        </div>
+    </div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

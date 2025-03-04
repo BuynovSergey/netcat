@@ -1,0 +1,223 @@
+<div class="nc-mixins-mixin-settings-netcat-layout-flexbox">
+    <div>
+        <label>
+            Направление блоков:
+        </label>
+        <div>
+            <label>
+                <input type="radio" name="mixin.settings.flexbox_direction" value="row" checked data-css-property="flex-direction">
+                по горизонтали (слева направо)
+            </label>
+            <label>
+                <input type="radio" name="mixin.settings.flexbox_direction" value="column" data-css-property="flex-direction">
+                по вертикали (сверху вниз)
+            </label>
+        </div>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-align">
+        <div style="grid-area: wrap">
+            <label>Переносить блоки
+                <span class="nc-mixins-mixin-settings-netcat-layout-flexbox--for-row-direction">на следующую строку:</span>
+                <span class="nc-mixins-mixin-settings-netcat-layout-flexbox--for-column-direction">в следующую колонку:</span>
+            </label>
+            <div>
+                <label>
+                    <input type="radio" name="mixin.settings.flexbox_wrap" value="nowrap" checked data-css-property="flex-wrap">
+                    нет
+                </label>
+                <label>
+                    <input type="radio" name="mixin.settings.flexbox_wrap" value="wrap" data-css-property="flex-wrap">
+                    да
+                </label>
+            </div>
+        </div>
+
+        <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-height">
+            <div>
+                <label>Мин. высота списка:</label><br>
+                <input type="number" class="nc--small" name="mixin.settings.list_min_height" min="0">
+                <select name="mixin.settings.list_min_height_unit">
+                    <option value="px">px</option>
+                    <option value="vh">vh</option>
+                    <option value="%">%</option>
+                </select>
+            </div>
+            <div>
+                <label>Высота списка:</label><br>
+                <input type="number" class="nc--small" name="mixin.settings.list_height" min="0">
+                <select name="mixin.settings.list_height_unit">
+                    <option value="px">px</option>
+                    <option value="vh">vh</option>
+                    <option value="%">%</option>
+                </select>
+            </div>
+            <div>
+                <label>Макс. высота списка:</label><br>
+                <input type="number" class="nc--small" name="mixin.settings.list_max_height" min="0">
+                <select name="mixin.settings.list_max_height_unit">
+                    <option value="px">px</option>
+                    <option value="vh">vh</option>
+                    <option value="%">%</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="grid-area: h-align-label">
+            <label>Размещение блоков по горизонтали:</label>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-align-main-axis">
+            <select name="mixin.settings.flexbox_justify" data-css-property="justify-content">
+                <!-- при замене на языковые константы см. также <script> ниже -->
+                <option value="flex-start">по левому краю</option>
+                <option value="center">по центру</option>
+                <option value="flex-end">по правому краю</option>
+                <option value="space-between">просвет между блоками</option>
+                <option value="space-around">просвет вокруг блоков</option>
+                <option value="space-evenly">распределить равномерно</option>
+                <option value="stretch">на всю ширину</option>
+                <!--           ↑↑↑↑↑↑↑
+                на самом деле justify-content: stretch не работает для флексбокса,
+                миксин вместо него добавляет "flex-grow: 1" для элементов списка
+                -->
+            </select>
+        </div>
+        <div style="grid-area: h-gap-label">
+            <label>Отступ:</label>
+        </div>
+        <div style="grid-area: h-gap-input">
+            <input type="number" class="nc--small" min="0" name="mixin.settings.horizontal_spacing"> пикс.
+        </div>
+        <div style="grid-area: v-align-label">
+            <label>
+                Размещение блоков по вертикали<span class="nc-mixins-mixin-settings-netcat-layout-flexbox--for-column-direction">
+                <br> (должна быть задана высота списка)</span>:
+            </label>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-align-cross-axis">
+            <select name="mixin.settings.flexbox_align" data-css-property="align-items">
+                <option value="flex-start">по верхнему краю</option>
+                <option value="center">по центру</option>
+                <option value="flex-end">по нижнему краю</option>
+                <option value="stretch">на всю высоту</option>
+            </select>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-align-v-gap">
+            <label>
+                Отступ:
+                <input type="number" class="nc--small" min="0" name="mixin.settings.vertical_spacing"> пикс.
+            </label>
+        </div>
+
+        <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-align-sample-container">
+            <div class="nc-mixins-mixin-settings-netcat-layout-flexbox-align-sample">
+                <div><div>1</div></div>
+                <div><div>2</div></div>
+                <div><div>3</div></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+(function() {
+    var prefix = 'nc-mixins-mixin-settings-netcat-layout-flexbox';
+
+    function init(event, data) {
+        var settings_container = $nc(this).find('.' + prefix);
+        if (settings_container.data('initialized')) {
+            return;
+        }
+
+        function get_input(name_suffix) {
+            return settings_container.find('[name="mixin.settings.' + name_suffix + '"]');
+        }
+
+        var sample = settings_container.find('.' + prefix + '-align').find('.' + prefix + '-align-sample');
+
+        // применение выбранных свойств к «образцу»
+        settings_container.find('[data-css-property]').change(function() {
+            var input = $nc(this);
+            if (input.is(':radio') && !input.is(':checked')) {
+                return;
+            }
+            sample.css(input.data('css-property'), input.val());
+        }).change();
+
+        // подписи для justify-content, align-items в зависимости от flex-direction
+        var axis_options = {
+            h: {
+               'flex-start': 'по левому краю',
+               'flex-end': 'по правому краю',
+               'stretch': 'растянуть на всю ширину'
+            },
+            v: {
+               'flex-start': 'по верхнему краю',
+               'flex-end': 'по нижнему краю',
+               'stretch': 'растянуть на всю высоту'
+            }
+        };
+
+        // обновление подписей для justify-content, align-items
+        function update_options(select, new_captions) {
+            select.find('option').each(function() {
+                if (this.value in new_captions) {
+                    this.text = new_captions[this.value];
+                }
+            });
+        }
+
+        // изменение flex-direction
+        var direction_radios = get_input('flexbox_direction'),
+            justify_content_select = get_input('flexbox_justify'),
+            align_items_select = get_input('flexbox_align'),
+            not_applicable_to_both_axes = /^space-/;
+
+        direction_radios.change(function() {
+            var is_column = direction_radios.filter(':checked').val() === 'column';
+
+            // применяем класс, который перестроит нужным образом форму настроек
+            settings_container.toggleClass(prefix + '--column-direction', is_column);
+
+            // обновляем подписи justify-content, align-items
+            update_options(justify_content_select, axis_options[is_column ? 'v' : 'h']);
+            update_options(align_items_select, axis_options[is_column ? 'h' : 'v']);
+
+            // меняем одинаковые значения justify-content, align-items местами
+            // (например, если по горизонтали было по центру, так и останется)
+            var align_items_value = align_items_select.val(),
+                justify_content_value = justify_content_select.val();
+            if (!not_applicable_to_both_axes.test(align_items_value)) {
+                justify_content_select.val(align_items_value).change();
+                if (!not_applicable_to_both_axes.test(justify_content_value)) {
+                    align_items_select.val(justify_content_value).change();
+                }
+            }
+        });
+
+        // показ горизонтального/вертикального пространства между блоками
+        get_input('horizontal_spacing').on('change input', function() {
+            sample.get(0).style.setProperty('--h-gap', (this.value || 0) + 'px');
+        });
+
+        get_input('vertical_spacing').on('change input', function() {
+            sample.get(0).style.setProperty('--v-gap', (this.value || 0) + 'px');
+        });
+
+        // имитация justify-content: stretch
+        justify_content_select.change(function() {
+            settings_container.toggleClass(prefix + '--justify-content-stretch', justify_content_select.val() === 'stretch');
+        }).change();
+
+        // Больше не выполнять init() для этого блока:
+        settings_container.data('initialized', true);
+    }
+
+    // Инициализация событий
+    $nc('.' + prefix).closest('.nc-mixins-mixin-settings')
+        .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+        .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+})();
+</script>

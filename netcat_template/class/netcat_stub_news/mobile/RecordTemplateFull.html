@@ -1,0 +1,33 @@
+<div class='nc_full nc_news'>
+    <div class='nc_full_text'><?= nc_edit_inline('Full_text', $f_RowID, $cc) ?></div>
+    <? if ($cc_settings['DateStyle'] != 'disable') {
+        ?><div class='nc_datetime'><?
+    if ($cc_settings['DateStyle'] != 'time') {
+            ?><span class='nc_date'><?= $f_Date_day.".".$f_Date_month.".".$f_Date_year ?>  </span><?
+    }
+    if ($cc_settings['DateStyle'] != 'date') {
+            ?><span class='nc_time'><?= $f_Date_hours.":".$f_Date_minutes ?></span><?
+    }
+        ?></div>
+    <?
+    }
+    if ($f_SourceTitle || $f_SourceLink) {
+        ?><br/><div class='nc_source'><span>Источник: </span>
+            <? if ($f_SourceTitle && $f_SourceLink) {
+                ?><a href='<?=$f_SourceLink?>'><?=$f_SourceTitle?></a><?
+    } else {
+        if (!$f_SourceLink) {
+            echo nc_edit_inline('SourceTitle', $f_RowID, $cc);
+        } else {
+                    ?><a href='<?=$f_SourceLink?>'><?=$f_SourceLink?></a><?
+        }
+    }
+            ?></div><?
+}
+echo ( $cc_settings['YandexPodelitsa'] ? $nc_core->widget->show('netcat_yandex_share') : "" )
+        ?>
+</div>
+
+<? if (nc_module_check_by_keyword("comments")) { ?><div class='nc_comments'><?= $nc_comments->wall($f_RowID) ?></div><?
+}
+?>

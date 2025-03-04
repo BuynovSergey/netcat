@@ -1,0 +1,119 @@
+<div class="nc-mixins-mixin-settings-netcat-layout-slick">
+
+    <div class="nc-mixins-mixin-settings-netcat-layout-slick-slides-per-view">
+        <label>
+            Количество одновременно отображаемых слайдов:
+            <span style="display: block">
+            <select name="mixin.settings.slides_per_view">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3" selected>3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Отображение текущего положения слайдера:
+            <span style="display: block">
+            <select name="mixin.settings.pagination_type">
+                <option value="">нет</option>
+                <option value="dots">«биатлон» (точки-буллеты с подсветкой текущего слайда)</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-netcat-layout-slick-effect">
+        <label>
+            Смена слайдов:
+            <span style="display: block">
+            <select name="mixin.settings.effect">
+                <option value="slide">сдвиг (slide)</option>
+                <option value="fade">исчезновение и появление (fade)</option>
+            </select>
+            </span>
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Скорость смены слайдов:
+            <input type="number" name="mixin.settings.speed" value="300" min="0" class="nc--medium">
+            мс
+        </label>
+    </div>
+
+    <div>
+        <label>
+            Расстояние между слайдами:
+            <input type="number" name="mixin.settings.space_between" value="" min="0" class="nc--medium">
+            пикс.
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.show_arrows" value="1" checked>
+            Показывать стрелки «Вперёд» и «Назад»
+        </label>
+    </div>
+    <div class="nc-mixins-mixin-settings-netcat-layout-slick-arrows-position">
+        <label>
+            Размещение стрелок:
+            <span style="display: block">
+            <select name="mixin.settings.arrows_position">
+                <option value="out">на границах контейнера</option>
+                <option value="in">внутри контейнера</option>
+            </select>
+            </span>
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.loop" value="1">
+            Закольцевать (бесконечная прокрутка вперёд и назад)
+        </label>
+    </div>
+
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.autoplay" value="1">
+            Автоматическое перелистывание
+        </label>
+        <label>
+            каждые
+            <input type="number" name="mixin.settings.autoplay_delay" value="3000" min="1" class="nc--medium">
+            мс
+        </label>
+    </div>
+
+</div>
+<script>
+    (function () {
+        var prefix = '.nc-mixins-mixin-settings-netcat-layout-slick',
+            settings = $nc(prefix),
+            effects = settings.find(prefix + '-effect');
+
+        // при показе нескольких слайдов fade не работает
+        settings.find(prefix + '-slides-per-view select')
+            .off(prefix)
+            .on('change' + prefix, function () {
+                var value = $nc(this).val();
+                if (value == 1) {
+                    effects.show();
+                } else {
+                    effects.hide().find('select').val('slide');
+                }
+            })
+            .change();
+    })();
+</script>

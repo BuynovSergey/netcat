@@ -1,0 +1,69 @@
+#actionCropPopup {
+	display: none;
+}
+
+#actionCropPopup .nc_admin_form_menu {
+	top: -80px;
+}
+
+#actionCropPopup .imageContainer
+{
+	float: left;
+	width: 480px;
+}
+#actionCropPopup .ratioContainer
+{
+	float: left;
+	width: 220px;
+	text-align: center;
+}
+#actionCropPopup .ratioContainer .ratioBlock
+{
+	color: #000000;
+	background: #eee;
+	box-sizing: border-box;
+	margin: 20px;
+	display: inline-block;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+#actionCropPopup .ratioContainer .ratioBlock div
+{
+	vertical-align: middle;
+	display: table-cell;
+	text-align: center;
+}
+#actionCropPopup .ratioContainer .ratioBlock.active
+{
+	border: 2px #00ccff solid;
+}
+
+.jcrop-holder {
+	background: transparent !important;
+	border: 1px solid #DADADA;
+}
+
+.nc-icon-cut {
+	width: 31px;
+	height: 30px;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	border: none;
+	border: 1px solid #dadada;
+	background: white;
+    cursor: pointer; 
+    z-index: 990;
+}
+
+.nc-icon-cut i {
+	position: absolute;
+	top: 7px;
+	left: 4px;
+}
+
+.nc-icon-cut:hover {
+	border: 1px solid #dadada;
+	box-shadow: none;
+	background: #e7ecf0 !important;
+}

@@ -1,0 +1,52 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<div class="promo-wrapper text-block-layout-<?= $cc_settings["text_block_layout"] ?>" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="promo-item text-block-layout-<?= $cc_settings["text_block_layout"] ?>">
+        <?= $f_AdminButtons; ?>
+        <div class="promo-text">
+            <div class="promo-heading <?= $cc_settings["subtitle_font_size"] ?>"><?= nc_edit_inline(
+                    "Heading",
+                    $f_RowID,
+                    $cc_env["Sub_Class_ID"]
+                ) ?>
+            </div>
+
+            <div class="promo-title <?= $cc_settings["title_font_size"] ?>"><?= nc_edit_inline(
+                    "Name",
+                    $f_RowID,
+                    $cc_env["Sub_Class_ID"]
+                ) ?>
+            </div>
+
+            <div class="promo-announce <?= $cc_settings["announce_font_size"] ?>"><?= nc_edit_inline(
+                    "AnnounceText",
+                    $f_RowID,
+                    $cc_env["Sub_Class_ID"]
+                ) ?>
+            </div>
+
+            <?php if (!empty($f_Text) || !empty($f_Link)): ?>
+                <a href="<?= $f_Link ?: ($f_Text ? $fullLink : "#") ?>"
+                        class="promo-link tpl-button tpl-button-primary" <?= $f_OpenInNewTab ? " target='_blank'" :
+                    "" ?>><?= $f_LinkText ?></a>
+            <?php endif ?>
+        </div>
+
+        <div class="promo-image">
+            <?php if ($f_Image) {
+                echo $f_Image->as_img(
+                    array(
+                        "alt" => $f_Image,
+                    )
+                );
+            }
+            ?>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

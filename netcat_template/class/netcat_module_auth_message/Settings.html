@@ -1,0 +1,25 @@
+<?
+if ($uid) header("Location: ".$cc_env['addLink']."?uid=".$uid);
+
+$ignore_parent = true;
+
+$query_select = 'u.'.$AUTHORIZE_BY.' AS Author ';
+$query_join = 'LEFT JOIN User AS u ON a.User_ID = u.User_ID';
+
+
+if (!$action) {
+   if (isset($outbox)) {
+       $query_join = 'LEFT JOIN User AS u ON a.ToUser = u.User_ID';
+      $query_where = 'a.User_ID = "'.$current_user['User_ID'].'"';
+  } elseif ($group_id) {
+      $query_where = '(a.ToUser = "'.$current_user['User_ID'].'" OR a.User_ID = "'.$current_user['User_ID'].'") AND (a.Message_ID = "'.(int)$group_id.'" OR a.Parent_Message_ID = "'.(int)$group_id.'")';
+   } else {
+        $query_where = 'a.ToUser = "'.$current_user['User_ID'].'"';
+   }
+} else {
+   $query_where = '(a.ToUser = "'.$current_user['User_ID'].'" OR a.User_ID = "'.$current_user['User_ID'].'")';
+}
+
+// запрет кэширования
+$cc_env['Cache_Access_ID'] = 2;
+?>

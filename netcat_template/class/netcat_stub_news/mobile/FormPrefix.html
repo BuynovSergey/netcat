@@ -1,0 +1,9 @@
+<?= $f_AdminCommon ?>
+<div class='nc_list nc_news'>
+
+    <div class='nc_feed'>
+        <? if ($rssLink) { ?>
+            <img src='<?= $nc_core->SUB_FOLDER . $nc_core->HTTP_TEMPLATE_PATH; ?>images/rss.png' alt='RSS' /> <a style='padding-right: 10px;' href='<?= $rssLink ?>'>RSS</a><? } ?>
+        <? if ($subscribe_link_text) {
+            ?><img src='<?= $nc_core->SUB_FOLDER . $nc_core->HTTP_TEMPLATE_PATH; ?>images/email.gif' alt='подписаться'/> <a href='<?= $subscribeLink ?>'><?= $subscribe_link_text ?></a><? } ?>
+    </div>

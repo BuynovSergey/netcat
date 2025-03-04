@@ -1,0 +1,21 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+// Для аккуратного сочетания с рамкой скругление содержимого блока для списка применяется
+// к .tpl-block-list (класс из стандартной добавляемой разметки); для элементов списка
+// (отсутствует $list_selector) — непосредственно к элементу $selector.
+$overflow_target = $list_selector ? "$selector > .tpl-block-list" : $selector;
+
+$css = '';
+if ($list_selector) { // список объектов
+    $css .= "$selector { border-radius: $settings[border_radius]px; }\n"; // скругление рамки
+    $overflow_target_border_radius = "calc($settings[border_radius]px - var(--tpl-mixin-border-line-width, 0px))";
+} else { // объект в списке
+    $overflow_target_border_radius = "$settings[border_radius]px";
+}
+$css .= "$overflow_target { border-radius: $overflow_target_border_radius; overflow: hidden; }\n";
+
+return $css;

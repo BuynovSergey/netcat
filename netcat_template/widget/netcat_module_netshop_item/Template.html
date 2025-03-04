@@ -1,0 +1,171 @@
+<?
+/**
+ * Параметры:
+ *   Item — экземпляр nc_netshop_item
+ *  ИЛИ
+ *   Component_ID — ID компонента товара
+ *   Item_id — ID товара
+ *
+ * Дополнительно
+ *   CompareURL — адрес страницы сравнения (без SUB_FOLDER), по умолчанию /compare/
+ *   AddOrderURL — адрес страницы добавления товара (без SUB_FOLDER), по умолчанию /orders/add_order.html
+ *   ListName — название списка (для атрибута data-analytics-item)
+ *   ListPosition — порядковый номер в списке (для атрибута data-analytics-item)
+ */
+
+/** @var nc_netshop_item $f_Item */
+/** @var int $f_Component_ID */
+/** @var int $f_Item_ID */
+
+$item = null;
+if ($f_Item instanceof nc_netshop_item) {
+    $item = $f_Item;
+}
+else if ($f_Component_ID && $f_Item_ID) {
+    try {
+        $item = nc_netshop_item::by_id($f_Component_ID, $f_Item_ID);
+        if (!$item['Sub_Class_ID']) { $item = null; } // seems that the item data is missing
+    }
+    catch (Exception $e) {}
+}
+
+$item_parent_id = $item['Parent_Message_ID'] ?: $item['Message_ID'];
+$item_list_key = $item['Class_ID'] . ':' . $item_parent_id;
+$template_partial_loading = nc_array_value($GLOBALS['template_settings'], 'enable_partial_loading');
+
+$analytics = '';
+if ($item instanceof nc_netshop_item && nc_module_check_by_keyword('stats')) {
+    if (!empty($f_ListName) && $nc_core->input->fetch_get_post('f_ListName') === null) {
+        $f_ListPosition = isset($f_ListPosition) ? (int)$f_ListPosition : null;
+    } else {
+        $f_ListName = null;
+        $f_ListPosition = null;
+    }
+    $analytics = nc_stats_analytics::get_item_attribute($item, $f_ListName, $f_ListPosition);
+}
+
+?>
+<? if ($item): ?>
+    <?
+        $fullLink = nc_object_path($item['Class_ID'], $item['Message_ID']);
+
+        $nc_core = nc_core::get_object();
+        $netshop = nc_netshop::get_instance($item['Catalogue_ID']);
+
+        $add_order_url = $nc_core->SUB_FOLDER . (isset($f_AddOrderURL) ? $f_AddOrderURL : "/orders/add_order.html");
+        $compare_url   = $nc_core->SUB_FOLDER . (isset($f_AddOrderURL) ? $f_AddOrderURL : "/compare/");
+
+    ?>
+    <!-- Карточка-->
+    <div class="tpl-block-list-object"<?= $analytics ?>>
+        <article>
+            <a href="<?= $fullLink; ?>" class="tpl-link-more">
+                <!-- Заголовок-->
+                <h3><span class="tpl-property-name"><?= $item['Name']; ?></span></h3>
+
+                <!-- Подзаголовок -->
+                <?
+
+                $subheader = array();
+                if ($item['Type'])   { $subheader[] = '<span class="tpl-property-type">' . $item['Type'] . '</span>'; }
+                if ($item['Vendor']) { $subheader[] = '<span class="tpl-property-vendor">' . $item['Vendor'] . '</span>'; }
+
+                if ($subheader) {
+                   echo '<div class="tpl-block-subheader">',
+                        join(", ", $subheader),
+                        '</div>';
+                }
+
+                ?>
+
+                <!-- Картинка-->
+                <div class="tpl-property-image"><img src="<?= $item['Image']; ?>"></div>
+            </a>
+
+            <!-- Рейтинг-->
+            <div class="tpl-block-rating">
+                <? for ($i = 1; $i <= 5; $i++): ?>
+                    <?
+                    $rate = $item['RateCount'] ? $item['RateTotal'] / $item['RateCount'] : 0;
+                    $class_name = 'icon-star';
+                    if ($rate < $i && $rate > ($i - 1)) {
+                        $class_name .= '-half-alt';
+                    }
+                    else if ($rate < $i) {
+                        $class_name .= '-empty';
+                    }
+                    ?>
+                    <div class="tpl-block-rating-item"><i class="<?= $class_name; ?>"></i></div>
+                <? endfor; ?>
+            </div>
+
+            <!-- Цена без скидки -->
+            <div class="tpl-block-price">
+            <? if ($item['ItemDiscount']): ?>
+                <div class="tpl-property-original-price"><?= $item['OriginalPriceF']; ?></div>
+            <? endif; // if ItemDiscount ?>
+
+            <!-- Цена для покупателя -->
+            <? if ($item['ItemPrice']): ?>
+                <div class="tpl-property-item-price"><?= $item['ItemPriceF'] ?></div>
+            <? elseif ($item['ItemPriceRange']): ?>
+                <div class="tpl-property-item-price tpl-property-item-price-range"><?= $item['ItemPriceRange']  ?></div>
+            <? endif; ?>
+            </div>
+
+            <!-- Краткое описание -->
+            <div class="tpl-property-description">
+                <?= strlen($item['Description'])
+                        ? $item['Description']
+                        : nc_truncate_plain_string($item['Details'], $tpl_description_length);
+                ?>
+            </div>
+            <form action="<?= $netshop->get_add_to_cart_url() ?>" method="post">
+                <input type="hidden" name="redirect_url" value="<?= $_SERVER["REQUEST_URI"] ?>"/>
+                <input type="hidden" name="cart_mode" value="add"/>
+                <input type="hidden" name="items[]" value="<?= $item['Class_ID']; ?>:<?= $item['Message_ID']; ?>"/>
+                <input type="hidden" name="qty" value="1"/>
+
+                <!-- ссылка — добавить к списку сравнения -->
+                <? $is_in_compare_list = !$template_partial_loading && $netshop->goodslist_compare->check($item['Message_ID'], $item['Class_ID']); ?>
+                <a class="tpl-link-compare-add" <?= ($is_in_compare_list ? 'style="display:none"' : '') ?>
+                    href="<?= $netshop->goodslist_compare->get_add_action_url($item['Message_ID'], $item['Class_ID'], $compare_url); ?>"
+                    data-list-key="<?= $item_list_key ?>"
+                    rel="nofollow" title="Добавить в список сравнения">Добавить в список сравнения</i></a>
+                <a class="tpl-link-compare-remove" <?= ($is_in_compare_list ? '' : 'style="display:none"') ?>
+                    data-list-key="<?= $item_list_key ?>"
+                    href="#<? /*$netshop->goodslist_compare->get_remove_action_url($item['Message_ID'], $item['Class_ID'], $compare_url);*/ ?>"
+                    rel="nofollow" title="Добавлено к сравнению">Добавлено к сравнению</a>
+
+                <!-- ссылка — переключить в избранном -->
+                <? $is_in_fav_list = !$template_partial_loading && $netshop->goodslist_favorite->check($item['Message_ID'], $item['Class_ID']); ?>
+                <a class="tpl-link-favorite-add" <?= ($is_in_fav_list ? 'style="display:none"' : '') ?>
+                    href="<?= $netshop->goodslist_favorite->get_add_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI']); ?>"
+                    data-list-key="<?= $item_list_key ?>"
+                    rel="nofollow" title="Добавить в избранное">Добавить в избранное</a>
+                <a class="tpl-link-favorite-remove" <?= ($is_in_fav_list ? '' : 'style="display:none"') ?>
+                    href="#<? /*$netshop->goodslist_favorite->get_remove_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI']);*/ ?>"
+                    data-list-key="<?= $item_list_key ?>"
+                    rel="nofollow" title="Уже в избранном">Уже в избранном</a>
+                <div class="tpl-block-item-remove tpl-link-compare-item-remove"><span class="tpl-block-ibtn"><i class="icon-cancel"></i>
+                        <a href="<?= $netshop->goodslist_compare->get_remove_action_url($item['Message_ID'], $item['Class_ID'], $compare_url); ?>"></a>
+                    </span>
+                </div>
+                <div class="tpl-block-item-remove tpl-link-favorite-item-remove"><span class="tpl-block-ibtn"><i class="icon-cancel"></i>
+                    <a href="<?= $netshop->goodslist_favorite->get_remove_action_url($item['Message_ID'], $item['Class_ID'], $_SERVER['REQUEST_URI']); ?>"></a>
+                    </span>
+                </div>
+                <!-- купить — доступно, если товар включён -->
+                <? if ($item['Checked'] && $item['Qty'] != 0): ?>
+                    <!-- добавить в корзину -->
+                    <button class="tpl-link-cart-add" type="submit" title="В корзину">В корзину</button>
+                    <!-- добавить в корзину и перейти к оформлению заказа -->
+                    <button class="tpl-link-cart-add-and-checkout" type="submit"
+                        name="redirect_url" value="<?= $add_order_url ?>">Купить сразу</button>
+                <? else: ?>
+                    <a class="tpl-link-more tpl-link-select-variant" href="<?= $fullLink ?>">Выбрать модель</a>
+                <? endif; ?>
+            </form>
+        </article>
+    </div>
+<? endif; // if $item ?>

@@ -1,0 +1,37 @@
+<?
+echo $f_AdminCommon;
+if (!$AUTH_USER_ID) {
+    echo "Ошибка доступа";
+    exit;
+}
+if ($full_msg_id && $totRows>1) {
+    if (isset($show_all)) {
+        ?><a href='<?=$m_link?>'>спрятать сообщения</a><?
+    } else {
+        ?><a href='?show_all'>показать сообщения</a><?
+}
+}
+
+if (!$group_id) {
+   echo (isset($outbox) ? "<a href='./'>Входящие</a>" : "<b>Входящие</b>")." | ".
+   (isset($outbox) ? "<b>Исходящие</b>" : "<a href='?outbox'>Исходящие</a>");
+}
+?>
+<br /><br />
+<table class='nc_messages'>
+
+<?
+
+if ($totRows) {
+    ?><col class='col_1' /><col class='col_2' /><col class='col_3' /><col class='col_4' /><?
+} else {
+    ?><tr><th align='center'>Нет сообщений</th></tr><?
+}
+if (!$group_id && $totRows) { ?>
+<tr>
+   <th></th>
+   <th><?=(isset($outbox) ? "Кому" : "От")?></th>
+   <th>Тема</th>
+   <th>Дата</th>
+</tr>
+<? } ?>

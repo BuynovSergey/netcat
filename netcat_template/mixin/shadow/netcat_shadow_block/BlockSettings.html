@@ -1,0 +1,127 @@
+<div class="nc-mixins-mixin-settings-netcat-shadow">
+    <div class="nc-mixin-shadow-block">
+        <label class="nc-mixin-shadow-block-label">
+            размещение тени:
+        </label>
+        <select name="mixin.settings.shadow_type">
+            <option value="outset">снаружи блока</option>
+            <option value="inset">внутри блока</option>
+            <option value="drop">на содержимом блока</option>
+        </select>
+    </div>
+
+    <div class="nc-mixin-shadow-block">
+        <label class="nc-mixin-shadow-block-label">
+            смещение по оси X:
+        </label>
+        <div class="nc-mixin-shadow-block-properties">
+            <label><input type="number" name="mixin.settings.horizontal" value="0" required></label>
+        </div>
+        <div class="nc-mixin-shadow-block-description">
+            Смещение тени по горизонтали относительно элемента.<br/>
+            Положительное значение этого параметра задает сдвиг тени вправо, отрицательное — влево.<br/>
+            Обязательный параметр.
+        </div>
+    </div>
+
+    <div class="nc-mixin-shadow-block">
+        <label class="nc-mixin-shadow-block-label">
+            смещение по оси Y:
+        </label>
+        <div class="nc-mixin-shadow-block-properties">
+            <label><input type="number" name="mixin.settings.vertical" value="0" required></label>
+        </div>
+        <div class="nc-mixin-shadow-block-description">
+            Смещение тени по вертикали относительно элемента.<br/>
+            Положительное значение задает сдвиг тени вниз, отрицательное — вверх.<br/>
+            Обязательный параметр.
+        </div>
+    </div>
+
+    <div class="nc-mixin-shadow-block">
+        <label class="nc-mixin-shadow-block-label">
+            размытие:
+        </label>
+        <div class="nc-mixin-shadow-block-properties">
+            <label><input type="number" name="mixin.settings.blur" value="0" min="0" required></label>
+        </div>
+        <div class="nc-mixin-shadow-block-description">
+            Задает радиус размытия тени.<br/>
+            Чем больше это значение, тем сильнее тень сглаживается, становится шире и светлее.<br/>
+            Если этот параметр не задан, по умолчанию устанавливается равным 0, тень при этом будет четкой, а не
+            размытой.
+        </div>
+    </div>
+
+    <div class="nc-mixin-shadow-block">
+        <label class="nc-mixin-shadow-block-label">
+            растяжение:
+        </label>
+        <div class="nc-mixin-shadow-block-properties">
+            <label><input type="number" name="mixin.settings.spread" value="0" required></label>
+        </div>
+        <div class="nc-mixin-shadow-block-description">
+            Положительное значение растягивает тень, отрицательное, наоборот, ее сжимает.<br/>
+            Если этот параметр не задан, по умолчанию устанавливается 0, при этом тень будет того же размера, что и
+            элемент.
+        </div>
+    </div>
+
+    <div class="nc-mixin-shadow-block">
+        <label class="nc-mixin-shadow-block-label">
+            цвет:
+        </label>
+        <div class="nc-mixin-shadow-block-properties">
+            <label><input type="text" name="mixin.settings.color"
+                          class="nc-mixin-shadow-block-color" autocomplete="off"
+                          data-color-input=""
+                          data-mc-format="rgb"
+                          data-sync-color=""
+                          data-nc-swatches></label>
+        </div>
+        <div class="nc-mixin-shadow-block-description">
+
+        </div>
+    </div>
+</div>
+<style>
+    .nc-mixin-shadow-block {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        justify-content: flex-start;
+        padding: 0 0 1rem 0;
+    }
+
+    .nc-mixin-shadow-block-label {
+        display: flex;
+        align-self: center;
+        width: 170px !important;
+    }
+
+    .nc-mixin-shadow-block-properties {
+        display: flex;
+        width: 150px !important;
+    }
+
+    .nc-mixin-shadow-block-properties label {
+        display: flex;
+        align-items: center;
+    }
+
+    .nc-mixin-shadow-block-properties input,
+    .nc-mixin-shadow-block-properties input:hover,
+    .nc-mixin-shadow-block-properties input:focus {
+        margin: 0;
+    }
+
+    .nc-mixin-shadow-block-properties [type='number'] {
+        width: 130px !important;
+    }
+
+    .nc-mixin-shadow-block-description {
+        display: flex;
+        font-style: italic;
+    }
+</style>

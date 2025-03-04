@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'Cormorant';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Cormorant Light Italic'), local('Cormorant-LightItalic'), url(https://fonts.gstatic.com/s/cormorant/v7/H4c-BXOCl9bbnla_nHIq6qMUgLa1SzM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Cormorant Italic'), local('Cormorant-Italic'), url(https://fonts.gstatic.com/s/cormorant/v7/H4cjBXOCl9bbnla_nHIq6qu7oqU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Cormorant Medium Italic'), local('Cormorant-MediumItalic'), url(https://fonts.gstatic.com/s/cormorant/v7/H4c-BXOCl9bbnla_nHIq6qNMgba1SzM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Cormorant SemiBold Italic'), local('Cormorant-SemiBoldItalic'), url(https://fonts.gstatic.com/s/cormorant/v7/H4c-BXOCl9bbnla_nHIq6qNghra1SzM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Cormorant Bold Italic'), local('Cormorant-BoldItalic'), url(https://fonts.gstatic.com/s/cormorant/v7/H4c-BXOCl9bbnla_nHIq6qMEh7a1SzM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Cormorant Light'), local('Cormorant-Light'), url(https://fonts.gstatic.com/s/cormorant/v7/H4cgBXOCl9bbnla_nHIiRLmogYa1.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cormorant Regular'), local('Cormorant-Regular'), url(https://fonts.gstatic.com/s/cormorant/v7/H4clBXOCl9bbnla_nHIq65u7.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Cormorant Medium'), local('Cormorant-Medium'), url(https://fonts.gstatic.com/s/cormorant/v7/H4cgBXOCl9bbnla_nHIiHLiogYa1.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Cormorant SemiBold'), local('Cormorant-SemiBold'), url(https://fonts.gstatic.com/s/cormorant/v7/H4cgBXOCl9bbnla_nHIiML-ogYa1.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Cormorant Bold'), local('Cormorant-Bold'), url(https://fonts.gstatic.com/s/cormorant/v7/H4cgBXOCl9bbnla_nHIiVL6ogYa1.woff) format('woff');
+}

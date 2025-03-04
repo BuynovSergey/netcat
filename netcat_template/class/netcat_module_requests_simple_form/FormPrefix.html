@@ -1,0 +1,7 @@
+<?
+echo $f_AdminCommon;
+
+if (nc_module_check_by_keyword('requests')) {
+    echo nc_requests::make_form($cc, $cc_settings['form_type'] ? nc_transliterate($cc_settings['form_type'], true) : 'default');
+}
+?>

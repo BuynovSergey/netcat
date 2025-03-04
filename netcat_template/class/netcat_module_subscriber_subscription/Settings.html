@@ -1,0 +1,42 @@
+<? 
+global $SUB_FOLDER, $HTTP_ROOT_PATH;
+$nc_status =  $AUTH_USER_ID ? 0 : $_GET['nc_status'];
+
+$auth_hash = $nc_core->input->fetch_get_post('auth_hash');
+
+if ( !$AUTH_USER_ID )  $AUTH_USER_ID  = 0;
+
+$ignore_all = true;
+
+
+$query_select = "sm.`Mailer_ID` AS mailer_id, sm.`Name` AS name , sm.`Type` AS type, sm.`Access` AS access, ";  
+$query_select .= "sc.Sub_Class_Name AS sub_class_name, sc.Sub_Class_ID AS sub_class_id, ";
+$query_select .= "ss.Period AS period, IF(ss.ID,1,0) AS `subscribe` ";
+$query_from = "(`Subscriber_Mailer` AS sm )";
+$query_join =  " LEFT JOIN Subscriber_Subscription AS ss ON (ss.Mailer_ID = sm.Mailer_ID  AND ss.User_ID = '".$AUTH_USER_ID."')";
+$query_join .= " LEFT JOIN Classificator_SubscriberPeriod AS cl ON cl.SubscriberPeriod_ID = ss.Period  AND sm.`Type` = 1 ";
+$query_join .= " LEFT JOIN Sub_Class AS sc ON sc.Sub_Class_ID = sm.Sub_Class_ID  AND sm.`Type` = 1";
+
+$query_where = " ( ";
+$query_where .= $cc_settings['ShowSubscriber'] == 'yes' ? "ss.ID " : " 0 ";
+$query_where .= $cc_settings['ShowUnsubscriber'] == 'yes' ? " OR ISNULL(ss.ID)" : " OR 0 ";
+$query_where .= " ) ";
+
+$query_where .= " AND ".( $cc_settings['ShowType'] == 'all' ? " sm.`Type` IN (1,2) " : ( $cc_settings['ShowType'] == 'type1' ? "sm.`Type`=1" : "sm.`Type`=2") );
+
+if ( $cc_settings['ShowOnlyActive'] == 'yes' ) $query_where .= " AND sm.`Active` = 1";
+
+$query_order = " subscribe DESC, sm.`Type`, sm.`Mailer_ID`";
+
+
+$query_limit = $cc_env['RecordsPerPage'] ? intval($curPos).", ".$cc_env['RecordsPerPage'] : "";
+
+$cur_subscribe = -1;
+
+if ( $nc_status == 1 ) $query_where = " 0";
+
+$nc_subscriber = nc_subscriber::get_object();
+$email_field = $nc_subscriber->tools->get_settings('EmailField');
+
+if ( $cc_settings['ShowPeriod'] == 'no' ) $cc_settings['ShowPeriod'] = 0;
+?>

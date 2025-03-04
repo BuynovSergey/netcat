@@ -1,0 +1,39 @@
+<script>
+    $(function(){
+        var cc = <?= $cc; ?>;
+
+        nc.ui.modal_dialog.get_current_dialog().set_options({
+            on_resize: function (dialog) {
+                nc.process_start('add_goods_property');
+                nc.ui.modal_dialog.get_current_dialog().destroy();
+
+                $.post('<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php', {
+                    admin_mode: '<?= $admin_mode ?>',
+                    nc_token: '<?= $nc_core->token->get() ?>',
+                    catalogue: '<?= $catalogue ?>',
+                    cc: cc,
+                    sub: '<?= $sub ?>',
+                    posting: '1',
+                    curPos: '<?= $curPos ?>',
+                    f_Parent_Message_ID: '<?= $f_Parent_Message_ID ?>',
+                    f_Checked: '1'
+                }, function(){
+                    $.ajax({
+                        'type' : 'GET',
+                        'url': nc_page_url() + '&isNaked=1&admin_modal=1&cc_only=' + cc + '&expanded=1',
+                        success: function(response) {
+                            nc_update_admin_mode_content(response, null, cc);
+                            var $last_row = $('#nc_admin_mode_content' + cc).find('TABLE TR').last();
+                            $('HTML,BODY').animate({
+                                scrollTop: $last_row.offset().top - 200
+                            }, 700, function(){
+                                nc.process_stop('add_goods_property');
+                                $last_row.find('TD > DIV').eq(0).focus();
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+</script>

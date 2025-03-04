@@ -1,0 +1,552 @@
+/* Значения по умолчанию, соответствуют стилям миксинов */
+/* Внимание!!! При изменении шрифтов также надо изменить RequiredAssets.html) */
+
+body {
+    --tpl-color-foreground-main: #000000;
+    --tpl-color-foreground-main-darkest: rgb(0, 0, 0);
+    --tpl-color-foreground-main-darker: rgb(0, 0, 0);
+    --tpl-color-foreground-main-dark: rgb(0, 0, 0);
+    --tpl-color-foreground-main-light: rgb(25, 25, 25);
+    --tpl-color-foreground-main-lighter: rgb(51, 51, 51);
+    --tpl-color-foreground-main-lightest: rgb(76, 76, 76);
+    --tpl-color-foreground-accent: #3D67B0;
+    --tpl-color-foreground-accent-darkest: rgb(20, 35, 60);
+    --tpl-color-foreground-accent-darker: rgb(33, 57, 98);
+    --tpl-color-foreground-accent-dark: rgb(46, 79, 136);
+    --tpl-color-foreground-accent-light: rgb(87, 127, 197);
+    --tpl-color-foreground-accent-lighter: rgb(125, 156, 210);
+    --tpl-color-foreground-accent-lightest: rgb(163, 185, 223);
+    --tpl-color-brand: #FF1500;
+    --tpl-color-brand-darkest: rgb(102, 8, 0);
+    --tpl-color-brand-darker: rgb(153, 12, 0);
+    --tpl-color-brand-dark: rgb(204, 16, 0);
+    --tpl-color-brand-light: rgb(255, 67, 50);
+    --tpl-color-brand-lighter: rgb(255, 114, 101);
+    --tpl-color-brand-lightest: rgb(255, 161, 153);
+    --tpl-color-background-accent: #F0F0F0;
+    --tpl-color-background-accent-darkest: rgb(163, 163, 163);
+    --tpl-color-background-accent-darker: rgb(188, 188, 188);
+    --tpl-color-background-accent-dark: rgb(214, 214, 214);
+    --tpl-color-background-accent-light: rgb(255, 255, 255);
+    --tpl-color-background-accent-lighter: rgb(255, 255, 255);
+    --tpl-color-background-accent-lightest: rgb(255, 255, 255);
+    --tpl-color-background-main: #FFFFFF;
+    --tpl-color-background-main-darkest: rgb(178, 178, 178);
+    --tpl-color-background-main-darker: rgb(204, 204, 204);
+    --tpl-color-background-main-dark: rgb(229, 229, 229);
+    --tpl-color-background-main-light: rgb(255, 255, 255);
+    --tpl-color-background-main-lighter: rgb(255, 255, 255);
+    --tpl-color-background-main-lightest: rgb(255, 255, 255);
+    color: var(--tpl-color-foreground-main);
+    background-color: var(--tpl-color-background-main);
+}
+
+.tpl-text-default {
+    font-family: "Roboto";
+    font-size: 18px;
+}
+
+.tpl-text-default-smallest {
+    font-family: "Roboto";
+    font-size: 12.6px;
+}
+
+.tpl-text-default-smaller {
+    font-family: "Roboto";
+    font-size: 14.4px;
+}
+
+.tpl-text-default-small {
+    font-family: "Roboto";
+    font-size: 16.2px;
+}
+
+.tpl-text-default-big {
+    font-family: "Roboto";
+    font-size: 21.6px;
+}
+
+.tpl-text-default-bigger {
+    font-family: "Roboto";
+    font-size: 25.2px;
+}
+
+.tpl-text-default-biggest {
+    font-family: "Roboto";
+    font-size: 28.8px;
+}
+
+.tpl-text-default p, p {
+    margin-top: 6px;
+}
+
+.tpl-text-default-smallest p {
+    margin-top: 4.2px;
+}
+
+.tpl-text-default-smaller p {
+    margin-top: 4.8px;
+}
+
+.tpl-text-default-small p {
+    margin-top: 5.4px;
+}
+
+.tpl-text-default-big p {
+    margin-top: 7.2px;
+}
+
+.tpl-text-default-bigger p {
+    margin-top: 8.4px;
+}
+
+.tpl-text-default-biggest p {
+    margin-top: 9.6px;
+}
+
+.tpl-text-alt {
+    font-family: "PT Sans Narrow";
+    font-size: 18px;
+}
+
+.tpl-text-alt-smallest {
+    font-family: "PT Sans Narrow";
+    font-size: 12.6px;
+}
+
+.tpl-text-alt-smaller {
+    font-family: "PT Sans Narrow";
+    font-size: 14.4px;
+}
+
+.tpl-text-alt-small {
+    font-family: "PT Sans Narrow";
+    font-size: 16.2px;
+}
+
+.tpl-text-alt-big {
+    font-family: "PT Sans Narrow";
+    font-size: 21.6px;
+}
+
+.tpl-text-alt-bigger {
+    font-family: "PT Sans Narrow";
+    font-size: 25.2px;
+}
+
+.tpl-text-alt-biggest {
+    font-family: "PT Sans Narrow";
+    font-size: 28.8px;
+}
+
+.tpl-text-alt p {
+    margin-top: 8px;
+}
+
+.tpl-text-alt-smallest p {
+    margin-top: 5.6px;
+}
+
+.tpl-text-alt-smaller p {
+    margin-top: 6.4px;
+}
+
+.tpl-text-alt-small p {
+    margin-top: 7.2px;
+}
+
+.tpl-text-alt-big p {
+    margin-top: 9.6px;
+}
+
+.tpl-text-alt-bigger p {
+    margin-top: 11.2px;
+}
+
+.tpl-text-alt-biggest p {
+    margin-top: 12.8px;
+}
+
+.tpl-text-header1, h1 {
+    font-family: "Noto Sans";
+    font-size: 48px;
+    font-weight: 700;
+    margin-top: 24px;
+    margin-bottom: 16px;
+}
+
+.tpl-text-header1-smallest {
+    font-family: "Noto Sans";
+    font-size: 33.6px;
+    font-weight: 700;
+    margin-top: 16.8px;
+    margin-bottom: 11.2px;
+}
+
+.tpl-text-header1-smaller {
+    font-family: "Noto Sans";
+    font-size: 38.4px;
+    font-weight: 700;
+    margin-top: 19.2px;
+    margin-bottom: 12.8px;
+}
+
+.tpl-text-header1-small {
+    font-family: "Noto Sans";
+    font-size: 43.2px;
+    font-weight: 700;
+    margin-top: 21.6px;
+    margin-bottom: 14.4px;
+}
+
+.tpl-text-header1-big {
+    font-family: "Noto Sans";
+    font-size: 57.6px;
+    font-weight: 700;
+    margin-top: 28.8px;
+    margin-bottom: 19.2px;
+}
+
+.tpl-text-header1-bigger {
+    font-family: "Noto Sans";
+    font-size: 67.2px;
+    font-weight: 700;
+    margin-top: 33.6px;
+    margin-bottom: 22.4px;
+}
+
+.tpl-text-header1-biggest {
+    font-family: "Noto Sans";
+    font-size: 76.8px;
+    font-weight: 700;
+    margin-top: 38.4px;
+    margin-bottom: 25.6px;
+}
+
+.tpl-text-header2, h2 {
+    font-family: "Open Sans";
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 14px;
+}
+
+.tpl-text-header2-smallest {
+    font-family: "Open Sans";
+    font-size: 25.2px;
+    font-weight: 700;
+    margin-top: 14px;
+    margin-bottom: 9.8px;
+}
+
+.tpl-text-header2-smaller {
+    font-family: "Open Sans";
+    font-size: 28.8px;
+    font-weight: 700;
+    margin-top: 16px;
+    margin-bottom: 11.2px;
+}
+
+.tpl-text-header2-small {
+    font-family: "Open Sans";
+    font-size: 32.4px;
+    font-weight: 700;
+    margin-top: 18px;
+    margin-bottom: 12.6px;
+}
+
+.tpl-text-header2-big {
+    font-family: "Open Sans";
+    font-size: 43.2px;
+    font-weight: 700;
+    margin-top: 24px;
+    margin-bottom: 16.8px;
+}
+
+.tpl-text-header2-bigger {
+    font-family: "Open Sans";
+    font-size: 50.4px;
+    font-weight: 700;
+    margin-top: 28px;
+    margin-bottom: 19.6px;
+}
+
+.tpl-text-header2-biggest {
+    font-family: "Open Sans";
+    font-size: 57.6px;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 22.4px;
+}
+
+.tpl-text-header3, h3 {
+    font-family: "Open Sans";
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+.tpl-text-header3-smallest {
+    font-family: "Open Sans";
+    font-size: 19.6px;
+    font-weight: 700;
+    margin-top: 12.6px;
+    margin-bottom: 7px;
+}
+
+.tpl-text-header3-smaller {
+    font-family: "Open Sans";
+    font-size: 22.4px;
+    font-weight: 700;
+    margin-top: 14.4px;
+    margin-bottom: 8px;
+}
+
+.tpl-text-header3-small {
+    font-family: "Open Sans";
+    font-size: 25.2px;
+    font-weight: 700;
+    margin-top: 16.2px;
+    margin-bottom: 9px;
+}
+
+.tpl-text-header3-big {
+    font-family: "Open Sans";
+    font-size: 33.6px;
+    font-weight: 700;
+    margin-top: 21.6px;
+    margin-bottom: 12px;
+}
+
+.tpl-text-header3-bigger {
+    font-family: "Open Sans";
+    font-size: 39.2px;
+    font-weight: 700;
+    margin-top: 25.2px;
+    margin-bottom: 14px;
+}
+
+.tpl-text-header3-biggest {
+    font-family: "Open Sans";
+    font-size: 44.8px;
+    font-weight: 700;
+    margin-top: 28.8px;
+    margin-bottom: 16px;
+}
+
+.tpl-text-header4, h4 {
+    font-family: "Open Sans";
+    font-size: 26px;
+    font-weight: 400;
+    margin-top: 16px;
+    margin-bottom: 9px;
+}
+
+.tpl-text-header4-smallest {
+    font-family: "Open Sans";
+    font-size: 18.2px;
+    font-weight: 400;
+    margin-top: 11.2px;
+    margin-bottom: 6.3px;
+}
+
+.tpl-text-header4-smaller {
+    font-family: "Open Sans";
+    font-size: 20.8px;
+    font-weight: 400;
+    margin-top: 12.8px;
+    margin-bottom: 7.2px;
+}
+
+.tpl-text-header4-small {
+    font-family: "Open Sans";
+    font-size: 23.4px;
+    font-weight: 400;
+    margin-top: 14.4px;
+    margin-bottom: 8.1px;
+}
+
+.tpl-text-header4-big {
+    font-family: "Open Sans";
+    font-size: 31.2px;
+    font-weight: 400;
+    margin-top: 19.2px;
+    margin-bottom: 10.8px;
+}
+
+.tpl-text-header4-bigger {
+    font-family: "Open Sans";
+    font-size: 36.4px;
+    font-weight: 400;
+    margin-top: 22.4px;
+    margin-bottom: 12.6px;
+}
+
+.tpl-text-header4-biggest {
+    font-family: "Open Sans";
+    font-size: 41.6px;
+    font-weight: 400;
+    margin-top: 25.6px;
+    margin-bottom: 14.4px;
+}
+
+.tpl-text-header5, h5 {
+    font-family: "Roboto";
+    font-size: 22px;
+    margin-top: 14px;
+    margin-bottom: 9px;
+}
+
+.tpl-text-header5-smallest {
+    font-family: "Roboto";
+    font-size: 15.4px;
+    margin-top: 9.8px;
+    margin-bottom: 6.3px;
+}
+
+.tpl-text-header5-smaller {
+    font-family: "Roboto";
+    font-size: 17.6px;
+    margin-top: 11.2px;
+    margin-bottom: 7.2px;
+}
+
+.tpl-text-header5-small {
+    font-family: "Roboto";
+    font-size: 19.8px;
+    margin-top: 12.6px;
+    margin-bottom: 8.1px;
+}
+
+.tpl-text-header5-big {
+    font-family: "Roboto";
+    font-size: 26.4px;
+    margin-top: 16.8px;
+    margin-bottom: 10.8px;
+}
+
+.tpl-text-header5-bigger {
+    font-family: "Roboto";
+    font-size: 30.8px;
+    margin-top: 19.6px;
+    margin-bottom: 12.6px;
+}
+
+.tpl-text-header5-biggest {
+    font-family: "Roboto";
+    font-size: 35.2px;
+    margin-top: 22.4px;
+    margin-bottom: 14.4px;
+}
+
+.tpl-text-header6, h6 {
+    font-family: "Roboto";
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
+.tpl-text-header6-smallest {
+    font-family: "Roboto";
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 8.4px;
+    margin-bottom: 5.6px;
+}
+
+.tpl-text-header6-smaller {
+    font-family: "Roboto";
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 9.6px;
+    margin-bottom: 6.4px;
+}
+
+.tpl-text-header6-small {
+    font-family: "Roboto";
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 10.8px;
+    margin-bottom: 7.2px;
+}
+
+.tpl-text-header6-big {
+    font-family: "Roboto";
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 14.4px;
+    margin-bottom: 9.6px;
+}
+
+.tpl-text-header6-bigger {
+    font-family: "Roboto";
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 16.8px;
+    margin-bottom: 11.2px;
+}
+
+.tpl-text-header6-biggest {
+    font-family: "Roboto";
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 19.2px;
+    margin-bottom: 12.8px;
+}
+
+.tpl-component-netcat-module-requests-request .tpl-block-button .tpl-block-button-content .tpl-block-button-title {
+    padding: 0;
+}
+
+.nc-field, .tpl-block-input, .tpl-component-netcat-module-requests-request .tpl-block-input {
+}
+
+.nc-field-caption, .tpl-caption, .tpl-component-netcat-module-requests-request .tpl-caption {
+    color: rgba(33, 33, 33, 1);
+    font-size: 16px;
+}
+
+input, select, textarea, .tpl-component-netcat-module-requests-request input, .tpl-component-netcat-module-requests-request select, .tpl-component-netcat-module-requests-request textarea, input:focus, select:focus, textarea:focus, .tpl-component-netcat-module-requests-request input:focus, .tpl-component-netcat-module-requests-request select:focus, .tpl-component-netcat-module-requests-request textarea:focus, .tpl-component-netcat-module-requests-request input:hover, .tpl-component-netcat-module-requests-request select:hover, .tpl-component-netcat-module-requests-request textarea:hover {
+    border-color: rgba(134, 151, 171, 1);
+    border-width: 1px;
+    border-radius: 7px;
+    background-color: rgba(255, 255, 255, 1);
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 28px;
+    padding-right: 28px;
+    color: rgba(33, 33, 33, 1);
+    font-size: 16px;
+}
+
+button, input[type='button'], input[type='reset'], .tpl-button, .tpl-button-primary, button.tpl-block-button {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 28px;
+    padding-right: 28px;
+    border-radius: 7px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--tpl-color-foreground-main, rgba(11, 123, 213, 1));
+    /*background-color: var(--tpl-color-background-main, rgba(255, 255, 255, 1));*/
+    /*color: var(--tpl-color-foreground-main, rgba(33, 33, 33, 1));*/
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+}
+
+button[type='submit'], input[type='submit'], .tpl-button-primary, button.tpl-block-button {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--tpl-color-foreground-main, rgba(11, 123, 213, 1));
+    /*background-color: var(--tpl-color-foreground-main, rgba(11, 123, 213, 1));*/
+    /*color: var(--tpl-color-background-main, rgba(255, 255, 255, 1));*/
+    text-decoration: none;
+}
+
+button:disabled, input[type='submit']:disabled, input[type='reset']:disabled {
+    opacity: 0.5;
+}

@@ -1,0 +1,21 @@
+<!-- Header --><!DOCTYPE html>
+<html lang="<?= $current_sub['Language']; ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <?= $nc_core->page->get_metatags(); ?>
+    <title><?= $nc_core->page->get_title(); ?></title>
+    <link rel="canonical" href="https://<?=nc_folder_url($sub)?>">
+    <link type='text/css' rel='stylesheet' href='<?= $nc_parent_template_folder_path; ?>css/main.rec.css'>
+    <link type='text/css' rel='stylesheet' href='<?= $nc_parent_template_folder_path; ?>css/main.css'>
+    <script src="<?= $nc_parent_template_folder_path; ?>js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    <script src="<?= $nc_parent_template_folder_path; ?>js/main.js"></script>
+</head>
+<body>
+<div class="main">
+<h1><?=($nc_core->page->get_h1() ?: $f_title)?></h1><!-- /Header -->
+
+<!-- Footer --></div>
+</body>
+</html><!-- /Footer -->

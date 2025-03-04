@@ -1,0 +1,73 @@
+
+ <div class="nc-modal-dialog" data-width="528" data-height="auto">
+
+     <div class="nc-modal-dialog-header">
+         <h2>Цена</h2>
+     </div>
+
+     <div class="nc-modal-dialog-body">
+         <style scoped>
+             <?= $nc_component_css_selector ?> * { box-sizing: border-box !important; }
+             <?= $nc_component_css_selector ?> .tpl-block-row { margin-bottom: 15px; display: flex; }
+             <?= $nc_component_css_selector ?> .tpl-block-row > div { width: 50%; padding-right: 10px; }
+             <?= $nc_component_css_selector ?> .tpl-block-row > div:nth-child(odd) { padding-right: 18px; }
+             <?= $nc_component_css_selector ?> .tpl-block-row label .tpl-caption { display: block; margin-bottom: 5px; }
+             <?= $nc_component_css_selector ?> .tpl-block-row input[type=text],
+             <?= $nc_component_css_selector ?> .tpl-block-row select { display: block; box-sizing: border-box !important; width: 100%; }
+             <?= $nc_component_css_selector ?> .tpl-block-item-price { color: #999; }
+             <?= $nc_component_css_selector ?> .tpl-block-item-variant-select-dropdown { display: none !important; }
+             <?= $nc_component_css_selector ?> .tpl-block-item-variant-select-new-name { display: block !important; }
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-block-item-variant-select-dropdown { display: block !important; }
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-block-item-variant-select-new-name { display: none !important; }
+ 
+             <?= $nc_component_css_selector ?> .tpl-block-item-variant-select button:focus { outline: none !important; }
+
+             <?= $nc_component_css_selector ?> .tpl-link-rename-toggle, <?= $nc_component_css_selector ?> .tpl-link-rename-cancel 
+                { height: 36px; margin-top: 24px; padding: 0 15px; background: #1a87c2; font-size: 14px; transition: all 0.3s; }
+             
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-link-rename-toggle,
+             <?= $nc_component_css_selector ?> .tpl-link-rename-cancel { background: transparent; padding: 0; color: #2a97f0; }
+             
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-link-rename-cancel { display: none; }
+             <?= $nc_component_css_selector ?> .tpl-link-rename-cancel { margin-left: 10px; }
+
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-link-rename-toggle span,
+             <?= $nc_component_css_selector ?> .tpl-link-rename-cancel span { border-bottom: 1px dashed #2a97f0; }
+
+             
+
+         </style>
+
+         <form name="adminForm" id="adminForm" class="nc-form <?= $nc_component_css_class ?>"
+         enctype="multipart/form-data" method="post" action="<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>message.php">
+             <input type="hidden" name="admin_mode" value="<?= $admin_mode ?>">
+             <input type="hidden" name="catalogue" value="<?= $catalogue ?>">
+             <input type="hidden" name="cc" value="<?= $cc ?>">
+             <input type="hidden" name="sub" value="<?= $sub ?>">
+             <input type="hidden" name="message" value="<?= $message ?>">
+             <input type="hidden" name="posting" value="1">
+             <input name="multiple_changes" type="hidden" value="1" />
+             <?= $nc_core->token->get_input() ?>
+
+             <? if ($totRows > 1): ?>
+                 <div class="tpl-block-row tpl-block-item-variant-select tpl-state-not-renaming">
+                     <div>
+                         <label>
+                             <span class="tpl-caption">Вариант товара</span>
+                             <select name="item_variant" class="tpl-block-item-variant-select-dropdown">
+                                 <? foreach ($res as $i => $variant): ?>
+                                     <option value="<?= $variant['Message_ID'] ?>">
+                                         <?= htmlspecialchars($variant['VariantName']) ?: $i + 1 ?>
+                                     </option>
+                                 <? endforeach; ?>
+                             </select>
+                             <input type="text" class="tpl-block-item-variant-select-new-name">
+                         </label>
+                     </div>
+                     <div>
+                         <button class="tpl-link-rename-toggle"><span>Переименовать</span></button>
+                         <button class="tpl-link-rename-cancel"><span>Отмена</span></button>
+                     </div>
+                 </div>
+             <? endif; ?>
+

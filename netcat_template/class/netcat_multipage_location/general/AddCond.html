@@ -1,0 +1,31 @@
+<script>
+    $nc(function () {
+        const iconSettings = $nc("[name^=\"custom_settings[icon_\"]").closest(".nc-field");
+        $nc("[name=\"custom_settings[show_icons]\"]").on("change", function () {
+            $nc(this).prop("checked") ? iconSettings.show() : iconSettings.hide();
+        }).trigger("change")
+
+        $nc("[name=\"custom_settings[map_mode]\"]").on("change", function () {
+            const mode = $nc(this).val();
+
+            if (mode === "map-api") {
+                $nc("[name='custom_settings[map_iframe]']").closest(".nc-field").hide();
+                $nc("[name='custom_settings[map_api_key]']").closest(".nc-field").show();
+                $nc("[name='custom_settings[contacts_layout]']").closest(".nc-field").show();
+                $nc("[name='custom_settings[placemark_icon]']").closest(".nc-field").show();
+            } else if (mode === "map-iframe") {
+                $nc("[name='custom_settings[map_iframe]']").closest(".nc-field").show();
+                $nc("[name='custom_settings[contacts_layout]']").closest(".nc-field").show();
+                $nc("[name='custom_settings[map_api_key]']").closest(".nc-field").hide();
+                $nc("[name='custom_settings[placemark_icon]']").closest(".nc-field").hide();
+            } else {
+                $nc("[name^=\"custom_settings[map_\"]").not($nc(this)).closest(".nc-field").hide();
+                $nc("[name='custom_settings[contacts_layout]']").closest(".nc-field").hide();
+                $nc("[name='custom_settings[placemark_icon]']").closest(".nc-field").hide();
+            }
+        }).trigger("change")
+
+        let decor = $nc("[name=\"custom_settings[icon_decor]\"]"), decorColor = $nc("[name=\"custom_settings[icon_decor_color]\"]");
+        decor.on("change", function () { if ($nc(this).val() === "none") { decorColor.parent().hide(); } else { decorColor.parent().show(); } }).trigger("change");
+    });
+</script>

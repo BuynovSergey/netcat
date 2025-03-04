@@ -1,0 +1,5 @@
+<?php
+
+$styles = array();
+$styles[] = "--tpl-object--image-ratio: " . str_replace(":", "/", $cc_settings["custom_image_ratio"] ?: $cc_settings["image_ratio"]) . ";";
+$styles = " style='" . implode(";", $styles) . "'";

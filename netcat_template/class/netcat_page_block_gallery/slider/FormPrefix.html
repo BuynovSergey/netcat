@@ -1,0 +1,20 @@
+<div class="tpl-block-page-block">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <?= $f_AdminCommon; ?>
+    <div class="tpl-block-content">
+        
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-description">
+                <span class="tpl-infoblock-field-text"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></span>
+            </div>
+        <? endif; ?>
+
+        <div class="tpl-block-slider">
+            <a class="tpl-block-button-prev" href="#"></a>
+            <a class="tpl-block-button-next" href="#"></a>
+            <div class="tpl-block-container" style="overflow: hidden;">
+                <div class="swiper-wrapper">

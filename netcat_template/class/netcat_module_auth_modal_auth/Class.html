@@ -1,0 +1,266 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<?php
+$is_auth_subs_selected_in_catalogue_settings = ($current_catalogue['Auth_Cabinet_Sub_ID'] > 0 && $current_catalogue['Auth_Signup_Sub_ID'] > 0);
+$auth_settings_ex_enabled = unserialize($auth_settings['ex_enabled']);
+$is_some_external_auth_method_enabled = in_array(1, $auth_settings_ex_enabled, true);
+?>
+<?php if ($admin_mode): ?>
+    <div class="nc-popup-admin-helper">Модальное окно "Авторизация/Регистрация"</div>
+    <?php if (!$nc_auth) {
+        nc_print_status('Модуль "Личный кабинет" отключен. <a href="{$nc_core->ADMIN_PATH}#module.list">Включить</a>', 'error');
+    } else {
+        if (!$is_auth_subs_selected_in_catalogue_settings) {
+            nc_print_status('Не указаны разделы  "Личный кабинет", "Регистрация" в <a href="{$nc_core->ADMIN_PATH}#catalogue.edit($catalogue)">настройках сайта</a>', 'error');
+        }
+        if ($auth_settings['deny_reg']) {
+            nc_print_status('Регистрация запрещена в настройках модуля. <a href="{$nc_core->ADMIN_PATH}#module.list">Включить</a>', 'error');
+        }
+    } ?>
+<?php endif; ?>
+<?php if (!$AUTH_USER_ID && $nc_auth): ?>
+    <div class="tpl-component-login-popup nc-popup" id="nc-popup-login">
+        <div class="popup-content-wrap">
+            <div class="popup-content">
+                <div class="popup-content-inner js-popup-inner">
+                    <a class="popup-content-close js-popup-close" href="#"> </a>
+                    <form class="popup-content-text js-loginReg-form" action="<?= nc_module_path('auth'); ?>" id="nc-auth-form">
+                        <input type='hidden' name='loginsave' value='1'/>
+                        <input type='hidden' name='AuthPhase' value='1'/>
+                        <input type='hidden' name='REQUESTED_FROM' value="<?= htmlspecialchars(isset($REQUESTED_FROM) ? $REQUESTED_FROM : $_SERVER['REQUEST_URI'],ENT_QUOTES) ?>"/>
+                        <input type='hidden' name='REQUESTED_BY' value="<?= htmlspecialchars(isset($REQUESTED_BY) ? $REQUESTED_BY : null, ENT_QUOTES) ?>"/>
+                        <input type='hidden' name='catalogue' value='<?= $catalogue ?>'/>
+                        <input type='hidden' name='sub' value="<?= $sub; ?>"/>
+                        <input type='hidden' name='cc' value='<?= $cc; ?>'/>
+                        <div class="popup-content-top">
+                            <div class="popup-content-header tpl-text-header4">Войти</div>
+                            <?php if (!$auth_settings['deny_reg'] && $is_auth_subs_selected_in_catalogue_settings): ?>
+                                <a class="popup-content-header popup-content-header--alternative tpl-text-alt js-reg-btn"
+                                   href="#" onclick="nc_popup_open('nc-popup-reg');return false;">Регистрация</a>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($is_some_external_auth_method_enabled): ?>
+                            <div class="popup-content-social">
+                                <?= $nc_auth->auth_form(null, array(
+                                    'auth_form' => "%vk_form %fb_form %twitter_form %openid_form %oauth_form",
+                                )); ?>
+                            </div>
+                            <div class="popup-content-caption tpl-text-default">
+                                <span>или</span>
+                                <hr>
+                            </div>
+                        <?php endif; ?>
+                        <div class="popup-content-form">
+                            <div class="popup-content-inputs">
+                                <label class="popup-content-label popup-content-label--email js-loginReg-form-email">
+                                    <input type="text" name="AUTH_USER"
+                                           class="popup-content-input popup-content-input--email"
+                                           placeholder="<?= $nc_core->get_login_field_label(); ?>"
+                                           value="<?= htmlspecialchars(isset($AUTH_USER) ? $AUTH_USER : null, ENT_QUOTES) ?>"
+                                           required>
+                                    <span class="popup-content-label-icon"></span>
+                                </label>
+                                <label class="popup-content-label popup-content-label--password">
+                                    <input type="password" name="AUTH_PW"
+                                           class="popup-content-input popup-content-input--password"
+                                           placeholder="<?= NETCAT_MODULE_AUTH_PASSWORD ?>"
+                                           required>
+                                    <span class="popup-content-label-icon"></span>
+                                    <span class="popup-content-error tpl-text-default-smaller error"></span>
+                                </label>
+
+                                <?php if ($nc_core->user->captcha_is_required()): ?>
+                                    <div class="popup-content-label popup-content-label--captcha-image">
+                                        <?php $icon_refresh = nc_get_svg_for_embedding($nc_core->DOCUMENT_ROOT
+                                            . $nc_core->HTTP_TEMPLATE_PATH
+                                            . "/icon/google_material_icons/refresh.svg"); ?>
+                                        <?= nc_captcha_formfield('', '', '', '', $icon_refresh, false, 0,
+                                            array('context' => 'js_template')); ?>
+                                    </div>
+                                    <div class="popup-content-label">
+                                        <input type="text" name="nc_captcha_code"
+                                               class="input input--border popup-content-input popup-content-input--captcha"
+                                               autocomplete="off"
+                                               placeholder="Код с картинки" required>
+                                        <span class="popup-content-error-captcha tpl-text-default-smaller error"></span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="popup-content-buttons">
+                                <?php if (!$auth_settings['deny_recovery']): ?>
+                                    <a href="<?= nc_module_path('auth'); ?>password_recovery.php"
+                                       class="popup-content-forgot tpl-text-alt">Забыли пароль?</a>
+                                <?php endif; ?>
+                                <button type="submit" class="tpl-button-primary">Войти</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if (!$auth_settings['deny_reg'] && $is_auth_subs_selected_in_catalogue_settings): ?>
+        <div class="tpl-component-login-popup nc-popup reg" id="nc-popup-reg">
+            <div class="popup-content-wrap">
+                <div class="popup-content">
+                    <div class="popup-content-inner js-popup-inner">
+                        <a class="popup-content-close js-popup-close" href="#"></a>
+                        <form class="popup-content-text js-loginReg-form" id="nc-reg-form"
+                              action='<?= $nc_core->SUB_FOLDER ?>/netcat/add.php' method="post">
+                            <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>'/>
+                            <input name='catalogue' type='hidden' value='<?= $catalogue ?>'/>
+                            <?php
+                            $signup_infoblock_id = $nc_core->db->get_var("SELECT sc.`Sub_Class_ID`
+                                        FROM `Class` AS c 
+                                        JOIN `Sub_Class` AS sc ON c.`Class_ID` = sc.`Class_ID`
+                                        WHERE c.`Keyword` = '".nc_auth::AUTH_USER_COMPONENT_KEYWORD."' 
+                                        AND sc.`Subdivision_ID` = '{$current_catalogue['Auth_Signup_Sub_ID']}'");
+                            $signup_infoblock = $nc_core->sub_class->get_by_id($signup_infoblock_id);
+                            ?>
+                            <input name='cc' type='hidden' value="<?= $signup_infoblock['Sub_Class_ID'] ?>"/>
+                            <input name='sub' type='hidden' value="<?= $signup_infoblock['Subdivision_ID'] ?>"/>
+                            <input name='posting' type='hidden' value='1'/>
+                            <input name='curPos' type='hidden' value='0'/>
+
+                            <div class="popup-content-top">
+                                <div class="popup-content-header tpl-text-header4">Регистрация</div>
+                                <a class="popup-content-header popup-content-header--alternative tpl-text-alt"
+                                   href="#" onclick="nc_popup_open('nc-popup-login');return false;">Войти</a>
+                            </div>
+                            <?php if ($is_some_external_auth_method_enabled): ?>
+                                <div class="popup-content-social">
+                                    <?= $nc_auth->auth_form(null, array(
+                                        'auth_form' => "%vk_form %fb_form %twitter_form %openid_form %oauth_form",
+                                    )); ?>
+                                </div>
+                                <div class="popup-content-caption tpl-text-default">
+                                    <span>или</span>
+                                    <hr>
+                                </div>
+                            <?php endif; ?>
+                            <div class="popup-content-form">
+                                <div class="popup-content-inputs">
+                                    <label class="popup-content-label popup-content-label--email">
+                                        <input type="email" name="f_Email" id="login"
+                                               class="popup-content-input popup-content-input--email"
+                                               placeholder="Email*" value="<?= htmlspecialchars(isset($f_Email) ? $f_Email : ''); ?>"
+                                               required>
+                                        <span class="popup-content-label-icon"></span>
+                                        <span class="tpl-text-default-smaller error"></span>
+                                    </label>
+                                    <label class="popup-content-label popup-content-label--password">
+                                        <input type="password" name="Password1" id="Password1"
+                                               class="popup-content-input popup-content-input--password"
+                                               placeholder="Пароль*" required>
+                                        <span class="popup-content-label-icon"></span>
+                                        <span class="tpl-text-default-smaller error"></span>
+                                    </label>
+                                    <label class="popup-content-label popup-content-label--password">
+                                        <input type="password" name="Password2"  id="Password2"
+                                               class="popup-content-input popup-content-input--password"
+                                               placeholder="Пароль ещё раз*" required>
+                                        <span class="popup-content-label-icon"></span>
+                                        <span class="tpl-text-default-smaller error"></span>
+                                    </label>
+                                    <?php if ($nc_core->get_settings('agreed', 'auth') && $current_catalogue['Rules_Sub_ID']): ?>
+                                        <label class="popup-content-label popup-content-label--agreed" for='nc_agreed'>
+                                            <input type='checkbox' name='nc_agreed' id='nc_agreed' value='1' required/>
+                                            <span class="tpl-text-default-smaller"><?= str_replace('%USER_AGR',
+                                                    nc_folder_url($current_catalogue['Rules_Sub_ID']),
+                                                    NETCAT_MODULE_AUTH_USER_AGREEMENT) ?></span>
+                                        </label>
+                                    <?php endif; ?>
+                                </div>
+                                <?php if ($nc_core->modules->get_by_keyword('captcha')): ?>
+                                    <?php if ($signup_infoblock['UseCaptcha'] && $MODULE_VARS['captcha']): ?>
+                                        <div class="popup-content-label popup-content-label--captcha-image">
+                                            <?php
+                                                $icon_refresh = nc_get_svg_for_embedding(
+                                                    $nc_core->DOCUMENT_ROOT. $nc_core->HTTP_TEMPLATE_PATH . "/icon/google_material_icons/refresh.svg"
+                                                );
+                                            ?>
+                                            <?= nc_captcha_formfield('', '', '', '', $icon_refresh, false, 0,
+                                                array('context' => 'js_template')); ?>
+                                        </div>
+                                        <div class="popup-content-label">
+                                            <input type="text" name="nc_captcha_code" placeholder="Код с картинки" autocomplete="off"
+                                                   class="popup-content-input popup-content-input--captcha" required>
+                                            <span class="popup-content-error-captcha tpl-text-default-smaller error"></span>
+                                        </div>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                                <div class="popup-content-buttons">
+                                    <button class="tpl-button-primary" type="submit"><?= NETCAT_MODULE_AUTH_REGISTER; ?></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if (!$AUTH_USER_ID): ?>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        jQuery("#nc-auth-form").on("submit", function (event) {
+            event.preventDefault();
+            jQuery('#nc-auth-form').find('.popup-content-error,.popup-content-error-captcha').empty().css({"maxHeight": "0px"});
+            jQuery.post('<?= nc_module_path('auth'); ?>ajax.php',
+                'act=auth&' + jQuery(this).serialize(),
+                function (response) {
+                    if (!response.user_id) {
+                        if (response.captcha_wrong) {
+                            jQuery('#nc-auth-form').find('.popup-content-error-captcha').html('<?= NETCAT_MODULE_CAPTCHA_WRONG_CODE; ?>').css({"maxHeight": "20px"});
+                        } else {
+                            jQuery('#nc-auth-form').find('.popup-content-error').html('<?= NETCAT_MODULE_AUTH_INCORRECT_LOGIN_OR_RASSWORD; ?>').css({"maxHeight": "20px"});
+                        }
+                        return false;
+                    } else {
+                        location.reload();
+                    }
+                },
+                "json");
+        });
+        <?php if (!$auth_settings['deny_reg'] && $is_auth_subs_selected_in_catalogue_settings): ?>
+        jQuery("#nc-reg-form").find('[type="submit"]').prop('disabled', true);
+        jQuery("#nc-reg-form").on("change", function () {
+            let lock_submit = false;
+            if (jQuery('#nc_agreed').is(':checked') == 0) {
+                lock_submit = true;
+            }
+            jQuery(this).find('[type="submit"]').prop('disabled', true);
+            jQuery(this).find(".error").empty().css({"maxHeight": "0px"});
+            if (jQuery('#Password1').val() !== jQuery('#Password2').val()) {
+                jQuery('#Password2').parent().find('.error').html('<?= NETCAT_MODULE_AUTH_PASS_N_COINCIDE; ?>').css({"maxHeight": "20px"});
+                lock_submit = true;
+            }
+            if (jQuery('#Password1').val() == '') {
+                lock_submit = true;
+            }
+            let login_error = jQuery('#login').parent().find('.error');
+            if (jQuery('#login').val()) {
+                jQuery.post('<?= nc_module_path('auth'); ?>ajax.php',
+                    {'act': 'check_login', 'login': jQuery('#login').val()},
+                    function (response) {
+                        if (response === 1) {
+                            lock_submit = true;
+                            login_error.html('<?= ($AUTHORIZE_BY == 'Email' ? NETCAT_MODULE_AUTH_MSG_BADEMAIL : NETCAT_MODULE_AUTH_LOGIN_INCORRECT); ?>');
+                        }
+                        if (response === 2) {
+                            lock_submit = true;
+                            login_error.html('<?= NETCAT_MODULE_AUTH_LOGIN_BUSY; ?>');
+                        }
+                        login_error.css({"maxHeight": "20px"});
+                    }, "json");
+            } else {
+                lock_submit = true;
+            }
+            jQuery("#nc-reg-form").find('[type="submit"]').prop('disabled', lock_submit);
+        });
+        <?php endif; ?>
+    });
+</script>
+<?php endif; ?><!-- /FormSuffix -->

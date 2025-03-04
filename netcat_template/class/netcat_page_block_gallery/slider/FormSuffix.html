@@ -1,0 +1,37 @@
+                </div>
+            </div>
+            <div class="tpl-block-dots-control">
+                <a class="tpl-block-dot tpl-state-active" href="#"></a>
+            </div>
+            <div class="tpl-block-slider-current-description"></div>
+        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/css/swiper.min.css">
+<script>
+    $(function(){
+        $.getScript("https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/js/swiper.jquery.min.js", function(){
+            function set_slide_title(swiper) {
+                var $active_slide = $(swiper.slides[swiper.activeIndex]);
+                var description = $active_slide.find('.tpl-block-slide-description').html();
+                $('#<?= $nc_block_id; ?> .tpl-block-slider-current-description').html(description);
+            }
+
+            var swiper = new Swiper('#<?= $nc_block_id; ?> .tpl-block-container', {
+                // Optional parameters
+                direction: 'horizontal',
+                loop: true,
+                nextButton: '#<?= $nc_block_id; ?> .tpl-block-slider .tpl-block-button-next',
+                prevButton: '#<?= $nc_block_id; ?> .tpl-block-slider .tpl-block-button-prev',
+                pagination: '#<?= $nc_block_id; ?> .tpl-block-slider .tpl-block-dots-control',
+                paginationClickable: true,
+                paginationElement: 'a',
+                bulletClass: 'tpl-block-dot',
+                bulletActiveClass: 'tpl-state-active',
+                onInit: set_slide_title,
+                onSlideChangeEnd: set_slide_title
+            });
+        });
+    });
+</script>

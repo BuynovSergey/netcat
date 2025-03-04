@@ -1,0 +1,26 @@
+.nc-infoblock-toolbar { position: absolute; top: 0; right: 10px; z-index: 2; }
+.nc-object-toolbar { left: 260px; top: 12px; }
+.nc-object-toolbar-bridge { top: -7px; }
+
+.tpl-block-value { position: relative; }
+
+.tpl-block-page-block { position: relative; min-width: 460px; }
+.tpl-block-content { margin: 0 auto; max-width: 1060px; min-width: 420px; padding: 0 20px; }
+H2 { font-weight: 600; font-size: 42px; line-height: 1.24em; color: #333; margin: 0 auto 20px; text-align: center; max-width: 740px; word-wrap: break-word; }
+H2 * { line-height: 1.24em; }
+.tpl-block-description { text-align: center; margin: 0 auto 82px; max-width: 740px; word-wrap: break-word; line-height: 1.44em; }
+.tpl-block-description * { line-height: 1.44em; }
+.tpl-block-table { position: relative; padding: 0 20px; margin-top: 80px; }
+.tpl-block-table .tpl-block-background { position: absolute; left: 0; right: 0; bottom: 0; top: 120px; background: url("images/pat_specs.png") 50% 50% repeat; background-color: #e5e5e5; }
+.tpl-block-table .tpl-block-container { position: relative; background: #fff; border-radius: 3px; border-top: 5px solid #ff5633; box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1); margin: 0 auto; max-width: 700px; box-sizing: border-box; padding: 35px 20px 50px; text-align: center; }
+.tpl-block-table .tpl-block-container TABLE { max-width: 520px; width: 100%; margin: 0 auto 46px; font-size: 18px; line-height: 1.44em; text-align: left; }
+.tpl-block-table .tpl-block-container TABLE * { line-height: 1.44em; }
+.tpl-block-table .tpl-block-container TABLE TR { border-bottom: 1px solid #e5e5e5; }
+.tpl-block-table .tpl-block-container TABLE TD { width: 50%; max-width: 260px; height: 60px; box-sizing: border-box; padding: 14px 0 16px; vertical-align: top; word-wrap: break-word; }
+.tpl-block-table .tpl-block-container TABLE TD.tpl-block-value { color: #333; padding-left: 10px; }
+.tpl-block-table .tpl-block-show-all-button { display: inline-block; font-size: 18px; color: #ff5633; line-height: 55px; height: 58px; border: 1px solid #ffd5cc; border-radius: 3px; padding: 0 20px; text-decoration: none; cursor: pointer; transition: all .1s ease; }
+.tpl-block-table .tpl-block-show-all-button:hover { border-color: #ff785c; }
+.tpl-block-table .tpl-block-show-all-button:active { border-color: #ff785c; box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.25); }
+
+/* themes */
+.tpl-block-page-block.tpl-layout-disable-bg-pattern .tpl-block-table .tpl-block-background { background-image: none; }

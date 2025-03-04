@@ -1,0 +1,23 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+return <<<CSS
+
+$selector:not([data-nc-b1]):not([data-nc-b2]) {
+    display: none;
+}
+
+$selector {
+    visibility: hidden !important;
+    overflow: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+CSS;

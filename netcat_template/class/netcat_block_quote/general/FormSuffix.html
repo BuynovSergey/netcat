@@ -1,0 +1,25 @@
+</div>
+
+<script>
+    (function () {
+        document.addEventListener("DOMContentLoaded", () => {
+            if ($(".quotes").hasClass("author-text-inherit")) {
+                const wrapperTextAlign = $("[class^='tpl-block-<?= $cc ?>']").css("text-align");
+                console.log(wrapperTextAlign);
+                if (!wrapperTextAlign) {
+                    return;
+                }
+
+                const alignMap = {
+                    "center": "center",
+                    "end": "flex-end",
+                    "right": "flex-end",
+                    "start": "flex-start",
+                    "left": "flex-start",
+                }
+
+                $(".author-wrapper").css({ "justify-content": alignMap[wrapperTextAlign] });
+            }
+        })
+    })()
+</script>

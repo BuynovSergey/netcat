@@ -1,0 +1,510 @@
+& {
+    position: relative;
+}
+
+/* Оверлей над кнопками открытия и отправки формы */
+&.tpl-link-form-open .nc-modal-trigger-overlay, .tpl-link-form-submit .nc-modal-trigger-overlay {
+    margin: 0;
+}
+
+&.tpl-link-form-open {
+    display: inline-block;
+}
+
+.tpl-link-form-submit {
+    position: relative;
+}
+
+.nc-ckeditor-inline {
+    width: 100%;
+}
+
+/* Заголовок в форме и в сообщениях в попапе */
+H4 {
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 28px;
+    color: #333;
+    margin: 0 0 9px;
+    padding: 0;
+    word-wrap: break-word;
+}
+
+.tpl-block-text-after-header {
+    word-wrap: break-word;
+}
+
+form {
+    text-align: left;
+}
+
+/* Колонки */
+.tpl-block-columns {
+    display: flex;
+}
+
+.tpl-block-columns .tpl-block-image img {
+    margin-top: 40px;
+    max-width: 430px;
+}
+
+.tpl-block-columns .tpl-block-divider {
+    min-width: 1px;
+    width: 1px;
+    margin: 0 100px 0 60px;
+    background: #e5e5e5;
+}
+
+.tpl-block-fields {
+    position: relative;
+}
+
+/* Оверлей над полями формы */
+.tpl-block-fields .nc-modal-trigger-overlay {
+    margin: -10px;
+    z-index: 5;
+}
+
+.tpl-block-fields.tpl-state-empty {
+    margin: 20px 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.tpl-block-fields.tpl-state-empty .nc-modal-trigger-overlay {
+    background-size: 64px;
+}
+
+/* Отступ перед полями формы после заголовка или текста после заголовка */
+H4 + .tpl-block-fields, .tpl-block-text-after-header + .tpl-block-fields {
+    margin-top: 30px;
+}
+
+/* Стили элементов формы */
+.tpl-block-input {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.tpl-block-fields .tpl-caption {
+    padding-bottom: 10px;
+    display: none;
+}
+
+.tpl-block-input .tpl-block-error {
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #ff7373;
+    padding: 2px 0 0 2px;
+    display: none;
+}
+
+.tpl-block-input INPUT,
+.tpl-block-input SELECT,
+.tpl-block-input TEXTAREA {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 3px;
+    outline: none;
+    padding: 19px 20px;
+    font-family: "Open Sans", sans-serif;
+    color: #333;
+    font-size: 18px;
+    line-height: 20px;
+    -webkit-appearance: none;
+    transition: background, border-color .1s ease;
+}
+
+.tpl-block-input TEXTAREA {
+    height: 120px;
+    line-height: 22px;
+    resize: none;
+}
+
+.tpl-block-input SELECT {
+    -moz-appearance: none;
+    appearance: none;
+    background: #fff url('images/dropdown_arrow.png') no-repeat 100% center;
+    height: 60px;
+    padding: 1px 20px;
+}
+
+.tpl-block-input SELECT OPTION {
+    font-family: "Open Sans", sans-serif;
+    color: #333;
+    font-size: 18px;
+    padding: 12px 20px;
+}
+
+.tpl-block-input INPUT[disabled="disabled"],
+.tpl-block-input SELECT[disabled="disabled"],
+.tpl-block-input TEXTAREA[disabled="disabled"] {
+    opacity: 0.5;
+}
+
+.tpl-block-input INPUT:hover,
+.tpl-block-input SELECT:hover,
+.tpl-block-input TEXTAREA:hover {
+    background-color: #f9f9f9;
+    border-color: #999;
+}
+
+.tpl-block-input INPUT:focus,
+.tpl-block-input SELECT:focus,
+.tpl-block-input TEXTAREA:focus {
+    background-color: #f9f9f9;
+    border: 2px solid #999;
+    padding: 18px 19px;
+}
+
+.tpl-block-input SELECT:focus {
+    background-image: url('images/dropdown_arrow_focus.png');
+}
+
+.tpl-block-input SELECT:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+.tpl-block-input.tpl-state-error INPUT,
+.tpl-block-input.tpl-state-error SELECT,
+.tpl-block-input.tpl-state-error TEXTAREA {
+    border: 2px solid #ff7373;
+    padding: 18px 19px;
+}
+
+.tpl-block-input SELECT:focus, .tpl-block-input.tpl-state-error SELECT {
+    padding: 0 19px;
+}
+
+.tpl-block-input.tpl-state-error .tpl-block-error {
+    display: block;
+}
+
+.tpl-field-quantity .tpl-value {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tpl-block-form .tpl-block-input.tpl-field-quantity .tpl-value INPUT {
+    position: relative;
+    border-radius: 0;
+    text-align: center;
+    z-index: 2;
+}
+
+.tpl-field-quantity .tpl-block-control-button {
+    position: relative;
+    width: 62px;
+    min-width: 62px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    transition: all .1s ease;
+    box-sizing: border-box;
+    background: #fff 50% 50% no-repeat;
+    outline: none;
+}
+
+.tpl-field-quantity .tpl-block-control-button:not(.tpl-state-disabled):hover {
+    border-color: #999;
+    z-index: 3;
+}
+
+.tpl-field-quantity .tpl-block-control-button:not(.tpl-state-disabled):active {
+    border-color: #999;
+    z-index: 3;
+    box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+.tpl-field-quantity .tpl-block-control-button.tpl-link-decrease {
+    left: 0;
+    margin-right: -1px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-image: url("images/icon_minus.png");
+}
+
+.tpl-field-quantity .tpl-block-control-button.tpl-link-decrease.tpl-state-disabled {
+    background-image: url("images/icon_minus_disabled.png");
+}
+
+.tpl-field-quantity .tpl-block-control-button.tpl-link-increase {
+    right: 0;
+    margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-image: url("images/icon_plus.png");
+}
+
+.tpl-field-quantity .tpl-block-control-button.tpl-link-increase.tpl-state-disabled {
+    background-image: url("images/icon_plus_disabled.png");
+}
+
+/* Кнопка отправки формы, кнопка открытия формы */
+.tpl-block-button {
+    position: relative;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    color: #fff;
+    background: #01aff2;
+    border: none;
+    border-radius: 2px;
+    min-height: fit-content;
+    cursor: pointer;
+    transition: all .1s ease;
+    min-width: fit-content;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.tpl-block-button.tpl-layout-background-dark {
+    color: #fff;
+}
+
+.tpl-block-button.tpl-layout-background-bright {
+    color: #000;
+}
+
+.tpl-block-button.tpl-layout-background-transparent {
+    border: 2px solid #fff;
+}
+
+
+.tpl-block-button {
+    width: 100%;
+}
+
+.tpl-block-button[disabled="disabled"] {
+    opacity: 0.5;
+}
+
+.tpl-block-button:not([disabled="disabled"]):hover,
+.tpl-block-button:not([disabled="disabled"]):focus
+{
+    opacity: 0.8;
+}
+
+.tpl-block-button:not([disabled="disabled"]):active {
+    opacity: 0.8;
+    box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+.tpl-block-button-content {
+    display: inline-flex;
+    width: 100%;
+    align-items: flex-start;
+}
+
+.tpl-block-button .tpl-block-button-title {
+    flex-grow: 2;
+    text-align: center;
+}
+
+.tpl-block-button-title.tpl-field-item-price {
+    white-space: nowrap;
+}
+
+.tpl-block-button .tpl-block-button-divider {
+    width: 1px;
+    min-width: 1px;
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.tpl-block-button::-moz-focus-inner {
+    /* remove extra padding in Firefox */
+    padding: 0;
+    border: 0;
+}
+
+/* ---- Всплывающие окна ---- */
+
+&.tpl-block-popup {
+    z-index: 500;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    min-width: 100%;
+    max-width: 100%;
+    border: none;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 100%;
+}
+
+.tpl-block-popup-background {
+    position: fixed;
+    left: 0;
+    right: 40px;
+    bottom: 0;
+    top: 0;
+}
+
+.tpl-block-popup-container {
+    position: relative;
+    display: inline-block;
+    text-align: left;
+    padding: 35px 90px 60px;
+    margin: 20px 0;
+    min-width: 250px;
+    max-width: 1060px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 560px) {
+    .tpl-block-popup-container { margin: 0; }
+}
+
+/* Кнопка закрытия модального диалога */
+.tpl-block-popup-container .tpl-block-popup-close-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    background: url("images/icon_close.png") 50% 50% no-repeat;
+    border: 1px solid #e5e5e5;
+    transition: all .1s ease;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.tpl-block-popup-container .tpl-block-popup-close-button:hover {
+    border-color: #999;
+}
+
+.tpl-block-popup-container .tpl-block-popup-close-button:active {
+    border-color: #999;
+    box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+/* Основная часть попапа */
+.tpl-block-popup-body {
+    font-size: 18px;
+}
+
+.tpl-block-popup-body P {
+    margin: 0;
+    padding: 0 0 10px;
+}
+
+/* ----- Тип попапа «Сообщение» ----- */
+&.tpl-block-popup-message .tpl-block-popup-body {
+    margin: 35px 0;
+}
+
+/* Иконка статуса */
+&.tpl-block-popup-message .tpl-block-popup-icon {
+    width: 50px;
+    height: 50px;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    margin: 20px 0 10px;
+}
+
+&.tpl-block-popup-message.tpl-state-success .tpl-block-popup-icon {
+    background-image: url('images/icon_success.svg');
+}
+
+&.tpl-block-popup-message.tpl-state-error .tpl-block-popup-icon {
+    background-image: url('images/icon_error.svg');
+}
+
+/* ----- Тип попапа «Форма» ----- */
+&.tpl-block-popup-form .tpl-block-popup-container {
+    padding-top: 40px;
+}
+
+/* Отступ для формы без заголовка и текста после заголовка */
+@media (min-width: 1031px) {
+    &.tpl-block-popup .tpl-block-fields:first-child {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 1030px) {
+    &.tpl-block-popup-form .tpl-block-popup-container {
+        max-width: 520px;
+        padding-top: 55px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .tpl-block-popup-body {
+        margin: 15px 60px;
+    }
+
+    .tpl-block-columns {
+        display: block;
+    }
+
+    .tpl-block-columns .tpl-block-divider {
+        height: 50px;
+        background: none;
+    }
+
+    .tpl-block-columns .tpl-block-image img {
+        margin-top: 0;
+        max-width: 100%;
+    }
+
+    .tpl-block-popup-container .tpl-block-form {
+        margin: 0 auto;
+        text-align: center;
+    }
+}
+
+/**
+ * Анимация появления всплывающего окна
+ * Based on http://daneden.me/animate (© 2015 Daniel Eden, MIT license)
+ */
+.tpl-state-animated {
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@-webkit-keyframes tpl-animation-fade-in-down {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+@keyframes tpl-animation-fade-in-down {
+    from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, -100%, 0);
+        transform: translate3d(0, -100%, 0);
+    }
+
+    to {
+        opacity: 1;
+        -webkit-transform: none;
+        transform: none;
+    }
+}
+
+.tpl-animation-fade-in-down {
+    -webkit-animation-name: tpl-animation-fade-in-down;
+    animation-name: tpl-animation-fade-in-down;
+}

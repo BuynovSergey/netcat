@@ -1,0 +1,105 @@
+<!-- FormPrefix -->
+<div class="tpl-block-page-block tpl-layout-background-<?= nc_get_color_type($cc_settings['background_color']); ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px;"></div>
+    <div class="tpl-block-background" style="background: <?= $cc_settings['background_color']; ?>"></div>
+    <?= $f_AdminCommon; ?>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+        
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-description">
+                <span class="tpl-infoblock-field-text"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></span>
+            </div>
+        <? endif; ?>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="tpl-block-counter" style="border-color: <?= $cc_settings['background_color']; ?>">
+            <?= $f_AdminButtons ?>
+            <div class="tpl-block-spacer tpl-layout-short"></div>
+            <div class="tpl-block-digit tpl-state-end">
+                <div class="tpl-block-value">0</div>
+                <div class="tpl-block-label">Дней</div>
+            </div>
+            <div class="tpl-block-spacer"></div>
+            <div class="tpl-block-digit">
+                <div class="tpl-block-value">0</div>
+                <div class="tpl-block-label">Часов</div>
+            </div>
+            <div class="tpl-block-spacer"></div>
+            <div class="tpl-block-digit">
+                <div class="tpl-block-value">0</div>
+                <div class="tpl-block-label">Минут</div>
+            </div>
+            <div class="tpl-block-spacer"></div>
+            <div class="tpl-block-digit tpl-state-red">
+                <div class="tpl-block-value">0</div>
+                <div class="tpl-block-label">Секунд</div>
+            </div>
+            <div class="tpl-block-spacer tpl-layout-short"></div>
+            <div class="tpl-block-text"><span class="tpl-field-end-text"><?= $f_EndText ?></span></div>
+        </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px;"></div>
+</div>
+<script>
+    $(function(){
+        var $counter = $('#<?= $nc_block_id; ?>');
+        var remain = <?= strtotime($f_Deadline) - time(); ?>;
+        var plural_noun = function (number, one, two, five) {
+            number = Math.abs(number);
+            number %= 100;
+            if (number >= 5 && number <= 20) {
+                return five;
+            }
+            number %= 10;
+            if (number == 1) {
+                return one;
+            }
+            if (number >= 2 && number <= 4) {
+                return two;
+            }
+            return five;
+        }
+
+        var counter = function () {
+            if (remain <= 0) {
+                $counter.find('.tpl-block-counter').addClass('tpl-state-end');
+                return false;
+            }
+            var days = Math.floor(remain / 86400);
+            var hours = Math.floor((remain - days * 86400) / 3600);
+            var minutes = Math.floor((remain - days * 86400 - hours * 3600) / 60);
+            var seconds = remain % 60;
+
+            var digits = {
+                0: [days, 'День', 'Дня', 'Дней'],
+                1: [hours, 'Час', 'Часа', 'Часов'],
+                2: [minutes, 'Минута', 'Минуты', 'Минут'],
+                3: [seconds, 'Секунда', 'Секунды', 'Секунд'],
+            };
+
+            for (var i in digits) {
+                var $digit = $counter.find('.tpl-block-counter .tpl-block-digit').eq(i);
+                var $value = $digit.find('.tpl-block-value');
+                var $label = $digit.find('.tpl-block-label');
+                var value = digits[i][0];
+                var noun = plural_noun(value, digits[i][1], digits[i][2], digits[i][3]);
+                $digit.removeClass('tpl-state-end, tpl-state-red');
+                if (value == 0 && i != 3 && remain > 0) {
+                    $digit.addClass('tpl-state-end');
+                } else if (i == 3) {
+                    $digit.addClass('tpl-state-red');
+                }
+                $value.text(value);
+                $label.text(noun);
+            }
+
+            remain--;
+        }
+        counter();
+        setInterval(counter, 1000);
+    });
+</script><!-- /FormSuffix -->

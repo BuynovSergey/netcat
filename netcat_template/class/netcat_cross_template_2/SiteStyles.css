@@ -1,0 +1,16 @@
+& { min-height: 60px; }
+.object-item { display: flex; flex-direction: row; text-decoration: none; color: var(--tpl-color-foreground-main); align-self: flex-start; padding: 0; }
+.object-item .item-image { position: relative; width: 50%; margin: 0; }
+.object-item .item-image::before { display: block; content: ""; width: 100%; padding-top: var(--tpl-object-item--image-padding-top); }
+.object-item .item-image .image { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; width: 100%; height: 100%; }
+.object-item .item-image .image img { max-width: 100%; width: 100%; height: 100%; object-fit: cover; }
+.object-item .item-image * { width: 100%; height: 100%; }
+.object-item .item-info { width: 50%; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--tpl-object-item--text-padding, 0px); }
+@nc-list-object (max-width: 500px) {
+  .object-item { flex-direction: column; }
+  .object-item .item-info { width: 100%; }
+  .object-item .item-image { width: 100%; }
+}
+.object-item.reverse { flex-direction: row-reverse; }
+.object-item.reverse.pull-text .item-info { align-items: flex-end; text-align: right; }
+.tpl-color-brand { color: var(--tpl-color-brand); }

@@ -1,0 +1,9 @@
+<?php
+
+$styles = array();
+
+if ($cc_settings["title_font_color"] !== "inherit") {
+    $styles[] = "--tpl-object--title-color: var(--$cc_settings[title_font_color])";
+}
+
+$styles = " style='" . implode(";", $styles) . "'";

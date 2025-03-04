@@ -1,0 +1,9 @@
+<div id='%ID' style='margin:10px 0 0 0; padding: 5px; border: 1px dashed #cccccc; '>
+<div style='line-height:25px;".("%IS_NEW" ? "background-color: #ffbf7a;" : "")."'>
+<span>".("%USER_AVATAR" ? "<img src='%USER_AVATAR' width='20' height='20' />" : "")."
+<b>".(%USER_ID ? "<a style='vertical-align: top;' href='".nc_auth_profile_url(%USER_ID)."'>%USER_NAME</a>" : ('%GUEST_NAME' ? '%GUEST_NAME' : 'Гость'))." </b></span><span style='float: right;'>".date("d.m.Y H:i:s", %DATE)."</span></div>
+%RATING_BLOCK
+<div>%COMMENT</div>
+<div>%REPLY_LINK &nbsp; %EDIT_LINK &nbsp; %DELETE_LINK</div>
+%REPLY_BLOCK
+</div>

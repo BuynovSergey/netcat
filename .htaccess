@@ -1,0 +1,51 @@
+DirectoryIndex index.php
+
+AddDefaultCharset utf-8
+
+# Если Netcat установлен в подпапке, например mysite, то
+# ErrorDocument 404 /mysite/netcat/require/e404.php
+# в противном случае
+ErrorDocument 404 /netcat/require/e404.php
+
+Options -Indexes
+Options +FollowSymLinks
+
+<IfModule mod_php5.c>
+php_flag magic_quotes_gpc off
+php_flag display_errors off
+php_value error_reporting 0
+php_value arg_separator.output "&amp;"
+php_value mbstring.internal_encoding UTF-8
+php_value short_open_tag on
+</IfModule>
+
+<IfModule mod_php7.c>
+php_flag magic_quotes_gpc off
+php_flag display_errors off
+php_value error_reporting 0
+php_value arg_separator.output "&amp;"
+php_value mbstring.internal_encoding UTF-8
+php_value short_open_tag on
+</IfModule>
+
+<IfModule mod_php.c>
+php_flag magic_quotes_gpc off
+php_flag display_errors off
+php_value error_reporting 0
+php_value arg_separator.output "&amp;"
+php_value mbstring.internal_encoding UTF-8
+php_value short_open_tag on
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+# Если Netcat установлен в подпапке, например mysite, то
+# RewriteRule ^(.+)$ /mysite/netcat/require/e404.php
+# в противном случае
+RewriteRule ^(.+)$ /netcat/require/e404.php
+RewriteRule .* - [E=HTTP_IF_MODIFIED_SINCE:%{HTTP:If-Modified-Since}]
+RewriteRule .* - [E=HTTP_IF_NONE_MATCH:%{HTTP:If-None-Match}]
+</IfModule>

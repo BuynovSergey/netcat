@@ -1,0 +1,138 @@
+body {
+	margin: 0 0 100px 0;
+	padding: 0;
+}
+.container {
+	width:  70%;
+	margin: 0 auto;
+	position: relative;
+}
+.section {
+	margin-bottom: 100px;
+}
+.sectin_header_anchor {
+    display: block;
+    padding-top: 55px;
+}
+.sectin_header_w {
+	font-weight:   normal;
+	background:    #444;
+	color:         #DDD;
+	padding:       15px 0;
+	margin:        0 0px -20px;
+	font:          20px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	border-bottom: 1px solid #FFF;
+	text-shadow:   0 1px 2px rgba(0,0,0,.2);
+	box-shadow:    0 5px 20px rgba(0,0,0,.2);
+	background: -moz-linear-gradient(top, #444, #111);
+	background: -webkit-linear-gradient(top, #444, #111);
+	background: -o-linear-gradient(top, #444, #111);
+	background: -ms-linear-gradient(top, #444, #111);
+	background: linear-gradient(top, #444, #111);
+}
+.sectin_header_w .container small {
+	font-weight:    normal;
+	font-size:      12px;
+	vertical-align: middle;
+	float:          right;
+	padding:        3px 5px;
+	margin:         1px 0 0 0;
+	background:     #000;
+	color:          #999 ;
+	border-radius:  3px;
+	box-shadow: 0 1px 0 rgba(255,255,255,.1)
+}
+.h2 {
+	font-weight:   normal;
+	color:         #666;
+	font-size:     14px;
+
+	line-height:   30px;
+	border-bottom: 1px dashed #999;
+	margin:        50px 0px 30px;
+	font-family:   Monaco, Menlo, Consolas, "Courier New", monospace;
+	background: -moz-linear-gradient(top, #FFF, #EEE);
+	background: -webkit-linear-gradient(top, #FFF, #EEE);
+	background: -o-linear-gradient(top, #FFF, #EEE);
+	background: -ms-linear-gradient(top, #FFF, #EEE);
+	background: linear-gradient(top, #FFF, #EEE);
+}
+.h2 .container {
+	height:        30px;
+	padding:       5px;
+}
+.h2 .tabs {
+	position: absolute;
+	bottom:   0;
+	right:    0;
+}
+.h2 .tabs a {
+	display:       block;
+	float:         left;
+	padding:       5px 10px;
+	height:        30px;
+	line-height:   30px;
+	margin-right:  0;
+	color:         #999;
+	font-size:     12px;
+	/*background:    #CCC;*/
+}
+.h2 .tabs a:hover {
+	text-decoration: underline;
+}
+.h2 .tabs a.selected {
+	color:      #333;
+	background: rgba(0,0,0,.1);
+	background: -moz-linear-gradient(top, #EEE, #CCC);
+	background: -webkit-linear-gradient(top, #EEE, #CCC);
+	background: -o-linear-gradient(top, #EEE, #CCC);
+	background: -ms-linear-gradient(top, #EEE, #CCC);
+	background: linear-gradient(top, #EEE, #CCC);
+}
+table.icons {
+	width:           100%;
+	border-collapse: collapse;
+	margin:          0 -10px;
+}
+table.icons td {
+	vertical-align: top;
+	padding:        0 10px;
+}
+.icons {
+	background-color:#DDD;
+	border-radius: 5px;
+}
+div.icons {
+	padding:20px;
+}
+.source {
+	display: none;
+}
+.source pre {
+	margin:      0;
+	padding:     15px;
+	color:       #FFF;
+	font-size:   11px;
+	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+	background:  #232323;
+	overflow:    auto;
+	/*max-height: 30em;*/
+	border:1px dashed #FFF;
+}
+.source.php pre {
+    background: #00202a;
+}
+.source {
+	/*border-radius: 5px;*/
+	border:        1px solid #FFF;
+	box-shadow: 0 0 33px rgba(0,0,0,.2), 0 5px 25px #000 inset;
+}
+.source * {
+	font-weight: normal;
+	font-style: normal;
+}
+.source b {color: #aaf166}
+.source i {color: #f8fb83}
+.source em {color: #74add1}
+.source a, .source a:hover {color: #FFF; cursor: default;}
+.source p, .source p * {color: #919191; display:inline;}

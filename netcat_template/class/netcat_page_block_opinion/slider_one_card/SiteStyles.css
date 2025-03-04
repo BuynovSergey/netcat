@@ -1,0 +1,41 @@
+.nc-object-toolbar { top: -51px; right: -10px; }
+.nc-infoblock-toolbar { top: 0; }
+
+.tpl-block-quote { position: relative; }
+
+.tpl-block-page-block { position: relative; min-width: 460px; }
+.tpl-block-content { margin: 0 auto; max-width: 1060px; min-width: 420px; padding: 0 20px; }
+H2 { font-weight: 600; font-size: 42px; line-height: 1.24em; color: #333; margin: 0 auto 20px; text-align: center; max-width: 740px; word-wrap: break-word; }
+H2 * { line-height: 1.24em; }
+.tpl-block-description { text-align: center; margin: 0 auto 72px; max-width: 740px; word-wrap: break-word; line-height: 1.44em; }
+.tpl-block-description * { line-height: 1.44em; }
+.tpl-block-quotes { position: relative; padding: 0 20px; text-align: center; margin-top: 80px; }
+.tpl-block-quotes .tpl-block-background { position: absolute; left: 0; right: 0; bottom: 0; top: 120px; background: url("images/pat_quotes.png") 50% 50% repeat; background-color: #01aff2; }
+.tpl-block-quotes .tpl-block-container { position: relative; margin: 0 auto; text-align: left; margin-bottom: 30px; }
+.tpl-block-quotes .tpl-block-container { position: relative; margin: 0 auto; text-align: left; margin-bottom: 30px; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote { position: relative; background: #fff; border: 10px solid #01aff2; box-sizing: border-box; max-width: 880px; padding: 40px 20px 94px; margin: 0 auto; display: none; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote:first-child { display: block; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-tail-outer { position: absolute; width: 0; height: 0; left: 50px; bottom: -50px; border-style: solid; border-width: 50px 70px 0 0; border-color: #01aff2 transparent transparent transparent; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-tail-inner { position: absolute; width: 0; height: 0; left: 61px; bottom: -29px; border-style: solid; border-width: 29px 36px 0 0; border-color: #fff transparent transparent transparent; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-text { font-size: 24px; line-height: 1.58em; font-weight: 600; color: #333; max-width: 700px; margin: 0 auto; word-wrap: break-word; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-text * { line-height: 1.58em; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-author { font-size: 18px; line-height: 1em; max-width: 700px; margin: 32px auto 0; word-wrap: break-word; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-author * { line-height: 1em; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-slider-control { position: absolute; right: 20px; bottom: 20px; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-slider-control .tpl-block-button { display: inline-block; width: 60px; height: 60px; background: #01aff2 50% 50% no-repeat; border-radius: 2px; cursor: pointer; transition: all .1s ease; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-slider-control .tpl-block-button.tpl-layout-prev { background-image: url("images/previous_button_icon.png"); border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-slider-control .tpl-block-button.tpl-layout-next { background-image: url("images/next_button_icon.png"); border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-slider-control .tpl-block-button:hover { background-color: #34bff5; }
+.tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-slider-control .tpl-block-button:active { background-color: #34bff5; box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.25); }
+.tpl-block-quotes .tpl-block-dots-control { position: relative; display: inline-flex; background: #fff; padding: 11px 18px; border-radius: 20px; }
+.tpl-block-quotes .tpl-block-dots-control .tpl-block-dot { width: 18px; height: 18px; background: url("images/dot_icon.png") 0 0 no-repeat; transition: all .1s ease; margin: 0 3px; }
+.tpl-block-quotes .tpl-block-dots-control .tpl-block-dot:hover { background-image: url("images/dot_icon_hover.png"); }
+.tpl-block-quotes .tpl-block-dots-control .tpl-block-dot:active,
+.tpl-block-quotes .tpl-block-dots-control .tpl-block-dot.tpl-state-active { background-image: url("images/dot_icon_active.png"); }
+@media (max-width: 500px) {
+    .tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-text { font-size: 18px; line-height: 1.56em; }
+    .tpl-block-quotes .tpl-block-container .tpl-block-quote .tpl-block-text * { line-height: 1.56em; }
+}
+
+/* themes */
+.tpl-block-page-block.tpl-layout-disable-bg-pattern .tpl-block-quotes .tpl-block-background { background-image: none; }

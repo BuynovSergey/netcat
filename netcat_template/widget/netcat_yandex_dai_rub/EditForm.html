@@ -1,0 +1,23 @@
+<font color='gray'>Номер счета:</font><br />
+<input name='f_account' size='50' value='<?=$f_account; ?>' /><br /><br />
+<font color='gray'>Текст:</font><br />
+<input name='f_text' size='50' value='<?=$f_text; ?>' /><br /><br />
+<font color='gray'>Цвет:</font><br />
+<select name='f_color'>
+<option value='default' <?=('default' == $f_color ? "selected='selected'" : ""); ?>>по умолчанию</option>
+<option value='aqua' <?=('aqua' == $f_color ? "selected='selected'" : ""); ?>>голубой</option>
+<option value='blue' <?=('blue' == $f_color ? "selected='selected'" : ""); ?>>синий</option>
+<option value='green' <?=('green' == $f_color ? "selected='selected'" : ""); ?>>зелёный</option>
+<option value='orange' <?=('orange' == $f_color ? "selected='selected'" : ""); ?>>оранжевый</option>
+<option value='pink' <?=('pink' == $f_color ? "selected='selected'" : ""); ?>>розовый</option>
+<option value='purple' <?=('purple' == $f_color ? "selected='selected'" : ""); ?>>фиолетовый</option>
+<option value='red' <?=('red' == $f_color ? "selected='selected'" : ""); ?>>красный</option>
+<option value='yellow' <?=('yellow' == $f_color ? "selected='selected'" : ""); ?>>жёлтый</option>
+</select><br /><br /><font color='gray'>Тип:</font><br />
+<select name='f_type'>
+<option value='0' <?=('0' == $f_type ? "selected='selected'" : ""); ?>>дай рубль</option>
+<option value='1' <?=('1' == $f_type ? "selected='selected'" : ""); ?>>дай три</option>
+<option value='2' <?=('2' == $f_type ? "selected='selected'" : ""); ?>>дай пять</option>
+<option value='3' <?=('3' == $f_type ? "selected='selected'" : ""); ?>>дай рубль (свинья копилка)</option>
+<option value='4' <?=('4' == $f_type ? "selected='selected'" : ""); ?>>дай пять (рука)</option>
+</select><br /><br />

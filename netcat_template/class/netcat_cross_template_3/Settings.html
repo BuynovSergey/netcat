@@ -1,0 +1,41 @@
+<?php
+$size = $cc_settings['objectSize'];
+if ($cc_settings['objectSize'] === 'custom') {
+    $size = $cc_settings['customSize'];
+}
+list($w, $h) = explode(":", str_replace(",", ".", $size));
+if ((float)$w > 0) {
+    $padding_top = str_replace(",", ".", ($h / $w) * 100) . "%";
+} else {
+    $padding_top = '100%';
+}
+$styles = array();
+$styles[] = "--tpl-object-item--image-padding-top: " . $padding_top;
+
+if ($cc_settings['textPaddingValue']) {
+    $styles[] = "--tpl-object-item--text-padding: 0 " . $cc_settings['textPaddingValue']
+        . $cc_settings['textPaddingUnit'];
+}
+$margin_y = $cc_settings['textMarginValueY'] . $cc_settings['textMarginUnit'];
+$margin_x = $cc_settings['textMarginValueX'] . $cc_settings['textMarginUnit'];
+$styles[] = "--tpl-object-item--text-margin: " . $margin_y . " " . $margin_x;
+
+$styles[] = "--tpl-object-item--text-width: " . $cc_settings['textWidth'];
+
+$styles = implode("; ", $styles);
+
+$months_number_to_text = array(
+    1  => 'января',
+    2  => 'февраля',
+    3  => 'марта',
+    4  => 'апреля',
+    5  => 'мая',
+    6  => 'июня',
+    7  => 'июля',
+    8  => 'августа',
+    9  => 'сентября',
+    10 => 'октября',
+    11 => 'ноября',
+    12 => 'декабря',
+);
+?>

@@ -1,0 +1,14 @@
+<?
+$media_arr = array('graffiti'=>$f_media_graffiti, 'photo'=>$f_media_photo, 'video'=>$f_media_video, 'audio'=>$f_media_audio, 'link'=>$f_media_link);
+foreach ($media_arr as $name => $val) {
+  if ($val == 1) {
+    $media[] = $name;
+  }
+}
+if (count($media) == 5) {
+  $media = '*';
+} else if (count($media) == 0) {
+  $media = 'false';
+} else {
+  $media = implode(',', $media);
+}

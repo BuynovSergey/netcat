@@ -1,0 +1,121 @@
+<div class="nc-mixins-mixin-settings-netcat-effect">
+    <!-- шаблон слоя -->
+    <div class="nc-mixins-mixin-settings-netcat-effect-layer nc-mixins-mixin-settings-row nc-mixins-mixin-settings-row-template">
+        <div class="nc-mixins-mixin-settings-row-move">
+            <i class="nc-icon nc--move" title="изменить порядок"></i>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-effect-layer-type">
+            <select name="mixin.settings.#.type" class="nc-mixins-mixin-settings-netcat-effect-layer-type-select">
+                <option value="fade">появление (fade in)/исчезание (fade out)</option>
+                <option value="fadein">проявление элемента</option>
+            </select>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-effect-layer-properties">
+
+            <div class="nc-mixins-mixin-settings-netcat-effect-layer-properties-fade">
+                <label>длительность, сек</label>
+                <input type="number" name="mixin.settings.#.fade_time" autocomplete="off" min="0.0" max="4"
+                       width="40px"
+                       step="0.1">
+                <span>&nbsp;</span>
+                <label>прозрачность</label>
+                <input type="number" name="mixin.settings.#.fade_opacity" autocomplete="off" min="0.0" max="1.0"
+                       width="40px"
+                       step="0.1">
+            </div>
+
+            <div class="nc-mixins-mixin-settings-netcat-effect-layer-properties-fadein">
+                <label>длительность, сек</label>
+                <input type="number" name="mixin.settings.#.fadein_time" autocomplete="off" min="0.0" max="4"
+                       width="40px"
+                       step="0.1">
+                <span>&nbsp;</span>
+                <label>задержка показа, сек</label>
+                <input type="number" name="mixin.settings.#.fadein_delay" autocomplete="off" min="0.0" max="10"
+                       width="40px"
+                       step="0.1">
+            </div>
+
+        </div>
+        <div class="nc-mixins-mixin-settings-row-remove">
+            <i class="nc-icon nc--remove" title="удалить"></i>
+        </div>
+    </div>
+    <!-- тут будут собственно слои -->
+    <div class="nc-mixins-mixin-settings-rows">
+    </div>
+    <!-- кнопка добавления нового слоя -->
+    <div>
+        <a href="#" class="nc-mixins-mixin-settings-row-add">Добавить</a>
+    </div>
+</div>
+<style>
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-rows {
+        padding: 3px 0;
+    }
+
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer {
+        background: #EEE;
+        margin-bottom: 4px;
+        padding: 3px 6px;
+        display: flex;
+        align-items: center;
+    }
+
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer > * {
+        margin: 3px;
+    }
+
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer select,
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer input {
+        margin: 0;
+    }
+
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer:only-child .nc-mixins-mixin-settings-row-move {
+        display: none;
+    }
+
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer:only-child .nc-mixins-mixin-settings-netcat-effect-layer-type {
+        margin-left: 0;
+    }
+
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer .nc-mixins-mixin-settings-netcat-effect-layer-properties {
+        flex-grow: 1;
+    }
+    .nc-mixins-mixin-settings-netcat-effect .nc-mixins-mixin-settings-netcat-effect-layer .nc-mixins-mixin-settings-netcat-effect-layer-properties {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+    }
+</style>
+<script>
+    (function () {
+        var prefix = '.nc-mixins-mixin-settings-netcat-effect';
+
+        var background_settings_container = $nc(prefix);
+
+        function init(event, data) {
+            var updated_container = data.row || $nc(this);
+
+            // переключение типа слоя
+            updated_container.find(prefix + '-layer-type-select')
+                .on('change', update_layer_type)
+                .trigger('change');
+        }
+
+        // Инициализация событий
+        background_settings_container.closest('.nc-mixins-mixin-settings')
+            .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+            .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init)
+            .off(nc_mixin_settings_editor.mixin_settings_new_row_event)
+            .on(nc_mixin_settings_editor.mixin_settings_new_row_event, init);
+
+        // переключение типа слоя фона (цвет/картинка/градиент)
+        function update_layer_type() {
+            var select = $nc(this),
+                type = select.val(),
+                properties_container = select.closest(prefix + '-layer').find(prefix + '-layer-properties');
+            properties_container.children().hide().filter(prefix + '-layer-properties-' + type).show();
+        }
+    })();
+</script>

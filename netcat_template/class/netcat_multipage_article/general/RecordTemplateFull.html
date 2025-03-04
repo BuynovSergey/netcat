@@ -1,0 +1,53 @@
+<?= $f_AdminButtons ?>
+
+<div class="object-item-full" <?= $styles ?>>
+    <?php if ($cc_settings["show_title_on_detail_page"]): ?>
+        <h1 class="item-name"><?= nc_edit_inline("Name", $message, $cc_env["Sub_Class_ID"]) ?></h1>
+    <?php endif ?>
+
+    <?php if ($f_Image): ?>
+        <div class="item-image-wrapper">
+            <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($admin_mode || $f_Description): ?>
+        <div class="item-description tpl-text-header3">
+            <?= nc_edit_inline("Description", $message, $cc_env["Sub_Class_ID"]) ?>
+        </div>
+    <?php endif ?>
+
+    <div class="item-text tpl-text-default-paragraph">
+        <?= nc_edit_inline("Text", $message, $cc_env["Sub_Class_ID"]) ?>
+    </div>
+
+    <?php if ((int)$f_Date_year): ?>
+        <div class="item-date tpl-text-default-paragraph">
+            <?= "$f_Date_day $months_number_to_text[$f_Date_month] $f_Date_year г." ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($f_Author): ?>
+        <div class="item-author tpl-text-default-paragraph">
+            <?php if ($f_AuthorLink): ?>
+                <?php
+                    if (
+                        strpos($f_AuthorLink, "://") !== false ||
+                        strpos($f_AuthorLink, "/") === 0 ||
+                        strpos($f_AuthorLink, "mailto:") === 0
+                    ) {
+                        $href = $f_AuthorLink;
+                    } else if (strpos($f_AuthorLink, "@")) {
+                        $href = "mailto:$f_AuthorLink";
+                    } else {
+                        $href = "http://$f_AuthorLink";
+                    }
+                ?>
+                <a href="<?= htmlspecialchars($href) ?>"><?= $f_Author ?></a>
+            <?php else: ?>
+                <?= $f_Author ?>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+
+</div>

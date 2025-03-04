@@ -1,0 +1,49 @@
+<table class='nc_user_full'>
+    <tr>
+        <td>
+            <img style='margin:0 10px 0 0' src='<?= ($f_ForumAvatar ? $f_ForumAvatar : $nc_core->SUB_FOLDER.$cc_settings['NoAvatarImg']) ?>' alt=''>
+        </td>
+        <td>
+            <table class='nc_list_table'>
+                <tr class='grey'>
+                    <td>Имя пользователя:</td>
+                    <td><b><?= ($f_Name ? $f_Name : $f_Email) ?></b>
+                </tr>
+                <tr>
+                    <td>Статус:</td>
+                    <td><? if (nc_auth_is_online($f_RowID)) { ?><span style='color:#090'>online</span><? } else { ?><span style='color:#900'>offline</span><? } ?></td>
+                </tr>
+                <tr class='grey'>
+                    <td>Дата регистрации:</td>
+                    <td><?= $f_Created_day.".".$f_Created_month.".".$f_Created_year." - ".$f_Created_hours.":".$f_Created_minutes ?></td>
+                </tr>
+                <? if ($friend_allow) { ?> 
+                    <tr>
+                        <td>Список друзей:</td>
+                        <td><?= ( $friend_list ? join(', ', $friend_list) : "список пуст") ?></td>
+                    </tr>
+                <? } ?>
+            </table>
+            <br />
+            <? if ($noIam) {
+                if ($pm_allow) { ?><a class='nc_link_btn' href='<?= nc_auth_messages_url($f_RowID) ?>'>Личное сообщение</a><?
+        }
+        if ($friend_allow) {
+            if (nc_auth_is_friend($f_RowID)) {
+                ?> 
+                        <a class='nc_link_btn' href='<?= nc_auth_drop_rel_url($f_RowID) ?>'>Убрать из друзей</a><? } else { ?> 
+                        <a class='nc_link_btn' href='<?= nc_auth_add_to_friend_url($f_RowID) ?>'>Добавить в друзья</a> <?
+        }
+        if ($banned_allow) {
+            if (nc_auth_is_banned($f_RowID)) {
+                            ?> 
+                            <a class='nc_link_btn' href='<?= nc_auth_drop_rel_url($f_RowID) ?>'>Убрать из врагов</a><? } else { ?>
+                            <a class='nc_link_btn' href='<?= nc_auth_add_to_banned_url($f_RowID) ?>'>Добавить во враги</a><?
+            }
+        }
+    }
+}
+            ?>
+        </td>
+    </tr>
+</table>

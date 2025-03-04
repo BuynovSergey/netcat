@@ -1,0 +1,20 @@
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li.no-bullet {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+a, button {
+    cursor: pointer;
+}
+
+.tpl-text-primary {
+    font-weight: 700;
+}

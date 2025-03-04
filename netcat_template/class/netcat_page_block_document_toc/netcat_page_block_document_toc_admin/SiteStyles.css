@@ -1,0 +1,83 @@
+.document-text a[name*='toc-header'] {
+    color: unset;
+}
+
+.document-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+    gap: 20px;
+}
+
+.document-content {
+    max-width: 1024px;
+    width: calc(100% - 250px);
+}
+
+.document-title {
+    font-weight: bold;
+    line-height: 50px;
+}
+
+.document-content-subheading-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    max-width: 500px;
+}
+
+.document-content-posted-date-wrapper {
+    color: #9DA3A6;
+}
+
+.document-content-file-wrapper {
+    display: flex;
+    align-items: center;
+    max-width: 500px;
+}
+
+.document-content-file-label {
+    margin-left: 0.5rem;
+    text-decoration: none;
+    color: unset;
+}
+
+.document-toc {
+    max-width: 250px;
+    flex-grow: 1;
+}
+
+.document-toc-heading {
+    font-weight: bold;
+}
+
+.document-toc-content ul {
+    list-style: none;
+}
+
+.document-toc-content ul:first-child {
+    padding-left: 0;
+}
+
+.document-toc-content a {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+
+@media (max-width: 767px) {
+    .document-wrapper {
+        flex-direction: column;
+    }
+
+    .document-content,
+    .document-toc {
+        width: 100%;
+    }
+
+    .document-content {
+        order: 2;
+    }
+
+}

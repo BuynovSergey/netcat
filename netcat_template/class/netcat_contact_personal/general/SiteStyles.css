@@ -1,0 +1,175 @@
+.contacts-object {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-name {
+    color: var(--tpl-object-item--title-color);
+}
+
+.contacts-object .square-image {
+    overflow: hidden;
+}
+
+.contacts-object .square-image img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+}
+
+.contacts-object .square-image.rounded img {
+    border-radius: 50%;
+}
+
+.person-image-wrapper {
+    width: 100%;
+    aspect-ratio: var(--tpl-object--image-ratio, 4/3);
+    overflow: hidden;
+    position: relative;
+}
+
+.person-image-wrapper * {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+
+.contacts-object-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.tpl-block-list-objects .tpl-icon {
+    height: 1em;
+    width: 1em;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.tpl-block-list-objects .tpl-text-inherit .tpl-icon {
+    width: 3em;
+    height: 3em;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.tpl-block-list-objects .tpl-text-inherit .tpl-icon svg {
+    width: 2rem !important;
+    height: 2rem !important;
+}
+
+.tpl-icon {
+    height: 1em;
+    width: 1em;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+    line-height: 1;
+}
+
+.tpl-icon.tpl-text-inherit {
+    width: 1.15em;
+    height: 1.15em;
+    min-height: 1.15em;
+    line-height: 1.15;
+}
+
+.tpl-icon * {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.tpl-icon svg, .tpl-icon img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.tpl-icon svg path {
+    fill: var(--tpl-object-item--icon-color);
+}
+
+.tpl-icon[class*='icon-decor-'] svg, .tpl-icon[class*='icon-decor-'] img {
+    max-width: 50%;
+    max-height: 50%;
+}
+
+.tpl-icon[class*='icon-decor-circle'] {
+    border-radius: 50%;
+}
+
+.tpl-icon[class*='icon-decor-circle'] svg, .tpl-icon[class*='icon-decor-circle'] img {
+    max-width: 40%;
+    max-height: 40%;
+}
+
+.tpl-icon[class*='icon-decor-'] {
+    border: 1px solid var(--tpl-object-item--icon-decor-color);
+}
+
+.tpl-icon[class*='icon-decor-'][class*='-fill'] {
+    background-color: var(--tpl-object-item--icon-decor-color);
+}
+
+.person-full .person-wrapper {
+    display: grid;
+    column-gap: 50px;
+    row-gap: 20px;
+    grid-template-columns: 1fr 2fr;
+}
+
+.person-full .person-post {
+    margin-top: 0;
+}
+
+.person-full .contacts-wrapper {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.person-full a {
+    text-decoration: none;
+}
+
+.person-full .contact-item {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.person-full .contacts-object-socials {
+    gap: 10px;
+}
+
+.person-full .person-image-wrapper {
+    align-self: start;
+}
+
+.person-full .person-biography {
+    margin: 20px 0;
+    padding: 20px 0;
+    border-top: 1px solid #F5F3F4;
+    border-bottom: 1px solid #F5F3F4;
+}
+
+@nc-container(max-width:790px) {
+    .person-full .person-wrapper {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Rubik Light Italic'), local('Rubik-LightItalic'), url(https://fonts.gstatic.com/s/rubik/v8/iJWBBXyIfDnIV7nEldWYwWb-7w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Rubik Italic'), local('Rubik-Italic'), url(https://fonts.gstatic.com/s/rubik/v8/iJWEBXyIfDnIV7nEnXq60g.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Rubik Medium Italic'), local('Rubik-MediumItalic'), url(https://fonts.gstatic.com/s/rubik/v8/iJWBBXyIfDnIV7nElY2ZwWb-7w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Rubik Bold Italic'), local('Rubik-BoldItalic'), url(https://fonts.gstatic.com/s/rubik/v8/iJWBBXyIfDnIV7nElcWfwWb-7w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Rubik Black Italic'), local('Rubik-BlackItalic'), url(https://fonts.gstatic.com/s/rubik/v8/iJWBBXyIfDnIV7nElf2dwWb-7w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Rubik Light'), local('Rubik-Light'), url(https://fonts.gstatic.com/s/rubik/v8/iJWHBXyIfDnIV7Fqj2mZ8WY.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Rubik'), local('Rubik-Regular'), url(https://fonts.gstatic.com/s/rubik/v8/iJWKBXyIfDnIV7nFrXo.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Rubik Medium'), local('Rubik-Medium'), url(https://fonts.gstatic.com/s/rubik/v8/iJWHBXyIfDnIV7EyjmmZ8WY.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Rubik Bold'), local('Rubik-Bold'), url(https://fonts.gstatic.com/s/rubik/v8/iJWHBXyIfDnIV7F6iGmZ8WY.woff) format('woff');
+}
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Rubik Black'), local('Rubik-Black'), url(https://fonts.gstatic.com/s/rubik/v8/iJWHBXyIfDnIV7FCimmZ8WY.woff) format('woff');
+}

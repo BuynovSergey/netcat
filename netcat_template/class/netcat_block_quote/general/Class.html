@@ -1,0 +1,94 @@
+<!-- FormPrefix --><?php
+if ($cc_settings["show_quotes"] && !$cc_settings["quote_custom_icon"]) {
+    $default_quote_div = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 11.65H16.2C14.67 11.65 13.62 10.49 13.62 9.07001V5.84998C13.62 4.42998 14.67 3.27002 16.2 3.27002H19.42C20.84 3.27002 22 4.42998 22 5.84998V11.65Z"
+                        stroke="#1F1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M22 11.6499C22 17.6999 20.87 18.6998 17.47 20.7198" stroke="#1F1F1F" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                <path d="M10.37 11.65H4.56999C3.03999 11.65 1.98999 10.49 1.98999 9.07001V5.84998C1.98999 4.42998 3.03999 3.27002 4.56999 3.27002H7.79999C9.21999 3.27002 10.38 4.42998 10.38 5.84998V11.65"
+                        stroke="#1F1F1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.37 11.6499C10.37 17.6999 9.23997 18.6998 5.83997 20.7198" stroke="#1F1F1F" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>';
+}
+?>
+
+<?= $f_AdminCommon ?>
+
+<div class="quotes <?= $cc_settings["author_photo_position"] ?> <?= $cc_settings["author_text_position"] ?>">
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+    <div class="quote-item"<?= $styles ?>>
+        <?= $f_AdminButtons ?>
+        <?php if ($cc_settings["show_quotes"]): ?>
+            <div class="quote-icon tpl-text-<?= $cc_settings["quote_icon_size"] ?>">
+                <?php if ($cc_settings["quote_custom_icon"]): ?>
+                    <?= $cc_settings["quote_custom_icon"]->as_icon() ?>
+                <?php else: ?>
+                    <?= $default_quote_div ?>
+                <?php endif ?>
+            </div>
+        <?php endif ?>
+
+        <div class="quote-content">
+            <div class="quote-text <?= $cc_settings["quote_size"] ?>"><?= nc_edit_inline("Text", $f_RowID, $cc_env["Sub_Class_ID"]) ?></div>
+
+            <div class="author-wrapper">
+                <div class="author-bio">
+                    <?php if ($f_Author): ?>
+                        <div class="author-name <?= $cc_settings["author_name_size"] ?>"><?= nc_edit_inline(
+                                "Author",
+                                $f_RowID,
+                                $cc_env["Sub_Class_ID"]
+                            ) ?></div>
+                    <?php endif ?>
+
+                    <?php if ($f_Caption): ?>
+                        <div class="author-post <?= $cc_settings["author_post_size"] ?>"><?= nc_edit_inline(
+                                "Caption",
+                                $f_RowID,
+                                $cc_env["Sub_Class_ID"]
+                            ) ?></div>
+                    <?php endif ?>
+                </div>
+
+                <?php if ($cc_settings["author_photo_position"] !== "photo-none"): ?>
+                    <div class="author-avatar<?= $f_Image ? "" : " avatar-default" ?>">
+                        <?php if ($f_Image): ?>
+                            <?= $f_Image->resize(60, 60, nc_ImageTransform::RESIZE_TO_BEST_FIT_WITH_CROP)->as_img() ?>
+                        <?php else: ?>
+                            <span class="avatar-default"><?= mb_substr($f_Author, 0, 1) ?></span>
+                        <?php endif ?>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<script>
+    (function () {
+        document.addEventListener("DOMContentLoaded", () => {
+            if ($(".quotes").hasClass("author-text-inherit")) {
+                const wrapperTextAlign = $("[class^='tpl-block-<?= $cc ?>']").css("text-align");
+                console.log(wrapperTextAlign);
+                if (!wrapperTextAlign) {
+                    return;
+                }
+
+                const alignMap = {
+                    "center": "center",
+                    "end": "flex-end",
+                    "right": "flex-end",
+                    "start": "flex-start",
+                    "left": "flex-start",
+                }
+
+                $(".author-wrapper").css({ "justify-content": alignMap[wrapperTextAlign] });
+            }
+        })
+    })()
+</script>
+<!-- /FormSuffix -->

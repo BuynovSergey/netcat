@@ -1,0 +1,80 @@
+.tpl-block-list-objects {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.stage-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% + var(--tpl-object-line-width-gap, 0px));
+    border-top: 2px dashed var(--tpl-color-brand);
+    z-index: 1;
+}
+
+.tpl-block-list-objects > *:last-child .stage-item::before,
+.tpl-block-list-objects > .stage-item:last-child::before {
+    width: 100%;
+}
+
+.stage-item-dot {
+    content: '';
+    width: 19px;
+    height: 19px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.stage-item {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.stage-item.active .stage-item-title {
+    color: var(--tpl-color-brand);
+}
+
+@nc-container (max-width: 768px) {
+    .tpl-block-list-objects {
+        flex-direction: column;
+    }
+
+    .stage-item-content {
+        margin-left: 1rem;
+    }
+
+    .stage-item::before {
+        height: calc(100% + var(--tpl-object-line-height-gap, 0px));
+        border-top: 0;
+        border-left: 2px dashed var(--tpl-color-brand);
+        top: 0;
+    }
+
+    .tpl-block-list-objects > *:first-child .stage-item::before,
+    .tpl-block-list-objects > .stage-item:first-child::before {
+        top: 1em;
+    }
+
+    .stage-item-dot {
+        top: 0.6em;
+    }
+
+    .tpl-block-list-objects > *:last-child .stage-item::before,
+    .tpl-block-list-objects > .stage-item:last-child::before {
+        height: 100%;
+    }
+}
+
+@nc-container (min-width: 768px) {
+    .stage-item-dot {
+        margin: 0;
+    }
+}

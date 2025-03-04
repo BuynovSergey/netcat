@@ -1,0 +1,43 @@
+<?php
+
+$limit = 10;
+
+$nc_core = nc_core::get_object();
+$netshop = nc_netshop::get_instance();
+$goods_component_ids = $netshop->get_goods_components_ids();
+$site_id = $nc_core->catalogue->get_current('Catalogue_ID');
+
+$queries = array();
+foreach ($goods_component_ids as $id) {
+    $queries[] = "(SELECT $id AS `Component_ID`,
+                          m.`Message_ID` AS `Item_ID`,
+                          m.`Created` AS `__Created`
+                     FROM `Message$id` AS m
+                          JOIN `Sub_Class` AS sc
+                            ON (sc.`Sub_Class_ID` = m.`Sub_Class_ID`
+                                AND sc.`Catalogue_ID` = $site_id)
+                    WHERE m.`Parent_Message_ID` = 0
+                    ORDER BY m.`Message_ID` DESC
+                    LIMIT $limit)";
+}
+
+$sql = join(" UNION ", $queries) .
+       (count($goods_component_ids)
+           ? " ORDER BY `__Created` DESC LIMIT $limit"
+           : "");
+
+$goods = (array)$nc_core->db->get_results($sql, ARRAY_A);
+
+if (count($goods)) {
+    echo '<div class="tpl-widget-netshop-new-goods">',
+         '<h2>Новое в магазине</h2>',
+         '<div class="tpl-block-list-objects">';
+         
+    foreach ($goods as $i => $item_data) {
+        $item_data['ListName'] = 'Новинки';
+        $item_data['ListPosition'] = $i + 1;
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', $item_data);
+    }
+
+    echo '</div></div>';
+}

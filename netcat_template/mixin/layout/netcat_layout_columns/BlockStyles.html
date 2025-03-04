@@ -1,0 +1,32 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+if (!$settings['column_count'] && !$settings['column_width']) {
+    return '';
+}
+
+$list_css = "columns: $settings[column_count]" .
+    ($settings['column_width'] ? " $settings[column_width]$settings[column_width_unit]" : '') .
+    ';';
+
+if ($settings['column_gap']) {
+    $list_css .= "column-gap: $settings[column_gap]$settings[column_gap_unit];";
+}
+
+if ($settings['column_rule_width']) {
+    $list_css .= "column-rule: $settings[column_rule_width]$settings[column_rule_width_unit] $settings[column_rule_style] $settings[column_rule_color];";
+}
+
+if ($settings['column_fill']) {
+    $list_css .= "column-fill: $settings[column_fill];" .
+        ($settings['column_height'] ? "height: $settings[column_height]$settings[column_height_unit]" : '');
+}
+
+$css =
+    "$list_selector { $list_css }\n" .
+    ($settings['column_width'] ? "$list_selector > * { min-width: $settings[column_width]$settings[column_width_unit]; }\n" : '');
+
+return $css;

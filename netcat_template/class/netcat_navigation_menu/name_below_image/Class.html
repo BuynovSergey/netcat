@@ -1,0 +1,73 @@
+<!-- FormPrefix --><?php if ($menu_level == 1): ?><?= $f_AdminCommon; ?><?php endif; ?>
+<?php
+if ($menu_is_custom && $res) {
+    // данные о разделах уже загружены — передадим их в $nc_core->subdivision,
+    // чтобы не делать дополнительных запросов при обращении к $nc_core->subdivision->get_by_id(),
+    // и устанавливаем дополнительные переменные для файловых и т. п. особых полей
+    $fetch_row = $nc_core->subdivision->process_raw_data($res);
+}
+
+// CSS-переменные на основе настроек инфоблока: выравнивание текста, отступ от края изображения.
+$css_variables = array();
+
+$ratio = $cc_settings['item_image_ratio'];
+if ($cc_settings['item_image_ratio'] === 'custom') {
+    $ratio = $cc_settings['item_image_custom_ratio'];
+}
+list($w, $h) = explode(':', str_replace(',', '.', $ratio));
+$padding_top = str_replace(',', '.', ($h / $w) * 100) . '%';
+$css_variables[] = "--menu-name-below-image--image-padding-top: {$padding_top}";
+
+$css_variables[] = "--menu-name-below-image--text-padding: {$cc_settings['item_text_padding']}{$cc_settings['item_text_padding_unit']}";
+
+?>
+<?php if ($totRows): ?>
+    <ul style="<?= implode('; ', $css_variables) ?>">
+<?php else: ?>
+    <?php if ($admin_mode): ?>Нет подразделов<?php endif; ?>
+    <!-- EMPTY SUBMENU -->
+<?php endif; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+if ($menu_is_custom) {
+    // Для вручную отобранных ссылок нужно установить $f_current, $f_active
+    $f_current = $f_Subdivision_ID == $sub;
+    $f_active = $f_current || $nc_core->subdivision->is_parent_of($sub, $f_Subdivision_ID);
+}
+
+$sub_menu = null;
+if ($make_submenu) {
+    if ((!$menu_submenu_settings[$menu_level - 1]['only_active'] || $f_active)) {
+        $sub_menu = $make_submenu($f_Subdivision_ID);
+    }
+}
+
+$item_classes =
+    'tpl-dropdown-trigger tpl-mixin-padding-pass-down menu-item ' .
+    ($sub_menu ? ' menu-item-with-submenu' : '') .
+    ($f_active ? ' menu-item-active' : '') .
+    ($f_current ? ' menu-item-current' : '');
+
+$href = $get_menu_item_href($f_Subdivision_ID);
+$px = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACwAAAAAAQABAAACAkQBADs='; // transparent pixel
+$name = htmlspecialchars($f_Subdivision_Name);
+
+?>
+<li class="<?= $item_classes ?>">
+    <?= $f_AdminButtons; ?>
+    <a <?= ($href ? 'href="' . htmlspecialchars($href) . '"' : 'onclick="return !1"') ?> class="menu-item-link tpl-mixin-padding-target">
+        <span class="menu-item-image">
+            <span class="menu-item-image-container">
+                <?php // ↓ заменить на $f_ncImage->as_img(), когда будет инлайн-редактирование изображений раздела ?>
+                <img src="<?= (string)$f_ncImage ?: $px ?>" alt="<?= $name ?>">
+            </span>
+        </span>
+        <span class="menu-item-text-below-image tpl-text-<?= $cc_settings['item_font'] ?>">
+            <?= $name ?>
+        </span>
+    </a>
+    <?= $sub_menu ?>
+</li><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows): ?></ul><?php endif; ?><!-- /FormSuffix -->

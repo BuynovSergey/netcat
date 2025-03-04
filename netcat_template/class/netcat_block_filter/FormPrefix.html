@@ -1,0 +1,10 @@
+<?= $f_AdminCommon; ?>
+<?php
+
+if ($nc_core->admin_mode) {
+    echo nc_modal_dialog_trigger($filter->get_settings_dialog_url($cc), 'xlarge');
+}
+
+echo $filter->get_form();
+
+?>

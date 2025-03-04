@@ -1,0 +1,2 @@
+.tpl-block-page-block { position: relative; min-width: 460px; }
+.tpl-block-content { margin: 0 auto; max-width: 1060px; min-width: 420px; padding: 0 20px; height: 90px; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px; color: #777; }

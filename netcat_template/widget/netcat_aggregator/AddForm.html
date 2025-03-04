@@ -1,0 +1,220 @@
+<?php
+
+$form = new nc_form(array(
+    'f_widget_type_keyword' => array(
+        'type'    => 'string',
+        'caption' => $fields['widget_type_keyword']['Description'],
+        'value'   => $f_widget_type_keyword,
+        'size'    => 50,
+    ),
+    'f_data_source' => array(
+        'type'    => 'data_source',
+        'caption' => $fields['data_source']['Description'],
+        'value'   => $f_data_source,
+    ),
+    'f_template_header' => array(
+        'type'       => 'textarea',
+        'caption'    => $fields['template_header']['Description'],
+        'codemirror' => true,
+        'value'      => $f_template_header,
+    ),
+    'f_template_body' => array(
+        'type'       => 'textarea',
+        'caption'    => $fields['template_body']['Description'],
+        'codemirror' => true,
+        'value'      => $f_template_body,
+    ),
+    'f_template_footer' => array(
+        'type'       => 'textarea',
+        'caption'    => $fields['template_footer']['Description'],
+        'codemirror' => true,
+        'value'      => $f_template_footer,
+    ),
+    'f_settings' => array(
+        'type'       => 'textarea',
+        'caption'    => $fields['settings']['Description'],
+        'codemirror' => true,
+        'value'      => $f_settings,
+    ),
+    'f_custom_settings' => array(
+        'type'       => 'textarea',
+        'caption'    => $fields['custom_settings']['Description'],
+        'codemirror' => true,
+        'value'      => $f_custom_settings,
+    ),
+));
+?>
+
+<?=include_cd_files() ?>
+
+<?=$form->render_fields() ?>
+
+<?php
+$sizes_dirty = explode('/*NC_WIDGET_SIZE', $f_css);
+
+$sizes = array();
+$json  = array();
+foreach ($sizes_dirty as $row) {
+    if ($row = trim($row)) {
+        preg_match('/^:([0-9]+),([0-9]+)/', $row, $m);
+        $minmax  = array('min' => intval($m[1]), 'max' => intval($m[2]));
+        $json[]  = $minmax;
+        $sizes[] = array_merge($minmax, array('css' => substr($row, strpos($row, '*/')+2)));
+    }
+}
+?>
+<?=nc_admin_input_simple('f_css_breakpoints', $f_css_breakpoints, 60, '', 'class="no_cm" style="display:none"') ?>
+<?=nc_admin_textarea_simple('f_css', $f_css, '', 10, 60, 'class="no_cm" style="display:none"') ?>
+<?=$fields['css']['Description'] ?>:<br>
+
+<div id="widget_css_example" style="display:none">
+    <?=nc_admin_textarea_simple('widget_css[]', '', '', 10, 60, 'class="no_cm"') ?>
+    <label>Размер виджета: от</label> <input type="text" class="widget_css_min nc--small" value=''>
+    <label>до </label><input type="text" class="widget_css_max nc--small" value=''>
+    <label>px</label>
+</div>
+<div id="nc_widget_css" class='nc-box nc--clearfix'>
+    <button id="widget_css_remove" type="button" class="nc-btn nc--small nc--right nc--bordered nc--red">Удалить</button>
+    <button id="widget_css_add" type="button" class="nc-btn nc--small nc--right nc--bordered nc--blue">Добавить</button>
+    <div class='tabs'></div>
+    <div class="tabs-content">
+        <? foreach ($sizes as $i => $row): ?>
+            <div id="widget_css_<?=$i ?>_box" style="display:none">
+                <?=nc_admin_textarea_simple('widget_css[]', trim($row['css']), '', 10, 60, 'class="no_cm"') ?>
+                <label>Размер виджета: от</label> <input type="text" class="widget_css_min nc--small" value='<?=$row['min'] ?>'>
+                <label>до </label><input type="text" class="widget_css_max nc--small" value='<?=$row['max'] ?>'>
+                <label>px</label>
+            </div>
+        <? endforeach ?>
+    </div>
+<div>
+
+<script>
+(function(){
+    var sizes     = <?=json_encode($json) ?>,
+        container = nc('#nc_widget_css'),
+        tabs      = container.find('>div.tabs'),
+        content   = container.find('>div.tabs-content'),
+        current   = 0;
+
+    var css_change = function() {
+        var min,max,k,
+            css = '',
+            boxes = content.find('>div'),
+            breakpoints = {},
+            css_breakpoints = [];
+
+        boxes.each(function(index) {
+            min = sizes[index].min;
+            max = sizes[index].max;
+            if (min) breakpoints[min] = min;
+            if (max) breakpoints[max] = max;
+            css += '/*NC_WIDGET_SIZE:'+min+','+max+'*/\n';
+            css += nc('textarea', this).val() + '\n\n';
+        });
+        for (k in breakpoints) {
+            css_breakpoints.push(k);
+        }
+        nc('#adminForm textarea[name=f_css]').val(css);
+        nc('#adminForm input[name=f_css_breakpoints]').val(css_breakpoints.join(','));
+    }
+
+    var attach_events = function(index) {
+        var boxes = content.find('>div'),
+            box   = nc(boxes[index]),
+            btn   = nc(tabs.find('button')[index]);
+
+        if (box.hasClass('_attached')) return;
+
+        box.addClass('_attached');
+        box.find('textarea,input').change(css_change).blur(css_change);
+        box.find('input').keypress(function() {
+            if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
+                event.preventDefault();
+            }
+        });
+        box.find('input').keyup(function() {
+            var min = parseInt(box.find('input.widget_css_min').val());
+            var max = parseInt(box.find('input.widget_css_max').val());
+            if (!min || min<0) min = 0;
+            if (!max || max<0) max = 0;
+            btn.html(min + (max>min ? '-' + max : '+'));
+            sizes[index] = {'min':min,'max':max};
+        });
+    }
+
+    var append_tabs = function(new_index){
+        var boxes = content.find('>div');
+        tabs.html('');
+        boxes.each(function(index, el) {
+            var size = sizes[index];
+            var btn  = nc(document.createElement('button'));
+            btn.html(size.min + (size.max>size.min ? '-' + size.max : '+'));
+            tabs.append(btn).append(' ');
+
+            if (index == current) {
+                btn.addClass('nc-btn nc--blue');
+            } else {
+                nc(boxes[index]).hide();
+            }
+
+            btn.click(function() {
+                current = index;
+                tabs.find('button').removeClass('nc--blue');
+                nc(this).addClass('nc-btn nc--blue');
+                boxes.hide();
+                nc(boxes[current]).show();
+                return false;
+            });
+
+            if (new_index == index) {
+                btn.click();
+            }
+
+            // if(new_index < 0) attach_events(index);
+            attach_events(index);
+        });
+
+        // if(new_index >= 0) attach_events(new_index);
+    };
+
+    nc('#widget_css_remove').click(function() {
+        var boxes = content.find('>div');
+
+        if ( ! boxes[current]) return;
+
+        nc(boxes[current]).remove();
+        nc(tabs.find('button')[current]).remove();
+        nc(tabs.find('button')[0]).click();
+
+        sizes = [];
+        boxes.each(function(index, el) {
+            var box = nc(el);
+            sizes.push({
+                min: box.find('input.widget_css_min').val(),
+                max: box.find('input.widget_css_max').val()
+            });
+        });
+
+        css_change();
+    });
+
+    nc('#widget_css_add').click(function() {
+        var new_index = content.find('>div').length;
+        var box       = nc('#widget_css_example').clone().attr('id', 'widget_css_'+(new_index)+'_box');
+        var max_size  = sizes[new_index-1] ? Math.max(sizes[new_index-1].min, sizes[new_index-1].max) : 0;
+
+        content.append(box);
+        sizes.push({min:max_size, max:0});
+
+        box.find('input.widget_css_min').val(sizes[new_index].min);
+        box.find('input.widget_css_max').val(sizes[new_index].max);
+
+        append_tabs(new_index);
+        return false;
+    });
+
+    append_tabs(-1);
+})();
+
+</script>

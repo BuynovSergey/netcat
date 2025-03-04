@@ -1,0 +1,21 @@
+<?= $f_AdminButtons ?>
+
+<div class="object-item-full" <?= $styles ?>>
+    <?php if ($cc_settings["show_title_on_detail_page"]): ?>
+        <h1 class="item-name"><?= nc_edit_inline("Name", $message, $cc_env["Sub_Class_ID"]) ?></h1>
+    <?php endif ?>
+
+    <?php if ($f_Image): ?>
+        <div class="item-image-wrapper">
+            <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+        </div>
+    <?php endif ?>
+
+    <div class="item-text tpl-text-default-paragraph">
+        <?= nc_edit_inline("Text", $message, $cc_env["Sub_Class_ID"]) ?>
+    </div>
+
+    <div>
+        <div class="item-date tpl-text-default-paragraph"><?= date("d.m.Y", strtotime($f_Date)) ?></div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Cormorant Unicase';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Cormorant Unicase Light'), local('CormorantUnicase-Light'), url(https://fonts.gstatic.com/s/cormorantunicase/v7/HI_ViZUaILtOqhqgDeXoF_n1_fTGX9N_ttcs5ms.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant Unicase';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Cormorant Unicase Regular'), local('CormorantUnicase-Regular'), url(https://fonts.gstatic.com/s/cormorantunicase/v7/HI_QiZUaILtOqhqgDeXoF_n1_fTGX9vQlMQ.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant Unicase';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Cormorant Unicase Medium'), local('CormorantUnicase-Medium'), url(https://fonts.gstatic.com/s/cormorantunicase/v7/HI_ViZUaILtOqhqgDeXoF_n1_fTGX9Mnt9cs5ms.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant Unicase';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Cormorant Unicase SemiBold'), local('CormorantUnicase-SemiBold'), url(https://fonts.gstatic.com/s/cormorantunicase/v7/HI_ViZUaILtOqhqgDeXoF_n1_fTGX9MLsNcs5ms.woff) format('woff');
+}
+@font-face {
+  font-family: 'Cormorant Unicase';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Cormorant Unicase Bold'), local('CormorantUnicase-Bold'), url(https://fonts.gstatic.com/s/cormorantunicase/v7/HI_ViZUaILtOqhqgDeXoF_n1_fTGX9Nvsdcs5ms.woff) format('woff');
+}

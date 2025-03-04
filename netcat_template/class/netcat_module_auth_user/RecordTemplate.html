@@ -1,0 +1,20 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<tr>
+   <td align='center' valign='center'><img src='<?=($f_ForumAvatar ? $f_ForumAvatar : $nc_core->SUB_FOLDER.$cc_settings['NoAvatarImg']); ?>' alt='' /></td>
+   <td><a href='<?=$fullLink?>'><?=($f_Name ? $f_Name : $f_Email)?></a></td>
+ <? if ($AUTH_USER_ID && $pm_allow) {
+          ?><td><?=($f_RowID!=$AUTH_USER_ID ? "<a href='".nc_auth_messages_url($f_RowID)."'>сообщение</a>" : "")?></td>
+<? } ?>
+  <?=( $allow_rel ? "<td>".($AUTH_USER_ID == $f_RowID ? "" : ( in_array($f_RowID, $friends) ? "<a href='".nc_auth_drop_rel_url($f_RowID)."'>Убрать из друзей</a>" : 
+    ( in_array($f_RowID, $banned) ? "<a href='".nc_auth_drop_rel_url($f_RowID)."'>Убрать из врагов</a>" : 
+    " ".( $friend_allow ? "<a href='".nc_auth_add_to_friend_url($f_RowID)."'>Добавить в друзья</a><br/>": "" )."
+     ".( $banned_allow ? "<a href='".nc_auth_add_to_banned_url($f_RowID)."'>Добавить во враги</a>" : "")." ") )
+   )." </td>" : "" )?>
+  <td><? if (nc_auth_is_online($f_RowID)) { ?>
+      <span class='online'>online</span><?
+  } else { ?>
+      <span class='offline'>offline</span><?
+  } ?></td>
+  <td><?=$f_Created_day.".".$f_Created_month.".".$f_Created_year." - ".$f_Created_hours.":".$f_Created_minutes?></td>
+</tr>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

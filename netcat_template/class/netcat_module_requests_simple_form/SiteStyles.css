@@ -1,0 +1,8 @@
+.tpl-block-form h4,
+.tpl-block-form .tpl-block-text-after-header {
+  display: none;
+}
+
+H4 + .tpl-block-fields, .tpl-block-text-after-header + .tpl-block-fields {
+    margin-top: 0!important;
+}

@@ -1,0 +1,13 @@
+<?php
+
+// Навигация по страницам
+$browse_msg = array();
+$browse_msg['prefix'] = "<nav class='pagination'>";
+$browse_msg['prev'] = "<a class='pagination-item' href='%URL' title='предыдущая страница' >Назад</a>";  // если есть ссылка Назад
+$browse_msg['prev_none'] = "<a class='pagination-item disabled' href='#'>Назад</a>";  // если нет ссылки Назад
+$browse_msg['active'] = "<a class='pagination-item active' href='%URL' title='текущая страница %PAGE'>%PAGE</a>";
+$browse_msg['unactive'] = "<a class='pagination-item' href='%URL' title='страница %PAGE'>%PAGE</a>";
+$browse_msg['divider'] = "";
+$browse_msg['next'] = "<a class='pagination-item' href='%URL' title='следующая страница'>Вперед</a>";  // если есть ссылка Вперед
+$browse_msg['next_none']  = "<a class='pagination-item disabled' href='#'>Вперед</a>";  // если нет ссылки Вперед
+$browse_msg['suffix'] = "</nav>";

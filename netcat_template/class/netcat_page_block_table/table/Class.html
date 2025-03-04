@@ -1,0 +1,65 @@
+<!-- FormPrefix --><div class="tpl-block-page-block <?= $cc_settings['background_color'] ? 'tpl-layout-theme-' . $cc_settings['background_color'] : ''; ?> <?= !$cc_settings['background_pattern'] ? 'tpl-layout-disable-bg-pattern' : ''; ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <?= $f_AdminCommon; ?>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-description">
+                <span class="tpl-infoblock-field-text"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></span>
+            </div>
+        <? endif; ?>
+    </div>
+    <div class="tpl-block-table">
+        <div class="tpl-block-background" style="background: <?= $cc_settings['background_color']; ?>"></div>
+        <div class="tpl-block-container">
+            <table><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><tr>
+                    <td class="tpl-block-label"><?= nc_edit_inline('Name', $f_RowID, $cc) ?></td>
+                    <td class="tpl-block-value">
+                        <?= $f_AdminButtons; ?>
+                        <?= nc_edit_inline('Value', $f_RowID, $cc) ?>
+                    </td>
+                </tr><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->            </table>
+            <a href="#" class="tpl-block-show-all-button">
+                Показать всё
+            </a>
+        </div>
+        <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var expanded = <?= nc_core('input')->fetch_get('expanded') == 1 ? 1 : 0; ?>;
+        var $goods_property = $('#<?= $nc_block_id; ?>');
+        var $rows = $goods_property.find('.tpl-block-table TR');
+        var $button = $goods_property.find('.tpl-block-show-all-button');
+        if ($rows.length <= 5) {
+            $button.hide();
+        } else {
+            if (expanded) {
+                $button.text('Скрыть');
+            } else {
+                $rows.slice(5).hide();
+            }
+            $button.on('click', function (e) {
+                e.preventDefault();
+                if ($rows.filter(':hidden').length) {
+                    $rows.filter(':hidden').fadeIn();
+                    $button.text('Скрыть');
+                } else {
+                    $rows.slice(5).fadeOut();
+                    $button.text('Показать всё');
+                }
+                $('HTML,BODY').animate({
+                    scrollTop: $rows.closest('.tpl-block-container').offset().top - 30
+                });
+            });
+        }
+    });
+</script><!-- /FormSuffix -->

@@ -1,0 +1,21 @@
+<div class='comments-add-block'>
+    <div id='%GUEST_NAME_ID'>
+        <label class='comments-label'>
+            Ваше имя
+            <input type='text' class='comments-input' name='%GUEST_NAME_ID'>
+        </label>
+    </div>
+    <div id='%GUEST_EMAIL_ID'>
+        <label class='comments-label'>
+            Ваш E-mail
+            <input type='email' class='comments-input' name='%GUEST_EMAIL_ID'>
+        </label>
+    </div>
+    <label class='comments-label'>
+        Ваш отзыв
+        <textarea id='%TEXTAREA_ID' name='%TEXTAREA_ID' class='comments-textarea'>%TEXTAREA_VALUE</textarea>
+    </label>
+    ".( $AUTH_USER_ID ? "" : "<div class='comments-captcha'>".nc_captcha_formfield()."<label class='comments-label'>Введите код на картинке<input type='text' name='nc_captcha_code' class='comments-input' /></label></div>" )."
+    <button id='%SUBMIT_BUTTON_ID' name='%SUBMIT_BUTTON_ID' class='comments-button comments-button-primary'>".NETCAT_MODULE_COMMENTS_ADD_FORM_APPEND_BUTTON."</button>
+    <button id='%CANCEL_BUTTON_ID' name='%CANCEL_BUTTON_ID' class='comments-button' onclick='%CANCEL_BUTTON_ACTION'>".NETCAT_MODULE_COMMENTS_ADD_FORM_CANCEL_BUTTON."</button>
+</div>

@@ -1,0 +1,23 @@
+<?php
+
+$cc_settings = nc_get_visual_settings($cc_env["Sub_Class_ID"]);
+$styles = array();
+
+if ($cc_settings["author_text_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--author-text-color: var(--tpl-color-" . $cc_settings["author_text_color"] . ")";
+}
+
+if ($cc_settings["quote_icon_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--quote-icon-color: var(--tpl-color-" . $cc_settings["quote_icon_color"] . ")";
+}
+
+if ($cc_settings["author_icon_text_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--author-icon-text-color: var(--tpl-color-" . $cc_settings["author_icon_text_color"] . ")";
+}
+
+if ($cc_settings["author_icon_fill_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--author-icon-fill-color: var(--tpl-color-" . $cc_settings["author_icon_fill_color"] . ")";
+}
+
+$styles[] = "--tpl-object-item--author-wrapper-space-text:" . str_replace(",", ".", ($cc_settings['author_wrapper_space'] / 100)) . "em";
+$styles = " style='" . implode("; ", $styles) . "'";

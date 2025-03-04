@@ -1,0 +1,32 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+/** @var array $shadow */
+
+// старая версия миксина — есть свойство inset (0/1) и нет свойства shadow_type
+if (empty($settings['shadow_type'])) {
+    $settings['shadow_type'] = empty($settings['inset']) ? 'outset' : 'inset';
+}
+
+$is_drop_shadow = $settings['shadow_type'] === 'drop';
+
+$shadow = array();
+$shadow[] = ($settings['shadow_type'] === 'inset' ? 'inset' : '');
+$shadow[] = ($settings['horizontal'] ?: '0') . 'px';
+$shadow[] = ($settings['vertical'] ? : '0'). 'px';
+$shadow[] = ($settings['blur'] ? : '0'). 'px';
+if (!$is_drop_shadow) {
+    $shadow[] = ($settings['spread'] ?: '0') . 'px';
+}
+$shadow[] = ($settings['color'] ? : '#000000');
+
+$shadow = implode(' ', $shadow);
+
+if ($is_drop_shadow) {
+    $css = "$selector { filter: drop-shadow($shadow); }\n";
+} else {
+    $css = "$selector { box-shadow: $shadow; }\n";
+}
+
+return $css;

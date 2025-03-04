@@ -1,0 +1,5 @@
+.tpl-block-page-block { position: relative; min-width: 460px; word-wrap: break-word; }
+.tpl-block-content { margin: 0 auto; max-width: 1060px; min-width: 420px; padding: 0 20px; min-height: 90px; height: auto; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px; color: #777; word-wrap: break-word; }
+.tpl-block-content .tpl-field-text { max-width: 1060px; }
+.tpl-block-content .tpl-field-text * { line-height: 1.86em; }
+

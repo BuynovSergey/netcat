@@ -1,0 +1,10 @@
+& { min-height: 60px; }
+.object-item { text-decoration: none; color: var(--tpl-color-foreground-main); }
+.object-item .item-info { padding-left: var(--tpl-object-item--text-padding, 0px); padding-right: var(--tpl-object-item--text-padding, 0px); }
+.object-full .full-image, .object-item .item-image { position: relative; }
+.object-full .full-image::before, .object-item .item-image::before { display: block; content: ""; width: 100%; padding-top: var(--tpl-object-item--image-padding-top); }
+.object-full .full-image .image, .object-item .item-image .image { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
+.object-full .full-image .image img, .object-item .item-image .image img { max-width: 100%; width: 100%; height: 100%; object-fit: cover; }
+.object-full .full-image *, .object-item .item-image * { width: 100%; height: 100%; }
+.object-full .full-image { margin-bottom: 1rem; }
+.tpl-color-brand { color: var(--tpl-color-brand); }

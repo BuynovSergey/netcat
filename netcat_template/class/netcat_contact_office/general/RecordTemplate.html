@@ -1,0 +1,30 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?php
+$phones = null;
+if ($f_Phones) {
+    $phones = explode(',', $f_Phones);
+    if (count($phones) > 0) {
+        foreach ($phones as $i => $phone) {
+            $phone = trim($phone);
+            $phones[$i] = '<a href="tel:' . nc_normalize_phone_number($phone) . '">' . $phone . '</a>';
+        }
+        $phones = implode('<span class="divider">,</span> ', $phones);
+    }
+}
+?>
+<div class="point" data-coordinates="<?= htmlspecialchars($f_Coordinates) ?>">
+    <?= $f_AdminButtons; ?>
+    <div class="name-and-address">
+        <div class="name tpl-text-header3"><?= $f_Name ?></div>
+        <div><?= $f_Address ?></div>
+    </div>
+    <div class="contacts">
+        <?php if ($f_WorkingTime): ?>
+            <div class="time"><?= $f_WorkingTime ?></div>
+        <?php endif; ?>
+        <?php if ($f_Phones): ?>
+            <div class="phone"><?= $phones ?></div>
+        <?php endif; ?>
+    </div>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

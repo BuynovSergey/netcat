@@ -1,0 +1,126 @@
+<!-- FormPrefix --><?php if ($menu_level == 1): ?>
+    <?= $f_AdminCommon; ?>
+<?php endif; ?>
+
+<?php
+if ($menu_is_custom && $res) {
+    $fetch_row = $nc_core->subdivision->process_raw_data($res);
+}
+
+if ($totRows && $make_submenu && $cc_settings['submenu_symbol']) {
+    list($submenu_icon, $submenu_icon_type) = explode(';', "$cc_settings[submenu_symbol];;");
+} else {
+    $icon = $icon_type = 'none';
+}
+
+$list_class = '';
+$css_variables = array();
+
+if ($cc_settings['item_icon_color'] !== 'custom') {
+    $css_variables[] = "--menu-name-after-icon--item-icon-color: var(--tpl-color-$cc_settings[item_icon_color]);";
+    $list_class = ' class="menu-custom-icon-color"';
+}
+
+if (!empty($cc_settings['item_icon_spacing'])) {
+    $css_variables[] = '--menu-name-after-icon--item-icon-spacing: ' . str_replace(',', '.', $cc_settings['item_icon_spacing'] / 100) .
+        'em;';
+}
+
+if ($cc_settings['item_icon_decor'] !== 'none') {
+    $css_variables[] = "--menu-name-after-icon--item-icon-decor-color: var(--tpl-color-$cc_settings[item_icon_decor_color]);";
+}
+
+if ($cc_settings["submenu_symbol_color"] !== "inherit") {
+    $css_variables[] = "--tpl-object-item--symbol-color: var(--tpl-color-" . $cc_settings["submenu_symbol_color"] . ");";
+}
+
+$css_variables[] = "--tpl-object-item--icon-space-text: " . str_replace(",", ".", ($cc_settings["symbol_space"] / 100)) . "em";
+$css_variables = $css_variables ? ' style="' . implode(' ', $css_variables) . '"' : '';
+$icon_classes =
+    'menu-item-icon' .
+    ($cc_settings['item_icon_color'] !== 'custom' ? ' menu-item-icon-color-from-palette' : '') .
+    ($cc_settings['item_icon_size'] !== 'inherit' ? ' tpl-text-' . $cc_settings['item_icon_size'] : '') .
+    ($cc_settings['item_icon_decor'] !== 'none' ? ' menu-item-icon-decor-' . $cc_settings['item_icon_decor'] : '');
+
+?>
+
+<?php if ($totRows): ?>
+<ul<?= $css_variables ?>>
+    <?php else: ?>
+        <?php if ($admin_mode): ?>Нет подразделов<?php endif; ?>
+        <!-- EMPTY SUBMENU -->
+    <?php endif; ?>
+    <!-- /FormPrefix -->
+
+    <!-- RecordTemplate --><?php
+    if ($menu_is_custom) {
+        // Для вручную отобранных ссылок нужно установить $f_current, $f_active
+        $f_current = $f_Subdivision_ID == $sub;
+        $f_active = $f_current || $nc_core->subdivision->is_parent_of($sub, $f_Subdivision_ID);
+    }
+
+    $sub_menu = null;
+
+    if ($make_submenu) {
+        if ((empty($menu_submenu_settings[$menu_level - 1]['only_active']) || $f_active)) {
+            $sub_menu = $make_submenu($f_Subdivision_ID);
+        }
+    }
+
+    $classes
+        = 'tpl-dropdown-trigger tpl-mixin-padding-pass-down menu-item'
+        . ($sub_menu ? ' menu-item-with-submenu' : '')
+        . ($f_active ? ' menu-item-active' : '')
+        . ($f_current ? ' menu-item-current' : '');
+
+    $href = $get_menu_item_href($f_Subdivision_ID);
+
+    $icon = nc_embed_icon('Subdivision', $f_Subdivision_ID, 'ncIcon');
+    if ($icon === '') {
+        $icon =
+            '<svg viewBox="0 0 48 48" class="tpl-icon tpl-state-default-color">' .
+            '<path d="M40 12H24l-4-4H8c-2.21 0-3.98 1.79-3.98 4L4 36c0 2.21 1.79 4 4 4h32c2.21 0 4-1.79 4-4V16c0-2.21-1.79-4-4-4zm0 24H8V16h32v20z"/>' .
+            '</svg>';
+    }
+    ?>
+    <li class="<?= $classes ?>">
+        <?= $f_AdminButtons; ?>
+        <a <?= ($href ? 'href="' . htmlspecialchars($href) . '"' : 'onclick="return !1"') ?>
+                class="menu-item-link tpl-mixin-padding-target tpl-text-<?= $cc_settings['item_font'] ?><?= $f_active ?
+                    " menu-item-link-active" : "" ?>">
+            <span class="menu-item-icon-wrapper">
+                <span class="menu-item-icon-aligner">&nbsp;</span>
+                <span class="<?= $icon_classes; ?>"><?= $icon; ?></span>
+            </span>
+            <div class="menu-item-text"><?= htmlspecialchars($f_Subdivision_Name); ?></div>
+
+            <?php
+            if ($icon !== "none" && $sub_menu): ?>
+                <div class="toggle-btn">
+                    <div class="toggle-icon icon-<?= $submenu_icon_type ?>">
+                        <?php if ($submenu_icon == "caret"): ?>
+                            <svg fill="var(--tpl-object-item--symbol-color, #000000)" width="18" height="18" viewBox="0 0 32 32"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 11.305l-7.997 11.39L8 11.305z"/>
+                            </svg>
+                        <?php endif ?>
+
+                        <?php if ($submenu_icon == "chevron"): ?>
+                            <svg width="18" height="10" viewBox="0 0 18 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.9201 0.950195L10.4001 7.4702C9.63008 8.2402 8.37008 8.2402 7.60008 7.4702L1.08008 0.950195"
+                                        stroke="var(--tpl-object-item--symbol-color, #000000)" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                            </svg>
+                        <?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
+        </a>
+        <?= $sub_menu ?>
+    </li><!-- /RecordTemplate -->
+
+    <!-- FormSuffix --> <?php if ($totRows): ?>
+</ul>
+<?php endif; ?>
+<!-- /FormSuffix -->

@@ -1,0 +1,34 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+/** @var array $block_properties */
+/** @var nc_tpl_asset_collector $assets */
+
+$assets->set_meta('expose_children_object_names', true);
+$header_selector = "$list_selector > .tpl-accordion-header";
+
+// стили заголовков аккордеона (для настройки используются миксины)
+$css = "$header_selector { cursor: pointer; margin: 0; }\n";
+$css .= nc_tpl_mixin_assembler::assemble($header_selector, '', '', $settings['header_mixins'], $assets);
+
+$css .= "$header_selector .tpl-accordion-header-container { display: flex; align-items: center; position: relative; }\n";
+$css .= "$header_selector .tpl-accordion-header-title { width: calc(100% - 1.5em);}\n";
+
+// индикатор
+$css .= "$header_selector .tpl-accordion-indicator { " .
+        // (position: absolute — чтобы при вращении индикатора не дёргался outline)
+        "position: absolute; right: 0; width: 1em; height: 1em; " .
+        "stroke: var(--tpl-color-foreground-main, #000); transition: transform 0.2s; }\n";
+$css .= "$header_selector.tpl-state-opened .tpl-accordion-indicator { transform: rotate(180deg); }\n";
+
+// скрытие вкладок в исходном (при загрузке страницы) состоянии
+$css .= "$list_selector > *:not(.tpl-accordion-header) { display: none; }\n";
+if ($settings['open_first']) {
+    $css .= "$list_selector > *:not(.tpl-accordion-header):first-of-type, " .
+            "$header_selector:first-of-type + div { display: block; }\n";
+}
+
+return $css;
+

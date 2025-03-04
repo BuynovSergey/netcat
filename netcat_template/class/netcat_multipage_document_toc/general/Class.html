@@ -1,0 +1,71 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+
+
+<?php
+$table_of_contents = generate_table_of_contents($f_Text, $f_RowID);
+?>
+
+<div class="document-wrapper">
+    <div class="document-subtitle-wrapper">
+        <?php if ($f_SubTitle): ?>
+            <div class="document-subtitle"><?= $f_SubTitle ?></div>
+        <?php endif; ?>
+
+
+        <?php if ($f_File): ?>
+            <div class="document-subtitle-file-wrapper">
+                <?php $download_icon =
+                    !empty($cc_settings["file_download_icon"]) ?
+                        $cc_settings["file_download_icon"]->as_img(array("class" => "document-content-file-icon",
+                            "alt" => "download_icon")) :
+                        $DEFAULT_DOWNLOAD_ICON ?>
+
+                <a href="<?= $f_File_url ?>" download class="document-subtitle-file-label">
+                    <?= $download_icon ?>
+                    <span>Скачать документ</span></a>
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="document-content-wrapper">
+        <div class="document-text">
+            <?= $table_of_contents["html"] ?>
+        </div>
+    </div>
+
+    <div class="document-toc">
+        <h3 class="tpl-text-default-bigger document-toc-heading">
+            Оглавление
+        </h3>
+
+        <div class="document-toc-content">
+            <?= $table_of_contents["index"] ?>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        $(".document-toc").on("click", "a", function (e) {
+            e.preventDefault();
+            const anchor = $(e.target).attr("href").slice(1);
+            const headings = $(`.document-text a[name='${anchor}']`)
+
+            if (!headings.length) {
+                return;
+            }
+
+            const heading = $(headings[0]);
+
+            $("html,body").animate({
+                scrollTop: heading.offset().top
+            }, 350, "swing")
+        })
+    })
+</script><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

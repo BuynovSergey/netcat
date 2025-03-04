@@ -1,0 +1,42 @@
+.vacancy-item {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--tpl-color-foreground-main);
+}
+
+.vacancy-item .title {
+    color: var(--tpl-object-item--title-color);
+}
+
+.vacancy-item .item-info {
+    text-decoration: none;
+    color: unset;
+}
+
+.vacancy-item .item-info .title {
+    text-decoration: none;
+    display: inline-block
+}
+
+.vacancy-full .content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px 0
+}
+
+.vacancy-full .item-description {
+    max-width: 800px;
+    width: 100%;
+}
+
+.vacancy-full .item-salary {
+    min-width: 290px
+}
+
+.vacancy-item .item-info {
+    max-width: 100%
+}

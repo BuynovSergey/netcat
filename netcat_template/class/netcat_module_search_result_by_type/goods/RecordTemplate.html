@@ -1,0 +1,19 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?php
+if ($f_meta['component_id'] && $f_meta['message_id']) {
+    $nc_item = nc_netshop_item::by_id($f_meta['component_id'], $f_meta['message_id']);
+}
+?>
+<?php if ($nc_item): ?>
+    <div class="goods-item">
+        <?php if ((string)$nc_item['Image']): ?>
+            <a href="<?= $nc_item['URL']; ?>" <?= (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") ?> class="goods-image" title="<?= $nc_item['FullName']; ?>">
+                <img src="<?= $nc_item['Image']->resize(240, 240); ?>" alt="<?= $nc_item['FullName']; ?>" class="image" />
+            </a>
+        <?php endif; ?>
+        <a href="<?= $nc_item['URL']; ?>" <?= (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") ?> class="goods-info tpl-text-header4"><?= $nc_item['Name']; ?></a>
+        <div class="tpl-text-default-paragraph"><?= $nc_item['Type']; ?></div>
+        <div class="tpl-text-header6"><?= $nc_item['ItemPriceF']; ?></div>
+    </div>
+<?php endif; ?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

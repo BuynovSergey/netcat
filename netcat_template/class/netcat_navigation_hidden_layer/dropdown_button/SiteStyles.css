@@ -1,0 +1,26 @@
+.dropdown-button {
+    cursor: default;
+}
+
+.dropdown-button-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dropdown-button-icon-close {
+    display: none;
+    vertical-align: middle;
+}
+
+.dropdown-button-active .dropdown-button-icon {
+    display: none;
+}
+
+.dropdown-button-active .dropdown-button-icon-close {
+    display: inline-block;
+}
+
+.dropdown-button-icon svg path,
+.dropdown-button-icon-close svg path {
+    fill: var(--tpl-color-foreground-main)
+}

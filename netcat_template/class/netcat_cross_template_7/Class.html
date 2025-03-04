@@ -1,0 +1,11 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+
+<?php if (!empty($fullLink)): ?>
+    <a class="object-item <?= $cc_settings["title_font_size"] ?>" href="<?= $fullLink ?>"><?= $f_Name ?></a>
+<?php else: ?>
+    <div class="object-item <?= $cc_settings["title_font_size"] ?>"><?= $f_Name ?></div>
+<?php endif ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

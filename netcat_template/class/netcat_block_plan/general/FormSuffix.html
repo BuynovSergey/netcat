@@ -1,0 +1,39 @@
+</div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+
+<script>
+    (function () {
+        if (window.$) {
+            $(init);
+        } else {
+            document.addEventListener("DOMContentLoaded", init);
+        }
+
+        function init() {
+            const wrapper = $("#<?= $nc_block_id ?>").find(".plans-wrapper");
+            const plans = wrapper.find(".plan");
+
+            plans.on("click", function () {
+                const _this = $(this);
+
+                if (_this.hasClass("selected")) {
+                    return;
+                }
+
+                plans.removeClass("selected")
+                    .find(".plan-button")
+                    .removeClass("tpl-button-primary")
+                    .addClass("tpl-button-secondary");
+
+                _this.addClass("selected");
+
+                _this.find(".plan-button")
+                    .removeClass("tpl-button-secondary")
+                    .addClass("tpl-button-primary");
+            })
+        }
+    })()
+</script>

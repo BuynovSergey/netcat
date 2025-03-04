@@ -1,0 +1,20 @@
+<?php
+
+/* @var nc_search_ui $nc_search */
+global $nc_search;
+
+if (!nc_module_check_by_keyword('search')) {
+    nc_print_status('Модуль "Поиск по сайту" выключен или не установлен. <a href="/netcat/admin/#module.list">Включить</a>','error');
+}
+
+$search_query = $search_query ?: $nc_core->input->fetch_post_get('search_query');
+$search_query = nc_search_util::convert($search_query, true);
+$search_query = $nc_search->make_query_string($search_query);
+
+$others = array();
+
+$titles = array();
+if ($search_query) {
+    $nc_data = $nc_search->get_results($search_query /*. ' -page_type:goods' */, "site$catalogue");
+}
+

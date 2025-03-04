@@ -1,0 +1,54 @@
+<?= $f_AdminButtons; ?>
+
+<div class="object-item-full" <?= $styles ?>>
+    <?php if ($cc_settings["show_title_on_detail_page"]): ?>
+        <h1 class="item-title"><?= $f_Name ?></h1>
+    <?php endif ?>
+
+    <div class="item-image-wrapper">
+        <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+    </div>
+
+    <?php if ($admin_mode || $f_SubTitle): ?>
+        <div class="item-subtitle tpl-text-header3"><?= nc_edit_inline('SubTitle', $message, $cc_env['Sub_Class_ID']); ?></div>
+    <?php endif; ?>
+
+    <div class="text-about"><?= nc_edit_inline('Text', $message, $cc_env['Sub_Class_ID']); ?></div>
+
+    <?php if ($admin_mode || $f_Description): ?>
+        <div class="text-client tpl-text-default-paragraph"><?= nc_edit_inline(
+                'Description',
+                $message,
+                $cc_env['Sub_Class_ID']
+            ); ?></div>
+    <?php endif; ?>
+
+    <?php if ($f_Slider->count() > 0): ?>
+        <?php if ($cc_settings['gallery_on_detail_page'] === 'thumbnails'): ?>
+            <div class="item-slider item-slider-thumbnails">
+                <?= $f_Slider->set_template($f_Slider_big)->get_record(1); ?>
+                <?= $f_Slider->set_template($f_Slider_preview); ?>
+            </div>
+        <?php else: ?>
+            <div class="item-slider item-slider-tiles">
+                <?= $f_Slider->set_template($f_Slider_tiles); ?>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
+
+    <?php if ($cc_settings['gallery_on_detail_page'] === 'thumbnails' && $f_Slider->count() > 0): ?>
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                jQuery("#<?= $nc_block_id; ?> .slider-preview-list a").on("click", function (e) {
+                    e.preventDefault();
+                    jQuery("#<?= $nc_block_id; ?> .slider-preview-list a").removeClass("active");
+                    jQuery(this).addClass("active");
+                    let link = jQuery(this).attr("href");
+                    jQuery("#<?= $nc_block_id; ?> .slider-big-image img").attr("src", link);
+                });
+            })
+        </script>
+    <?php endif ?>
+
+</div>

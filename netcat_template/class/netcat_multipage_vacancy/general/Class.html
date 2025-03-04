@@ -1,0 +1,18 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<div class="vacancies" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='vacancy-item'>
+        <?= $f_AdminButtons; ?>
+        <a href='<?= $fullLink; ?>' class="item-info">
+            <div class="title <?= $cc_settings["title_classname"] ?>"><?= $f_Name; ?></div>
+            <div class='description tpl-text-default-paragraph'><?= $f_Description ?></div>
+        </a>
+        <div class='item-salary <?= $cc_settings["title_classname"] ?>'><?= $f_Salary ?></div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

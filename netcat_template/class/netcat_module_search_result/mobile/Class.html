@@ -1,0 +1,64 @@
+<!-- FormPrefix --><div id="search_form">
+<?
+    echo $nc_search->show_form();
+?></div><?
+ if ($search_query) {
+    $totRows = $results->get_total_count();
+    if ($totRows == 0) {
+        if ($results->get_error_message()) {
+            ?><div class='nc_search_status nc_search_error'><?= NETCAT_MODULE_SEARCH_QUERY_ERROR ?></div><?
+        } else {
+            ?><div class='nc_search_status nc_search_no_results'><?= NETCAT_MODULE_SEARCH_NO_RESULTS ?></div><?
+        }
+    } else {
+        if ($results->get_correction_suggestion()) {
+            ?><div class='nc_search_query_suggesion'><?= $results->get_correction_suggestion() ?></div><?
+        }
+
+        if ($show_time) { // показать блок сортировки по дате/релевантности
+            $params = $nc_core->input->fetch_get();
+            unset($params["curPos"]);
+            unset($params["REQUEST_URI"]);
+            $params = http_build_query($params, '', '&amp;');
+            ?><div class='nc_search_sort'><?
+            echo NETCAT_MODULE_SEARCH_SORT_BY.
+            ($sortby == 'last_modified' ? "<span>".NETCAT_MODULE_SEARCH_SORT_BY_LAST_MODIFIED."</span>" : "<a href='?$params&amp;sortby=last_modified'>".NETCAT_MODULE_SEARCH_SORT_BY_LAST_MODIFIED."</a>").
+            " | ".
+            ($sortby == '' ? "<span>".NETCAT_MODULE_SEARCH_SORT_BY_RELEVANCE."</span>" : "<a href='?$params&amp;sortby='>".NETCAT_MODULE_SEARCH_SORT_BY_RELEVANCE."</a>");
+            ?></div><?
+        }
+        ?><ol class='nc_search_results' start='<?= $begRow ?>'><?
+    }
+}
+ ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_search_list'><li><div class='nc_search_title'><a href='<?= $f_url ?>'<?= (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") ?>><?= $f_title ?></a></div>
+        <? if (nc_search::should('ShowMatchedFragment')) { ?>
+            <div class='nc_search_context'><?= strip_tags($f_context, "<strong>") ?></div> <?
+    }
+    if ($show_time) {
+        ?> 
+            <div class='nc_search_datetime'><?= strftime(NETCAT_MODULE_SEARCH_DATETIME_FORMAT, strtotime($f_lastmodified)) ?></div><? } ?>
+    </li></div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? 
+if ($totRows>$f_RowNum) {
+   ?></ol>
+     <div class='nc_search_pages'><div class='nc_search_nav'><strong><?=NETCAT_MODULE_SEARCH_PAGES?>:</strong>
+      <?
+      if ($prevLink) { ?>
+             <span class='nc_search_prev'><a class='prev' href='<?=$prevLink?>'><?=NETCAT_MODULE_SEARCH_RESULTS_PREV?></a></span><?
+      } else { ?>
+             <span class='nc_search_inactive'><?=NETCAT_MODULE_SEARCH_RESULTS_PREV?></span><? 
+      } 
+      if ($nextLink) { ?>
+             <span class='nc_search_next'><a class='next' href='<?=$nextLink?>'><?=NETCAT_MODULE_SEARCH_RESULTS_NEXT?></a></span><? 
+      } else {
+          ?><span class='nc_search_inactive'><?=NETCAT_MODULE_SEARCH_RESULTS_NEXT?></span><?
+      } ?>
+    </div>
+      <?=nc_browse_messages($cc_env, 10)?>
+     </div>  
+      <?
+}
+?><!-- /FormSuffix -->

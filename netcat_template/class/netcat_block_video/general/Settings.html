@@ -1,0 +1,260 @@
+<?php
+
+if (!function_exists("get_embed_code")) {
+
+
+    /**
+     * @param string $url
+     *
+     * @return null|string
+     */
+    function get_video_service_provider($url) {
+        $parsed_url = parse_url($url);
+        $domain = $parsed_url["host"];
+        $matches = array(
+            "/youtu/" => "youtube",
+            "/tiktok/" => "tiktok",
+            "/rutube/" => "rutube",
+            "/vk/" => "vk",
+            "/vimeo/" => "vimeo",
+            "/likee/" => "likee",
+        );
+
+        foreach ($matches as $regexp => $provider) {
+            if (preg_match($regexp, $domain)) {
+                return $provider;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string|null
+     */
+    function get_video_id($url) {
+        $video_service_provider = get_video_service_provider($url);
+        $matches = array(
+            "youtube" => get_youtube_video_id($url),
+            "vimeo" => get_vimeo_video_id($url),
+            "tiktok" => get_tiktok_video_id($url),
+            "rutube" => get_rutube_video_id($url),
+            "vk" => get_vk_video_id($url),
+            "likee" => get_likee_video_id($url),
+        );
+
+        return $matches[$video_service_provider] ?: null;
+    }
+
+
+    /**
+     * @param $url
+     *
+     * @return string|null
+     */
+    function get_embed_code($url) {
+        $video_service_provider = get_video_service_provider($url);
+        $matches = array(
+            "youtube" => get_youtube_embed_code($url),
+            "tiktok" => get_tiktok_embed_code($url),
+            "rutube" => get_rutube_embed_code($url),
+            "vimeo" => get_vimeo_embed_code($url),
+            "vk" => get_vk_embed_code($url),
+            "likee" => get_likee_embed_code($url),
+        );
+
+        return $matches[$video_service_provider] ?: null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    function get_youtube_embed_code($url) {
+        $id = get_youtube_video_id($url);
+
+        return "<iframe width='100%' height='100%'
+                src='https://www.youtube.com/embed/$id?enablejsapi=1'
+                title='YouTube video player' 
+                frameborder='0' 
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                allowfullscreen></iframe>";
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string|null
+     */
+    function get_vimeo_video_id($url) {
+        if (preg_match('#(?:https?://)?(?:www.)?(?:player.)?vimeo.com/(?:[a-z]*/)*([0-9]{6,11})[?]?.*#', $url,
+            $matches)) {
+            return $matches[1];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    function get_vimeo_embed_code($url) {
+        $id = get_video_id($url);
+
+        return "<iframe src='https://player.vimeo.com/video/$id' frameborder='0' 
+                allow='autoplay; fullscreen; picture-in-picture' allowfullscreen></iframe>";
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string|null
+     */
+    function get_tiktok_video_id($url) {
+        $url = parse_url($url);
+        $parts = explode("/", $url["path"]);
+
+        return $parts[3] ?: null;
+    }
+
+    /**
+     * @param $url
+     *
+     * @return string
+     */
+    function get_tiktok_embed_code($url) {
+        $id = get_tiktok_video_id($url);
+
+        return "<blockquote class='tiktok-embed' data-autoplay='false' cite='$url' data-video-id='$id;' style='min-height:739px;'>
+                <section>
+                <script type='text/javascript' src='https://www.embedista.com/j/tiktok.js'></script>
+                    <div style='overflow: auto; position: absolute; height: 0pt; width: 0pt;'>
+                        <div style='position: absolute;width: 91%;bottom: 4px;left: 0;right: 0;color: #000;text-align: center;'></div>
+                </section>
+            </blockquote>
+            <script async src='https://www.tiktok.com/embed.js'></script>";
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string|null
+     */
+    function get_youtube_video_id($url) {
+        $parts = parse_url($url);
+
+        if (isset($parts["host"])) {
+            $host = $parts["host"];
+
+            if (strpos($host, "youtube") === false && strpos($host, "youtu.be") === false) {
+                return false;
+            }
+        }
+
+        if (isset($parts["query"])) {
+            parse_str($parts["query"], $qs);
+
+            if (isset($qs["v"])) {
+                return $qs["v"];
+            } else {
+                if (isset($qs["vi"])) {
+                    return $qs["vi"];
+                }
+            }
+        }
+
+        if (isset($parts["path"])) {
+            $path = explode("/", trim($parts["path"], "/"));
+
+            return $path[count($path) - 1];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    function get_rutube_video_id($url) {
+        $url = parse_url($url);
+        $parts = explode("/", $url["path"]);
+
+        return $parts[2] ?: null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    function get_rutube_embed_code($url) {
+        $id = get_rutube_video_id($url);
+
+        return "<iframe src='https://rutube.ru/play/embed/$id'
+                    frameBorder='0'
+                    allow='clipboard-write; autoplay webkitAllowFullScreen mozallowfullscreen allowFullScreen'></iframe>";
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string|null
+     */
+    function get_vk_video_id($url) {
+        preg_match("/video([0-9_-]+)/", $url, $matches);
+
+        return $matches[1] ?: null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    function get_vk_embed_code($url) {
+        $id = explode("_", get_vk_video_id($url));
+
+        return "<iframe src='https://vk.com/video_ext.php?oid=$id[0]&id=$id[1]&hd=2' 
+                allow='autoplay; encrypted-media; fullscreen; picture-in-picture;'
+                frameborder='0' 
+                allowfullscreen>
+            </iframe>";
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string|null
+     */
+    function get_likee_video_id($url) {
+        $path = parse_url($url, PHP_URL_PATH);
+        $parts = explode("/", $path);
+
+        return end($parts) ?: null;
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    function get_likee_embed_code($url) {
+        $id = get_likee_video_id($url);
+
+        return "<blockquote cite='$url' data-video-id='$id'>
+                <iframe src='https://likee.video/embed/video/$id' scrolling='no' border='0'
+                    frameborder='no'
+                    framespacing='0' 
+                    allowfullscreen='true' 
+                    style='width:auto;height:auto;min-height:880px;min-width:300px;display: block;visibility:unset;'>
+                </iframe>
+            </blockquote>";
+    }
+}

@@ -1,0 +1,77 @@
+<!-- FormPrefix --><?php if ($menu_level == 1): ?><?= $f_AdminCommon; ?><?php endif; ?>
+<?php
+if ($menu_is_custom && $res) {
+    // данные о разделах уже загружены — передадим их в $nc_core->subdivision,
+    // чтобы не делать дополнительных запросов при обращении к $nc_core->subdivision->get_by_id(),
+    // и устанавливаем дополнительные переменные для файловых и т. п. особых полей
+    $fetch_row = $nc_core->subdivision->process_raw_data($res);
+}
+
+// CSS-переменные на основе настроек инфоблока: цвет иконки, отступ.
+// NB: будут применены ко всему <ul>, а значит будут влиять на подменю, если в нём
+// эти настройки не определены.
+$css_variables = array();
+if ($cc_settings['item_icon_color'] !== 'custom') {
+    $css_variables[] = "--menu-icon--item-icon-color: var(--tpl-color-$cc_settings[item_icon_color]);";
+}
+if ($cc_settings['item_icon_decor'] !== 'none') {
+    $css_variables[] = "--menu-icon--item-icon-decor-color: var(--tpl-color-$cc_settings[item_icon_decor_color]);";
+}
+$css_variables = $css_variables ? ' style="' . implode(' ', $css_variables) . '"' : '';
+
+$icon_classes =
+    'menu-item-icon-only tpl-text-' . $cc_settings['item_icon_size'] .
+    ($cc_settings['item_icon_color'] !== 'custom' ? ' menu-item-icon-color-from-palette' : '') .
+    ($cc_settings['item_icon_decor'] !== 'none' ? ' menu-item-icon-decor-' . $cc_settings['item_icon_decor'] : '');
+
+?>
+<?php if ($totRows): ?>
+    <ul<?= $css_variables ?>>
+<?php else: ?>
+    <?php if ($admin_mode): ?>Нет подразделов<?php endif; ?>
+    <!-- EMPTY SUBMENU -->
+<?php endif; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+    if ($menu_is_custom) {
+        // Для вручную отобранных ссылок нужно установить $f_current, $f_active
+        $f_current = $f_Subdivision_ID == $sub;
+        $f_active = $f_current || $nc_core->subdivision->is_parent_of($sub, $f_Subdivision_ID);
+    }
+
+    $sub_menu = null;
+    if ($make_submenu) {
+        if ((!$menu_submenu_settings[$menu_level - 1]['only_active'] || $f_active)) {
+            $sub_menu = $make_submenu($f_Subdivision_ID);
+        }
+    }
+
+    $classes
+        = 'tpl-dropdown-trigger tpl-mixin-padding-pass-down menu-item'
+        . ($sub_menu ? ' menu-item-with-submenu' : '')
+        . ($f_active ? ' menu-item-active' : '')
+        . ($f_current ? ' menu-item-current' : '');
+
+    $href = $get_menu_item_href($f_Subdivision_ID);
+
+    $icon = nc_embed_icon('Subdivision', $f_Subdivision_ID, 'ncIcon');
+    if ($icon === '') {
+        $icon =
+            '<svg viewBox="0 0 48 48" class="tpl-icon tpl-state-default-color">' .
+            '<path d="M40 12H24l-4-4H8c-2.21 0-3.98 1.79-3.98 4L4 36c0 2.21 1.79 4 4 4h32c2.21 0 4-1.79 4-4V16c0-2.21-1.79-4-4-4zm0 24H8V16h32v20z"/>' .
+            '</svg>';
+    }
+
+    ?>
+    <li class="<?= $classes ?>">
+        <?= $f_AdminButtons; ?>
+        <a <?= ($href ? 'href="' . htmlspecialchars($href) . '"' : 'onclick="return !1"') ?>
+         class="menu-item-link tpl-mixin-padding-target" title="<?= htmlspecialchars($f_Subdivision_Name) ?>">
+            <span class="<?= $icon_classes; ?>"><?= $icon; ?></span>
+        </a>
+        <?= $sub_menu ?>
+    </li><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows): ?></ul><?php endif; ?>
+<!-- /FormSuffix -->

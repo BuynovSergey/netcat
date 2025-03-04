@@ -1,0 +1,40 @@
+<?
+if (!$search_query) {
+    echo nc_search::should('EnableAdvancedSearchForm') ? $nc_search->show_advanced_form() : $nc_search->show_form();
+} else {
+   ?><div class='nc_search_form'><div class='nc_search_input'><?= $nc_search->show_form() ?></div><div class='nc_search_arrow'></div></div>
+    <?
+    $totRows = $results->get_total_count();
+    if ($totRows == 0) {
+        if ($results->get_error_message()) {
+            ?><div class='nc_search_status nc_search_error'><?= NETCAT_MODULE_SEARCH_QUERY_ERROR ?></div><?
+        } else {
+            ?><div class='nc_search_status nc_search_no_results'><?= NETCAT_MODULE_SEARCH_NO_RESULTS ?></div><?
+        }
+    } else {
+        if ($results->get_correction_suggestion()) {
+            ?><div class='nc_search_query_suggesion'><?= $results->get_correction_suggestion() ?></div><?
+        }
+
+        if ($show_time) { // показать блок сортировки по дате/релевантности
+            $params = $nc_core->input->fetch_get();
+            unset($params["curPos"]);
+            unset($params["REQUEST_URI"]);
+            $params = http_build_query($params, '', '&amp;');
+            ?><div class='nc_search_sort'><?
+            echo NETCAT_MODULE_SEARCH_SORT_BY .
+            ($sortby == 'last_modified' ? "<span>" . NETCAT_MODULE_SEARCH_SORT_BY_LAST_MODIFIED . "</span>" : "<a href='?$params&amp;sortby=last_modified'>" . NETCAT_MODULE_SEARCH_SORT_BY_LAST_MODIFIED . "</a>") .
+            " | " .
+            ($sortby == '' ? "<span>" . NETCAT_MODULE_SEARCH_SORT_BY_RELEVANCE . "</span>" : "<a href='?$params&amp;sortby='>" . NETCAT_MODULE_SEARCH_SORT_BY_RELEVANCE . "</a>");
+            ?></div><?
+        }
+        ?><ol class='nc_search_results' start='<?= $begRow ?>'><?
+    }
+}
+
+if (!$advanced && $totRows) {
+    ?><div class='nc_search_range'><?
+    echo
+    ($begRow == $endRow ? sprintf(NETCAT_MODULE_SEARCH_RESULTS_ONE, $begRow, $totRows) : sprintf(NETCAT_MODULE_SEARCH_RESULTS_RANGE, $begRow, $endRow, $totRows) )
+    ?>
+            :</div><? } ?>

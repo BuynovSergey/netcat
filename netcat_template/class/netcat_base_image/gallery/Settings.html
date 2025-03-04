@@ -1,0 +1,14 @@
+<?php
+
+$size = $cc_settings['objectSize'] === 'custom'
+    ? nc_array_value($cc_settings, 'customSize', 'real')
+    : nc_array_value($cc_settings, 'objectSize', 'real');
+
+$size = str_replace(array('-', 'by', ' '), array('.', ':', ''), $size);
+
+if ($size !== 'real') {
+    list($w, $h) = explode(":", str_replace(',', '.', $size));
+    $styles = " style='--tpl-image-padding-top: " . sprintf('%0.3F', ($h / $w) * 100) . "%'";
+} else {
+    $styles = '';
+}

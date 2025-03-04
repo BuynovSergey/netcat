@@ -1,0 +1,40 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+if ($f_URL) {
+    $block_start = "<a href='{$f_URL}' title='{$f_Name}'";
+    if ($f_newWindow) {
+        $block_start .= " target='_blank'";
+    }
+    $block_end = "</a>";
+} else {
+    $block_start = "<div";
+    $block_end = "</div>";
+}
+$block_start .= " class='object-item'" . $styles . ">";
+?>
+<?= $f_AdminButtons; ?>
+<?= $block_start; ?>
+<?php if ((string)$f_Image): ?>
+    <div class='item-image'>
+        <div class="image">
+            <?= $f_Image->as_img(array('alt' => $f_Name)); ?>
+        </div>
+    </div>
+<?php endif; ?>
+<div class='item-info'>
+    <?php if ($admin_mode || $f_Name): ?>
+        <div class="tpl-text-header4">
+            <?= nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+        </div>
+    <?php endif; ?>
+    <?php if ($admin_mode || $f_Description): ?>
+        <div class="tpl-text-default-paragraph">
+            <?= nc_edit_inline('Description', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+        </div>
+    <?php endif; ?>
+</div>
+<?= $block_end; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

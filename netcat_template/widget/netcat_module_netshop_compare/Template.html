@@ -1,0 +1,20 @@
+<?php
+
+$goods = nc_netshop::get_instance()->goodslist_compare->get_all('DESC', 12);
+
+if (count($goods)) {
+    echo '<div class="tpl-widget-netshop-compare">',
+         '<h2>Список сравнения</h2>',
+         '<div class="tpl-block-list-objects">';
+
+    foreach ($goods as $i => $item_data) {
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', array(
+            'Component_ID' => $item_data['Class_ID'],
+            'Item_ID' => $item_data['Item_ID'],
+            'ListName' => 'Список сравнения',
+            'ListPosition' => $i + 1,
+        ));
+    }
+
+    echo '</div></div>';
+}

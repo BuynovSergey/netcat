@@ -1,0 +1,30 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<div class="tpl-block-page-block tpl-layout-background-<?= nc_get_color_type($cc_settings['background_color']); ?> <?= $totRows % 3 == 0 ? 'tpl-layout-3' : '' ?> <?= !$cc_settings['background_pattern'] ? 'tpl-layout-disable-bg-pattern' : ''; ?>" style="background-color: <?= $cc_settings['background_color']; ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-prefix"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></div>
+        <? endif; ?>
+        <div class="tpl-block-rows">
+            <div class="tpl-block-row"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="tpl-block-item">
+        <?= $f_AdminButtons ?>
+        <div class="tpl-block-advantage">
+            <div class="tpl-block-photo"><?= nc_image_edit_inline('Icon', $f_RowID, $cc) ?></div>
+            <div class="tpl-block-text">
+                <h3><?= nc_edit_inline('Title', $f_RowID, $cc) ?></h3>
+                <p><?= nc_edit_inline('Text', $f_RowID, $cc) ?></p>
+            </div>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->            </div>
+        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div><!-- /FormSuffix -->

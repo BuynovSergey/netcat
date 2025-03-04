@@ -1,0 +1,273 @@
+<?php
+/** @var array $infoblock_data */
+$infoblock_settings = $infoblock_data['Sub_Class_Settings'];
+?>
+
+<div class="nc-block-menu-custom-settings">
+    <div class="nc-block-menu-count-column">
+        <div class="nc-field">
+            <label>Количество колонок</label>
+            <input type="number" min="1" step="1" name="custom_settings[columnCount]" class="nc--medium"
+                    value="<?= nc_array_value($infoblock_settings, 'columnCount', '3'); ?>">
+        </div>
+    </div>
+
+    <?php foreach (array(
+                       "columnTitle",
+                       "columnDecor",
+                       "columnFontSize",
+                       "columnFontWeight",
+                       "columnTextColor",
+                   ) as $title): ?>
+        <input type="hidden" name="custom_settings[<?= $title ?>]"
+                value='<?= nc_array_value($infoblock_settings, $title, '[]'); ?>'>
+    <?php endforeach ?>
+
+    <div class="nc-block-menu-count-column">
+        <input type="hidden" value="0" name="custom_settings[hideHeader]">
+        <div class="nc-field">
+            <label>
+                <input type="checkbox" value="1" name="custom_settings[hideHeader]"
+                    <?= nc_array_value($infoblock_settings, 'hideHeader') ? "checked" : ""; ?>>
+                Не показывать заголовок таблицы
+            </label>
+        </div>
+    </div>
+
+    <div class="nc-block-menu-header-font-size header-settings">
+        <div class="nc-field">
+            <?php $fonts = array(
+                "tpl-text-alt" => "дополнительный",
+                "tpl-text-default" => "обычный",
+                "tpl-text-header1" => "заголовок 1",
+                "tpl-text-header2" => "заголовок 2",
+                "tpl-text-header3" => "заголовок 3",
+                "tpl-text-header4" => "заголовок 4",
+                "tpl-text-header5" => "заголовок 5",
+                "tpl-text-header6" => "заголовок 6",
+            );
+            ?>
+
+            <label>
+                Шрифт заголовков
+                <select name="custom_settings[headerFontSize]">
+                    <?php foreach ($fonts as $value => $label): ?>
+                        <option <?= $infoblock_settings["headerFontSize"] == $value ? "selected" : "" ?>
+                                value="<?= $value ?>"><?= $label ?></option>
+                    <?php endforeach ?>
+                </select>
+            </label>
+        </div>
+    </div>
+
+
+    <div class="nc-block-menu-header-font-color header-settings">
+        <div class="nc-field">
+            <?php $colors = array(
+                "inherit" => "по умолчанию",
+                "--tpl-color-foreground-main" => "основной цвет",
+                "--tpl-color-foreground-accent" => "дополнительный цвет",
+                "--tpl-color-brand" => "брендовый",
+            );
+            ?>
+
+            <label>
+                Цвет заголовков
+                <select name="custom_settings[headerFontColor]">
+                    <?php foreach ($colors as $value => $label): ?>
+                        <option <?= $infoblock_settings["headerFontColor"] == $value ? "selected" : "" ?>
+                                value="<?= $value ?>"><?= $label ?></option>
+                    <?php endforeach ?>
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div class="nc-block-menu-column-title">
+        <table class="nc-table">
+            <thead>
+            <tr>
+                <th rowspan="2" style="width:1%">колонка</th>
+                <th rowspan="2">заголовок</th>
+                <th colspan="2" class="nc-text-center">выравнивание по горизонтали</th>
+                <th class="nc-text-center">размер шрифта</th>
+                <th class="nc-text-center">вес шрифта</th>
+                <th class="nc-text-center">цвет текста</th>
+            </tr>
+            <tr>
+                <th class="nc-text-center" style="width:1%">ячейки</th>
+                <th class="nc-text-center" style="width:1%">заголовка</th>
+                <?php for ($i = 0; $i < 3; $i++): ?>
+                    <th class="nc-text-center" style="width:1%">ячейки</th>
+                <?php endfor ?>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+<script>
+    (function () {
+        const dialog = nc.ui.modal_dialog.get_current_dialog();
+        const settings_div = dialog.find(".nc-block-menu-custom-settings");
+
+        const get_input = name => settings_div.find(`[name='custom_settings[${name}]']`);
+        const column_count = get_input("columnCount");
+        const column_title = get_input("columnTitle");
+        const column_decor = get_input("columnDecor");
+        const column_font_size = get_input("columnFontSize");
+        const column_font_weight = get_input("columnFontWeight");
+        const column_text_color = get_input("columnTextColor");
+        const block_column_title = dialog.find(".nc-block-menu-column-title table tbody");
+
+        function render_column_fields() {
+            const columnTitleCurrent = JSON.parse(column_title.val() || "[]");
+            const columnDecorCurrent = JSON.parse(column_decor.val() || "[]");
+            const columnFontSizeCurrent = JSON.parse(column_font_size.val() || "[]");
+            const columnFontWeightCurrent = JSON.parse(column_font_weight.val() || "[]");
+            const columnTextColorCurrent = JSON.parse(column_text_color.val() || "[]");
+
+            let table_content = "";
+            block_column_title.html("");
+
+            for (let i = 1; i <= column_count.val(); i++) {
+                let val = columnTitleCurrent[i] ? columnTitleCurrent[i] : "";
+
+                if (!columnDecorCurrent[i]) {
+                    columnDecorCurrent[i] = {
+                        "cell_align": "",
+                        "header_align": "",
+                    };
+                }
+
+                if (!columnFontSizeCurrent[i]) {
+                    columnFontSizeCurrent[i] = {
+                        "cell_font_size": "tpl-text-default",
+                        "header_font_size": "tpl-text-default",
+                    };
+                }
+
+                if (!columnTextColorCurrent[i]) {
+                    columnTextColorCurrent[i] = {
+                        "cell_text_color": "--tpl-foreground-main",
+                        "header_text_color": "--tpl-foreground-main",
+                    };
+                }
+
+                if (!columnFontWeightCurrent[i]) {
+                    columnFontWeightCurrent[i] = {
+                        "cell_font_weight": "",
+                        "header_font_weight": "",
+                    };
+                }
+
+                table_content += `<tr>
+                    <td class='nc-text-center'>#${i}</td>
+                    <td><input type='text' name='column_title[${i}]' value='${val}' data-num='${i}' placeholder='Заголовок колонки ${i}' class='nc--wide'></td>
+                    <td><select name='column_decor[${i}][cell_align]'>${horizontal_align_options(columnDecorCurrent[i]["cell_align"])}</select></td>
+                    <td><select name='column_decor[${i}][header_align]'>${horizontal_align_options(columnDecorCurrent[i]["header_align"])}</select></td>
+                    <td><select name='column_font_size[${i}][cell_font_size]'>${font_size_options(columnFontSizeCurrent[i]["cell_font_size"])}</select></td>
+                    <td><select name='column_font_weight[${i}][cell_font_weight]'>${font_weight_options(columnFontWeightCurrent[i]["cell_font_weight"])}</select></td>
+                    <td><select name='column_text_color[${i}][cell_text_color]'>${text_color_options(columnTextColorCurrent[i]["cell_text_color"])}</select></td>
+                    </tr>`;
+            }
+
+            block_column_title.html(table_content);
+            settings_div.find("[name^='column_title']").trigger("change");
+        }
+
+        function get_selected_attribute(actual_value, value_to_compare) {
+            if (actual_value === value_to_compare) {
+                return "selected";
+            }
+        }
+
+        function horizontal_align_options(selected) {
+            return `<option value=''>по умолчанию</option>
+                <option value='align-left'${get_selected_attribute(selected, "align-left")}>по левому краю</option>
+                <option value='align-center'${get_selected_attribute(selected, "align-center")}>по центру</option>
+                <option value='align-right'${get_selected_attribute(selected, "align-right")}>по правому краю</option>
+                <option value='align-justify'${get_selected_attribute(selected, "align-justify")}>по ширине</option>`;
+        }
+
+        function font_size_options(selected) {
+            return `<option value='tpl-text-alt' ${get_selected_attribute(selected, "tpl-text-alt")}>дополнительный</option>
+                    <option value='tpl-text-default' ${get_selected_attribute(selected, "tpl-text-default")}>обычный</option>
+                    <option value='tpl-text-header1' ${get_selected_attribute(selected, "tpl-text-header1")}>заголовок 1</option>
+                    <option value='tpl-text-header2' ${get_selected_attribute(selected, "tpl-text-header2")}>заголовок 2</option>
+                    <option value='tpl-text-header3' ${get_selected_attribute(selected, "tpl-text-header3")}>заголовок 3</option>
+                    <option value='tpl-text-header4' ${get_selected_attribute(selected, "tpl-text-header4")}>заголовок 4</option>
+                    <option value='tpl-text-header5' ${get_selected_attribute(selected, "tpl-text-header5")}>заголовок 5</option>
+                    <option value='tpl-text-header6' ${get_selected_attribute(selected, "tpl-text-header6")}>заголовок 6</option>`;
+        }
+
+        function font_weight_options(selected) {
+            return `<option value='' ${get_selected_attribute(selected, "")}>не менять</option>
+                    <option value='font-weight-semi-bold' ${get_selected_attribute(selected, "font-weight-semi-bold")}>полужирный</option>
+                    <option value='font-weight-normal' ${get_selected_attribute(selected, "font-weight-normal")}>обычный</option>`
+        }
+
+        function text_color_options(selected) {
+            return `<option value='--tpl-color-foreground-main' ${get_selected_attribute(selected, "--tpl-color-foreground-main")}>основной</option>
+                    <option value='--tpl-color-brand' ${get_selected_attribute(selected, "--tpl-color-brand")}>брендовый</option>
+                    <option value='--tpl-color-foreground-accent' ${get_selected_attribute(selected, "--tpl-color-foreground-accent")}>дополнительный (акцентирующий) цвет</option>`;
+        }
+
+        function toggle_header_settings_visibility() {
+            const header_settings = $nc(".nc-block-menu-count-column").nextAll(".header-settings");
+
+            get_input("hideHeader").on("change", function () {
+                if ($nc(this).prop("checked")) {
+                    header_settings.hide();
+                } else {
+                    header_settings.show();
+                }
+            }).trigger("change")
+        }
+
+        function save_column_fields() {
+            const values = [];
+            const decor = [];
+            const font_size = [];
+            const font_weight = [];
+            const text_color = [];
+
+            settings_div.find("[name^='column_title']").each(function () {
+                $nc(this).val($nc(this).val().replace(/'|"/gi, ""));
+                let num = $nc(this).data("num");
+
+                values[num] = $nc(this).val() || "";
+
+                decor[num] = {
+                    "cell_align": settings_div.find(`[name='column_decor[${num}][cell_align]'] :selected`).val(),
+                    "header_align": settings_div.find(`[name='column_decor[${num}][header_align]'] :selected`).val(),
+                }
+
+                font_size[num] = {
+                    "cell_font_size": settings_div.find(`[name='column_font_size[${num}][cell_font_size]'] :selected`).val(),
+                    "header_font_size": settings_div.find(`[name='column_font_size[${num}][header_font_size]'] :selected`).val(),
+                }
+
+                text_color[num] = {
+                    "cell_text_color": settings_div.find(`[name='column_text_color[${num}][cell_text_color]'] :selected`).val(),
+                    "header_text_color": settings_div.find(`[name='column_text_color[${num}][header_text_color]'] :selected`).val(),
+                }
+
+                font_weight[num] = {
+                    "cell_font_weight": settings_div.find(`[name='column_font_weight[${num}][cell_font_weight]'] :selected`).val(),
+                    "header_font_weight": settings_div.find(`[name='column_font_weight[${num}][header_font_weight]'] :selected`).val(),
+                }
+            });
+
+            column_title.val(JSON.stringify(values));
+            column_decor.val(JSON.stringify(decor));
+            column_font_size.val(JSON.stringify(font_size));
+            column_font_weight.val(JSON.stringify(font_weight));
+            column_text_color.val(JSON.stringify(text_color));
+        }
+
+        toggle_header_settings_visibility();
+        column_count.change(render_column_fields).trigger("change");
+        $nc(document).on("change", settings_div.find("[name^='column_title'], [name^='column_decor'], [name^='column_font_size'], [name^='column_font_weight'], [name^='column_text_color']"), save_column_fields);
+    })();
+</script>

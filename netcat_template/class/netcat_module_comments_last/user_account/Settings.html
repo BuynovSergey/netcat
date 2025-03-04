@@ -1,0 +1,36 @@
+<? 
+$user_name = $nc_core->get_settings('UserName', 'comments');
+global $browse_tabs;
+
+// записи определенного пользователя
+$by_user_id = intval($by_user_id);
+if ( !$by_user_id ) $by_user_id = $AUTH_USER_ID;
+
+// для заголовка
+if ( $by_user_id != $AUTH_USER_ID ) {
+  $f_Author = $db->get_var("SELECT `".$user_name."` FROM `User` WHERE `User_ID` = '".$by_user_id."' ");
+  $pre = "Комментарии пользователя <a href='".nc_auth_profile_url($by_user_id)."'>$f_Author</a>";
+   //if ( !$f_Author ) header("Location: /");
+}
+else {
+  $f_Author = $current_user[$user_name];
+  $pre = "Мои комментарии";
+}
+
+$cc_env['Cache_Access_ID'] = 2;
+$ignore_all = 1;
+
+$query_select ="c.`Comment`, c.`Message_ID` AS MessageID, c.`id`,
+	IF( UNIX_TIMESTAMP(c.`Updated`) > UNIX_TIMESTAMP(c.`Date`), DATE_FORMAT(c.`Updated`, '%d.%m.%Y %H:%i:%s'), DATE_FORMAT(c.`Date`, '%d.%m.%Y %H:%i:%s') ) AS `Created`,
+        u.`User_ID`, u.`".($user_name ? $user_name : "Login")."` AS Login, c.`Guest_Name` AS Guest,
+        sc.`Sub_Class_ID` AS SubClassID, sc.`Sub_Class_Name` AS SubClassName, sc.`Class_ID`, sc.`EnglishName`,
+        sub.`Subdivision_ID` AS SubID, sub.`Subdivision_Name` AS SubName, sub.`Hidden_URL` AS SubURL";
+$query_from = "`Comments_Text` as c";
+$query_join = " LEFT JOIN `User` as u ON u.`User_ID` = c.`User_ID`
+  LEFT JOIN `Sub_Class` as sc ON sc.`Sub_Class_ID` = c.`Sub_Class_ID`
+  LEFT JOIN `Subdivision` as sub ON sub.`Subdivision_ID` = sc.`Subdivision_ID`";
+$query_where = "c.`Checked` = 1 AND c.`User_ID` = '".$by_user_id."' ";
+$query_order = "`Date` DESC";
+$query_limit = $cc_env['RecordsPerPage'] ? $cc_env['RecordsPerPage'] : "15";
+
+?>

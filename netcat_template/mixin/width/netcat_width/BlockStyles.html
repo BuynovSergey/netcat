@@ -1,0 +1,68 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+// Использует CSS-переменные, устанавливаемые миксином netcat_margin.
+//
+// Устанавливает CSS-переменные, используемые в netcat_layout_width:
+// --tpl-mixin-width-set-min-width
+// --tpl-mixin-width-set-max-width
+
+/**
+ * @param $setting
+ * @return string|null
+ */
+$get_setting = function($setting) use ($settings) {
+    if (empty($settings[$setting])) {
+        return null;
+    }
+    return $settings[$setting] . (isset($settings[$setting . '_unit']) ? $settings[$setting . '_unit'] : '');
+};
+
+$width = $get_setting('width');
+$min_width = $get_setting('width_min');
+$max_width = $get_setting('width_max');
+
+$properties = array();
+$reset = array();
+
+// Ширина
+if ($width) {
+    $properties[] = "width: $width";
+}
+
+// Минимальная ширина
+if ($min_width) {
+    $properties[] = "min-width: $min_width";
+    $properties[] = "--tpl-mixin-width-set-min-width: $min_width";
+}
+
+if ($width || $min_width) {
+    $properties[] = "--tpl-mixin-width-set-min-width: " . ($min_width ?: $width);
+    $reset[] = "--tpl-mixin-width-set-min-width: initial";
+
+    $properties[] = 'flex-shrink: 0';
+    if ($width) {
+        $properties[] = 'flex-grow: 0';
+    }
+}
+
+// Максимальная ширина
+if ($max_width) {
+    $properties[] = "max-width: calc($max_width" .
+        // вычитаем margin, заданный миксином netcat_margin
+        " - var(--tpl-mixin-margin-left, 0px) - var(--tpl-mixin-margin-right, 0px)" .
+        ")";
+}
+
+if ($width || $max_width) {
+    $properties[] = "--tpl-mixin-width-set-max-width: " . ($max_width ?: $width);
+    $reset[] = "--tpl-mixin-width-set-max-width: initial";
+}
+
+// Сборка и отдача CSS
+$css = "$selector {\n" . implode(";\n", $properties) . "\n}\n";
+$css .= "$selector > * {\n" . implode(";\n", $reset) . "\n}\n";
+
+return $css;

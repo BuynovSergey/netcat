@@ -1,0 +1,15 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+
+<div class="object-item <?= $cc_settings["imageSize"] ?>  <?= $cc_settings["imageHeight"] ? "setHeight" : ""; ?>">
+    <?= $f_Image ?
+        $f_Image->as_img(array("alt" => strip_tags($f_Title), "title" => strip_tags($f_Title), "height" => $cc_settings["imageHeight"])) :
+        ""; ?>
+
+    <?php if ($cc_settings["show_title"] && isset($f_Title) && $f_Title): ?>
+        <div class="tpl-text-default-paragraph"><?= $f_Title ?></div>
+    <?php endif ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

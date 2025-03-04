@@ -1,0 +1,3 @@
+& { min-height: 60px; }
+.object-item-link { color: var(--tpl-color-foreground-main); text-decoration: none; }
+.object-item-secondary-text { color: var(--tpl-color-brand); display: block; }

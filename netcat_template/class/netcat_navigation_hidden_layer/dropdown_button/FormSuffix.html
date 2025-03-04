@@ -1,0 +1,108 @@
+<style>
+.dropdown-container > .nc-area,
+.dropdown-container > .nc-area > .tpl-block-list {
+    height: 100%;
+}
+.dropdown-container > .nc-area > * > .nc-container:first-child > .nc-infoblock-toolbar {
+    top: 0;
+    z-index: 2;
+}
+.dropdown-button-icon-close {
+    position: absolute;
+    top: 20px;
+    left: calc(100% + 20px);
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var body = $('body'),
+        container = $('#<?= $nc_block_id ?>'),
+        admin_container = container.closest('.tpl-block-<?= $cc ?>'),
+        menu = container.find('.dropdown-container').appendTo('body'),
+        menu_width = parseFloat(menu.outerWidth()),
+        button = container.find('.dropdown-button'),
+        close_button = menu.find('.dropdown-button-icon-close'),
+        body_margin_top = parseFloat(body.css('margin-top'));
+
+    // Показ меню
+    function show() {
+        if (menu.is(':visible')) {
+            return;
+        }
+
+        // Выезжающее меню слева
+        <?php if (!empty($cc_settings['menu_position']) && $cc_settings['menu_position'] === 'slide_left'): ?>
+        menu.css({ top: 0, left: '-' + menu_width + 'px'}).show().animate({'left': 0}, 200);
+        show_action();
+
+        // Выезжающее меню справа
+        <?php elseif (!empty($cc_settings['menu_position']) && $cc_settings['menu_position'] === 'slide_right'): ?>
+        menu.css({ top: 0, left: 'auto', right: '-' + menu_width + 'px'}).show().animate({'right': 0}, 200);
+        show_action();
+
+        // Оверлей
+        <?php elseif (!empty($cc_settings['menu_position']) && $cc_settings['menu_position'] === 'overlay'): ?>
+        menu.css({ top: 0, left: 0}).show();
+
+        // Выпадающее меню под кнопкой
+        <?php else: ?>
+        menu.css({ top: 0, left: 0})
+            .position({
+                my: 'left top',
+                at: 'left bottom-' + body_margin_top,
+                of: admin_container
+            })
+            .fadeToggle();
+        <?php endif; ?>
+
+        button.toggleClass('dropdown-button-active');
+
+        setTimeout(function() {
+            body.on('click.<?= $nc_block_id ?>', hide_on_click);
+        }, 100);
+    }
+
+    // Действия при показе меню
+    function show_action() {
+        body.css({overflow: 'hidden'});
+    }
+
+    // Закрыть меню
+    function hide() {
+        menu.hide();
+        button.removeClass('dropdown-button-active');
+        body.css({overflow: 'auto'}).off('click.<?= $nc_block_id ?>');
+    }
+
+    // Закрытие меню по клику вне области меню
+    function hide_on_click(event) {
+        if (!$(event.target).closest(menu).length) {
+            hide();
+        }
+    }
+
+    // Проверка клика по тулбару
+    function is_nc_event(event) {
+        return !!$(event.target).closest('.nc-infoblock-toolbar').length;
+    }
+
+    // Открытие по нажатию/тачу
+    admin_container.on('click', function(event) {
+        !is_nc_event(event) && show();
+    });
+
+    // Закрытие меню кнопкой
+    close_button.on('click', hide);
+
+    // Открытие по наведению
+    <?php if ($cc_settings['menu_display'] === 'hover' && false): ?>
+    var hide_timeout;
+    admin_container.add(menu).on('mouseover', function(event) {
+        clearTimeout(hide_timeout);
+        !is_nc_event(event) && show();
+    }).on('mouseout', function() {
+        hide_timeout = setTimeout(hide, 500);
+    });
+    <?php endif; ?>
+});
+</script>

@@ -1,0 +1,46 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<div class='object-item' style='<?= $styles; ?>'>
+    <?= $f_AdminButtons; ?>
+    <a href='<?= (!empty($f_URL) ? $f_URL : $fullLink); ?>' class='item name-position-over'>
+        <?php if (!empty($f_Image)): ?>
+            <div class="item-image">
+                <div class="image">
+                    <?= $f_Image->as_img(array('alt' => $f_Name)); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="item-text">
+            <div class='item-name'>
+                <div class="tpl-text-header6"><?= nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?></div>
+                <?php if (!empty($f_Date) || !empty($f_Period) || !empty($f_Price)): ?>
+                    <div class="tpl-text-alt-paragraph tpl-color-brand">
+                        <?php if ($f_Date): ?>
+                            <?php
+                            if (date("Ymd") === $f_Date_year . $f_Date_month . $f_Date_day) {
+                                $dt = "Сегодня, {$f_Date_hours}:{$f_Date_minutes}";
+                            } elseif (date("Ymd", strtotime("yesterday")) === $f_Date_year . $f_Date_month . $f_Date_day) {
+                                $dt = "Вчера, {$f_Date_hours}:{$f_Date_minutes}";
+                            } else {
+                                $dt = "{$f_Date_day} {$months_number_to_text[(int)$f_Date_month]} {$f_Date_year}, {$f_Date_hours}:{$f_Date_minutes}";
+                            }
+                            ?>
+                            <?php if ($admin_mode): ?>
+                                <?= nc_edit_inline('Date', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+                            <?php else: ?>
+                                <?= $dt; ?>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        <?php if (!empty($f_Period)): ?>
+                            <i class="far fa-calendar-alt"></i>
+                            <?= nc_edit_inline('Period', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+                        <?php endif; ?>
+                        <?php if (!empty($f_Price)): ?>
+                            <?= nc_edit_inline('Price', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </a>
+</div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

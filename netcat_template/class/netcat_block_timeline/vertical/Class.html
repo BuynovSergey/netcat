@@ -1,0 +1,27 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class="timeline"><!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+    <div class="timeline-item<?= $f_IsActive ? " active" : "" ?>">
+        <?= $f_AdminButtons ?>
+        <?php if ($f_RowNum % 2 == 0): ?>
+            <div class="timeline-item-period reversed">
+                <div class="<?= $cc_settings["period_size"] ?> timeline-period"><?= $f_Period ?></div>
+            </div>
+        <?php endif ?>
+
+        <div class="timeline-content">
+            <?php if ($f_Name): ?>
+                <div class="<?= $cc_settings["title_size"] ?> timeline-title"><?= $f_Name ?></div>
+            <?php endif ?>
+            <div class="tpl-text-default timeline-text"><?= $f_Text ?></div>
+        </div>
+
+        <?php if ($f_RowNum % 2 !== 0): ?>
+            <div class="timeline-item-period">
+                <div class="<?= $cc_settings["period_size"] ?> timeline-period"><?= $f_Period ?></div>
+            </div>
+        <?php endif ?>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

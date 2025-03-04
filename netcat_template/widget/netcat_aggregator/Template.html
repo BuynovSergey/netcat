@@ -1,0 +1,28 @@
+<?php
+$widget_unicid  = uniqid('nc_widget_');
+$templates_path = nc_core('SUB_FOLDER') . nc_core('HTTP_TEMPLATE_PATH');
+?>
+
+<div class='nc-widget-<?=$widget_id ?> nc-sm-100' id='<?=$widget_unicid ?>'>
+<? if ($template_file) include $template_file ?>
+</div>
+
+<script>
+(function($){
+    var init_widget = function(){
+        $('#<?=$widget_unicid ?>').nc_widget({
+            css: '<?=$css_path ?>',
+            breakpoints: [<?=(string)$f_css_breakpoints ?>],
+            widget_id: <?=(int)$widget_id ?>
+        })
+    }
+    if (!$().nc_widget) {
+        var s = document.createElement('script');
+        s.src = "<?=$templates_path ?>jquery/jquery.nc_widget.js";
+        s.onload = init_widget;
+        $('head')[0].appendChild(s);
+    } else {
+        init_widget();
+    }
+})(jQuery)
+</script>

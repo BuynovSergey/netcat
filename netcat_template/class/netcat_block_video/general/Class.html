@@ -1,0 +1,60 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+
+
+    <?php
+    if ($f_EmbedHtml) {
+        echo $f_EmbedHtml;
+    } elseif ($f_Link) {
+        $aspect_ratio = $cc_settings["aspect_ratio"];
+        $video_service_provider = get_video_service_provider($f_Link);
+        $html =
+            "<div class='video-wrapper' style='aspect-ratio: $aspect_ratio auto' data-is-autoplay='$f_IsAutoplay' data-video-service-provider='$video_service_provider'>";
+        $html .= get_embed_code($f_Link);
+        $html .= "</div>";
+
+        echo $html;
+    } elseif ($f_File) {
+        $video_path = $f_File->get_path();
+        $poster_attribute = $f_PreviewImage ? "poster='" . $f_PreviewImage->get_path() . "'" : "";
+        $autoplay_attribute = $f_IsAutoplay ? "autoplay" : "";
+
+        $html =
+            "<div class='video-wrapper' style='aspect-ratio: $aspect_ratio auto' data-is-autoplay='$f_IsAutoplay' data-video-service-provider='$video_service_provider'>";
+        $html .= "<video controls $poster_attribute $autoplay_attribute>
+            <source src='$video_path'/>
+            Your browser doesn't support HTML5 video tag.
+         </video>";
+        $html .= "</div>";
+
+        echo $html;
+    }
+    ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            $(window).scroll(function () {
+                $(".video-wrapper").each(function () {
+                    const videoWrapper = $(this);
+                    const iframe = videoWrapper.find("iframe");
+
+                    if (videoWrapper.data("is-autoplay") == 0 || videoWrapper.data("is-played") == true) {
+                        return;
+                    }
+
+                    const hT = videoWrapper.offset().top,
+                        hH = videoWrapper.outerHeight(),
+                        wH = $(window).height(),
+                        wS = $(window).scrollTop();
+
+                    if (wS > (hT + hH - wH)) {
+                        const videoUrl = iframe.attr("src");
+                        iframe.attr("src", videoUrl + "&autoplay=1");
+                        videoWrapper.attr("data-is-played", true)
+                    }
+                });
+            })
+        })
+    </script><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

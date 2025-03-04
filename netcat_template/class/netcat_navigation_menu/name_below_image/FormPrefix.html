@@ -1,0 +1,29 @@
+<?php if ($menu_level == 1): ?><?= $f_AdminCommon; ?><?php endif; ?>
+<?php
+if ($menu_is_custom && $res) {
+    // данные о разделах уже загружены — передадим их в $nc_core->subdivision,
+    // чтобы не делать дополнительных запросов при обращении к $nc_core->subdivision->get_by_id(),
+    // и устанавливаем дополнительные переменные для файловых и т. п. особых полей
+    $fetch_row = $nc_core->subdivision->process_raw_data($res);
+}
+
+// CSS-переменные на основе настроек инфоблока: выравнивание текста, отступ от края изображения.
+$css_variables = array();
+
+$ratio = $cc_settings['item_image_ratio'];
+if ($cc_settings['item_image_ratio'] === 'custom') {
+    $ratio = $cc_settings['item_image_custom_ratio'];
+}
+list($w, $h) = explode(':', str_replace(',', '.', $ratio));
+$padding_top = str_replace(',', '.', ($h / $w) * 100) . '%';
+$css_variables[] = "--menu-name-below-image--image-padding-top: {$padding_top}";
+
+$css_variables[] = "--menu-name-below-image--text-padding: {$cc_settings['item_text_padding']}{$cc_settings['item_text_padding_unit']}";
+
+?>
+<?php if ($totRows): ?>
+    <ul style="<?= implode('; ', $css_variables) ?>">
+<?php else: ?>
+    <?php if ($admin_mode): ?>Нет подразделов<?php endif; ?>
+    <!-- EMPTY SUBMENU -->
+<?php endif; ?>

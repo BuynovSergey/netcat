@@ -1,0 +1,42 @@
+<?=( $warnText ? "<div class='warnText text-center'>$warnText</div>" : NULL )?><?=$nc_core->token->get()?>
+<form name='adminForm' id='adminForm' class='callback' enctype='multipart/form-data' method='post' action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php'>
+<div id='nc_moderate_form'>
+<div class='nc_clear'></div>
+<input name='admin_mode' type='hidden' value='<?= $admin_mode ?>' />
+<?= $nc_core->token->get_input() ?>
+<input name='catalogue' type='hidden' value='<?= $catalogue ?>' />
+<input name='cc' type='hidden' value='<?= $cc ?>' />
+<input name='sub' type='hidden' value='<?= $sub ?>' /><input name='posting' type='hidden' value='1' />
+<input name='curPos' type='hidden' value='<?= $curPos ?>' />
+<input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>' />
+<?= nc_form_moderate('add', $admin_mode, 0, $systemTableID, $current_cc, (isset($f_Checked) ? $f_Checked  : null), $f_Priority , $f_Keyword, $f_ncTitle, $f_ncKeywords, $f_ncDescription ) ?>
+</div>
+<div class="form-group">
+                        <label>Имя</label>
+                        <input type="text" name="f_Name" class="required" value="<?=$f_Name?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Телефон</label>
+                        <input type="text" name="f_Phone" class="required" value="<?=$f_Phone?>">
+                    </div>
+                    <?if($old):?>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" name="f_Email" value="<?=$f_Email?>">
+                    </div>
+                    <?endif;?>
+                    
+                    <div class="form-group">
+                        <label>Сообщение</label>
+                        <textarea name="f_Message" class="required"><?=$f_Message?></textarea>
+                    </div>
+                    
+                    <label class="form-group unified-checkbox policy">
+                        <input type="checkbox" name="nc_agreed" class="required" autocomplete="off">
+                        <div class="checkbox-text">
+                            <div class="checkbox-check"></div>
+                            <div>Ознакомлен(а) с <a href="/policy/" target="_blank">пользовательским соглашением</a></div>
+                        </div>
+                    </label>
+                    <button type="submit">Отправить</button>
+</form>

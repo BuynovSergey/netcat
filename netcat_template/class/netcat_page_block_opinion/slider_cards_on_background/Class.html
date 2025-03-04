@@ -1,0 +1,137 @@
+<!-- FormPrefix --><div class="tpl-block-page-block tpl-layout-background-<?= nc_get_color_type($cc_settings['background_color']); ?>" style="background-color: <?= $cc_settings['background_color']; ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <?= $f_AdminCommon ?>
+    <div class="tpl-block-header">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-prefix"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></div>
+        <? endif; ?>
+    </div>
+
+    <div class="tpl-block-content">
+        <div class="tpl-block-slider">
+            <div class="tpl-block-container">
+                <div class="swiper-wrapper"><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? if ($f_RowNum == 0 || ($f_RowNum + 1) % 3 == 1): ?><div class="tpl-block-slide swiper-slide"><div class="tpl-block-slide-content"><? endif; ?>
+    <div class="tpl-block-item">
+        <?= $f_AdminButtons ?>
+        <div class="tpl-block-review">
+            <div class="tpl-block-photo">
+                <?= nc_image_edit_inline('AuthorImage', $f_RowID, $cc) ?>
+            </div>
+            <div class="tpl-block-review-header">
+                <h3><?= nc_edit_inline('AuthorName', $f_RowID, $cc) ?></h3>
+
+                <div class="tpl-block-review-job"><?= nc_edit_inline('AuthorPosition', $f_RowID, $cc) ?></div>
+            </div>
+
+            <div class="tpl-block-review-content">
+                <p><?= nc_edit_inline('Text', $f_RowID, $cc) ?></p>
+            </div>
+        </div>
+    </div>
+<? if (($f_RowNum + 1) % 3 == 0 || $f_RowNum == $totRows - 1): ?></div></div><? endif; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->                </div>
+            </div>
+            <div class="tpl-block-dots-control"></div>
+        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/css/swiper.min.css">
+<script>
+    $(function(){
+        $.getScript("https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/js/swiper.jquery.min.js", function(){
+            var loop = $('#<?= $nc_block_id; ?> .swiper-slide').length > 1;
+            var swiper;
+
+            function createSwiper() {
+                if (!swiper) {
+                    swiper = undefined;
+                    swiper = new Swiper('#<?= $nc_block_id; ?> .tpl-block-container', {
+                        direction: 'horizontal',
+                        loop: loop,
+                        pagination: '#<?= $nc_block_id; ?> .tpl-block-slider .tpl-block-dots-control',
+                        paginationClickable: true,
+                        paginationElement: 'a',
+                        bulletClass: 'tpl-block-dot',
+                        bulletActiveClass: 'tpl-state-active',
+                        swipeHandler: <?= nc_core('admin_mode') ? "' '" : "null"; ?>
+                    });
+                }
+            };
+
+            function checkWidth() {
+		        $('#<?= $nc_block_id; ?> .tpl-block-slide, #<?= $nc_block_id; ?> .tpl-block-review').removeAttr('style');
+
+		        if ($(window).width() <= 980) {
+			        if (swiper) {
+				        swiper.destroy(false, true);
+				        swiper = undefined;
+				    }
+			        hideNeededCards();
+		        }
+		        else {
+			        //setMaxHeight();
+			        createSwiper();
+		        }
+	        }
+
+	        if (!loop) {
+		        $('#<?= $nc_block_id; ?> .tpl-block-dots-control').hide();
+	        }
+
+	        function setMaxHeight() {
+		        $('#<?= $nc_block_id; ?> .tpl-block-slide').removeAttr('style').each(function(){
+			        var max = 0;
+		        	var $this = $(this);
+
+		        	$this.find('.tpl-block-review').each(function(){
+		        		var $this = $(this);
+		        		if ($this.height() > max) max = $this.height();
+		        	}).height(max);
+		        });
+	        };
+
+	        function hideNeededCards() {
+		        var $mob = $('#<?= $nc_block_id; ?> .tpl-block-slider');
+		        var $mob_reviews = $mob.find('.tpl-block-review');
+		        if (!$mob.find('.tpl-block-show-all-button').length) $mob.append('<a href="#" class="tpl-block-show-all-button">Показать все</a>');
+
+		        var $mob_btn = $mob.find('.tpl-block-show-all-button');
+
+		        if ($mob_reviews.length > 3) {
+			        $mob_reviews.slice(3).hide();
+			        $mob_btn.off('click').on('click', function (e) {
+		                e.preventDefault();
+		                if ($mob_reviews.filter(':hidden').length) {
+		                    $mob_reviews.filter(':hidden').fadeIn();
+		                    $mob_btn.text('Скрыть')
+		                } else {
+		                    $mob_reviews.slice(3).fadeOut();
+		                    $mob_btn.text('Показать все');
+		                    $('HTML,BODY').animate({
+			                    scrollTop: $mob.offset().top - 30
+			                });
+		                }
+	            	});
+		        }
+		        else {
+			        $mob_btn.hide();
+		        }
+	        };
+
+	        checkWidth();
+
+	        $(window).resize(function(){
+		        checkWidth();
+	        });
+        });
+    });
+</script><!-- /FormSuffix -->

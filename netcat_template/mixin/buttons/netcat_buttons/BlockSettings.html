@@ -1,0 +1,262 @@
+<?php
+
+$button_types = array(
+    'default' => 'Параметры кнопок по умолчанию',
+    'main' => 'Основная кнопка (дополнительно к параметрам по умолчанию)',
+);
+
+?>
+<div class="nc-mixins-mixin-settings-netcat-buttons">
+    <?php foreach ($button_types as $type => $type_name): ?>
+    <div class="nc-mixins-mixin-settings-netcat-buttons-type" data-type="<?= $type ?>">
+        <div class="nc-mixins-mixin-settings-group-header"><?= $type_name ?></div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>
+                    Внешний отступ (margin) по вертикали:
+                    <input type="number" name="mixin.settings.<?= $type ?>.margin_top" min="0"> пикс.
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.margin_top_unit" value="px">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.margin_bottom">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.margin_bottom_unit" value="px">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Внешний отступ по горизонтали:
+                    <input type="number" name="mixin.settings.<?= $type ?>.margin_left" min="0"> пикс.
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.margin_left_unit" value="px">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.margin_right">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.margin_right_unit" value="px">
+                </label>
+            </div>
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>
+                    Внутренний отступ (padding) по вертикали:
+                    <input type="number" name="mixin.settings.<?= $type ?>.padding_top" min="0"> пикс.
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.padding_top_unit" value="px">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.padding_bottom">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.padding_bottom_unit" value="px">
+                </label>
+            </div>
+            <div>
+                <label>
+                    Внутренний отступ по горизонтали:
+                    <input type="number" name="mixin.settings.<?= $type ?>.padding_left" min="0"> пикс.
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.padding_left_unit" value="px">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.padding_right">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.padding_right_unit" value="px">
+                </label>
+            </div>
+        </div>
+        <div>
+            <label>
+                Скругление углов:
+                <input type="number" name="mixin.settings.<?= $type ?>.border_radius" min="0">
+                <select name="mixin.settings.<?= $type ?>.border_radius_unit">
+                    <option value="px">px</option>
+                    <option value="%">%</option>
+                </select>
+            </label>
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>
+                    Цвет рамки:
+                    <span><input type="text" name="mixin.settings.<?= $type ?>.border_color"
+                                 class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                                 data-color-input=""
+                                 data-mc-format="rgb"
+                                 data-sync-color=""
+                                 data-nc-swatches
+                    ></span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Цвет рамки при наведении:
+                    <span><input type="text" name="mixin.settings.<?= $type ?>_hover.border_color"
+                                 class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                                 data-color-input=""
+                                 data-mc-format="rgb"
+                                 data-sync-color=""
+                                 data-nc-swatches></span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Толщина рамки:
+                    <input type="number" name="mixin.settings.<?= $type ?>.border_width" min="0" value=""> пикс.
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.border_width_unit" value="px">
+                </label>
+            </div>
+            <!-- тип рамки (пока не выбирается) -->
+            <input type="hidden" name="mixin.settings.<?= $type ?>.border_style" value="solid">
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>
+                    Цвет фона:
+                    <span><input type="text" name="mixin.settings.<?= $type ?>.background_color"
+                                 class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                                 data-color-input=""
+                                 data-mc-format="rgb"
+                                 data-sync-color=""
+                                 data-nc-swatches></span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Цвет фона при наведении:
+                    <span><input type="text" name="mixin.settings.<?= $type ?>_hover.background_color"
+                                 class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                                 data-color-input=""
+                                 data-mc-format="rgb"
+                                 data-sync-color=""
+                                 data-nc-swatches></span>
+                </label>
+            </div>
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>
+                    Цвет текста:
+                    <span><input type="text" name="mixin.settings.<?= $type ?>.color"
+                                 class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                                 data-color-input=""
+                                 data-mc-format="rgb"
+                                 data-sync-color=""
+                                 data-nc-swatches></span>
+                </label>
+            </div>
+            <div>
+                <label>
+                    Цвет текста при наведении:
+                    <span><input type="text" name="mixin.settings.<?= $type ?>_hover.color"
+                                 class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                                 data-color-input=""
+                                 data-mc-format="rgb"
+                                 data-sync-color=""
+                                 data-nc-swatches></span>
+                </label>
+            </div>
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>Шрифт:
+                    <select name="mixin.settings.<?= $type ?>.font_family" class="nc-mixins-mixin-font-select">
+                        <option value="">наследовать</option>
+                    </select>
+                </label>
+                <input type="hidden" name="mixin.settings.<?= $type ?>_font_asset"><!-- sic, не <?= $type ?>.font_asset -->
+            </div>
+            <div>
+                <label>Размер текста:
+                    <input type="number" name="mixin.settings.<?= $type ?>.font_size" min="0">
+                    <select name="mixin.settings.<?= $type ?>.font_size_unit">
+                        <option value="px">px</option>
+                        <option value="pt">pt</option>
+                        <option value="rem">rem</option>
+                        <option value="em">em</option>
+                        <option value="%">%</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>Вес:
+                    <select name="mixin.settings.<?= $type ?>.font_weight">
+                        <option value="">наследовать</option>
+                        <option value="100">100 (тонкий)</option>
+                        <option value="200">200 (сверхсветлый)</option>
+                        <option value="300">300 (светлый)</option>
+                        <option value="400">400 (нормальный)</option>
+                        <option value="500">500 (средний)</option>
+                        <option value="600">600 (полужирный)</option>
+                        <option value="700">700 (жирный)</option>
+                        <option value="800">800 (сверхжирный)</option>
+                        <option value="900">900 (черный)</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>Стиль:
+                    <select name="mixin.settings.<?= $type ?>.font_style">
+                        <option value="">наследовать</option>
+                        <option value="normal">обычный</option>
+                        <option value="italic">курсив</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container">
+            <div>
+                <label>Подчёркивание текста:
+                    <select name="mixin.settings.<?= $type ?>.text_decoration">
+                        <option value="none">нет</option>
+                        <option value="underline">сплошная линия</option>
+                        <option value="underline dotted">точки</option>
+                        <option value="underline dashed">пунктир</option>
+                        <option value="underline wavy">волнистая линия</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <label>Подчёркивание при наведении:
+                    <select name="mixin.settings.<?= $type ?>_hover.text_decoration">
+                        <option value="none">нет</option>
+                        <option value="underline">сплошная линия</option>
+                        <option value="underline dotted">точки</option>
+                        <option value="underline dashed">пунктир</option>
+                        <option value="underline wavy">волнистая линия</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-buttons';
+
+    function init(event, data) {
+
+        var settings_container = $nc(this);
+        if (settings_container.data('initialized')) {
+            return;
+        }
+
+        function get_input(block, input_name_suffix) {
+            return block.find('[name$=".' + input_name_suffix + '"]');
+        }
+
+        // Изменение значения font-family
+        settings_container.find('select[name$=".font_family"]').change(function() {
+            var select = $nc(this),
+                font_family = select.find('option:selected'),
+                type_container = select.closest(prefix + '-type'),
+                type = type_container.data('type');
+            // sic, не 'TYPE.font_asset, а TYPE_font_asset:
+            get_input(type_container, type + '_font_asset').val(font_family.data('asset')).trigger('input');
+        });
+
+        // Синхронная установка top/bottom, left/right
+        settings_container.find('input[name$="top"], input[name$="top_unit"], input[name$="left"], input[name$="left_unit"]')
+        .on('change input', function() {
+            var mirror_to = this.name.replace('top', 'bottom').replace('left', 'right');
+            settings_container.find('input[name="' + mirror_to + '"]').val($nc(this).val());
+        }).change();
+
+        // Больше не выполнять init() для этого блока:
+        settings_container.data('initialized', true);
+    }
+
+    // Инициализация событий
+    $nc(prefix).closest('.nc-mixins-mixin-settings')
+        .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+        .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+})();
+</script>

@@ -1,0 +1,14 @@
+.tpl-module-auth-registration-form { max-width: 800px; }
+.tpl-field { display: flex; flex-direction: column; margin-bottom: 1em; }
+.tpl-field-agreed { flex-direction: row; }
+.tpl-field-agreed input { margin-top: 0.3em; }
+.tpl-field-agreed label { margin-left: 0.5em; }
+.tpl-field-button { flex-direction: row; justify-content: center; }
+.tpl-field-input-password { max-width: 400px; }
+.tpl-field-input-captcha button { border: 0; margin: 0; width: 30px; height: 30px; padding: 0.2em; position: relative; font-size: 20px; }
+.tpl-field-input-captcha button svg { width: 1em; height: 1em; }
+.tpl-field-input-captcha button:focus { outline: none; }
+.tpl-field .nc_auth_login_check { display: none; }
+.tpl-field .nc_auth_pass1_check, .tpl-field .nc_auth_pass2_check { display: none; }
+.tpl-field .nc_auth_check_error { color: maroon; }
+.tpl-field .nc_auth_check_success { color: darkgreen; }

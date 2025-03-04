@@ -1,0 +1,38 @@
+<?php
+
+$size = $cc_settings['objectSize'];
+
+if ($cc_settings['objectSize'] === 'custom') {
+    $size = $cc_settings['customSize'];
+}
+
+list($w, $h) = explode(":", str_replace(",", ".", $size));
+
+if ((float)$w > 0) {
+    $padding_top = str_replace(",", ".", ($h / $w) * 100) . "%";
+} else {
+    $padding_top = '100%';
+}
+
+$styles = array();
+$styles[] = "--tpl-object-item--image-padding-top: " . $padding_top;
+$styles[] = "--tpl-object-item--wrapper-background-color: var(--tpl-color-$cc_settings[background_color])";
+$styles[] = "--tpl-object-item--text-color: var(--tpl-color-$cc_settings[text_color])";
+
+
+$styles = " style='" . implode(";", $styles) . "'";
+
+$f_Slider_big = array(
+    'prefix' => "<div class='slider-big-image'>",
+    'record' => "<div class='image'><img src='%Path%' /></div>",
+    'divider' => " ",
+    'suffix' => "</div>",
+    'i' => 1,
+);
+$f_Slider_preview = array(
+    'prefix' => "<div class='slider-preview-list'>",
+    'record' => "<a href='%Path%'><span><img src='%Preview%' /></span></a>",
+    'divider' => " ",
+    'suffix' => "</div>",
+    'i' => 1,
+);

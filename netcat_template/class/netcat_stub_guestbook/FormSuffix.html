@@ -1,0 +1,15 @@
+<?
+if (!$inside_admin && $totRows) {
+    ?><h3><a href='<? echo $addLink ?>'>Добавить сообщение</a></h3><?
+}
+?><div class='nc_item'><span class='nc_title'>Всего записей: </span><span class='nc_value'><? echo $totRows ?></span></div>
+<?
+if (($prevLink || $nextLink)) {
+    ?><div style='padding-bottom:10px;'>Страницы: <?
+    echo opt($cc_settings['PageListingStyle'] == "fb" || $cc_settings['PageListingStyle'] == "all", opt($prevLink, "<a href='$prevLink'>назад</a> &nbsp;"));
+    echo opt($cc_settings['PageListingStyle'] == "numbers" || $cc_settings['PageListingStyle'] == "all", browse_messages($cc_env, 10));
+    echo opt($cc_settings['PageListingStyle'] == "fb" || $cc_settings['PageListingStyle'] == "all", opt($nextLink, "&nbsp; <a href='$nextLink'>вперёд</a>"))
+    ?>
+    </div>
+<? } ?>
+</div>

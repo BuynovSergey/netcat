@@ -1,0 +1,35 @@
+            </div>
+            <? $goods_data = nc_subdivision_goods_data::for_subdivision($sub); ?>
+            <? $first_item = $goods_data->get_first_item(); ?>
+            <? if ($first_item && $cc_settings['show_price']) { ?>
+                <div class="tpl-block-information<?= ($first_item['DiscountValue']) ? ' tpl-layout-discount' : '' ?>">
+                    <?= $goods_data->get_edit_trigger_overlay(); ?>
+                    <div class="tpl-block-discount"><?= $first_item['OriginalPrice'] ?> <?= $first_item['OriginalPriceCurrency'] ?></div>
+                    <div class="tpl-block-price-label">Цена</div>
+                    <div class="tpl-block-price"><?= $first_item['ItemPrice'] ?> <?= $first_item['ItemPriceCurrency'] ?></div>
+                    <hr/>
+                    <div class="tpl-block-saving">
+                        Экономия
+                        <span>
+                            <?= $first_item['DiscountValue'] ?><?= $first_item['DiscountInPercent'] ? '&thinsp;%' : ' ' . $first_item['DiscountCurrency'] ?>
+                        </span>
+                    </div>
+                </div>
+            <? } ?>
+        </div>
+
+        <?
+            if (nc_module_check_by_keyword('requests') && $cc_settings['show_form_and_button']) {
+                try {
+                    echo nc_requests::make_form_popup_button($cc);
+                } catch (Exception $e) {
+                    if ($_SERVER['REMOTE_ADDR'] === '212.12.24.127') {
+                        echo '<pre>' . $e->getTraceAsString() . '</pre>';
+	                }
+                    echo $e->getMessage();
+                }
+            }
+        ?>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom'];?>px;"></div>
+</div>

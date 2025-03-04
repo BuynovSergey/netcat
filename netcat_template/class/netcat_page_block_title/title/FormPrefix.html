@@ -1,0 +1,9 @@
+<div class="tpl-block-page-block tpl-layout-background-<?= nc_get_color_type($cc_settings['background_color']); ?>" style="background-color: <?= $cc_settings['background_color']; ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <?= $f_AdminCommon ?>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_text_before_header']): ?>
+            <div class="tpl-block-prefix"><?= nc_infoblock_custom_setting_edit_inline('text_before_header', $cc) ?></div>
+        <? endif; ?>
+        <div class="tpl-block-row">
+            <h1><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h1>

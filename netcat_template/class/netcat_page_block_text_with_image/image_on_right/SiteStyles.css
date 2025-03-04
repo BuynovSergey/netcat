@@ -1,0 +1,3 @@
+@media (max-width: 1010px) {
+    .tpl-block-content { flex-direction: column-reverse; }
+}

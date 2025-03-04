@@ -1,0 +1,239 @@
+<!-- FormPrefix -->
+ <div class="nc-modal-dialog" data-width="528" data-height="auto">
+
+     <div class="nc-modal-dialog-header">
+         <h2>Цена</h2>
+     </div>
+
+     <div class="nc-modal-dialog-body">
+         <style scoped>
+             <?= $nc_component_css_selector ?> * { box-sizing: border-box !important; }
+             <?= $nc_component_css_selector ?> .tpl-block-row { margin-bottom: 15px; display: flex; }
+             <?= $nc_component_css_selector ?> .tpl-block-row > div { width: 50%; padding-right: 10px; }
+             <?= $nc_component_css_selector ?> .tpl-block-row > div:nth-child(odd) { padding-right: 18px; }
+             <?= $nc_component_css_selector ?> .tpl-block-row label .tpl-caption { display: block; margin-bottom: 5px; }
+             <?= $nc_component_css_selector ?> .tpl-block-row input[type=text],
+             <?= $nc_component_css_selector ?> .tpl-block-row select { display: block; box-sizing: border-box !important; width: 100%; }
+             <?= $nc_component_css_selector ?> .tpl-block-item-price { color: #999; }
+             <?= $nc_component_css_selector ?> .tpl-block-item-variant-select-dropdown { display: none !important; }
+             <?= $nc_component_css_selector ?> .tpl-block-item-variant-select-new-name { display: block !important; }
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-block-item-variant-select-dropdown { display: block !important; }
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-block-item-variant-select-new-name { display: none !important; }
+ 
+             <?= $nc_component_css_selector ?> .tpl-block-item-variant-select button:focus { outline: none !important; }
+
+             <?= $nc_component_css_selector ?> .tpl-link-rename-toggle, <?= $nc_component_css_selector ?> .tpl-link-rename-cancel 
+                { height: 36px; margin-top: 24px; padding: 0 15px; background: #1a87c2; font-size: 14px; transition: all 0.3s; }
+             
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-link-rename-toggle,
+             <?= $nc_component_css_selector ?> .tpl-link-rename-cancel { background: transparent; padding: 0; color: #2a97f0; }
+             
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-link-rename-cancel { display: none; }
+             <?= $nc_component_css_selector ?> .tpl-link-rename-cancel { margin-left: 10px; }
+
+             <?= $nc_component_css_selector ?> .tpl-state-not-renaming .tpl-link-rename-toggle span,
+             <?= $nc_component_css_selector ?> .tpl-link-rename-cancel span { border-bottom: 1px dashed #2a97f0; }
+
+             
+
+         </style>
+
+         <form name="adminForm" id="adminForm" class="nc-form <?= $nc_component_css_class ?>"
+         enctype="multipart/form-data" method="post" action="<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>message.php">
+             <input type="hidden" name="admin_mode" value="<?= $admin_mode ?>">
+             <input type="hidden" name="catalogue" value="<?= $catalogue ?>">
+             <input type="hidden" name="cc" value="<?= $cc ?>">
+             <input type="hidden" name="sub" value="<?= $sub ?>">
+             <input type="hidden" name="message" value="<?= $message ?>">
+             <input type="hidden" name="posting" value="1">
+             <input name="multiple_changes" type="hidden" value="1" />
+             <?= $nc_core->token->get_input() ?>
+
+             <? if ($totRows > 1): ?>
+                 <div class="tpl-block-row tpl-block-item-variant-select tpl-state-not-renaming">
+                     <div>
+                         <label>
+                             <span class="tpl-caption">Вариант товара</span>
+                             <select name="item_variant" class="tpl-block-item-variant-select-dropdown">
+                                 <? foreach ($res as $i => $variant): ?>
+                                     <option value="<?= $variant['Message_ID'] ?>">
+                                         <?= htmlspecialchars($variant['VariantName']) ?: $i + 1 ?>
+                                     </option>
+                                 <? endforeach; ?>
+                             </select>
+                             <input type="text" class="tpl-block-item-variant-select-new-name">
+                         </label>
+                     </div>
+                     <div>
+                         <button class="tpl-link-rename-toggle"><span>Переименовать</span></button>
+                         <button class="tpl-link-rename-cancel"><span>Отмена</span></button>
+                     </div>
+                 </div>
+             <? endif; ?>
+
+<!-- /FormPrefix -->
+<!-- RecordTemplate -->
+
+             <div class="tpl-block-item-variant" data-id="<?= $f_RowID ?>"<?=
+                $f_RowNum ? ' style="display: none"' : ''
+             ?>>
+
+                 <div class="tpl-block-row">
+                     <div>
+                         <label>
+                             <span class="tpl-caption">Цена</span>
+                             <input type="text" name="nc_multiple_changes[<?= $f_RowID ?>][OriginalPrice]"
+                                 value="<?= htmlspecialchars($f_OriginalPrice) ?>">
+                         </label>
+                     </div>
+                     <div>
+                         <label>
+                             <span class="tpl-caption">Валюта</span>
+                             <input type="text" name="nc_multiple_changes[<?= $f_RowID ?>][OriginalPriceCurrency]"
+                                 value="<?= htmlspecialchars($f_OriginalPriceCurrency) ?>">
+                         </label>
+                     </div>
+                 </div>
+
+                 <div class="tpl-block-row">
+                     <div>
+                         <label>
+                             <span class="tpl-caption">Cкидка</span>
+                             <input type="text" name="nc_multiple_changes[<?= $f_RowID ?>][DiscountValue]"
+                                 value="<?= htmlspecialchars($f_DiscountValue) ?>">
+                         </label>
+                     </div>
+                     <div>
+                         <label>
+                             <span class="tpl-caption">Тип скидки</span>
+                         </label>
+                         <select name="nc_multiple_changes[<?= $f_RowID ?>][DiscountInPercent]">
+                             <option value="0"<?= !$f_DiscountInPercent ? ' selected' : '' ?>>Валюта</option>
+                             <option value="1"<?=  $f_DiscountInPercent ? ' selected' : '' ?>>Процент</option>
+                         </select>
+                     </div>
+                 </div>
+
+                 <div class="tpl-block-item-price">
+                     Цена с учётом скидки:
+                     <span class="tpl-field-item-price"><?= $f_ItemPrice ?></span>
+                     <input type="hidden" name="nc_multiple_changes[<?= $f_RowID ?>][ItemPrice]" value="<?= htmlspecialchars($f_ItemPrice) ?>">
+                 </div>
+
+             </div>
+
+<!-- /RecordTemplate -->
+<!-- FormSuffix -->
+
+         </form>
+     </div>
+     <div class="nc-modal-dialog-footer">
+         <button data-action="submit">Сохранить</button>
+         <button data-action="close">Отмена</button>
+     </div>
+     <script>
+         (function() {
+             var c = nc.ui.modal_dialog.get_current_dialog().get_part('body'),
+                 variants = c.find('.tpl-block-item-variant'),
+                 variant_select_container = c.find('.tpl-block-item-variant-select'),
+                 variant_select = variant_select_container.find('select[name=item_variant]'),
+                 variant_name_input = variant_select_container.find('input[type=text]'),
+                 variant_rename_button = variant_select_container.find('.tpl-link-rename-toggle');
+
+             // переименование вариантов товаров
+             variant_rename_button.click(function(e) {
+                 if (variant_select_container.hasClass('tpl-state-not-renaming')) {
+                     // переключение в режим переименования
+                     var variant_id = variant_select.val(),
+                         input_name = 'nc_multiple_changes[' + variant_id + '][VariantName]';
+                     c.find('input[type=hidden][name="' + input_name + '"]').remove();
+                     variant_name_input
+                         .attr('name', input_name)
+                         .val($nc.trim(variant_select.find('option:selected').text()))
+                         .data('id', variant_id)
+                         .keyup(e, function(e) {
+                             if (e.keyCode == 13) {
+                                 // применение изменений по Enter
+                                 variant_rename_button.click();
+                             }
+                         });
+                     setTimeout(function() { variant_name_input.select(); }, 1);
+                 }
+                 else {
+                     // применение названия
+                     var new_name = variant_name_input.val();
+                     c.find('form').append($nc('<input />', {
+                         type: 'hidden',
+                         name: variant_name_input.attr('name'),
+                         value: new_name
+                     }));
+                     variant_select.find('option[value=' + variant_name_input.data('id') + ']').html(new_name);
+                 }
+
+                 variant_select_container.toggleClass('tpl-state-not-renaming');
+                 e.preventDefault();
+             });
+
+             // отмена переименования
+             variant_select_container.find('.tpl-link-rename-cancel').click(function(e) {
+                 variant_select_container.addClass('tpl-state-not-renaming');
+                 variant_name_input.attr('name', '');
+                 e.preventDefault();
+             });
+
+             // переключение вариантов
+             variant_select.change(function() {
+                 variants.hide().filter('[data-id=' + $nc(this).val() + ']').show();
+             });
+
+
+             // обновление названия валюты — сразу во всех полях
+             var currency_inputs = c.find('input[name*=OriginalPriceCurrency]').change(function() {
+                 currency_inputs.val($nc(this).val());
+             });
+
+             // обновление цены со скидкой
+             variants.each(function() {
+                 var variant = $nc(this),
+                     original_price_input = variant.find('input[name*=OriginalPrice]'),
+                     discount_value_input = variant.find('input[name*=DiscountValue]'),
+                     item_price_span = variant.find('.tpl-field-item-price'),
+                     item_price_input = variant.find('input[name*=ItemPrice]'),
+                     discount_in_percent_select = variant.find('select[name*=DiscountInPercent]'),
+
+                     has_decimal_part = function(value) {
+                         return /[.,]/.test(value.toString()) ;
+                     },
+                     parse_number = function(value) {
+                         return parseFloat(value.toString().replace(/\s+/, '').replace(',', '.')) || 0;
+                     },
+                     is_in_percent = function() {
+                         return discount_in_percent_select.val()  == '1';
+                     },
+
+                     calculate_item_price = function() {
+                         var original_price = parse_number(original_price_input.val()),
+                             discount_value = parse_number(discount_value_input.val()),
+                             in_percent = is_in_percent(),
+                             num_decimal_places = has_decimal_part(original_price_input.val()) || (!in_percent && has_decimal_part(discount_value)) ? 2 : 0,
+                             item_price = (original_price - (in_percent ? original_price * discount_value / 100 : discount_value)).toFixed(num_decimal_places);
+                         item_price_span.html(item_price);
+                         item_price_input.val(item_price);
+                     };
+
+                 original_price_input.on('input', calculate_item_price);
+                 discount_in_percent_select.on('change', calculate_item_price);
+                 discount_value_input.on('input', function() {
+                     if (this.value >= 100 && is_in_percent()) {
+                         discount_in_percent_select.val(0);
+                     }
+                     calculate_item_price();
+                 });
+             });
+
+
+         })();
+     </script>
+ </div>
+
+<!-- /FormSuffix -->

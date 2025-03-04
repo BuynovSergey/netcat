@@ -1,0 +1,51 @@
+<div class="nc-mixins-mixin-settings-netcat-paralax">
+    <div class="nnc-mixins-mixin-settings-netcat-video-layer-properties">
+        <div class="nc-mixins-mixin-settings-netcat-video-layer-properties-poster" data-uploader data-uploader-allowed="image/*" data-uploader-ext="jpg, jpeg, png, gif, webp, svg, ico">
+            <input type="url" name="mixin.settings.poster" placeholder="путь к файлу постера" class="nc-mixin-uploader-url">
+            <button type="button" class="nc-mixin-uploader-button js-mixin-upload">Выбрать</button>
+            <input type="file" class="nc-mixin-uploader-file">
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-video-layer-properties-opacity">
+            затемнение (прозрачность)
+            <input type="number" name="mixin.settings.opacity"  min="0"  max="1" step="0.1" value="1" class="nc--small">
+        </div>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-netcat-video-layer nc-mixins-mixin-settings-row nc-mixins-mixin-settings-row-template">
+        <div class="nc-mixins-mixin-settings-netcat-video-layer-properties">
+            <div class="nc-mixins-mixin-settings-netcat-video-layer-properties-url" data-uploader data-uploader-allowed="video/*" data-uploader-ext="webm, ogv, mp4">
+                <input type="url" name="mixin.settings.video.#.url" placeholder="путь к файлу видео" class="nc-mixin-uploader-url">
+                <button type="button" class="nc-mixin-uploader-button js-mixin-upload">Выбрать</button>
+                <input type="file" class="nc-mixin-uploader-file">
+            </div>
+            <div class="nc-mixins-mixin-settings-row-remove">
+                <i class="nc-icon nc--remove" title="удалить"></i>
+            </div>
+        </div>
+    </div>
+    <!-- тут будут размещаться слои -->
+    <div class="nc-mixins-mixin-settings-rows"></div>
+    <!-- кнопка добавления нового слоя -->
+    <div>
+        <a href="#" class="nc-mixins-mixin-settings-row-add">Добавить формат видео</a>
+    </div>
+</div>
+<style>
+    .nc-mixins-mixin-settings-netcat-video-layer-properties {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+    .nc-mixins-mixin-settings-netcat-video-layer-properties .nc-mixins-mixin-settings-row-remove {
+        padding: 7px 10px;
+    }
+    .nc-mixins-mixin-settings-netcat-video-layer-properties input {
+        width: 99%;
+    }
+    .nc-mixins-mixin-settings-netcat-video-layer-properties-url {
+        flex-grow: 1;
+    }
+    .nc-mixins-mixin-settings-netcat-video-layer-properties-url input {
+        width: 99%;
+    }
+</style>

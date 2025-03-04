@@ -1,0 +1,28 @@
+<script>
+    $nc(function () {
+        const iconSettings = $nc("[name^=\"custom_settings[icon_\"]").closest(".nc-field");
+        $nc("[name=\"custom_settings[show_icons]\"]").on("change", function () {
+            $nc(this).prop("checked") ? iconSettings.show() : iconSettings.hide();
+        }).trigger("change")
+
+        const mapSettings = $nc("[name=\"custom_settings[map_mode]\"]").parents(".nc-field").nextAll(".nc-field");
+        console.log(mapSettings);
+
+        $nc("[name=\"custom_settings[map_mode]\"]").on("change", function () {
+            const mode = $nc(this).val();
+
+            if (mode === "map-api") {
+                mapSettings.show();
+                $nc("[name='custom_settings[map_iframe]']").closest(".nc-field").hide();
+            } else if (mode === "map-iframe") {
+                mapSettings.show();
+                $nc("[name='custom_settings[map_api_key]']").closest(".nc-field").hide();
+            } else {
+                mapSettings.hide();
+            }
+        }).trigger("change")
+
+        let decor = $nc("[name=\"custom_settings[icon_decor]\"]"), decorColor = $nc("[name=\"custom_settings[icon_decor_color]\"]");
+        decor.on("change", function () { if ($nc(this).val() === "none") { decorColor.parent().hide(); } else { decorColor.parent().show(); } }).trigger("change");
+    });
+</script>

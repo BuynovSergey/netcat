@@ -1,0 +1,25 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="objects-item"<?= $goods_item_styles ?>>
+    <a href="<?= $fullLink ?>">
+        <?= $f_AdminButtons; ?>
+        <?php if ($f_Image): ?>
+            <div class="item-image">
+                <?= $f_Image->as_img(array('alt' => $f_Name)) ?>
+            </div>
+        <?php endif ?>
+        <div class="item-name <?= $cc_settings['title_class'] ?>">
+            <?= nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+        </div>
+        <div class="<?= $cc_settings['description_class'] ?>">
+            <?= nc_edit_inline('Description', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+        </div>
+        <div class="<?= $cc_settings['price_class'] ?>">
+            <?= $admin_mode ? nc_edit_inline('Price', $f_RowID, $cc_env['Sub_Class_ID']) : $format_price($f_Price); ?>
+        </div>
+    </a>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows > $recNum): ?>
+<?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

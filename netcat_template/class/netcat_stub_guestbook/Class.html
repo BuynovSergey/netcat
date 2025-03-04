@@ -1,0 +1,44 @@
+<!-- FormPrefix --><?
+echo $f_AdminCommon;
+?><div class='nc_list nc_guestbook'>
+<?
+if (!$inside_admin) {
+    ?><h3><a href='<?= $addLink ?>'>Добавить сообщение</a></h3><br /><?
+}
+?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class='nc_row'> <? echo $f_AdminButtons ?>
+    <span class='nc_author'><? echo ($f_Name ? nc_edit_inline('Name', $f_RowID, $cc) : "Аноним") ?></span>
+    <p class='nc_message' style='margin:5px 0;'><? echo nc_edit_inline('Message', $f_RowID, $cc);  ?></p>
+    <span class='nc_datetime'>
+        <span class='nc_date'><? echo "$f_Created_day.$f_Created_month.$f_Created_year" ?></span> 
+        <span class='nc_time'><? echo "$f_Created_hours:$f_Created_minutes" ?></span>
+    </span>
+    <? if ($f_Email) {
+        ?><span class='nc_email'><a href='mailto:<? echo $f_Email ?>'><? echo $f_Email ?></a></span><?
+}
+if ($f_Answer) {
+    ?><div class='nc_answer' style='color:#<? echo $cc_settings['ReplyColor'] ?>;'>
+        <b>Ответ:</b> <? echo nc_edit_inline('Answer', $f_RowID, $cc) ?></div>
+    <?
+}
+if ($cc_settings['ShowComments'] == true) {
+    ?><div style='padding-bottom:10px;'><a href='<? echo $fullDateLink ?>#comments' style='color:#FF3300;'>комментарии (<? echo (int) s_list_class($cc_settings['CommentsSUB'], $cc_settings['CommentsCC'], "&scID=$cc&objID=$f_RowID&CountComments=1", true) ?>)</a></div>
+<? } ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+if (!$inside_admin && $totRows) {
+    ?><h3><a href='<? echo $addLink ?>'>Добавить сообщение</a></h3><?
+}
+?><div class='nc_item'><span class='nc_title'>Всего записей: </span><span class='nc_value'><? echo $totRows ?></span></div>
+<?
+if (($prevLink || $nextLink)) {
+    ?><div style='padding-bottom:10px;'>Страницы: <?
+    echo opt($cc_settings['PageListingStyle'] == "fb" || $cc_settings['PageListingStyle'] == "all", opt($prevLink, "<a href='$prevLink'>назад</a> &nbsp;"));
+    echo opt($cc_settings['PageListingStyle'] == "numbers" || $cc_settings['PageListingStyle'] == "all", browse_messages($cc_env, 10));
+    echo opt($cc_settings['PageListingStyle'] == "fb" || $cc_settings['PageListingStyle'] == "all", opt($nextLink, "&nbsp; <a href='$nextLink'>вперёд</a>"))
+    ?>
+    </div>
+<? } ?>
+</div><!-- /FormSuffix -->

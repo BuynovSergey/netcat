@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 100;
+  src: local('M PLUS Rounded 1c Thin'), local('MPLUSRounded1c-Thin'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGCAYIAV6gnpUpoWwNkYvrugw9RuM3i9Lgq7A.woff) format('woff');
+}
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 300;
+  src: local('M PLUS Rounded 1c Light'), local('MPLUSRounded1c-Light'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGBAYIAV6gnpUpoWwNkYvrugw9RuM0q5qsJz-0.woff) format('woff');
+}
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 400;
+  src: local('M PLUS Rounded 1c'), local('MPLUSRounded1c-Regular'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGEAYIAV6gnpUpoWwNkYvrugw9RuMWFxLg.woff) format('woff');
+}
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 500;
+  src: local('M PLUS Rounded 1c Medium'), local('MPLUSRounded1c-Medium'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGBAYIAV6gnpUpoWwNkYvrugw9RuM1y56sJz-0.woff) format('woff');
+}
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 700;
+  src: local('M PLUS Rounded 1c Bold'), local('MPLUSRounded1c-Bold'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGBAYIAV6gnpUpoWwNkYvrugw9RuM064asJz-0.woff) format('woff');
+}
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 800;
+  src: local('M PLUS Rounded 1c ExtraBold'), local('MPLUSRounded1c-ExtraBold'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGBAYIAV6gnpUpoWwNkYvrugw9RuM0m4qsJz-0.woff) format('woff');
+}
+@font-face {
+  font-family: 'M PLUS Rounded 1c';
+  font-style: normal;
+  font-weight: 900;
+  src: local('M PLUS Rounded 1c Black'), local('MPLUSRounded1c-Black'), url(https://fonts.gstatic.com/s/mplusrounded1c/v7/VdGBAYIAV6gnpUpoWwNkYvrugw9RuM0C46sJz-0.woff) format('woff');
+}

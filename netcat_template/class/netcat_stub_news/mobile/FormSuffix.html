@@ -1,0 +1,17 @@
+<?
+if ($totRows > $f_RowNum && $cc_settings['ListingStyle'] == 'fixed') {
+    ?><div class='nc_pagination'>Страницы: <?= browse_messages($cc_env, 5) ?></div><?
+}
+if ($totRows && $cc_settings['ListingStyle'] == 'day') {
+    ?>Архив по дням: <?=
+    listQuery("SELECT DATE_FORMAT(Date,'%Y') AS year, DATE_FORMAT(Date,'%m') AS month, DATE_FORMAT(Date,'%d') AS day FROM Message$classID WHERE Subdivision_ID=$sub AND Sub_Class_ID=$cc AND DATE_FORMAT(Date,'%Y%m')='$year$month' GROUP BY DATE_FORMAT(Date,'%d') ORDER BY Date", '".($i?" | ":NULL).($data[day]=='.$day.'?$data[day]:"<a href='.$SUB_FOLDER.$current_sub[Hidden_URL].'$data[year]/$data[month]/$data[day]/>$data[day]</a>")."');
+}
+if ($totRows && $cc_settings['ListingStyle'] == 'month') {
+    ?>Архив по месяцам: <?=
+    listQuery("SELECT DATE_FORMAT(Date,'%Y') AS year, DATE_FORMAT(Date,'%m') AS month FROM Message$classID WHERE Subdivision_ID=$sub AND Sub_Class_ID=$cc AND DATE_FORMAT(Date,'%Y')='$year' GROUP BY DATE_FORMAT(Date,'%m') ORDER BY Date", '".($i?" | ":NULL).($data[month]=='.$month.'?$data[month]:"<a href='.$SUB_FOLDER.$current_sub[Hidden_URL].'$data[year]/$data[month]/>$data[month]</a>")."');
+}
+if ($totRows && $cc_settings['ListingStyle'] == 'year') {
+    ?>Архив по годам: <?= listQuery("SELECT DATE_FORMAT(Date,'%Y') AS year FROM Message$classID WHERE Subdivision_ID=$sub AND Sub_Class_ID=$cc GROUP BY DATE_FORMAT(Date,'%Y') ORDER BY Date", '".($i?" | ":NULL).($data[year]=='.$year.'?$data[year]:"<a href='.$SUB_FOLDER.$current_sub[Hidden_URL].'$data[year]/>$data[year]</a>")."');
+} ?>
+
+</div>

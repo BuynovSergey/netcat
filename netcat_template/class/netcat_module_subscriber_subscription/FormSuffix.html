@@ -1,0 +1,24 @@
+<? if ($totRows) { ?>
+    </table>
+    <? if (!$AUTH_USER_ID) { ?>
+        <br><div align='left' style='margin:7px 0; font-size:100%; font-weight:bold'>Ваш email: <br><br><input type='text' value='' name='fields[Email]' /></div><?
+    }
+    if (!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha']) {
+        echo nc_captcha_formfield();
+        ?><br><br><div align='left' style='margin:7px 0; font-size:100%; font-weight:bold'><?= NETCAT_MODERATION_CAPTCHA ?>:</div>
+        <br><input type='text' name='nc_captcha_code' size='10'><br><br><? } ?>
+
+
+    <div align='right' style='margin:7px 0; font-size:100%; font-weight:bold'>
+
+        <? if ($AUTH_USER_ID) { ?>
+            <span align='left' style='margin: 7px 10px 7px 0pt; font-size:100%; font-weight:bold'>
+                Письма отсылаются на <?= $current_user[$email_field] ?></span> <? } ?>
+
+        <input type='submit' value='Сохранить все' />
+
+    </div>
+    <?= ($current_user['UserType'] == 'pseudo' ? "<input type='hidden' name='auth_hash' value='$auth_hash' />" : "") ?>
+    <input type='hidden' name='redirect_url' value='<?= $_SERVER['REQUEST_URI'] ?>' />
+    </form>
+<? } ?>

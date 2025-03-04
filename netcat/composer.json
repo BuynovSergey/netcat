@@ -1,0 +1,16 @@
+{
+    "require": {
+        "facebook/graph-sdk": "^5.4",
+        "hybridauth/hybridauth": "^2.8",
+        "giggsey/libphonenumber-for-php": "8.6.0",
+        "mobiledetect/mobiledetectlib": "^2.8",
+        "sinergi/browser-detector": "^6.1",
+        "enshrined/svg-sanitize": "0.7.2",
+        "caxy/php-htmldiff": "0.1.9",
+        "christian-riesen/otp": "^2.7",
+        "bacon/bacon-qr-code": "2.0.8"
+    },
+    "config": {
+        "platform-check": false
+    }
+}

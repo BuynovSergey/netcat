@@ -1,0 +1,11 @@
+</table>
+<br>
+<? if ($totRows > $recNum) { 
+    ?><div class='nc_pagination'>Страницы: <?=browse_messages($cc_env, 5);?></div><br><?
+}
+?>
+<div class='nc_info_block'>
+<?=( $srch ? "Найдено пользователей:" : "Всего зарегистрированных пользователей:")?> <b><?=$totRows;?></b><br/>
+<?=nc_auth_users_online("Сейчас на сайте: <b>%ONLINE</b> (зарегистрированных: <b>%REGISTERED</b>, гостей: <b>%GUESTS</b>)<br>");?>
+<?=nc_auth_users_online($users_online_tpl);?>
+</div>

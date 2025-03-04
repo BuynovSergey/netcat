@@ -1,0 +1,48 @@
+
+<?php
+
+$table_fields = array();
+$all_fields = array();
+foreach ($component->get_fields() as $field) {
+    $all_fields[$field['name']] = $field;
+    if ($field['in_table_view']) {
+        $table_fields[$field['name']] = $field;
+    }
+}
+
+$standart_table_fields = array();
+foreach ($component->get_standart_fields() as $field) {
+    $all_fields[$field['name']] = $field;
+    if ($field['in_table_view']) {
+        $standart_table_fields[$field['name']] = $field;
+    }
+}
+$fields = array_merge($table_fields, $standart_table_fields);
+?>
+
+<div id="nc_form_styles">
+
+<div id='nc_table_view_<?= $cc ?>' class="nc-padding-20" style='padding-left:0 !important'>
+    <table class='nc-table nc--bordered nc--striped nc--wide'>
+        <thead>
+        <tr>
+            <th width='1%'>#</th>
+            <? if ($nc_core->get_settings('PacketOperations')): ?>
+                <th width='1%'></th>
+            <? endif ?>
+            <th width='1%'></th>
+            <? if (!$table_fields && !$standart_table_fields): ?>
+                <th></th>
+            <? endif ?>
+            <? foreach ($fields as $field): ?>
+                <th><?= $field['description'] ?: $field['name'] ?></th>
+            <? endforeach ?>
+            <th class="nc-text-center">
+                <div class="icons icon_prior" title="<?= NETCAT_MODERATION_STANDART_FIELD_PRIORITY ?>"></div>
+            </th>
+            <th colspan="4" class='nc-text-right' width='1%'>
+                <a href='#' id='nc_table_view_settings_btn' title=" <?= STRUCTURE_TAB_SETTINGS ?>"><i class='nc-icon nc--settings'></i></a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>

@@ -1,0 +1,560 @@
+﻿.s_img {
+  display: block;
+  background: url("../img/s_netcat.png");
+}
+
+.s_img_class {
+  background-position: 0px 0px;
+  height: 16px;
+  width: 16px;
+}
+.s_img_classes {
+  background-position: -64px 0px;
+  height: 16px;
+  width: 16px;
+}
+
+.s_img_alarm_l {
+  background-position: -192px 0px;
+  height: 31px;
+  width: 5px;
+}
+.s_img_alarm_r {
+  background-position: -197px 0px;
+  height: 31px;
+  width: 5px;
+}
+.s_img_attention_l {
+  background-position: -192px -31px;
+  height: 31px;
+  width: 5px;
+}
+.s_img_attention_r {
+  background-position: -197px -31px;
+  height: 31px;
+  width: 5px;
+}
+.s_img_recommend_l {
+  background-position: -192px -62px;
+  height: 31px;
+  width: 5px;
+}
+.s_img_recommend_r {
+  background-position: -197px -62px;
+  height: 31px;
+  width: 5px;
+}
+.s_img_alarm_cat {
+  background-position: 0px -96px;
+  height: 22px;
+  width: 22px;
+}
+.s_img_attention_cat {
+  background-position: -22px -96px;
+  height: 22px;
+  width: 22px;
+}
+.s_img_recommend_cat {
+  background-position: -44px -96px;
+  height: 22px;
+  width: 22px;
+}
+.s_img_darrow {
+  background-position: -0px -118px;
+  height: 22px;
+  width: 16px;
+}
+
+/* Новые иконки */
+.icons {
+  width: 19px;
+  height: 19px;
+  background-image: url(../img/icons.png);
+}
+
+.icon_emp {
+  background: none;
+}
+
+.icon_sysmsg_active {
+    width: 26px !important;
+    height: 26px !important;
+    background-image: url(../img/i_sys_msg_active.png);
+}
+.icon_sysmsg_inactive {
+    width: 26px !important;
+    height: 26px !important;
+    background-image: url(../img/i_sys_msg.png);
+}
+
+.tree_inline {
+    display: inline;
+}
+.icon_site_list {
+/*  background-position: 0px 0px; */
+}
+
+.icon_site {
+  background-position: -114px -152px;
+}
+
+.icon_site_disabled {
+  background-position: 0px 0px;
+}
+
+.icon_site_disabled {
+  opacity: 0.4;
+}
+.icon_site_mobile, .icon_site_mobile_disabled {
+  background-position: -37px -152px;
+}
+
+.icon_site_mobile_disabled {
+  opacity: 0.4;
+}
+.icon_site_adapt, .icon_site_adapt_disabled {
+  background-position: -18px -152px;
+}
+
+.icon_site_adapt_disabled {
+  opacity: 0.4;
+}
+.icon_site_add {
+  background-position: 0px -19px;
+}
+
+.icon_site_wizard {
+  background-position: 0px -38px;
+}
+
+.icon_user {
+  background-position: 0px -57px;
+}
+
+.icon_search, .icon_search_disabled {
+  background-position: -57px -38px;
+}
+
+.icon_search_disabled {
+  opacity: 0.4;
+}
+
+.icon_notnull, .icon_notnull_disabled {
+  background-position: -152px -38px;
+}
+
+.icon_notnull_disabled {
+  opacity: 0.4;
+}
+
+.icon_field_access_all, .icon_field_access_no, .icon_field_access_admin{
+  background-position: -57px -19px;
+}
+
+.icon_field_access_admin{
+  opacity: 0.4;
+}
+
+.icon_field_access_no {
+  opacity: 0.4;
+}
+
+.icon_sendmail {
+  background-position: 0px -76px;
+}
+
+.icon_usergroups {
+  background-position: 0px -95px;
+}
+
+.icon_user_add {
+  background-position: 0px -114px;
+}
+
+.icon_module_stats {
+  background-position: -19px 0;
+}
+
+.icon_module_banner {
+  background-position: -133px -19px;
+}
+
+.icon_module_brockenlinks {
+  background-position: -19px -133px;
+}
+
+.icon_module_filemanager {
+  background-position: -19px -114px;
+}
+
+.icon_copy {
+  background-position: -19px -95px;
+}
+
+.icon_trash {
+  background-position: -19px -76px;
+}
+
+.icon_tool_sql {
+  background-position: -38px -95px;
+}
+
+.icon_widget {
+  background-position: -38px -38px;
+}
+
+.icon_redirect {
+  background-position: -38px 0px;
+}
+
+.icon_cron {
+  background-position: -38px -19px;
+}
+
+.icon_patch {
+  background-position: -19px -57px;
+}
+
+.icon_install_module {
+  background-position: -57px -57px;
+}
+
+.icon_totalstat {
+  background-position: -57px 0px;
+}
+
+.icon_systemmessages {
+  background-position: -19px -38px;
+}
+
+.icon_tool_backup {
+  background-position: -38px -57px;
+}
+
+.icon_templates {
+  background-position: -95px -76px;
+}
+.icon_template_add {
+  background-position: -0px -152px;
+}
+
+.icon_sysclasses {
+  background-position: -76px -133px;
+}
+
+.icon_widgetclasses {
+  background-position: -95px -38px;
+}
+.icon_widgetclassgroup {
+  background-position: -38px -38px;
+}
+.icon_classificators {
+  background-position: -95px -19px;
+}
+
+.icon_classificator {
+  background-position: -95px -19px;
+}
+
+.icon_class_wizard {
+  background-position: -95px -57px;
+}
+
+.icon_classes {
+  background-position: -76px -114px;
+}
+.icon_list {
+  background-image: url(../img/list.gif);
+  background-repeat: no-repeat;
+  background-position: +1px +1px;
+}
+
+.icon_settings, .icon_settings_disabled {
+  background-position: -57px -76px;
+}
+.icon_settings_disabled {
+  opacity: 0.4;
+}
+
+.icon_module_logging {
+  background-position: -19px -19px;
+}
+
+.icon_module_search {
+  background-position: -57px -38px;
+}
+
+.icon_module_netshop {
+  background-position: -57px -114px;
+}
+
+.icon_module_minishop {
+  background-position: -57px -133px;
+}
+
+.icon_module_linkmanager {
+  background-position: -76px -95px;
+}
+
+.icon_module_auth {
+  background-position: -57px -19px;
+}
+
+.icon_module_blog {
+  background-position: -76px -76px;
+}
+
+.icon_module_comments {
+  background-position: -38px -114px;
+}
+
+.icon_module_poll {
+  background-position: -76px -57px;
+}
+
+.icon_module_cache {
+  background-position: -38px -57px;
+}
+
+.icon_module_calendar {
+  background-position: -114px -133px;
+}
+
+.icon_module_default {
+  background-position: -57px -57px;
+}
+
+.icon_module_captcha {
+  background-position: -57px -95px;
+}
+
+.icon_module_forum2 {
+  background-position: -0px -95px;
+}
+
+.icon_module_subscriber {
+  background-position: -0px -76px;
+}
+
+.icon_module_tagscloud {
+  background-position: -76px -19px;
+}
+
+.icon_netcatdocs {
+  background-position: -19px -38px;
+}
+
+.icon_netcatonline {
+  background-position: -0px -95px;
+}
+
+.icon_obj_add {
+  background-position: -152px -134px;
+  margin-right: 5px;
+}
+.icon_netcatforum {
+  background-position: -38px -133px;
+}
+
+.icon_netcatknowledge {
+  background-position: -19px -38px;
+}
+
+.icon_netcatabout {
+  background-position: -0px -133px;
+}
+
+.icon_type_text {
+  background-position: -114px -76px;
+}
+
+.icon_type_string {
+  background-position: -114px -57px;
+}
+
+.icon_type_link {
+  background-position: -133px -0px;
+}
+
+.icon_type_file {
+  background-position: -38px -57px;
+}
+
+.icon_type_m_file {
+  background-position: -95px -133px;
+}
+
+.icon_type_int {
+  background-position: -114px -38px;
+}
+
+.icon_type_float {
+  background-position: -114px -19px;
+}
+
+.icon_type_bool {
+  background-position: -114px -114px;
+}
+
+.icon_type_date {
+  background-position: -114px -133px;
+}
+
+.icon_type_multiclassificator {
+  background-position: -114px -0px;
+}
+
+.icon_type_classificator {
+  background-position: -114px -95px;
+}
+
+.icon_fm_file, .icon_fm_file_disabled {
+  background-position: -152px -95px;
+}
+
+.icon_fm_file_disabled {
+  opacity: 0.4;
+}
+
+.icon_fm_folder, .icon_fm_folder_disabled {
+  background-position: -152px -114px;
+}
+
+.icon_fm_folder_disabled {
+  opacity: 0.4;
+}
+
+.icon_fm_download {
+  background-position: -152px -76px;
+}
+
+.icon_folder {
+  /*background-position: -133px -38px;*/
+  background-position: -95px -152px;
+}
+
+.icon_folder_disabled {
+  background-position: -133px -57px;
+}
+.icon_folder_edit {
+  background-position: -133px -76px;
+}
+.icon_folder_add {
+  background-position: -152px -19px;
+}
+
+
+
+.icon_subclass_select {
+  background-position: -114px -114px;
+}
+
+.icon_site_select {
+  background-position: -133px -95px;
+}
+
+.icon_pencil, .icon_pencil_disabled {
+  background-position: -133px -76px;
+}
+.icon_pencil_disabled{
+  opacity: 0.4;
+}
+.icon_preview, .icon_preview_disabled {
+  background-image: url(../img/arrow.png);
+  background-repeat: no-repeat;
+  background-position: +4px +5px;
+  height: 15px;
+}
+.icon_preview_disabled {
+  opacity: 0.4;
+
+}
+.icon_prior {
+  background-image: url(../img/prior.png);
+  background-repeat: no-repeat;
+  background-position: +4px +5px;
+}
+.icon_turnon {
+  background-image: url(../img/i_obj_turnon.gif);
+  background-repeat: no-repeat;
+  background-position: +1px +1px;
+}
+.icon_drag {
+  background-position: -133px -113px;
+  margin-top: 5px;
+  margin-left: 6px;
+}
+
+.icon_delete {
+  background-position: -133px -133px;
+}
+
+.icon_selected_on {
+  background-position: -114px -114px;
+}
+
+.icon_selected_off {
+  background-position: -152px -152px;
+}
+
+.icon_selected_delete {
+  background-position: -133px -152px;
+}
+
+.icon_site_delete {
+  /*background-position: -152px 0px;*/
+  background-position: -133px -133px;
+}
+
+.icon_copy {
+  background-position: -19px -95px;
+}
+
+.icon_checked_on {
+  background-position: -76px -152px;
+}
+
+.icon_checked_off {
+  background-position: -57px -152px;
+}
+
+.icon_classgroup {
+  background-position: -76px -114px;
+}
+
+.icon_class {
+  background-position: -76px -114px;
+}
+
+.icon_class_template {
+  background-position: -95px -19px;
+}
+.icon_class_templates {
+  background-position: -95px -19px;
+}
+
+.nc_print_status_icon, .status_message {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-image: url(../img/status_message.png);
+}
+
+.nc_print_status_icon_ok, .message_ok {
+    background-position: -32px 0px;
+}
+.nc_print_status_icon_error, .message_error {
+    background-position: -64px 0px;
+}
+.nc_print_status_icon_info, .message_info {
+    background-position: 0px 0px;
+}
+
+/* DIRTY HACK!!! делаем светлее иконки в карте сайта и на морде */
+.icon_pencil,  .icon_folder_add, .icon_settings, .icon_preview {
+	opacity:0.7;
+}
+
+.icon_disabled {
+	opacity:0.3
+}

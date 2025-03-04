@@ -1,0 +1,28 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$css = array();
+$transition = array();
+
+foreach (array_reverse($settings) as $layer) {
+    switch ($layer['type']) {
+        case "fade": // не может применятся дважды. поэотму переопределяем
+            $css['fade'] = "opacity: {$layer['fade_opacity']}; filter: alpha(opacity=" . ($layer['fade_opacity'] * 100) . ");";
+            $transition['fade'] = "opacity " . ($layer['fade_time'] ? $layer['fade_time'] : '0') . "s ease";
+            break;
+        case "fadein":
+            // used JS
+            break;
+            break;
+    }
+}
+if (!$css) {
+    return '';
+}
+if ($transition) {
+    $trans = "transition: " . join(", ", $transition) . ";";
+    $trans .= "-ms-transition: " . join(", ", $transition) . ";";
+}
+return "$selector{" . join("\n", $css) . $trans."}\n";

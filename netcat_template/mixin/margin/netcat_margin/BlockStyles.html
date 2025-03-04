@@ -1,0 +1,58 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+/**
+ * @param $side
+ * @return string
+ */
+
+// Устанавливает css-переменные:
+// --tpl-mixin-margin-left, --tpl-mixin-margin-right (используются в netcat_layout_width).
+
+$get_side_value = function ($side) use ($settings) {
+    if (!empty($settings[$side . '_auto'])) {
+        return "margin-$side: auto";
+    } else if (strlen($settings[$side . '_value'])) {
+        return $settings[$side . '_value'] != '' ? "margin-$side: " . $settings[$side . '_value'] . $settings[$side . '_unit'] : "";
+    }
+    return '';
+};
+
+$properties = array();
+
+$top = $get_side_value('top');
+if ($top) {
+    $properties[] = $top;
+}
+
+$bottom = $get_side_value('bottom');
+if ($bottom) {
+    $properties[] = $bottom;
+}
+
+$left = $get_side_value('left');
+if ($left) {
+    $properties[] = "$left !important"; // !important из-за margin-left, устанавливаемого netcat_layout_width
+}
+
+$right = $get_side_value('right');
+if ($right) {
+    $properties[] = "$right !important"; // !important из-за margin-right, устанавливаемого netcat_layout_width
+}
+
+if ($left && !$settings['left_auto']) {
+    $properties[] = "--tpl-mixin-$left";
+}
+
+if ($right && !$settings['right_auto']) {
+    $properties[] = "--tpl-mixin-$right";
+}
+
+if ($properties) {
+    return "$selector { " . implode("; ", $properties) . " }\n" .
+           "$selector * { --tpl-mixin-margin-left: 0px; --tpl-mixin-margin-right: 0px; }\n";
+}
+
+return '';

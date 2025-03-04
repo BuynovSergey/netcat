@@ -1,0 +1,19 @@
+<div class='nc_full nc_guestbook'><div style='padding-bottom:5px;'><? echo $f_AdminButtons ?></div>
+    <div style='padding-bottom:5px;'>
+        <span class='date'><? echo "$f_Created_day.$f_Created_month.$f_Created_year" ?></span> 
+        <span class='time'><? echo "$f_Created_hours:$f_Created_minutes" ?></span>
+        &nbsp; <b><? echo ($f_Name ? nc_edit_inline('Name', $f_RowId, $cc) : "Аноним") ?></b>
+        <? if ($f_Email) {
+            ?>&nbsp; <a href='mailto:<? echo $f_Email ?>'><? echo nc_edit_inline('Email', $f_RowId, $cc) ?></a><? } ?></div>
+    <div style='padding-bottom:5px;'><? echo nc_edit_inline('Message', $f_RowId, $cc) ?></div>
+    <? if ($f_Answer) {
+        ?><div><i><b>Ответ:</b> <? echo nc_edit_inline('Answer', $f_RowId, $cc) ?></i></div><?
+    }
+    if ($cc_settings['ShowComments'] == true) {
+        ?>
+            <div>
+                <? echo s_list_class($cc_settings['CommentsSUB'], $cc_settings['CommentsCC'], "&scID=$cc&objID=$f_RowID&backlink=".urlencode(htmlspecialchars($GLOBALS[client_url]))."", true) ?>
+            </div>
+        <?
+    }
+?>

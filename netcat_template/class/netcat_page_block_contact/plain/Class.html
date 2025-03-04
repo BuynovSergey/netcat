@@ -1,0 +1,107 @@
+<!-- FormPrefix --><div class="tpl-block-page-block">
+    <?= $f_AdminCommon; ?>
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+        <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+        <div class="tpl-block-description">
+            <span class="tpl-infoblock-field-text"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></span>
+        </div>
+        <? endif; ?>
+
+        <div class="tpl-block-contact">
+            <div class="tpl-block-row">
+                <? if ($cc_settings['show_phone']): ?>
+                <div class="tpl-block-item tpl-layout-phone">
+                    <div class="tpl-block-icon"></div>
+                    <div class="tpl-block-label">Телефон</div>
+                    <div class="tpl-block-data">
+                        <span class="tpl-field-phone"><?= nc_infoblock_custom_setting_edit_inline('phone', $cc) ?></span>
+                    </div>
+                </div>
+                <? endif; ?>
+
+                <? if ($cc_settings['show_email']): ?>
+                <div class="tpl-block-item tpl-layout-email">
+                    <div class="tpl-block-icon"></div>
+                    <div class="tpl-block-label">Почта</div>
+                    <div class="tpl-block-data">
+                        <a href="mailto:<?= htmlspecialchars($f_EMail); ?>" class="tpl-field-email"><span><?= nc_infoblock_custom_setting_edit_inline('email', $cc) ?></span></a>
+                    </div>
+                </div>
+                <? endif; ?>
+            </div>
+
+            <div class="tpl-block-row">
+                <? if ($cc_settings['show_address']): ?>
+                <div class="tpl-block-item tpl-layout-address">
+                    <div class="tpl-block-icon"></div>
+                    <div class="tpl-block-label">Адрес</div>
+                    <div class="tpl-block-data">
+                        <span class="tpl-field-address"><?= nc_infoblock_custom_setting_edit_inline('address', $cc) ?></span>
+                    </div>
+                </div>
+                <? endif; ?>
+
+                <? if ($cc_settings['show_work_time']): ?>
+                <div class="tpl-block-item tpl-layout-work-time">
+                    <div class="tpl-block-icon"></div>
+                    <div class="tpl-block-label">Время работы</div>
+                    <div class="tpl-block-data">
+                        <span class="tpl-field-work-time"><?= nc_infoblock_custom_setting_edit_inline('work_time', $cc) ?></span>
+                    </div>
+                </div>
+                <? endif; ?>
+            </div>
+        </div>
+    </div>
+    <? if ($cc_settings['show_map'] && $cc_settings['map_address']): ?>
+    <div class="tpl-block-map tpl-state-loading tpl-block-map-container" id='<?= $nc_block_id; ?>_yamap'>
+    </div>
+    <script>
+        $(function() {
+            $.getScript("https://api-maps.yandex.ru/2.1/?lang=ru_RU", function(){
+                ymaps.ready().done(function(){
+                    var myMap = new ymaps.Map("<?= $nc_block_id; ?>_yamap", {
+                        center: [55.76, 37.64],
+                        zoom: 14
+                    }, {
+                        searchControlProvider: 'yandex#search'
+                    });
+                    ymaps.geocode(<?= json_encode($cc_settings['map_address']) ?>, {
+                        results: 1
+                    }).then(function (res) {
+                        var firstGeoObject = res.geoObjects.get(0),
+                            bounds = firstGeoObject.properties.get('boundedBy');
+
+                        firstGeoObject.options.set('preset', 'islands#darkBlueDotIconWithCaption');
+                        firstGeoObject.properties.set('iconCaption', firstGeoObject.getAddressLine());
+
+                        myMap.behaviors.disable('scrollZoom');
+                        myMap.geoObjects.add(firstGeoObject);
+                        myMap.setBounds(bounds, {
+                            checkZoomRange: true
+                        });
+                    });
+                });
+            });
+            var $email = $('#<?= $nc_block_id; ?> .tpl-block-item.tpl-layout-email A');
+            if ($email.find('[contenteditable=true]').length > 0) {
+                $email.on('click', function(e){
+                    e.preventDefault();
+                });
+            }
+        });
+    </script>
+    <? endif; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>
+<!-- /FormSuffix -->

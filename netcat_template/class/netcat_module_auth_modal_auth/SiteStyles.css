@@ -1,0 +1,43 @@
+.nc-popup-admin-helper { height: 80px; line-height: 80px; vertical-align: middle; text-align: center; background-color: #04b8f9; margin: 1px 0; }
+.tpl-component-login-popup { position: fixed; left: 0; right: 0; top: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); text-align: left; z-index: 500; display: none; }
+.tpl-component-login-popup .error { color: maroon; font-weight: 400; }
+.tpl-component-login-popup .popup-content { display: table-cell; width: 100%; vertical-align: middle; }
+.tpl-component-login-popup .popup-content-wrap { max-width: 455px; min-width: 300px; width: 100%; padding: 0 20px; margin: 0 auto; position: relative; height: 100vh; display: flex; align-items: center; justify-content: stretch; }
+.tpl-component-login-popup .popup-content-inner { background: var(--tpl-color-background-main); position: relative; -webkit-box-shadow: 0px 7px 52px 0px var(--tpl-color-foreground-main); box-shadow: 0px 7px 52px 0px var(--tpl-color-foreground-main); padding: 7% 7% 7% 7%; -webkit-transition: all 5s; transition: all 5s; }
+@media (min-width: 500px) { .tpl-component-login-popup .popup-content-inner { padding: 33px 14% 33px 14%; } }
+.tpl-component-login-popup .popup-content-text { -webkit-transition: all 5s; transition: all 5s; }
+.tpl-component-login-popup .popup-content-close { position: absolute; top: 0px; right: 0px; height: 40px; width: 40px; display: block; z-index: 10; }
+.tpl-component-login-popup .popup-content-close::before { content: '\004d'; font-family: 'ElegantIcons'; position: absolute; color: var(--tpl-color-brand-light); top: 8px; left: -2px; font-size: 26px; line-height: 30px; }
+.tpl-component-login-popup .popup-content-close:hover::before { color: var(--tpl-color-brand); -webkit-transition: all 0.2s; transition: all 0.2s; }
+.tpl-component-login-popup .popup-content-top { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; }
+.tpl-component-login-popup .popup-content-social { padding: 25px 0 25px; display: flex; justify-content: flex-start; }
+.tpl-component-login-popup .popup-content-social .nc-social-auth-container { width: 1.5em; height: 1.5em; margin-right: 1em; text-align: center; }
+.tpl-component-login-popup .popup-content-social .nc-social-auth-container > * { overflow: hidden; width: 1.5em !important; height: 1.5em !important; }
+.tpl-component-login-popup .popup-content-social .tpl-icon { width: 1.2em; height: 1.2em; fill: var(--tpl-color-foreground-main); }
+.tpl-component-login-popup .popup-content-caption { text-align: left; display: flex; line-height: 1; }
+.tpl-component-login-popup .popup-content-caption hr { margin-left: 1em; border: 0; color: var(--tpl-color-background-main-dark); background-color: var(--tpl-color-background-main-dark); height: 1px; flex-grow: 1; }
+.tpl-component-login-popup .popup-content-header { color: var(--tpl-color-foreground-main); text-align: left; padding-top: 20px; }
+.tpl-component-login-popup .popup-content-header--alternative { color: var(--tpl-color-brand); }
+.tpl-component-login-popup .popup-content-header--alternative:hover, .tpl-component-login-popup .popup-content-header--alternative:active { opacity: 0.8; -webkit-transition: all 0.2s; transition: all 0.2s; }
+.tpl-component-login-popup .popup-content-inputs { padding-top: 25px; }
+.tpl-component-login-popup .popup-content-label { position: relative; padding-bottom: 10px; margin-bottom: 0; display: block; }
+.tpl-component-login-popup .popup-content-label .error { max-height: 0; margin: 4px 0px -4px 0px !important; -webkit-transition: all 2s; transition: all 2s; }
+.tpl-component-login-popup .popup-content-label-icon { position: absolute; left: 12px; top: 6px; width: 21px; height: 21px; background-image: url(images/sprite.png); content: ""; }
+.tpl-component-login-popup .popup-content-label--name .popup-content-label-icon { background-position: -21px -21px; }
+.tpl-component-login-popup .popup-content-label--phone .popup-content-label-icon { background-position: -42px -21px; }
+.tpl-component-login-popup .popup-content-label--email .popup-content-label-icon { background-position: 0px -22px; }
+.tpl-component-login-popup .popup-content-label--password .popup-content-label-icon { background-position: -63px -21px; }
+.tpl-component-login-popup .popup-content-label--captcha-image { display: flex; align-items: center; justify-content: flex-start; }
+.tpl-component-login-popup .popup-content-label--captcha-image button { border: 0; margin: 0; width: 30px; height: 30px; padding: 0.2em; position: relative; font-size: 20px; }
+.tpl-component-login-popup .popup-content-label--captcha-image button svg { width: 1em; height: 1em; }
+.tpl-component-login-popup .popup-content-label--captcha-image button:focus { outline: none; }
+.tpl-component-login-popup .popup-content-label--agreed { display: flex; line-height: 1.1; align-items: flex-start; }
+.tpl-component-login-popup .popup-content-label--agreed input { margin-top: 4px; }
+.tpl-component-login-popup .popup-content-label--agreed span { margin-left: 0.5em; }
+.tpl-component-login-popup .popup-content-input { height: 2em; padding: 5px 10px 5px 58px !important; width: 100%; }
+.tpl-component-login-popup .popup-content-input:focus { outline: none; -webkit-box-shadow: none; box-shadow: none; }
+.tpl-component-login-popup .popup-content-buttons { padding-top: 25px; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: flex-start; -ms-flex-wrap: wrap; flex-wrap: wrap; align-items: center; }
+.tpl-component-login-popup .popup-content-buttons button { margin-left: auto; margin-right: 0; }
+.tpl-component-login-popup .popup-content-forgot { color: var(--tpl-color-brand); }
+.tpl-component-login-popup .popup-content-forgot:hover { opacity: 0.8; -webkit-transition: all 0.2s; transition: all 0.2s; }
+.tpl-component-login-popup.reg .popup-content-buttons { justify-content: flex-end; }

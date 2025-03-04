@@ -1,0 +1,6 @@
+<?php
+  if ($db->get_var("SELECT User_ID FROM User WHERE Email = '$f_Email'")) {
+    $warnText = "Пользователь с таким email адресом уже зарегистрирован!<br><br>";
+    $posting = 0;
+  }
+?>

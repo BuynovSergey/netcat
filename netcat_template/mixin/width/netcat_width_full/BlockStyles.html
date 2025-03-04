@@ -1,0 +1,57 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+// Использует css-переменные:
+// --tpl-mixin-layout-child-indent-left, -right (устанавливаются в netcat_layout_width)
+// --tpl-mixin-layout-child-min-indent-left, -right (устанавливаются в netcat_layout_width)
+// --tpl-mixin-layout-max-width, -min-width (устанавливаются в netcat_layout_width)
+// --tpl-mixin-margin-left, -right (устанавливаются в netcat_margin)
+
+// NB: для calc() всегда нужны единицы: '0px', а не '0'
+
+$ignore_layout_indent = (bool)nc_array_value($settings, 'ignore_layout_min_indent');
+if ($ignore_layout_indent) {
+    $layout_min_indent_left = "0px";
+    $layout_min_indent_right = "0px";
+} else {
+    $layout_min_indent_left = "var(--tpl-mixin-layout-min-indent-left, 0px)";
+    $layout_min_indent_right = "var(--tpl-mixin-layout-min-indent-right, 0px)";
+}
+
+$width_without_margins = '100% - var(--tpl-mixin-margin-left, 0px) - var(--tpl-mixin-margin-right, 0px)';
+$properties = array(
+    // !important приходится добавлять из-за миксина netcat_layout_width...
+    "max-width: calc($width_without_margins) !important",
+    "min-width: calc(var(--tpl-mixin-layout-min-width, 0px) + $layout_min_indent_left) !important",
+    "width: calc($width_without_margins) !important",
+    // !important приходится добавлять из-за миксина netcat_margin...
+    "margin-left: var(--tpl-mixin-margin-left, 0px) !important",
+    "margin-right: var(--tpl-mixin-margin-right, 0px) !important",
+);
+
+$reset_variables = array();
+
+if (nc_array_value($settings, 'background_only')) {
+    $padding_left = "var(--tpl-mixin-layout-child-indent-left, 0px) - var(--tpl-mixin-margin-left, 0px)";
+    $padding_right = "100% - var(--tpl-mixin-layout-max-width, 100%) - $padding_left";
+    if ($ignore_layout_indent) {
+        $properties[] = "padding-left: calc($padding_left)";
+        $properties[] = "padding-right: calc($padding_right)";
+    } else {
+        $properties[] = "padding-left: calc(max($layout_min_indent_left, $padding_left))";
+        $properties[] = "padding-right: calc(max($layout_min_indent_right, $padding_right))";
+    }
+} else if (!$ignore_layout_indent) {
+    $properties[] = "padding-left: $layout_min_indent_left";
+    $properties[] = "padding-right: $layout_min_indent_right";
+}
+
+$result = "$selector {\n" . join(";\n", $properties) . "\n}\n";
+
+if ($reset_variables) {
+    $result .= "$selector > * {\n" . join(";\n", $reset_variables) . "\n}\n";
+}
+
+return $result;

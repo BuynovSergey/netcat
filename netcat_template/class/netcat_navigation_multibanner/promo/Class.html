@@ -1,0 +1,38 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+<section class="slider-item">
+    <div class="slider-content">
+        <div class="slider-header tpl-text-header3"><?= nc_edit_inline('Title', $f_RowID, $cc); ?></div>
+        <div class="slider-postfix tpl-text-default-paragraph"><?= nc_edit_inline('Text', $f_RowID, $cc); ?></div>
+        <?php if ($f_ButtonLink && $f_ButtonText): ?>
+            <a class="button tpl-text-header6" href="<?= $f_ButtonLink; ?>"><?= $f_ButtonText; ?></a>
+        <?php endif; ?>
+    </div>
+    <?php
+    if ($f_ButtonLink && $f_ButtonText && !$admin_mode) {
+        $block_open = "<a href='$f_ButtonLink'";
+        $block_close = "</a>";
+    } else {
+        $block_open = "<div";
+        $block_close = "</div>";
+    }
+    $block_open .= " class='slider-image'";
+    if ((string)$f_Image) {
+        $block_open .= ' style="background-image: url(\'' . $f_Image . '\')"';
+    }
+    $block_open .= ">";
+    ?>
+    <?= $block_open; ?>
+    <?php if ($cc_settings['ShowBadge'] && ($f_PromoHeader || $f_PromoFooter)): ?>
+        <div class="slider-badge discount">
+            <div class="discount-wrapper">
+                <div class="discount-amount tpl-text-header2"><?= $f_PromoHeader; ?></div>
+                <div class="discount-desc tpl-text-header5"><?= $f_PromoFooter; ?></div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <?= $block_close; ?>
+</section><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

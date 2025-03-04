@@ -1,0 +1,210 @@
+@font-face {
+    font-family: 'Neris';
+    src: url('../fonts/Neris-Black_gdi.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+000D-F6D0;
+}
+
+@font-face {
+    font-family: 'Neris';
+    src: url('../fonts/Neris-Light_gdi.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+000D-F6D0;
+}
+
+@font-face {
+    font-family: 'Neris';
+    src: url('../fonts/Neris-LightItalic_gdi.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-stretch: normal;
+    unicode-range: U+000D-F6D0;
+}
+
+@font-face {
+    font-family: 'Neris';
+    src: url('../fonts/Neris-SemiBold_gdi.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+000D-F6D0;
+}
+
+
+.nc_ab_popupWindow {
+    font-family: Neris, Roboto, sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 90000;
+}
+
+.nc_ab_popupWindow-overlay {
+    background: #fff;
+    opacity: 0.8;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 5;
+}
+
+.nc_ab_popupWindow-content {
+    position: absolute;
+    top: 55px;
+    max-width: 300px;
+    width: 100%;
+    padding: 30px 30px 25px 30px;
+    left: 50%;
+    margin-left: -180px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+    z-index: 10;
+    text-align: center;
+}
+
+.nc_ab_popupWindow-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    background-color: #1987c2;
+}
+
+.nc_ab_popupWindow-image img {
+    width: 60px;
+    height: auto;
+}
+
+.nc_ab_popupWindow-text {
+    position: relative;
+    color: #212121;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5em;
+    padding: 0 0 50px 0;
+}
+
+.nc_ab_popupWindow-title {
+    color: #212121;
+    font-size: 18px;
+    line-height: 1.333em;
+    font-weight: 600;
+    padding: 25px 0 20px 0;
+}
+
+.nc_ab_popupWindow-bottom {
+    position: relative;
+}
+
+.nc_ab_popupWindow-button {
+    position: relative;
+    display: inline-block;
+    padding: 0 45px;
+    height: 40px;
+    line-height: 34px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #1987c2;
+    border-radius: 50px;
+    color: #fff;
+    text-decoration: none;
+    border: 0;
+    -webkit-transition: background 0.2s;
+    transition: background 0.2s;
+}
+
+.nc_ab_popupWindow-button:hover {
+    background: rgba(25, 135, 195, 0.85);
+    -webkit-transition: background 0.2s;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.nc_ab_popupWindow-button:active {
+    background: rgba(25, 135, 195, 0.85);
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, .3);
+}
+
+.nc_ab_popupWindow-link {
+    color: #1a87c2;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 300;
+    border: 0;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    border-bottom: 1px solid transparent;
+}
+
+.nc_ab_popupWindow-link:hover {
+    color: rgba(25, 135, 195, 0.8);
+    border-bottom: 1px solid rgba(25, 135, 195, 0.3);
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.nc_ab_popupWindow-row {
+    margin-bottom: 5px;
+}
+
+
+@media (max-height: 580px) {
+
+    .nc_ab_popupWindow {
+        overflow: scroll;
+        background: rgba(255, 255, 255, 0.8)
+    }
+
+    .nc_ab_popupWindow-overlay {
+        opacity: 0;
+    }
+
+    .nc_ab_popupWindow-content {
+        position: relative;
+        margin: 20px auto !important;
+        top: auto !important;
+        left: auto;
+        right: auto;
+    }
+}
+
+
+.nc_ab_popupWindow-textContent {
+    position: absolute;
+    left: 50px;
+    right: 50px;
+    top: 0;
+    padding-bottom: 40px;
+    text-align: center;
+    z-index: 10;
+}
+
+.nc_ab_popupWindow-counter {
+    font-size: 24px;
+    font-weight: 300;
+    color: #727272;
+    padding: 0 0 25px 0;
+}
+
+.nc_ab_popupWindow-section {
+    font-size: 60px;
+    line-height: 1em;
+    font-weight: 600;
+    color: #000000
+}

@@ -1,0 +1,55 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+
+<div class="stages" id="stages-<?= $cc ?>" style="--tpl-object-line-width-gap: 0px; --tpl-object-line-height-gap: 0px">
+
+
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+    <div class="stage-item<?= $f_IsActive ? " active" : "" ?>">
+        <?= $f_AdminButtons ?>
+        <div class="stage-item-dot <?= $cc_settings["title_size"] ?>">
+            <?php if ($f_IsActive): ?>
+                <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9.5" cy="9.5" r="9" transform="rotate(-90 9.5 9.5)" fill="#FFFFFF" stroke="var(--tpl-color-brand, #000000)"/>
+                    <ellipse cx="9.5" cy="9.5" rx="4.5" ry="4.5" transform="rotate(-90 9.5 9.5)" fill="var(--tpl-color-brand, #FFFFFF)"/>
+                </svg>
+            <?php else: ?>
+                <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="9.5" cy="9.5" r="9" transform="rotate(-90 9.5 9.5)" fill="#FFFFFF" stroke="var(--tpl-color-brand, #000000)"/>
+                </svg>
+            <?php endif ?>
+        </div>
+        <div class="stage-item-content">
+            <?php if (strlen($f_Name)): ?>
+                <div class="<?= $cc_settings["title_size"] ?> stage-item-title"><?= $f_Name ?></div>
+                <p><?= $f_Text ?></p>
+            <?php else: ?>
+                <div class="<?= $cc_settings["title_size"] ?> stage-item-title"><?= $f_Text ?></div>
+            <?php endif; ?>
+            <div class="<?= $cc_settings["period_size"] ?> stage-item-period"><?= $f_Period ?></div>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+<script>
+    (function () {
+        const getNumericValue = (value) => parseInt(value) ? value : '0px'; // *gap может иметь значение вида 'normal'
+        const stages = document.getElementById("<?= $nc_block_id ?>");
+        const listBlock = stages.querySelector(".tpl-block-list-objects");
+
+        function updateBeforeWidthAndHeight() {
+            const computedStyle = getComputedStyle(listBlock);
+            const computedValue = listBlock.offsetWidth > 768
+                                  ? getNumericValue(computedStyle.columnGap)
+                                  : getNumericValue(computedStyle.rowGap);
+            listBlock.style.setProperty("--tpl-object-line-width-gap", computedValue);
+            listBlock.style.setProperty("--tpl-object-line-height-gap", computedValue);
+        }
+
+        window.addEventListener("resize", updateBeforeWidthAndHeight);
+        window.addEventListener("DOMContentLoaded", updateBeforeWidthAndHeight);
+        updateBeforeWidthAndHeight();
+    })()
+</script>
+<!-- /FormSuffix -->

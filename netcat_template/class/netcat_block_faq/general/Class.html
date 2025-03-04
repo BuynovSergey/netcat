@@ -1,0 +1,62 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+
+<?php list($icon, $icon_type) = explode(';', "$cc_settings[dropdown_symbol];;") ?>
+
+<div id="<?= $cc ?>" class="faq-wrapper" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+    <!-- RecordTemplate --><?= $f_AdminButtons ?>
+
+    <div class="faq-item collapsed icon-<?= $icon_type ?>">
+        <div class="faq-header">
+            <div class="faq-question <?= $cc_settings["question_text_classname"] ?>"><?= nc_edit_inline(
+                    "Question",
+                    $f_RowID,
+                    $cc_env['Sub_Class_ID']
+                ) ?>
+            </div>
+            <div class="toggle-btn">
+                <div class="toggle-icon">
+                    <?php if ($icon == "caret"): ?>
+                        <svg fill="var(--tpl-object-item--icon-color)" width="16" height="16" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M24 11.305l-7.997 11.39L8 11.305z"/>
+                        </svg>
+                    <?php endif ?>
+
+                    <?php if ($icon == "chevron"): ?>
+                        <svg width="18" height="9" viewBox="0 0 18 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.9201 0.950195L10.4001 7.4702C9.63008 8.2402 8.37008 8.2402 7.60008 7.4702L1.08008 0.950195"
+                                    stroke="var(--tpl-object-item--icon-color)" stroke-width="1.5" stroke-miterlimit="10"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                        </svg>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+        <div class="faq-answer"><?= nc_edit_inline("Answer", $f_RowID, $cc_env['Sub_Class_ID']) ?></div>
+    </div><!-- /RecordTemplate -->
+
+    <!-- FormSuffix -->
+</div>
+
+<script>
+    (function () {
+        document.addEventListener("DOMContentLoaded", () => {
+            if ("<?= $cc_settings["collapse_option"] ?>" === "expand") {
+                $(".faq-item").removeClass("collapsed");
+            }
+
+            if ("<?= $cc_settings["collapse_option"] ?>" === "expand_first") {
+                $(".faq-item").eq(0).removeClass("collapsed");
+            }
+
+            $("#<?=$cc?> .faq-header").on("click", function () {
+                const currentAnswer = $(this).parents(".faq-item").find(".faq-answer");
+                currentAnswer.slideToggle(200, () => $(this).parents(".faq-item").toggleClass("collapsed"));
+            })
+        })
+    })()
+</script>
+<!-- /FormSuffix -->

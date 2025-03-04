@@ -1,0 +1,618 @@
+.simplemodal-overlay {
+    background-color: #9C9294;
+    cursor: wait;
+    filter: alpha(opacity=50);
+    height: 100%;
+}
+
+.simplemodal-container {
+    width: 90%;
+    height: 70%;
+    margin:0px;
+    font-family:'Segoe UI', SegoeWP, Arial, sans-serif;
+    font-size:12px;
+    color:#444444;
+    line-height:14px;
+    background:#fff;
+}
+
+.simplemodal-wrap {
+    background-color: white;
+    padding: 0 0 0 30px;
+}
+
+.simplemodal-close {
+    display: block;
+    width: 7px;
+    height: 7px;
+    background: url('../img/close.png') 0 0 no-repeat;
+    position: absolute;
+    margin-left: 100%;
+    left: 0px;
+    top: -64px;
+    cursor: pointer;
+    z-index: 1005;
+}
+
+.simplemodal_error_close {
+    display: block;
+    width: 7px;
+    height: 7px;
+    background: url('../img/close.png') 0 0 no-repeat;
+    position: absolute;
+    margin-left: 100%;
+    left: -10px;
+    top: 4px;
+    cursor: pointer;
+    z-index: 1005;
+}
+
+.nc_admin_form_main {margin-top: 20px;}
+
+.nc_admin_form_body {
+    height: 100%;
+}
+
+.nc_admin_form_buttons {
+    text-align: right;
+    height: 50px;
+    background-color: #EEEEEE;
+    padding: 16px 0 0 30px;
+    position: absolute;
+    margin-top: 100%;
+    bottom: -66px;
+    left: 0px;
+    width: 100%;
+}
+.nc_admin_form_buttons > button, .nc_admin_form_buttons > input {
+    margin-right: 13px !important;
+}
+
+.nc_admin_form_menu {
+    background-color: #FFFFFF;
+    padding-top: 16px;
+    padding-left: 30px;
+    position: absolute;
+    left: 0px;
+    top: -108px;
+    height: 60px;
+    width: 100%;
+}
+
+#nc_form_result {
+   height: 100%;
+}
+
+.nc_admin_form_menu h2 {
+    font-size: 20px;
+    font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+    color: #333;
+    font-weight: normal;
+    margin: 0px;
+    padding: 0px 0px 10px 0px;
+    line-height: 20px;
+}
+
+.nc_admin_form_menu_hr {
+    margin-top: 14px;
+    border-bottom: 1px solid #DADADA;
+    display: none;
+}
+
+.nc_admin_form_main .resize_block {
+    display: none;
+    float:right;
+    clear:right;
+    _margin-top:-3px;
+}
+.nc_admin_form_main .resize_block a{
+    text-decoration:none;
+}
+
+.nc_disable {
+    cursor: default;
+    opacity: 0.5;
+}
+
+div.left, div.left > div {
+    padding-bottom: 10px;
+}
+
+div.menu > div.block > div.left {
+    padding-bottom: 0px;
+}
+
+#nc_moderate_info {
+    display: block;
+    position: absolute;
+    margin-left: 100%;
+    left: -210px;
+    top: 20px;
+    z-index: 1006;
+}
+
+#nc_moderate_info > div {
+    padding-bottom: 10px;
+}
+
+#adminForm textarea {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ie-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.nc_admin_form_body > form {padding-right: 15px;}
+
+div.modalCloseText {
+    display: block;
+    background: none;
+    position: absolute;
+    margin-left: 100%;
+    left: -50px;
+    top: -68px;
+    cursor: pointer;
+    z-index: 1005;
+    font-size: 11px;
+}
+
+div.nc_seo_fields > div {
+    padding-bottom: 20px;
+}
+
+.nc_admin_settings_info {}
+.nc_admin_settings_info_actions > div {margin-top: 10px;}
+.nc_admin_settings_info_actions > div > span {display: block; float: left; width: 85px;}
+.nc_admin_settings_info_priority {margin-top: 10px;}
+.nc_admin_settings_info_checked {margin-top: 10px;}
+.nc_admin_settings_info_favorites {margin-top: 10px;}
+
+.nc_header .menu_top li a .icons {
+  padding: 0;
+  margin: 0;
+  margin-bottom: -17px;
+  position: relative;
+  top: 0px;
+  left: -30px;
+}
+
+.nc_header {width:100%; min-width:800px; height: 55px; background:#1a87c2; position:relative; z-index:2;}
+.nc_header .logo {display:block; outline:none; width:33px; height:31px; float:left; margin:14px 0px 0px 19px;}
+
+.nc_header .user {background:url(../img/msg.png) no-repeat 0px 0px; padding:4px 0px 17px 35px; margin:17px 29px 0px 0px; float:right; color:#fff; font-family:'Segoe UI', SegoeWP, Arial, sans-serif; font-size:14px;}
+.nc_header .menu_top {padding:0px; list-style-type:none; float:left; margin:5px 0px 0px 17px;}
+.nc_header .menu_top li {font-size:18px; color:#fff; float:left; margin:0px 0px 0px 0px; font-family:'Segoe UI', SegoeWP, Arial, sans-serif; position:relative;}
+.nc_header .menu_top li a {text-decoration:none; color:#fff; display:block; padding:11px 17px 20px 17px; border-top:1px solid #1a87c2;}
+.nc_header .menu_top li a:hover {text-decoration:none;}
+.nc_header .menu_top li a.hover {padding:11px 16px 20px 16px; background:#fff; color:#333333; border:1px solid #bdbdbd; border-bottom:none; position:relative; top:-1px; z-index:20;}
+
+.nc_header .menu_top ul {width:259px; border:1px solid #bdbdbd; z-index:18; position:absolute; top:44px; left:0px; background:#fff; margin:0px; padding:0px; list-style-type:none; display:none;}
+.nc_header .menu_top ul li {float:none; font-size:12px; color:#333333; margin:0px; padding:0px; }
+.nc_header .menu_top ul li a, .nc_header .menu_top ul li > div {font-size:12px; color:#333333; padding:8px 10px 10px 42px; margin:0px; border-top:none;}
+.nc_header .menu_top ul li a:hover {background:#e7ecf0; text-decoration:none;}
+.nc_header .menu_top ul li img {position:absolute; top:7px; left:13px; }
+.nc_header .menu_top ul li.border {background:#dadada; width:100%; height:1px; margin:-1px 0px 0px 0px; padding:0px;}
+.nc_header .menu_top ul li .arrow {background:url(../img/arrows.png) no-repeat 0px -48px; width:4px; height:7px; position:absolute; top:13px; right:16px;}
+.nc_header .menu_top ul li a.hover_2 {background:#e7ecf0; text-decoration:none;}
+.nc_header .menu_top ul ul {top:-1px; left:259px; display:none;}
+.nc_header .menu_top ul ul.view_left {left:-261px;}
+
+
+.slider_block_2 {padding:15px 0 3px 30px !important; background: #f2f5f7; margin-left: -30px; overflow: hidden; min-height: 30px; }
+.slider_block_2 ul {margin: 0; padding: 0; list-style-type:none;}
+.slider_block_2 ul li {line-height:12px; float:left; margin:0 20px 0 0; font-family:'Roboto', SegoeWP, Arial, sans-serif; background: none; font-size: 14px; color:#727272; display:block; text-decoration:none; padding:0px 0px 15px 0px; position:relative; top:2px; cursor: pointer; transition: all .1s ease; }
+.slider_block_2 ul li:hover { color: #212121; }
+.slider_block_2 ul li.button_on {color:#212121; padding-bottom:15px; border-bottom:3px solid #2196f3; }
+.slider_block_2 ul li.last {margin-right:0px;}
+.slider_block_2 ul li.clear {float:none;}
+.slider_block_2 .overflow {width:100%; height:28px; position:relative; overflow:hidden; border-bottom:1px solid #dadada;}
+.slider_block_2 .slide {position:absolute; top:0px; left:0px; width:20000px; height:100%;}
+.slider_block_2 .left_gradient, .slider_block_2 .right_gradient {position:absolute; top:0; background:#fff; width:21px; height:47px; z-index:11;}
+.slider_block_2 .left_gradient {left:0px;}
+.slider_block_2 .right_gradient {right:0px;}
+.slider_block_2 .left_gradient .gradient, .slider_block_2 .right_gradient .gradient {background-image:url(../img/gradients.png); background-repeat:repeat-y; width:19px; height:100%; position:absolute; top:0px;}
+.slider_block_2 .left_gradient .gradient {background-position:0px 0px; right:-19px;}
+.slider_block_2 .right_gradient .gradient {background-position:-19px 0px; left:-19px;}
+.slider_block_2 .arrow {background-image:url(../img/arrows.png); background-repeat:no-repeat; width:7px; height:13px; display:block; outline:none; cursor:pointer; position:absolute; top:16px; z-index:12;}
+.slider_block_2 .arrow.left_arrow {left:0px; background-position:0px -14px;}
+.slider_block_2 .arrow.right_arrow {right:5px; background-position:0px -27px;}
+
+.content_block {width: 100%;}
+.inf_block {padding:0px 10px 20px 0px;}
+.inf_block select, .inf_block input {width:320px; margin-top:2px;}
+.inf_block select {width:322px;}
+.inf_block textarea {width:100%; height:100px;}
+
+.main_view_buttons {padding-right: 20px;}
+.nc_footer {background:#EEE; height:79px; margin:-79px 0px 0px 16px; position:relative; display:none;}
+.nc_footer .save {cursor: pointer; display:block; outline:none; margin-top:20px; margin-left: 20px; float:right; text-align:center; padding:8px 6px 12px 6px; font-size:15px; color:#333333; text-decoration:none; font-family:'Segoe UI', SegoeWP, Arial, sans-serif; border:2px solid #1a87c2;}
+.delete {border:2px solid #e54e43;}
+
+div#nc_quick_bar_padding {
+    height: 60px;
+    top: 0px;
+}
+
+div#nc_quick_bar {
+    border-bottom: 1px solid #AAAAAA;
+    background-color: #1A87C2;
+    z-index: 888;
+    position: fixed;
+    font-family: Segoe UI, SegoeWP, Arial, sans-serif;
+    font-size: 12pt;
+    height: 59px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+div#nc_quick_bar div {
+    display: inline-block;
+    height: 100%;
+}
+
+div#nc_quick_bar > div > div {
+    padding-left: 29px;
+    padding-top: 17px;
+}
+
+div#nc_quick_bar div#nc_quick_bar_left {
+    background-color: white;
+    padding-right: 29px;
+}
+
+div#nc_quick_bar div#nc_quick_bar_left a {
+    text-decoration: none;
+    color: #1A87C2;
+}
+
+div#nc_quick_bar div#nc_quick_bar_right a {
+    text-decoration: none;
+    color: white;
+}
+
+div#nc_quick_bar div#nc_quick_bar_left div.nc_quick_bar_active a {
+    color: black;
+}
+
+div#nc_quick_bar > div > div.nc_quick_bar_active > div {
+    height: 26px;
+    border-bottom: 3px solid black;
+}
+
+div#nc_quick_bar div#nc_quick_bar_right > div {
+    padding-top: 0px;
+    position: relative;
+    top: 10px;
+}
+
+div#nc_quick_bar_user {
+    position: absolute;
+    top: 8px;
+    right: 25px;
+}
+
+div#nc_quick_bar_user > div {
+    padding-top: 11px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background-color: white;
+    height: 28px;
+}
+
+div#nc_quick_bar_user div#nc_quick_bar_user_name {
+    cursor: pointer;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    background-color: #1A87C2;
+    border: 1px solid #1A87C2;
+    color: white;
+}
+
+
+div#nc_quick_bar_user_menu {
+    font-size: 12px;
+    position: absolute;
+    top: 39px;
+    right: 0px;
+    display: none;
+    border-left: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    border-bottom: 1px solid #AAAAAA;
+    width: 206px;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_permission {
+    padding-bottom: 10px;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_sys {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_sys a {
+    text-decoration: none;
+    color: black;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_sys img {
+    width: 11px;
+    height: 11px;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_permission > span {
+    color: #AAAAAA;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_hr_middle {
+    position: absolute;
+    border-bottom: 1px solid #AAAAAA;
+    width: 238px;
+    height: 1px;
+    margin-top: 100%;
+    left: 0px;
+    bottom: 33px;
+}
+
+div#nc_quick_bar_user_menu div#nc_quick_bar_user_menu_hr_top {
+    width: 100%;
+    height: 0px;
+    position: absolute;
+    border-bottom: 1px solid #AAAAAA;
+    left: 0px;
+    top: 0px;
+}
+
+div#nc_quick_bar div#nc_quick_bar_user div#nc_quick_bar_user_icon {
+	position: relative;
+	background-color: #1A87C2;
+	background-image: url(../img/msg.png);
+	padding: 0px;
+	width: 26px;
+	height: 26px;
+	right: 10px;
+	top: 5px;
+}
+
+/* menu */
+.nc_inner_more_menu { position: absolute; right: 20px;}
+.nc_more_menu { position: relative; color: white; }
+.nc_more_menu > span { display: none; }
+.nc_more_menu > span > span { display: block;  width:241px; z-index: 2000;}
+.nc_more_menu.hover_more { color: black; }
+.nc_more_menu.hover_more > span { display: block; position: absolute; border: 1px solid #AAAAAA; background-color: white;}
+.nc_more_menu.hover_more > span#nc_qb_more { border-bottom: none; z-index: 2100;}
+.nc_more_menu.hover_more > span > span { padding: 7px; }
+#nc_qb_more { padding: 6px 10px 10px; height: 18px; }
+div#nc_quick_bar div.icons { height: 19px; }
+div#nc_quick_bar div.nc_qb_desc { position: relative; top: -4px; left: 5px;}
+
+/* user menu */
+.nc_inner_user_menu {float: right; margin-right: 20px;}
+.nc_user_menu { position: relative; color: white; }
+.nc_user_menu > span { display: none; }
+.nc_user_menu > span > span { display: block;  width:241px; z-index: 2000;}
+.nc_user_menu.hover_user { color: black; }
+.nc_user_menu.hover_user > span { display: block; position: absolute; border: 1px solid #AAAAAA; margin-left: 100%; right: 0px; background-color: white;}
+.nc_user_menu.hover_user > span#nc_qb_user { border-bottom: none; z-index: 2100;}
+.nc_user_menu.hover_user > span > span { padding: 10px; }
+#nc_qb_user {height: 26px; margin-top: 2px; padding: 5px 5px 0;  border-bottom: 3px solid #FFF;}
+
+.nc_inner_notice {
+     float: right;
+     padding-top: 17px;
+}
+
+div#password_change_simplemodal_container {
+    height: 125px;
+    width: 265px;
+    margin: 0px;
+    font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+    font-size: 12px;
+    color: #444444;
+    line-height: 14px;
+    background: #fff;
+}
+
+div#filemanager_simplemodal_container {
+    height: 235px;
+    width: 265px;
+    margin: 0px;
+    font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+    font-size: 12px;
+    color: #444444;
+    line-height: 14px;
+    background: #fff;
+}
+
+div#cart_confirm_simplemodal_container {
+    height: 0px;
+    width: 265px;
+    margin: 0px;
+    font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+    font-size: 12px;
+    color: #444444;
+    line-height: 14px;
+    background: #fff;
+}
+
+div.nc_admin_form_buttons input#nc_filemanager_panel_save,
+div.nc_admin_form_buttons input#nc_filemanager_panel_close {
+    margin-top: 0px;
+}
+
+div#password_change_simplemodal_container div.simplemodal-wrap {
+    overflow: hidden !important;
+    padding: 16px 0 0 16px;
+}
+
+div#nc_password_change div#nc_password_change_footer,
+div#nc_filemanager_panel div#nc_filemanager_panel_footer,
+div#nc_cart_confirm div#nc_cart_confirm_footer {
+    text-align: right;
+    height: 50px;
+    background-color: #EEEEEE;
+    padding-top: 16px;
+    padding-left: 16px;
+    position: absolute;
+    margin-top: 100%;
+    bottom: -66px;
+    left: 0px;
+    width: 100%;
+}
+
+div#nc_password_change div#nc_password_change_footer > input,
+div#nc_filemanager_panel div#nc_filemanager_panel_footer > input,
+div#nc_cart_confirm div#nc_cart_confirm_footer > input {
+    margin-top: 0px;
+    margin-right: 13px;
+    cursor: pointer;
+    color: #FFFFFF;
+    margin-left: 0px;
+    border: 0px;
+    left: 0px;
+    bottom: 0px;
+    background-color: #1987c2;
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 34px;
+}
+
+
+div#nc_password_change div#nc_password_change_header,
+div#nc_filemanager_panel div#nc_filemanager_panel_header,
+div#nc_cart_confirm div#nc_cart_confirm_header {
+    background-color: #FFFFFF;
+    padding-top: 16px;
+    padding-left: 16px;
+    position: absolute;
+    left: 0px;
+    top: -44px;
+    height: 28px;
+    width: 100%;
+}
+
+div#nc_filemanager_panel div#nc_filemanager_panel_header {
+    padding-right: 14px;
+}
+
+div#nc_password_change div#nc_password_change_header > div,
+div#nc_filemanager_panel div#nc_filemanager_panel_header > div,
+div#nc_cart_confirm div#nc_cart_confirm_header > div {
+    height: 100%;
+    border-bottom: 1px solid #DADADA;
+}
+
+.nc_close {
+    background-image: url('../img/close.png');
+}
+
+#mainViewTab_view > li {
+    color: #1A87C2;
+    padding-bottom: 5px;
+    font-style: italic;
+    width: 100px;
+}
+
+div.simplemodal-container > div.simplemodal-wrap h2 {
+    font-size: 18px;
+    font-family: 'Roboto', SegoeWP, Arial, sans-serif;
+    color: #333;
+    font-weight: bold;
+    margin: 0px;
+    padding: 2px 0 8px 14px;
+    line-height: 20px;
+
+}
+
+div.simplemodal-container > div.simplemodal-wrap .nc_admin_form_menu H2 {
+    margin: 0 0 0 -30px;
+    padding: 2px 0 17px 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.admin_form fieldset, div.nc_admin_fieldset div.nc_admin_fieldset_body {
+    margin: 0; border: 0; padding: 0 0 12px 0;
+
+}
+
+.admin_form legend, #RecycleSearchOff, div.nc_admin_fieldset div.nc_admin_fieldset_head {
+    font-weight: normal;
+    font-size: 15px;
+    color: #4F4F4F;
+    margin: 0;
+    padding: 18px 0 14px 0;
+}
+
+#formAsyncSaveStatus {
+    position: fixed;
+    z-index: 20000;
+    top: 25%;
+    left: 35%;
+    width: 200px;
+    border: 1px solid black;
+    padding: 7px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 8pt;
+    color: white;
+}
+
+#formAsyncSaveStatus a { color: white }
+
+
+.form_save_ok {
+    background: #39B54A;
+}
+
+.form_save_in_progress {
+    background: orange;
+}
+
+.form_save_error {
+    background: #CE0500;
+}
+
+.icon_sysmsg {
+    width: 26px;
+    height: 26px;
+    margin-top: -5px;
+}
+
+.sm_active {
+    background-image: url('../img/i_sys_msg_active.png');
+}
+
+.sm_inactive {
+    background-image: url('../img/i_sys_msg.png');
+}
+
+.nc_print_status {padding: 10px;}
+.nc_print_status_icon {float: left; height: 32px;}
+.nc_print_status_text {float: left; margin: 10px;}
+
+.status_ok, .status_error, .status_info {
+    padding: 20px;
+    color: black;
+    margin: 10px;
+    text-align: left;
+}
+
+.status_error {
+    border: 2px solid #e51400;
+}
+
+.status_info {
+    border: 2px solid #1a87c2;
+}
+
+.status_ok {
+    border: 2px solid green;
+}
+
+.nc_class_none, .hidden {display: none;}

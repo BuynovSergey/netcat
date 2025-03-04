@@ -1,0 +1,21 @@
+<?php
+
+global $netshop_goods_offers_items;
+
+if ($netshop_goods_offers_items) {
+    echo '<div class="tpl-widget-netshop-goods-offers">',
+         '<h2>Акции</h2>',
+         '<div class="tpl-block-list-objects">';
+
+    foreach ($netshop_goods_offers_items as $i => $item_data) {
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', array(
+            'Component_ID' => $item_data['Class_ID'],
+            'Item_ID' => $item_data['Item_ID'],
+            'ListName' => 'Акции',
+            'ListPosition' => $i + 1,
+        ));
+    }
+ 
+    echo '</div></div>';
+
+}

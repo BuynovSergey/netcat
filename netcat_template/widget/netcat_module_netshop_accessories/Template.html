@@ -1,0 +1,30 @@
+<?
+
+// Параметр:
+/** @var int $f_Accessories_Component_ID */
+$component_id = (int)$f_Accessories_Component_ID;
+
+$site_id = (int)nc_core::get_object()->catalogue->get_current('Catalogue_ID');
+
+$sql = "SELECT `Message_ID` FROM `Message{$component_id}` AS m " .
+       "LEFT JOIN `Sub_Class` AS sc ON m.`Sub_Class_ID` = sc.`Sub_Class_ID` " .
+       "WHERE sc.`Catalogue_ID` = {$site_id} AND m.`Checked` = 1 AND m.`Parent_Message_ID` = 0";
+
+$item_ids = nc_db()->get_col($sql);
+
+if (count($item_ids)) {
+    echo '<div class="tpl-widget-netshop-accessories">',
+         '<h2>Аксессуары</h2>',
+         '<div class="tpl-block-list-objects">';
+
+    foreach ($item_ids as $i => $item_id) {
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', array(
+            'Component_ID' => $component_id,
+            'Item_ID' => $item_id,
+            'ListName' => 'Аксессуары',
+            'ListPosition' => $i + 1,
+        ));
+    }
+
+    echo '</div></div>';
+}

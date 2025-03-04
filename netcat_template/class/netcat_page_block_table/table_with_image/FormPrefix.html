@@ -1,0 +1,22 @@
+
+<div class="tpl-block-page-block">
+    <?= $f_AdminCommon; ?>
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <div class="tpl-block-content">
+        <div class="tpl-block-text">
+            <div class="tpl-block-text-header">
+                <? if ($cc_settings['show_header']): ?>
+                <h3><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h3>
+                <? endif; ?>
+                <? if ($cc_settings['show_text']): ?>
+                <div class="tpl-block-prefix"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></div>
+                <? endif; ?>
+            </div>
+            <div class="tpl-block-image">
+                <? if (isset($cc_settings['product_image']['path'])): ?>
+                    <img src="<?= $cc_settings['product_image']['path']; ?>" />
+                <? endif; ?>
+            </div>
+            <div class="tpl-block-text-content">
+                <table>
+                    <tbody>

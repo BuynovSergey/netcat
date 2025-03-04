@@ -1,0 +1,34 @@
+<script src='http://widgets.twimg.com/j/2/widget.js'></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'search',
+  search: '<?=$f_search; ?>',
+  interval: 6000,
+  title: '<?=$f_window_title; ?>',
+  subject: '<?=$f_subject; ?>',
+  width: <?=$f_width; ?>,
+  height: <?=$f_height; ?>,
+  theme: {
+    shell: {
+      background: '<?=$f_shell_background; ?>',
+      color: '<?=$f_shell_textcolor; ?>'
+    },
+    tweets: {
+      background: '<?=$f_tweet_background; ?>',
+      color: '<?=$f_tweet_textcolor; ?>',
+      links: '<?=$f_linkscolor; ?>'
+    }
+  },
+  features: {
+    scrollbar: <?=$t_f[$f_scrollbar]; ?>,
+    loop: false,
+    live: <?=$t_f[$f_live]; ?>,
+    hashtags: <?=$t_f[$f_hashtags]; ?>,
+    timestamp: <?=$t_f[$f_timestamp]; ?>,
+    avatars: <?=$t_f[$f_avatars]; ?>,
+    toptweets: <?=$t_f[$f_toptweets]; ?>,
+    behavior: 'all'
+  }
+}).render().start();
+</script>

@@ -1,0 +1,5 @@
+<?php
+
+$styles = array();
+$styles[] = "--divider-space:" . (str_replace(",", ".", $cc_settings['dividerSpace'] / 100)) . "em";
+$styles = " style='" . implode(";", $styles) . "'";

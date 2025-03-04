@@ -1,0 +1,9 @@
+<?= $f_AdminCommon; ?>
+Ваш текущий баланс: <b><?= $current_user[$nc_core->get_settings('pa_field', 'auth')] ?></b><br/><br/>
+<? if ($totRows) { ?>
+    <table class='nc_user_list'>
+        <th style='width: 50%'>Дата и время</th>
+        <th style='width: 50%'>Сумма</th>
+    <? } else {
+        ?>Нет истории транзакций<? }
+    ?>

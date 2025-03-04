@@ -1,0 +1,24 @@
+<?= $f_AdminButtons; ?>
+
+<div class="vacancy-full" <?= $styles ?>>
+    <?php if ($cc_settings["show_title_on_detail_page"]): ?>
+        <h1 class="tpl-text-header1"><?= $f_Name ?></h1>
+    <?php endif ?>
+
+    <div class="content">
+        <div class="item-description tpl-text-default"><p><?= nc_edit_inline('Text', $f_RowID, $cc); ?></p></div>
+        <div class="item-salary-wrapper">
+            <div class="item-salary tpl-text-header5">
+                <?php if ($f_Salary): ?>
+                    <?= nc_edit_inline('Salary', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+                <?php endif; ?>
+            </div>
+
+            <?php if ($cc_settings['SendEmailTo']): ?>
+                <div class="send-email-block">
+                    <a href="mailto:<?= $cc_settings['send_email_to'] ?>" class="tpl-button tpl-button-primary">Откликнуться</a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

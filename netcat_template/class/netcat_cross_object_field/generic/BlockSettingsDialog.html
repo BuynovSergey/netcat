@@ -1,0 +1,53 @@
+<?php
+
+/** @var int $cc ID инфоблока, для которого производится установка значений пользовательских настроек */
+/** @var string $custom_settings_html HTML с полями пользовательских настроек шаблона компонента */
+$nc_core = nc_core::get_object();
+$infoblock_data = $nc_core->sub_class->get_by_id($cc);
+$infoblock_settings = $nc_core->sub_class->get_by_id($infoblock_id, 'Sub_Class_Settings');
+
+list($object_component_id) = $nc_core->component->get_full_page_area_object($infoblock_data['AreaKeyword']);
+$component = $nc_core->get_component($object_component_id);
+
+?>
+
+<div class="nc-field">
+    <div class="nc-field-caption"><?= CONTROL_CLASS_FIELD ?>:</div>
+    <select name="custom_settings[field_name]">
+        <?php
+        $standard_fields = array(
+            array(
+                'name' => 'Created',
+                'description' => NETCAT_FILTER_FIELD_CREATED,
+                'type' => NC_FIELDTYPE_DATETIME,
+                'edit_type' => NC_FIELD_PERMISSION_EVERYONE,
+            ),
+            array(
+                'name' => 'LastUpdated',
+                'description' => NETCAT_FILTER_FIELD_LAST_UPDATED,
+                'type' => NC_FIELDTYPE_DATETIME,
+                'edit_type' => NC_FIELD_PERMISSION_EVERYONE,
+            ),
+        );
+
+        $selected_field = nc_array_value($infoblock_settings, 'field_name');
+
+        foreach (array_merge($component->get_fields(), $standard_fields) as $field) {
+            if ($field['edit_type'] != NC_FIELD_PERMISSION_EVERYONE) {
+                continue;
+            }
+
+            if ($field['type'] == NC_FIELDTYPE_MULTIFILE) {
+                continue;
+            }
+
+            echo
+                "<option value='$field[name]' data-field-type='$field[type]'" . ($selected_field === $field['name'] ? ' selected' : '') .
+                ">" .
+                ($field['description'] ?: $field['name']) . "</option>";
+        }
+        ?>
+    </select>
+</div>
+
+<?= $custom_settings_html ?>

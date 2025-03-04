@@ -1,0 +1,68 @@
+<!-- FormPrefix -->
+<?php
+
+$is_only_icon_show = $cc_settings["show_as"] === "icon";
+$icon_class = array("contact-icon", "tpl-text-" . $cc_settings["icon_size"]);
+
+if ($cc_settings["icon_decor"] !== "none") {
+    $icon_class[] = "icon-decor-" . $cc_settings['icon_decor'];
+}
+?>
+
+<?= $f_AdminCommon ?>
+<div class="contacts-short blocks-layout-<?= $cc_settings["show_as"] ?> <?= $cc_settings["icon_position"] ?>" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+
+    <?php
+    $html_icon = "";
+
+    if ($cc_settings["show_as"] === "all" || $cc_settings["show_as"] === "icon") {
+        $html_icon = (string)$f_Icon === "" ? nc_array_value($default_icons, $f_ContactType, "&nbsp;") :
+            "<img src='" . $f_Icon->get_path() . "' alt='icon'>";
+        $html_icon = "<div class='" . implode(" ", $icon_class) . "'>" . $html_icon . "</div>";
+    }
+    ?>
+
+    <div class="contact-item <?= $cc_settings["title_classname"] ?>">
+        <div class="contact-value-wrapper">
+            <?php if ($f_ContactType == "Email"): ?>
+                <?php if ($is_only_icon_show): ?>
+                    <a href="mailto:<?= $f_Value ?>"><?= $html_icon ?></a>
+                <?php else: ?>
+                    <?= $html_icon ?><a class="contact-value-text" href="mailto:<?= $f_Value ?>"><?= $f_Value ?></a>
+                <?php endif ?>
+
+            <?php elseif ($f_ContactType == "Телефон"): ?>
+                <?php $number = nc_normalize_phone_number($f_Value) ?>
+                <?php if ($is_only_icon_show): ?>
+                    <a href="tel:<?= $number ?>"><?= $html_icon ?></a>
+                <?php else: ?>
+                    <?= $html_icon ?><a class="contact-value-text" href="tel: <?= $number ?>"><?= $f_Value ?></a>
+                <?php endif ?>
+
+            <?php elseif ($f_ContactType == "Ссылка"): ?>
+                <?php if ($is_only_icon_show): ?>
+                    <a href="//<?= $f_Value ?>"><?= $html_icon ?></a>
+                <?php else: ?>
+                    <?= $html_icon ?><a class="contact-value-text" href="//<?= $f_Value ?>"><?= $f_Value ?></a>
+                <?php endif ?>
+                <?php if ($f_Description): ?>
+                    <div class="contact-description tpl-text-alt-paragraph"><?= $f_Description ?></div>
+                <?php endif ?>
+
+            <?php else: ?>
+                <?php if ($is_only_icon_show): ?>
+                    <?= $html_icon ?>
+                <?php else: ?>
+                    <?= $html_icon ?>
+                    <div class="contact-value-text"><?= $f_Value ?></div>
+                <?php endif ?>
+            <?php endif ?>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+</div>
+<!-- /FormSuffix -->

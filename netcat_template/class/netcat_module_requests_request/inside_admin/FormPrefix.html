@@ -1,0 +1,195 @@
+<? /* $searchForm - убираем стандартный фильтр */ ?>
+<?
+$request_filter_form_visibility = $nc_core->input->fetch_cookie('nc_requests_request_filter_expanded');
+
+$sql = "SELECT * FROM `Classificator_RequestStatus` ORDER BY `RequestStatus_Priority`";
+$statuses = (array)$db->get_results($sql, ARRAY_A);
+?>
+<style scoped>
+    .tpl-property-total-price { white-space: nowrap; }
+    .nc-requests-request-filter-form-toggle { text-decoration: none; border-bottom: 1px dashed #1a87c2; }
+    .nc-requests-request-filter-form-toggle:hover { border-bottom: none; }
+    .nc-requests-request-filter-form input[type='text'], .nc-requests-request-filter-form select { margin-top: 0; }
+    .nc-requests-request-filter-fields { display: flex; flex-wrap: wrap; align-items: stretch; }
+    .nc-requests-request-filter-fields > div { padding-right: 15px; height: 58px; overflow: hidden;  display: inline-block; }
+    .nc-requests-request-filter-fields > div:last-child { padding-right: 0; }
+    .nc-requests-request-filter-fields label { display: block; white-space: nowrap }
+</style>
+<div class="nc-bg-lighten nc-padding-10 nc--clearfix" style="border-bottom: 1px solid #DDD;">
+    <a href="#" class="nc-requests-request-filter-form-toggle"><?= NETCAT_MODULE_REQUESTS_REQUEST_FILTER; ?></a>
+
+    <form method="get"
+          class="nc-form nc--horizontal <?= !$request_filter_form_visibility ? 'nc--hide' : '' ?> nc-requests-request-filter-form"
+          style="margin-top: 10px">
+        <!-- при использовании в качестве обычного шаблона инфоблока: -->
+        <input type='hidden' name='admin_mode' value='<?= $admin_mode ?>'/>
+        <input type='hidden' name='inside_admin' value='<?= (int)$inside_admin ?>'/>
+        <input type='hidden' name='catalogue' value='<?= $catalogue ?>'>
+        <input type='hidden' name='sub' value='<?= $sub ?>'>
+        <input type='hidden' name='cc' value='<?= $cc ?>'>
+        <!-- для работы внутри панели управления модулем: -->
+        <input type="hidden" name="controller" value="list">
+        <input type="hidden" name="action" value="index">
+
+        <div class="nc--clearfix nc-requests-request-filter-fields">
+            <div style="min-width: 220px; flex-grow: 1">
+                <label><?= htmlspecialchars(NETCAT_MODULE_REQUESTS_REQUEST_SEARCH) ?></label>
+                <input type="text" name="text_filter" class="nc--wide"
+                       value="<?= htmlspecialchars($text_filter) ?>">
+            </div>
+
+            <div>
+                <label><?= NETCAT_MODULE_REQUESTS_REQUEST_STATUS ?></label>
+                <select name="request_status">
+                    <option value="-1"><?= NETCAT_MODULE_REQUESTS_REQUEST_ANY ?></option>
+                    <option value="0"<?= (isset($request_status) && $request_status == 0) ? " selected" : "" ?>>
+                        <?= NETCAT_MODULE_REQUESTS_REQUEST_NEW ?>
+                    </option>
+                    <? foreach ($statuses as $status): ?>
+                        <option value="<?= $status['RequestStatus_ID'] ?>"
+                            <?= isset($request_status) && $request_status == $status['RequestStatus_ID'] ? 'selected="selected"' : '' ?>>
+                            <?= $status['RequestStatus_Name'] ?>
+                        </option>
+                    <? endforeach ?>
+                </select>
+            </div>
+
+            <div>
+                <div style="display: inline-block">
+                    <label><?= NETCAT_MODULE_REQUESTS_DATE_FILTER ?> <?= NETCAT_MODULE_REQUESTS_DATE_FILTER_FROM ?></label>
+                    <input size="8" type="text" name="date_from" value="<?= htmlspecialchars($date_from) ?>"/>
+                </div>
+                <div style="display: inline-block">
+                    <label><?= NETCAT_MODULE_REQUESTS_DATE_FILTER_TO ?></label>
+                    <input size="8" type="text" name="date_to" value="<?= htmlspecialchars($date_to) ?>"/>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="submit"><?= NETCAT_MODULE_REQUESTS_REQUEST_FILTER_SUBMIT ?></button>
+            <button type="button" id="nc_requests_request_form_reset"><?= NETCAT_MODULE_REQUESTS_REQUEST_FILTER_RESET ?></button>
+        </div>
+        <script>
+            $nc(function () {
+                $nc('#nc_requests_request_form_reset').click(function() {
+                    if (confirm('<?= NETCAT_MODULE_REQUESTS_REQUEST_FILTER_RESET_CONFIRM ?>')) {
+                        $nc(this).closest('FORM').find('INPUT[type=text]').val('');
+                        $nc(this).closest('FORM').find('SELECT').val(-1);
+                    }
+                    return true;
+                });
+
+                $nc('A.nc-requests-request-filter-form-toggle').click(function () {
+                    var $this = $nc(this);
+                    var $form = $this.next('FORM');
+                    $form.slideToggle(function() {
+                        $nc.cookie('nc_requests_request_filter_expanded', $form.is(':visible') ? 1 : 0, { expires: 10000, path: '/' });
+                    });
+                    return false;
+                });
+
+                $nc('SELECT[name^="Status["').on('change', function (e) {
+                    var $this = $nc(e.target),
+                        status_name = $this.find("option:selected").text(),
+                        confirmation_text = '<?= NETCAT_MODULE_REQUESTS_CONFIRM_STATUS_CHANGE_TO ?>'.replace('%s', status_name);
+
+                    if (confirm(confirmation_text)) {
+                        var value = $this.val();
+                        $this.attr('data-nc-original', value);
+                        var id = /\[(\d+)\]/.exec($this.attr('name'));
+                        id = id[1];
+
+                        var checked = $nc('INPUT[name="Checked[' + id + ']"').val();
+                        nc.process_start('status_change_' + id);
+
+                        var url = '<?= $SUB_FOLDER . $HTTP_ROOT_PATH . "message.php?inside_admin=1&catalogue=" . $catalogue . "&sub=" . $sub . "&cc=" . $cc . "&classID=" . $classID . "&posting=1" . ($curPos ? "&curPos=" . $curPos : "") . ($admin_mode ? "&admin_mode=1" : "") ?>';
+                        url += '&message=' + id + '&f_Status=' + value + '&f_Checked=' + checked + '&do_not_respond=1';
+
+                        $nc.get(url, function () {
+                            nc.process_stop('status_change_' + id);
+                        });
+                    } else {
+                        $this.val($this.attr('data-nc-original'));
+                    }
+                    return true;
+                });
+
+                $nc('TH[class*="nc-sort"]').on('click', function () {
+                    var $this = $nc(this);
+                    var $tbody = $this.closest('TABLE').find('TBODY');
+                    $this.siblings().removeClass('nc-sort-desc').removeClass('nc-sort-asc');
+                    if ($this.hasClass('nc-sort-asc') || !$this.hasClass('nc-sort-desc')) {
+                        $this.removeClass('nc-sort-asc').addClass('nc-sort-desc');
+                    } else {
+                        $this.removeClass('nc-sort-desc').addClass('nc-sort-asc');
+                    }
+
+                    var cell_index = $this.index('TH', $this.closest('TR'));
+
+                    var source_array = [];
+
+                    var i = 0;
+                    $this.closest('TABLE').find('TR').not($this.closest('TR')).each(function () {
+                        var value = $nc(this).find('TD').eq(cell_index);
+
+                        switch (true) {
+                            default:
+                                value = value.text();
+                                break;
+                            case $this.hasClass('nc-sort-date'):
+                                value = new Date(value.text().replace(/(\d+)\.(\d+)\.(\d+)/, '$3-$2-$1')).getTime();
+                                break;
+                            case $this.hasClass('nc-sort-float'):
+                                value = parseFloat(value.text().replace(/[^\d\.\,]/g, ''));
+                                value = isNaN(value) ? 0 : value;
+                                break;
+                            case $this.hasClass('nc-sort-select'):
+                                value = value.find('OPTION:checked').text();
+                                break;
+                        }
+
+                        source_array.push([$nc(this).detach(), value]);
+
+                        i++;
+                        return true;
+                    });
+
+                    source_array.sort(function (a, b) {
+                        if (a[1] > b[1]) return 1;
+                        else if (a[1] < b[1]) return -1; else return 0;
+                    });
+
+                    if ($this.hasClass('nc-sort-desc')) {
+                        source_array.reverse();
+                    }
+
+                    for (var i in source_array) {
+                        $tbody.append(source_array[i][0]);
+                    }
+
+                    return true;
+                });
+
+                $nc('INPUT[name=date_from], INPUT[name=date_to]').datepicker();
+            });
+        </script>
+    </form>
+</div>
+
+<div style="padding: 20px 0;">
+    <table class="nc-table nc--striped nc--wide nc-requests-request-list">
+        <thead>
+        <tr style="cursor: pointer">
+            <th class="nc--compact"></th>
+            <th class="nc-sort-date nc-sort-desc">Дата</th>
+            <th class="nc-sort-float">Номер заявки</th>
+            <th class="nc-sort-string">Группа формы</th>
+            <th class="nc-sort-string">Имя</th>
+            <th class="nc-sort-string">Телефон</th>
+            <th class="nc-sort-string">E-mail</th>
+            <th class="nc-sort-string">Товар</th>
+            <th class="nc-sort-string">Источник заявки</th>
+            <th class="nc-sort-select">Статус</th>
+        </tr>
+        </thead>
+        <tbody>

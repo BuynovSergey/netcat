@@ -1,0 +1,72 @@
+<?php
+
+// Параметры:
+/** @var int $f_Component_ID */
+/** @var int|array $f_Item_ID */
+$f_Component_ID = (int)$f_Component_ID;
+$f_Item_ID = (int)$f_Item_ID;
+
+if (!$f_Component_ID || !$f_Item_ID) { return; }
+
+$netshop = nc_netshop::get_instance();
+
+$item = nc_netshop_item::by_id($f_Component_ID, $f_Item_ID);
+if ($netshop->promotion->is_special_offer_available($item)) {
+    $discount_sum = $netshop->promotion->get_item_discount_sum($item, true);
+
+    $analytics = '';
+    if (nc_module_check_by_keyword('stats')) {
+        $analytics = nc_stats_analytics::get_promo_attribute(array(
+            'name' => 'Сиюминутная скидка',
+            'creative_name' => $item['FullName'],
+        ));
+    }
+
+    if ($discount_sum) {
+        $discounted_item_sum = $item['OriginalPrice'] - $discount_sum;
+        ?>
+        <div class="tpl-widget-netshop-special-offer" id="nc_netshop_special_offer_<?= $f_Component_ID; ?>_<?= $f_Item_ID; ?>">
+            <h3>Сиюминутное предложение</h3>
+            <div class="tpl-block-description">
+                Мы заметили, что Вам интересен этот продукт, и хотели бы предложить
+                небольшую скидку на него, если Вы добавите этот товар в корзину
+                в этом окошке.<br>
+
+                Сиюминутное предложение будет показано только один раз.<br>
+
+                Если Вы покинете эту страницу или закроете это окно — Вы не увидите
+                это предложение снова.
+            </div>
+
+            <div class="tpl-property-item-price">
+                <span class="tpl-caption">Новая цена: </span>
+                <div class="tpl-value"><?= $netshop->format_price($discounted_item_sum); ?></div>
+            </div>
+
+            <a class="tpl-link-accept" <?= $analytics ?>
+               href="<?= $netshop->get_accept_special_offer_url($item, true) ?>">
+                    Воспользоваться предложением
+            </a>
+
+            <a class="tpl-link-decline" href="<?= $netshop->get_reject_special_offer_url($item, false) ?>"
+               id="nc_netshop_reject_special_offer_<?= $f_Component_ID; ?>_<?= $f_Item_ID; ?>">
+                    Закрыть предложение
+            </a>
+        </div>
+        <script type="text/javascript">
+            jQuery(function(){
+                setTimeout(function(){
+                    jQuery('#nc_netshop_special_offer_<?= $f_Component_ID; ?>_<?= $f_Item_ID; ?>').fadeIn();
+                    jQuery.get("<?= $netshop->get_reject_special_offer_url($item, false); ?>");
+                }, 60000);
+
+                jQuery('#nc_netshop_reject_special_offer_<?= $f_Component_ID; ?>_<?= $f_Item_ID; ?>').on('click', function(){
+                    jQuery('#nc_netshop_special_offer_<?= $f_Component_ID; ?>_<?= $f_Item_ID; ?>').fadeOut();
+                    jQuery.get($(this).attr('href'));
+                    return false;
+                });
+            });
+        </script>
+    <?php
+    }
+}?>

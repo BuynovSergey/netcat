@@ -1,0 +1,16 @@
+<?php /* Не забываем, что данный компонент может быть не один на странице. */ ?>
+<?php $additional = mt_rand(-1 * mt_getrandmax(), mt_getrandmax()); ?>
+<?= $f_AdminCommon; ?>
+<?php $fieldWidth = ($cc_settings['fieldWidth'] === 'set' && $cc_settings['fieldWidthSize'] > 0 ? "width: {$cc_settings['fieldWidthSize']}{$cc_settings['fieldWidthUnit']}" : ""); ?>
+<div class="search-block">
+    <form class="search-block-form" action="<?= nc_folder_path($current_catalogue['Search_Result_Sub_ID']); ?>"
+          id="nc-search-form-drop<?= $additional; ?>">
+        <input type="search" class="input search-block-input nc-search-input <?= $cc_settings['fieldWidth']; ?>"
+               name="search_query" value="<?= isset($search_query) ? $search_query : ''; ?>" style="<?= $fieldWidth; ?>"
+               placeholder="<?= $cc_settings['placeholder']; ?>">
+        <?php if ($cc_settings['buttonText']): ?>
+            <button class="search-block-button" type="submit"><?= $cc_settings['buttonText']; ?></button>
+        <?php endif; ?>
+    </form>
+</div>
+

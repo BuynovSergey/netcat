@@ -1,0 +1,87 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+
+<div id="<?= $nc_block_id ?>" class="slider-wrapper" <?= $styles; ?>>
+    <div class="items-slider">
+        <!-- /FormPrefix -->
+
+        <!-- RecordTemplate -->
+        <div class="object-item" data-url="<?= $fullLink ?>" data-label="<?= $f_Name ?>">
+            <?= $f_AdminButtons; ?>
+
+            <?php if ($f_Image): ?>
+                <a href="<?= $fullLink; ?>" class="item-image">
+                    <div class="image">
+                        <img src="<?= $f_Image->get_path() ?>"/>
+                    </div>
+                </a>
+            <?php endif; ?>
+        </div><!-- /RecordTemplate -->
+
+        <!-- FormSuffix -->    </div>
+
+    <?php $first_slide = $fetch_row[0] ?>
+
+    <div class="slide-description <?= $cc_settings["text_block_align"] ?: "bottom-right" ?>">
+        <div class='slide-info tpl-text-header4'>
+            <a href="<?= nc_object_path($classID, $first_slide["Message_ID"]); ?>" class="slide-caption"><?= $first_slide["Name"] ?></a>
+        </div>
+
+        <div class="arrows" style="justify-content: <?= $cc_settings['arrows_justify'] ?: "flex-start" ?>">
+            <div class="slider-nav prev">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <mask id="path-1-inside-1_25_335">
+                        <path d="M0 0H60V60H0V0Z"/>
+                    </mask>
+                    <path d="M0 0H60V60H0V0Z"/>
+                    <path d="M59 0V60H61V0H59Z" fill="#2843F5" fill-opacity="0.1" mask="url(#path-1-inside-1_25_335)"/>
+                    <path d="M33 37.92L26.48 31.4C25.71 30.63 25.71 29.37 26.48 28.6L33 22.08" stroke="#2843F5" stroke-width="1.5"
+                            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            <div class="slider-nav next">
+                <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="60" height="60"/>
+                    <path d="M26.91 37.92L33.43 31.4C34.2 30.63 34.2 29.37 33.43 28.6L26.91 22.08" stroke="#2843F5" stroke-width="1.5"
+                            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+$slider_options = nc_array_json(
+    array(
+        "slidesToShow" => (int)$cc_settings["slides_to_show"],
+        "slidesToScroll" => (int)$cc_settings["slides_to_scroll"],
+        "infinite" => $cc_settings["loop"] == "on",
+        "swipe" => $cc_settings["swipe"] == "on",
+        "draggable" => $cc_settings["swipe"] == "on",
+        "prevArrow" => "#$nc_block_id .slider-nav.prev",
+        "nextArrow" => "#$nc_block_id .slider-nav.next",
+    )
+)
+?>
+<script>
+    (function () {
+        if (window.$) {
+            $(init);
+        } else {
+            document.addEventListener("DOMContentLoaded", init);
+        }
+
+        function init() {
+            const wrapper = $("#<?= $nc_block_id ?>").find(".items-slider").children();
+            wrapper.slick(<?= $slider_options ?>);
+            wrapper.on("beforeChange", function (event, slick, currentSlideIndex, nextSlideIndex) {
+                const currentObject = $(slick.$slides[nextSlideIndex]).find(".object-item");
+                const slideCaption = $("#<?= $nc_block_id ?> .slide-caption");
+                slideCaption.attr("href", currentObject.data("url"));
+                slideCaption.text(currentObject.data("label"));
+            });
+        }
+    })()
+</script>
+<!-- /FormSuffix -->

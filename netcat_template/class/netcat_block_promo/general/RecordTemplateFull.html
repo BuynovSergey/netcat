@@ -1,0 +1,35 @@
+<?= $f_AdminButtons; ?>
+
+<div class="promo-item-full" <?= $styles ?>>
+    <div class="promo-title tpl-text-header2"><?= nc_edit_inline(
+            "Name",
+            $f_RowID,
+            $cc_env["Sub_Class_ID"]
+        ) ?>
+    </div>
+
+    <div class="promo-image">
+        <?php if ($f_Image) {
+            echo $f_Image->as_img(
+                array(
+                    "alt" => $f_Image,
+                )
+            );
+        }
+        ?>
+    </div>
+
+    <div class="promo-announce <?= $cc_settings["announce_font_size"] ?>"><?= nc_edit_inline(
+            "AnnounceText",
+            $f_RowID,
+            $cc_env["Sub_Class_ID"]
+        ) ?>
+    </div>
+
+    <div class="promo-text-detail tpl-text-default-paragraph"><?= nc_edit_inline(
+            "DetailText",
+            $f_RowID,
+            $cc_env["Sub_Class_ID"]
+        ) ?>
+    </div>
+</div>

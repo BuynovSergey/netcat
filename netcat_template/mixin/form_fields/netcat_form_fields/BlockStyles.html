@@ -1,0 +1,67 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+/** @var nc_tpl_asset_collector $assets */
+
+$nc_core = nc_core::get_object();
+$css = '';
+
+foreach (array('label_font_asset', 'input_font_asset') as $asset) {
+    if (!empty($settings[$asset])) {
+        $assets->require_asset($settings[$asset]);
+    }
+}
+
+$legacy_requests_selector = "$selector .tpl-component-netcat-module-requests-request";
+$form_control_types = array(
+    "$selector input[type='color']",
+    "$selector input[type='date']",
+    "$selector input[type='datetime-local']",
+    "$selector input[type='email']",
+    "$selector input[type='month']",
+    "$selector input[type='number']",
+    "$selector input[type='password']",
+    "$selector input[type='search']",
+    "$selector input[type='tel']",
+    "$selector input[type='text']",
+    "$selector input[type='time']",
+    "$selector input[type='url']",
+    "$selector input[type='week']",
+    "$selector input[type='file']",
+    // [dummy-selector] добавлен для выравнивания специфичности селекторов ↑ и ↓:
+    "$selector select:not([dummy-selector])",
+    "$selector textarea:not([dummy-selector])",
+);
+
+$selectors = array(
+    'field' => "$selector .nc-field, $selector .tpl-block-input, $legacy_requests_selector .tpl-block-input",
+    'label' => "$selector .nc-field-caption, $selector .tpl-caption, $legacy_requests_selector .tpl-caption",
+    'input' =>
+        implode(', ', $form_control_types) . ', ' .
+        implode(':hover, ', $form_control_types) . ':hover, ' .
+        implode(':focus, ', $form_control_types) . ':focus'
+);
+
+foreach ($selectors as $type => $type_selector) {
+    $type_css = '';
+
+    foreach ($settings[$type] as $property => $value) {
+        if (strlen($value) && !preg_match('/_unit$/', $property)) {
+            $css_property = strtr($property, '_', '-');
+            $value = $property == "font_family" ? "\"$value\"" : $value;
+            $unit = isset($settings[$type][$property . '_unit']) ? $settings[$type][$property . '_unit'] : '';
+            $type_css .= "$css_property:$value$unit;";
+        }
+    }
+
+    $css .= "$type_selector { $type_css }\n";
+}
+
+// Стили стандартной формы «поиска» $searchForm
+$css .= "$selector .tpl-block-search-form .tpl-block-input + br { display: none; }\n";
+$css .= "$selector .tpl-block-search-form .tpl-block-input-row { display: block; margin-bottom: .5em }\n";
+$css .= "$selector .nc-field-caption { display: block; }\n";
+$css .= "$selector .tpl-block-search-form .tpl-caption { display: inline-block; }\n";
+
+return $css;

@@ -1,0 +1,22 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+<div class="stage-item">
+    <div class="stage-item-stage-container" style="--color: <?= $cc_settings["stage_color"] ?>">
+         <div class="stage-item-stage-number-box <?= $cc_settings["stage_class"] ?>">
+             <div class="stage-item-stage-number-value">
+                <?= sprintf("%02d", $f_RowNum + 1) ?>
+             </div>
+         </div>
+        <div class="stage-item-stage-line"></div>
+    </div>
+    <div class="<?= $cc_settings["name_class"] ?> stage-item-name">
+        <?= nc_edit_inline("Name", $f_Message_ID, $f_Sub_Class_ID) ?>
+    </div>
+    <div class="<?= $cc_settings["description_class"] ?> stage-item-description">
+        <?= nc_edit_inline("Description", $f_Message_ID, $f_Sub_Class_ID) ?>
+    </div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,10 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+<article
+    class='tpl-text-<?= $cc_settings['textType']; ?><?= $cc_settings['textSize'] && $cc_settings['textSize']!="-" ? "-" . $cc_settings['textSize'] : ""; ?>'>
+    <?= nc_edit_inline('Text', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+</article><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,149 @@
+body {
+  margin:0px;
+  padding:0px;
+  background:#FFF;
+  overflow:hidden;
+  height:100%;
+}
+a {
+  color:#FFF;
+}
+a.relogin {
+  color:#3C7EA4;
+}
+div.top_line {
+  width:100%; 
+  min-width:800px;
+  height: 40px;
+  padding:10px;
+  color:#FFF;
+  background:#1a87c2;
+  position:relative; 
+  z-index:2;
+}
+div.logo {
+    display:block; 
+    outline:none; 
+    width:33px; 
+    height:31px; 
+    float:left; 
+    margin-left: 10px; 
+    margin-top: 5px; 
+    margin-right: 24px;
+}
+div.top_text {
+    font-size:18px; 
+    font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+    color:#FFF;
+    margin:0px; 
+    padding:10px 0px 7px 0px; 
+}
+div.top_text a {
+    color:#FFF;
+}
+div.bottom_line {
+  position:absolute;
+  font-size:14px;
+  width:100%;
+  padding:0;
+  font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+}
+.bottom_line a {
+    color: #0092ef;
+}
+div.bottom_line div {
+  margin:30px;
+  margin-bottom: 40px;
+}
+.left{
+    float: left;
+}
+
+.center {
+    float: right;
+}
+div.menu {
+  position:absolute;
+  bottom: 0px;
+  right: 5%;
+  padding-bottom: 40px;
+  font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+  font-size:14px;
+  color: #0092ef;
+}
+div.top_line {
+  top:0;
+}
+div.bottom_line {
+  bottom:0;
+}
+table {
+  font-size:100%
+}
+td {
+  text-align:left;
+  font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+}
+
+.captcha img, .captcha button {
+  vertical-align: top;
+}
+
+div.content {
+  overflow:hidden;
+  position:absolute;
+  top:35%;
+  /*height: 65%;*/
+  height:auto;
+  width:100%
+}
+div.content.page_center {
+    overflow-y: auto;
+    top: 60px;
+    bottom: 60px;
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_submit{
+    height: 30px; 
+    width: 130px;
+    background-color: rgb(26, 135, 194); 
+    color: rgb(255, 255, 255); 
+    text-align: center;
+    font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;
+    cursor: pointer;
+}
+.error {
+  font-weight: bold; text-align: center; color: #ff0000;
+}
+
+#token select { width: 218px;}
+
+td .cnt { text-align: center;}
+
+
+.slider_block {position:relative;}
+.slider_block_1 {padding:13px 0px 0px 0px;}
+.slider_block_1 ul {margin:0px; padding:0px; list-style-type:none;}
+.slider_block_1 ul li {line-height:15px; float:left; margin:0px 29px 0px 0px; font-family: 'Segoe UI', SegoeWP, Arial, sans-serif;}
+.slider_block_1 ul li {font-size:15px; color:#1a87c2; display:block; text-decoration:none; padding-bottom:14px; position:relative; top:2px; cursor: pointer;}
+.slider_block_1 li.sel {color:#333; padding-bottom:12px; border-bottom:3px solid #333333;  cursor: pointer;}
+.slider_block_1 ul li.last {color:#1a87c2; margin-right:0px;}
+.slider_block_1 ul li.clear {float:none;}
+.slider_block_1 ul li.active a {color:#333; padding-bottom:12px; border-bottom:3px solid #333333;}
+.slider_block_1 .overflow {width:100%; height:32px; position:relative; overflow:hidden; border-bottom:1px solid #dadada;}
+.slider_block_1 .slide {position:absolute; top:0px; left:0px; width:20000px; height:100%;}
+.slider_block_1 .left_gradient, .slider_block_1 .right_gradient {position:absolute; top:2px; background:#fff; width:21px; height:39px; z-index:11;}
+.slider_block_1 .left_gradient {left:0px;}
+.slider_block_1 .right_gradient {right:0px;}
+.slider_block_1 .left_gradient .gradient, .slider_block_1 .right_gradient .gradient {background-image:url(../img/gradients.png); background-repeat:no-repeat; width:19px; height:100%; position:absolute; top:0px;}
+.slider_block_1 .left_gradient .gradient {background-position:0px 0px; right:-19px;}
+.slider_block_1 .right_gradient .gradient {background-position:-19px 0px; left:-19px;}
+.slider_block_1 .arrow {background-image:url(../img/arrows.png); background-repeat:no-repeat; width:7px; height:13px; display:block; outline:none; cursor:pointer; position:absolute; top:18px; z-index:12;}
+.slider_block_1 .arrow.left_arrow {left:0px; background-position:0px -14px;}
+.slider_block_1 .arrow.right_arrow {right:5px; background-position:0px -27px;}

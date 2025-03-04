@@ -1,0 +1,96 @@
+<div class="nc-mixins-mixin-settings-netcat-visibility-dropdown">
+
+    <label>
+        Показывать&nbsp;
+        <select name="mixin.settings.show_trigger">
+            <option value="hover">при наведении мыши и нажатии на родительский блок</option>
+            <option value="click">только при нажатии на родительский блок</option>
+        </select>
+    </label>
+
+    <div class="nc-mixins-mixin-settings-vertical-container">
+        <div class="nc-mixins-mixin-settings-vertical-container nc-margin-vertical-medium" style="flex-wrap: nowrap; margin-right: 50px;">
+            <div class="nc-text-right">
+                Расположить выпадающий блок<br>
+                относительно выбранной точки<br>
+                <select name="mixin.settings.position_block_level">
+                    <option value="">родительского блока</option>
+                    <option value="2">блока на 2 уровня выше</option>
+                    <option value="3">блока на 3 уровня выше</option>
+                    <option value="4">блока на 4 уровня выше</option>
+                    <option value="5">блока на 5 уровней выше</option>
+                </select>
+            </div>
+            <div>→</div>
+            <div>
+                <div style="border: 4px solid #EEE; position: relative; width: 100px; height: 80px;">
+                    <div style="position: absolute; line-height: 37px; width: 100%; text-align: center; color: #AAA; font-style: italic;">
+                        &nbsp;блок-<br>родитель
+                    </div>
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="left top" style="position: absolute; top: -8px; left: -8px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="center top" style="position: absolute; top: -8px; left: 42px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="right top" style="position: absolute; top: -8px; left: 88px;" checked>
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="left center" style="position: absolute; top: 32px; left: -8px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="center center" style="position: absolute; top: 32px; left: 42px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="right center" style="position: absolute; top: 32px; left: 88px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="left bottom" style="position: absolute; top: 68px; left: -8px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="center bottom" style="position: absolute; top: 68px; left: 42px;">
+                    <input type="radio" name="mixin.settings.trigger_anchor" value="right bottom" style="position: absolute; top: 68px; left: 88px;">
+                </div>
+            </div>
+        </div>
+        <div class="nc-mixins-mixin-settings-vertical-container nc-margin-vertical-medium" style="flex-wrap: nowrap">
+            <div>
+                <div style="border: 4px solid #EEE; position: relative; width: 100px; height: 80px;">
+                    <div style="position: absolute; line-height: 37px; width: 100%; text-align: center; color: #AAA; font-style: italic;">
+                        этот<br>блок
+                    </div>
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="left top" style="position: absolute; top: -8px; left: -8px;" checked>
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="center top" style="position: absolute; top: -8px; left: 42px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="right top" style="position: absolute; top: -8px; left: 88px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="left center" style="position: absolute; top: 32px; left: -8px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="center center" style="position: absolute; top: 32px; left: 42px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="right center" style="position: absolute; top: 32px; left: 88px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="left bottom" style="position: absolute; top: 68px; left: -8px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="center bottom" style="position: absolute; top: 68px; left: 42px;">
+                    <input type="radio" name="mixin.settings.dropdown_anchor" value="right bottom" style="position: absolute; top: 68px; left: 88px;">
+                </div>
+            </div>
+            <div>←</div>
+            <div>
+                Расположить выбранную точку<br>
+                выпадающего блока относительно<br>
+                родительского блока
+            </div>
+        </div>
+    </div>
+
+    <div class="nc-mixins-mixin-settings-vertical-container nc-margin-top-small">
+        <div style="margin-right: 40px">
+            <label>
+                Сдвиг по горизонтали:&nbsp;
+                <input type="number" name="mixin.settings.gap_horizontal" class="nc--small" value="0"> пикс.
+                <input type="hidden" name="mixin.settings.gap_horizontal_unit" value="px">
+            </label>
+        </div>
+        <div style="margin-right: 40px">
+            <label>
+            Сдвиг по вертикали:&nbsp;
+            <input type="number" name="mixin.settings.gap_vertical" class="nc--small" value="0"> пикс.
+            <input type="hidden" name="mixin.settings.gap_vertical_unit" value="px">
+            </label>
+        </div>
+        <div>
+            <label>
+                При выходе за пределы экрана:&nbsp;
+                <select name="mixin.settings.on_collision">
+                    <option value="flip">развернуть в другую сторону</option>
+                    <option value="fit">расположить по краю экрана</option>
+                    <option value="flipfit">развернуть или сдвинуть</option>
+                    <option value="none">не смещать</option>
+                </select>
+            </label>
+        </div>
+    </div>
+
+</div>

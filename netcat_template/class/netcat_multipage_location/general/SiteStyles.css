@@ -1,0 +1,134 @@
+.contact-item {
+    text-decoration: none;
+}
+
+.contact-title {
+    color: var(--tpl-object-item--title-color, var(--tpl-color-foreground-main));
+    text-decoration: none;
+}
+
+.item-info {
+    color: var(--tpl-color-foreground-main);
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.tpl-icon {
+    height: 1em;
+    width: 1em;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+    line-height: 1;
+}
+
+.tpl-icon.tpl-text-inherit {
+    width: 1.15em;
+    height: 1.15em;
+    min-height: 1.15em;
+    line-height: 1.15;
+}
+
+.tpl-icon * {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.tpl-icon svg, .tpl-icon img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.item-info svg path {
+    fill: var(--tpl-object-item--icon-color);
+}
+
+.item-image-wrapper {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--tpl-object--image-ratio, 4/3);
+    overflow: hidden;
+    position: relative;
+}
+
+.item-image-wrapper * {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.location-full .location-content {
+    display: flex;
+    gap: 20px;
+}
+
+.location-full .right-column {
+    max-width: 392px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.location-full .left-column {
+    width: 100%;
+}
+
+.location-full .contact-map {
+    height: 250px;
+}
+
+.location-full .contacts-wrapper {
+    padding: 40px;
+    background-color: var(--tpl-color-background-main-dark);
+}
+
+.location-full .contacts-block {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.location-full .contacts-block a {
+    text-decoration: none;
+}
+
+.location-full .item-info {
+    display: flex;
+    align-items: center;
+    gap: var(--tpl-object-item--icon-space-text);
+}
+
+.location-full .contact-socials {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+@nc-container(max-width:790px) {
+    .location-full .location-content .description {
+        margin: 40px 0;
+    }
+
+    .location-full .location-content {
+        flex-direction: column;
+    }
+
+    .location-full .right-column {
+        max-width: 100%;
+    }
+}

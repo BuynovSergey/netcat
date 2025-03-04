@@ -1,0 +1,42 @@
+.price-list-item {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.price-list-title {
+    color: var(--tpl-object--title-color, inherit);
+}
+
+.price-list-item:not(.with-image) {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price-list-item.with-image {
+    flex-direction: column;
+}
+
+.price-list-item:not(.with-image) .price-list-info {
+    flex-basis: 80%;
+}
+
+.price-list-description {
+    word-break: break-word;
+}
+
+.price-list-item-image-wrapper {
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+}
+
+.price-list-item-image-wrapper * {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}

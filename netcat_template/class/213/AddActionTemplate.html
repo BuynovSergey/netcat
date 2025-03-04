@@ -1,0 +1,34 @@
+<?
+$to        = "senseyforever@mail.ru";
+//$cc        = "senseyforever@mail.ru";
+//$bcc       = "получатель_скрытой_копии@aдрес.ru";
+$from      = $system_env["SpamFromEmail"];
+//$reply     = "senseyforever1@yandex.ru";
+$from_name = "Администрация";
+$subject   = "Обратный звонок";
+$text = "";
+if($f_Name){
+    $text = "<p><b>ФИО:</b> ".$f_Name."</p>";
+}
+if($f_Email){
+    $text .= "<p><b>E-mail:</b> ".$f_Email."</p>";
+}
+if($f_Phone){
+    $text .= "<p><b>Тел.:</b> ".$f_Phone."</p>";
+}
+if($f_Message){
+    $text .= "<p><b>Сообщение:</b> ".$f_Message."</p>";
+}
+$mailer = new CMIMEMail();
+//$mailer->set_cc($cc);
+//$mailer->set_bcc($bcc);
+$mailer->mailbody(strip_tags($text), $text);
+//$mailer->attachFile("../attach.doc", "имя_файл.txt", "application/octet-stream");
+if($mailer->send($to, $from, $reply, $subject, $from_name)){
+   // echo ($IsChecked ? NETCAT_MODERATION_MSG_OBJADD : NETCAT_MODERATION_MSG_OBJADDMOD);
+	echo "Ваше сообщение отправлено.";
+} else {
+    echo "Ошибка отправки сообщения.";
+}
+echo "<br /><br /><a href='/'>На главную</a>";
+?>

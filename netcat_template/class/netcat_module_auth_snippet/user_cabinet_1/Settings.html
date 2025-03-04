@@ -1,0 +1,31 @@
+<?php
+
+$cc_settings = nc_get_visual_settings($cc_env['Sub_Class_ID']);
+
+$auth_menu['prefix'] = "<div class='dropdown-menu dropdown-menu-right'>";
+$auth_menu['active'] = "<a class='dropdown-item active' href='%URL'>%NAME</a>";
+$auth_menu['unactive'] = "<a class='dropdown-item' href='%URL'>%NAME</a>";
+$auth_menu['suffix'] = "<div class='dropdown-divider'></div>";
+$auth_menu['suffix'].= "<a class='dropdown-item' href='".nc_module_path('auth')."?logoff=1&REQUESTED_FROM=".$nc_core->REQUEST_URI."'>Выход</a>";
+$auth_menu['suffix'].= "</div>";
+
+$icon_class = array();
+$icon_class[] = "profile-icon";
+$icon_class[] = "tpl-icon";
+$icon_class[] = "tpl-text-" . $cc_settings['iconSize'];
+if($cc_settings['iconDecor'] !== 'none') {
+    $icon_class[] = "icon-decor-" . $cc_settings['iconDecor'];
+}
+
+$styles = array();
+if ($cc_settings['iconColor'] !== 'inherit') {
+    $styles[] = "--tpl-object-item--icon-color: var(--tpl-color-" . $cc_settings['iconColor'] . ")";
+}
+if ($cc_settings['iconDecor'] !== 'none' && $cc_settings['iconDecorColor'] !== 'inherit') {
+    $styles[] = "--tpl-object-item--icon-decor-color: var(--tpl-color-" . $cc_settings['iconDecorColor'] . ")";
+}
+$styles[] = "--tpl-object-item--icon-space-text: " . str_replace(",", ".", ($cc_settings['textSpace'] / 100)) . "em";
+$styles = " style='" . implode("; ", $styles) . "'";
+
+$icon_fill_color = "var(--tpl-color-" . $cc_settings['iconColor'] . ")";
+?>

@@ -1,0 +1,292 @@
+<?php
+
+/**
+ * Параметры, которые могут быть переданы в форму:
+ *  — f_Source_Subdivision_ID — идентификатор раздела, в котором вызвана форма
+ *  — f_Source_Infoblock_ID — идентификатор инфоблока, в котором вызвана форма
+ *  — f_FormType — идентификатор раздела, в котором вызвана форма
+ *
+ * Дополнительные параметры, не являющиеся свойствами заявки, отображаемые в форме:
+ *  − f_Image
+ *
+ * При наличии в разделе ($f_Source_Subdivision_ID или $sub) инфоблока с объектами компонента
+ * netcat_page_block_goods_common_data из него будет взята информация о товарах
+ * (цены, варианты).
+ */
+
+/** @var nc_core $nc_core */
+
+// Подготовка значений служебных полей заявки
+$f_Source_Subdivision_ID = isset($f_Source_Subdivision_ID) ? $f_Source_Subdivision_ID : $sub;
+$f_Source_Infoblock_ID = isset($f_Source_Infoblock_ID) ? $f_Source_Infoblock_ID : $cc;
+$f_FormType = isset($f_FormType) ? $f_FormType : null;
+
+// Объект формы заявки
+$form = nc_requests_form::get_instance($f_Source_Infoblock_ID, $f_FormType);
+
+// Информация о первом товаре (netcat_page_block_goods_common_data) в разделе
+$subdivision_first_item = nc_subdivision_goods_data::for_subdivision($f_Source_Subdivision_ID)->get_first_item();
+
+// Изображение рядом с формой (передаётся извне)
+/*if (isset($f_Image) && $nc_core->security->url_matches_local_site($f_Image)) {
+    $image = htmlspecialchars($f_Image);
+}
+else {
+    $image = null;
+}*/
+$image = null;
+
+// Список названий полей, выбранных для отображения в форме
+$fields = $form->get_visible_fields();
+$field_properties = $form->get_setting('Subdivision_FieldProperties');
+
+?>
+
+<?= ($warnText ? "<div class='tpl-block-error warnText'>$warnText</div>" : '') ?>
+
+<form enctype="multipart/form-data" method="post"
+ action="<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>add.php" id="<?= $form->get_id() ?>"
+ <?= $form->get_analytics_attributes_for_submit() ?> class="tpl-block-columns">
+    <?= $nc_core->token->get_input() ?>
+    <input name="admin_mode" type="hidden" value="0">
+    <input name="catalogue" type="hidden" value="<?= $catalogue ?>">
+    <input name="cc" type="hidden" value="<?= $cc ?>">
+    <input name="sub" type="hidden" value="<?= $sub ?>">
+    <input name="posting" type="hidden" value="1">
+    <input type="hidden" name="f_Checked" value="1">
+    <?= $form->get_hidden_fields_inputs() ?>
+
+    <?php if ($image): ?>
+        <div class="tpl-block-image"><img src="<?= $image ?>"></div>
+        <div class="tpl-block-divider"></div>
+    <?php endif; ?>
+
+    <?
+        $form_layout_class = '';
+        $form_can_be_horizontal = !$form->has_text_fields() &&
+                                  count($fields) <= 2 &&
+                                  !$form->get_setting('EmbeddedForm_SubmitButton_ShowPrice') &&
+                                  nc_strlen($form->get_setting('EmbeddedForm_SubmitButton_Text')) < 20;
+
+        if ($form_can_be_horizontal) {
+            $form_layout_class = ' tpl-layout-can-be-horizontal' . (count($fields) == 1 ? ' tpl-layout-short' : '');
+        }
+    ?>
+
+    <div class="tpl-block-form<?= $form_layout_class ?>">
+
+        <?
+            $header = $form->get_setting_inline_editor('Header');
+            if (strlen(trim($header))) {
+                echo '<h4>' . $header . '</h4>';
+            }
+
+            $text_after_header = $form->get_setting_inline_editor('TextAfterHeader');
+            if (strlen(trim($text_after_header))) {
+                echo '<div class="tpl-block-text-after-header">' . $text_after_header . '</div>';
+            }
+        ?>
+
+        <div class="tpl-block-fields<?= (!$fields ? " tpl-state-empty" : "") ?>">
+        <?php
+            if (!empty($admin_mode)) {
+                // Элемент, открывающий редактирование состава полей и других свойств формы в пределах раздела
+                echo $form->get_subdivision_fields_modal_trigger();
+            }
+
+            if (!$fields && !empty($admin_mode)) {
+                echo NETCAT_MODULE_REQUESTS_FORM_HAS_NO_FIELDS;
+            }
+
+            $form_component_id = isset($class_id) ? $class_id : $classID;
+            // Выводим все поля, выбранные в настройках формы
+            $component = $nc_core->get_component($form_component_id);
+
+            foreach ($fields as $field_name) {
+                $field = $component->get_field($field_name);
+                if (!$field) { continue; }
+
+                $field_input = '';
+                
+                if ($field_properties && isset($field_properties[$field_name])) {
+                    $field_description = $field_properties[$field_name]['description'];
+                    $field_placeholder = $field_properties[$field_name]['placeholder'];
+                }
+
+                if ($field_name == 'Item_VariantName') {
+                    // Поле «Вариант товара» особенное, замещается списком вариантов товаров.
+                    // Если вариантов товаров нет или есть только один товар, то ничего не выводится.
+                    if (!empty($f_Source_Subdivision_ID)) {
+                        $field_input = $form->get_item_variant_select();
+                    }
+                }
+                else {
+                    // Все прочие поля
+                    $field_input = nc_put_field($field_name, "placeholder='" . htmlspecialchars(isset($field_placeholder) ? $field_placeholder : $field['extension'], ENT_QUOTES) . "'", $form_component_id);
+                }
+
+                // Выводим поле
+                if ($field_input) {
+                    echo "<div class='tpl-block-input tpl-field-" . nc_camelcase_to_dashcase($field_name) . "'>\n",
+                         "<div class='tpl-caption'>" . htmlspecialchars(isset($field_description) ? $field_description : $field['description'], ENT_QUOTES) . "</div>\n",
+                         "<div class='tpl-value'>",
+                         $field_input,
+                         "</div>\n",
+                         "<div class='tpl-block-error'></div>\n",
+                         "</div>\n";
+                }
+            }
+        ?>
+
+        <?php if (empty($AUTH_USER_ID) && $current_cc['UseCaptcha'] && nc_module_check_by_keyword('captcha')): ?>
+            <div class="tpl-block-input tpl-block-captcha">
+                <div class="tpl-block-field-label"><?= NETCAT_MODERATION_CAPTCHA ?></div>
+                <div class="tpl-block-field-input">
+                    <?= nc_captcha_formfield() ?>
+                    <input type="text" name="nc_captcha_code" size="10">
+                </div>
+            </div>
+        <?php endif; ?>
+
+        </div>
+
+        <div class="tpl-block-buttons">
+            <?= $form->get_submit_button() ?>
+        </div>
+    </div>
+</form>
+
+<script>
+// Выполняется сразу:
+(function() {
+    var $form = $('#<?= $form->get_id() ?>');
+
+    /**
+     * Отображение поля «Количество»
+     */
+    var $quantity_input = $form.find('INPUT[name=f_Quantity]').prop('autocomplete', 'off');
+    function get_quantity() {
+        return parseInt($quantity_input.val(), 10) || 1
+    }
+
+    if ($quantity_input.length) {
+        // есть поле f_Quantity в форме
+        var quantity = $quantity_input.val() || 1;
+        $quantity_input.val(quantity).attr('maxlength', 4);
+
+        var $minus_button = $("<a class='tpl-block-control-button tpl-link-decrease " +
+            (quantity <= 1 ? "tpl-state-disabled" : "") +
+            "' href='#' tabindex='-1'></a>");
+        var $plus_button = $("<a class='tpl-block-control-button tpl-link-increase' href='#' tabindex='-1'></a>");
+
+        var set_quantity = function (value) {
+            if (value.toString().length > 4) { value = 9999; }
+            if (value <= 0) { value = 1; }
+
+            $quantity_input.val(value);
+            $minus_button.toggleClass('tpl-state-disabled', value == 1);
+            $plus_button.toggleClass('tpl-state-disabled', value == 9999);
+            recalculate_price();
+        };
+
+        $minus_button.insertBefore($quantity_input);
+        $plus_button.insertAfter($quantity_input);
+        $quantity_input.wrap('<div></div>');
+
+        $minus_button.add($plus_button).on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var value = get_quantity();
+
+            if ($this.is('.tpl-link-decrease')) {
+                value--;
+            }
+            else {
+                value++;
+            }
+
+            set_quantity(value);
+        });
+
+        $quantity_input.on('keypress', function(e){
+            var c = (e.which) ? e.which : e.keyCode;
+            if (c == 38) { set_quantity(get_quantity() + 1); } /* ↑ */
+            if (c == 40) { set_quantity(get_quantity() - 1); } /* ↓ */
+
+            return (c > 32 && c < 58) /* arrows & numbers */
+                    || c == 8 /* backspace */
+                    || c == 9 /* tab */
+                    || c == 27 /* esc */;
+        }).on('change', function() {
+            set_quantity(get_quantity());
+        });
+    }
+
+    /**
+     * Выбор формы русских существительных в зависимости от количества
+     */
+    function get_plural_form(quantity, forms) {
+        quantity = Math.abs(quantity) % 100;
+        var under_hundred = quantity % 10, result = forms[2];
+
+        if (under_hundred > 1 && under_hundred < 5) { result = forms[1]; }
+        if (under_hundred == 1) { result = forms[0]; }
+        if (quantity > 10 && quantity < 20) { result = forms[2]; }
+
+        return result;
+    }
+
+    /**
+     * Выбор вариантов товаров
+     */
+    var $variant_select = $form.find("select[name=f_Item_VariantName]");
+    function get_selected_variant(data_item) {
+        return $variant_select.find("option:selected").data(data_item);
+    }
+    $variant_select.change(function() {
+        recalculate_price();
+    });
+
+    /**
+     * Цены и валюта первого товара
+     */
+    var item_currency_forms = [], item_price = 0;
+    <?php if ($subdivision_first_item): ?>
+    item_currency_forms = <?= nc_array_json($nc_core->lang->get_ru_count_forms($subdivision_first_item['ItemPriceCurrency'])); ?>;
+    item_price = <?= nc_array_json((float)$subdivision_first_item['ItemPrice']); ?>;
+    <?php endif; ?>
+
+    /**
+     * Пересчёт цены при изменении количества или варианта товара
+     */
+    var $button_item_price = $form.find('.tpl-block-button .tpl-field-item-price');
+    function recalculate_price() {
+        var price = get_selected_variant('itemPrice') || item_price;
+        var button_price_value = get_quantity() * price;
+        button_price_value += ' ' + get_plural_form(button_price_value, item_currency_forms);
+        $button_item_price.text(button_price_value);
+    }
+
+    /**
+     * Проверка наличия телефона или адреса электронной почты, если в заявке
+     * есть текстовые поля с форматом 'phone' и 'email'; если контактные данные
+     * отсутствуют, отключает кнопку отправки формы
+     */
+    var $contact_inputs = $form.find('INPUT[name=f_Phone], INPUT[name=f_Email]');
+
+    function check_contact_data() {
+        var disable_submit = $contact_inputs.length > 0;
+        $contact_inputs.each(function() {
+            if ($(this).val() != '') {
+                disable_submit = false;
+                return false;
+            }
+        });
+        $form.find('BUTTON[type=submit]').attr('disabled', disable_submit ? 'disabled' : false);
+    }
+
+    $contact_inputs.off('input', check_contact_data).on('input', check_contact_data);
+    check_contact_data();
+
+})();
+</script>

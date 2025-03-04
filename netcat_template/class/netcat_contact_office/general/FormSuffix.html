@@ -1,0 +1,342 @@
+<div class="map-in-suffix">
+</div>
+<?php if ($totRows && $cc_settings['yandex_map_api_key']): ?>
+    <script type="text/javascript" src="https://api-maps.yandex.ru/v3/?lang=ru_RU&apikey=<?= htmlspecialchars($cc_settings['yandex_map_api_key']) ?>"></script>
+    <script>
+        (async function init() {
+            try {
+                const mapContainer = document.querySelector('#<?= $nc_block_id ?> .map-container');
+
+                const bigPopup = document.querySelector('#<?= $nc_block_id ?> .big-popup');
+                const bigPopupMaxWidth = 450;
+                bigPopup.querySelector('.popup-close').addEventListener('click', closeAllPopups);
+
+                <?php if ($cc_settings['map_position'] === 'suffix'): ?>
+                let suffix = document.querySelector('#<?= $nc_block_id ?> .map-in-suffix');
+                suffix.append(mapContainer);
+                suffix.append(bigPopup);
+                <?php endif; ?>
+
+                await ymaps3.ready;
+
+                const {
+                    YMap,
+                    YMapDefaultSchemeLayer,
+                    YMapDefaultFeaturesLayer,
+                    YMapControls,
+                    YMapMarker,
+                    YMapComplexEntity
+                } = await ymaps3;
+                const { YMapZoomControl } = await ymaps3.import('@yandex/ymaps3-controls@0.0.1');
+
+                class MarkerWithPopup extends YMapComplexEntity {
+                    _onAttach() {
+                        this._actualize();
+                    }
+
+                    _onDetach() {
+                        this.marker = null;
+                    }
+
+                    _onUpdate(props) {
+                        if (props.coordinates) {
+                            this.marker?.update({ coordinates: props.coordinates });
+                        }
+                        this._actualize();
+                    }
+
+                    _actualize() {
+                        this.createPopup();
+                        this.createMarker();
+                        this.addChild(this.marker);
+
+                        if (this._state.popupOpen) {
+                            this.popupElement.style.display = 'block';
+                        } else if (this.popupElement) {
+                            this.popupElement.style.display = 'none';
+                        }
+                    }
+
+                    createMarker() {
+                        if (this.marker) {
+                            return;
+                        }
+
+                        const pinElement = document.createElement('span');
+                        pinElement.className = 'map-marker-circle';
+
+                        const markerElement = document.createElement('div');
+                        markerElement.className = 'map-marker'
+                        markerElement.append(pinElement);
+
+                        this._markerElement = markerElement;
+
+                        pinElement.onclick = (event) => {
+                            closeAllPopups();
+
+                            let markerElement = event.target.closest('ymaps');
+                            markerElement.style.zIndex = 1;
+
+                            if (mapContainer.offsetWidth < bigPopupMaxWidth) {
+                                const popup = bigPopup.querySelector('.popup-container');
+                                popup.classList.add('point');
+                                popup.innerHTML = this._props.popupHTML.replace('tpl-text-header3', 'tpl-text-header1');
+                                bigPopup.style.display = 'block';
+                            }
+
+                            this._state.popupOpen = true;
+                            this._actualize();
+                        };
+
+                        const container = document.createElement('div');
+                        container.append(this._markerElement, this.popupElement);
+
+                        this.marker = new YMapMarker({ coordinates: this._props.coordinates }, container);
+                    }
+
+                    createPopup() {
+                        if (this.popupElement) {
+                            return;
+                        }
+                        const element = document.createElement('div');
+                        element.className = 'popup';
+
+                        const textElement = document.createElement('div');
+                        textElement.className = 'popup-container point';
+                        textElement.innerHTML = this._props.popupHTML;
+
+                        const closeBtn = document.createElement('div');
+                        closeBtn.className = 'popup-close';
+                        closeBtn.textContent = '✖';
+                        closeBtn.onclick = (event) => {
+                            this._state.popupOpen = false;
+                            event.target.closest('ymaps').style.zIndex = 0;
+                            this._actualize();
+                        };
+                        element.append(textElement, closeBtn);
+                        this.popupElement = element;
+                    }
+
+                    constructor(props) {
+                        super(props);
+                        this._state = { popupOpen: false };
+                    }
+                }
+
+                const map = new YMap(mapContainer, {
+                    location: {
+                        center: [37.64, 55.76],
+                        zoom: 10
+                    }
+                });
+                map.addChild(new YMapDefaultSchemeLayer());
+                map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
+                map.addChild(new YMapControls({
+                    position: 'left top',
+                    orientation: 'vertical'
+                }).addChild(new YMapZoomControl({})));
+
+                let allCoordinates = [];
+                for (let el of document.querySelectorAll('#<?= $nc_block_id ?> .point')) {
+                    let [long, lat] = el.dataset.coordinates.split(/\s*,\s*/);
+                    map.addChild(new MarkerWithPopup({
+                        coordinates: [lat, long],
+                        popupHTML: el.innerHTML,
+                    }));
+                    allCoordinates.push([parseFloat(lat), parseFloat(long)]);
+                }
+
+                /* закрытие попапа по клику на пустое место */
+                mapContainer.addEventListener('click', (e) => {
+                    if (!e.target.closest('div.popup')
+                        && !e.target.closest('div.map-marker')
+                        && !e.target.closest('ymaps.ymaps3x0--controls')) {
+                        for (let popup of mapContainer.getElementsByClassName('popup')) {
+                            close(popup);
+                        }
+                    }
+                });
+
+                function close(popup) {
+                    if (popup.style.display !== 'none') {
+                        popup.getElementsByClassName('popup-close')[0].click();
+                    }
+                }
+
+                function closeAllPopups() {
+                    bigPopup.style.display = 'none';
+                    for (let popup of mapContainer.getElementsByClassName('popup')) {
+                        close(popup);
+                    }
+                }
+
+                function getBounds(coordinates) {
+                    let x1 = Infinity,
+                        x2 = 0,
+                        y1 = Infinity,
+                        y2 = 0;
+
+                    for (let i = 0; i < coordinates.length; i++) {
+                        x1 = Math.min(coordinates[i][0], x1);
+                        x2 = Math.max(coordinates[i][0], x2);
+                        y1 = Math.min(coordinates[i][1], y1);
+                        y2 = Math.max(coordinates[i][1], y2);
+                    }
+                    return [[x1, y1], [x2, y2]];
+                }
+
+                function getCenter(bounds) {
+                    let x = bounds[0][0] + (bounds[1][0] - bounds[0][0]) / 2;
+                    let y = bounds[0][1] + (bounds[1][1] - bounds[0][1]) / 2;
+                    return [x, y];
+                }
+
+                /**
+                 * Получение масштаба
+                 * @param {[Array, Array]} bounds
+                 * @param {YMap} map
+                 * @param {Boolean} inscribe вписывать область в карту
+                 * @param {Boolean} floor округляем результат в меньшую сторону
+                 * @returns {Number}
+                 */
+                function getScale(bounds, map, inscribe, floor) {
+                    if (typeof inscribe === "undefined") {
+                        inscribe = true;
+                    }
+                    if (typeof floor === "undefined") {
+                        floor = false;
+                    }
+                    var pixelBounds = toGlobalPixelBounds(bounds, 0);
+                    // 1e-10 чтобы не было деления на 0
+                    var deltaX = Math.max(Math.abs(pixelBounds[1][0] - pixelBounds[0][0]), 1e-10);
+                    var deltaY = Math.max(Math.abs(pixelBounds[1][1] - pixelBounds[0][1]), 1e-10);
+                    var logX = Math.log(map.size.x / deltaX) * Math.LOG2E;
+                    var logY = Math.log(map.size.y / deltaY) * Math.LOG2E;
+                    var result = Math.min(Math.max(0, inscribe ? Math.min(logX, logY) : Math.max(logX, logY)), map.zoomRange.max);
+                    return floor ? Math.floor(result + 1e-10) : result;
+                }
+
+                function toGlobalPixelBounds(geoBounds, zoom) {
+                    if (typeof zoom === "undefined") {
+                        zoom = 0;
+                    }
+
+                    var lowerCorner = toGlobalPixels(geoBounds[0], zoom);
+                    var upperCorner = toGlobalPixels(geoBounds[1], zoom);
+                    var projectionCycled = [true, false];
+                    var worldSize = calculateWorldSize(zoom);
+                    var result = [lowerCorner.slice(), upperCorner.slice()];
+                    if (lowerCorner[0] > upperCorner[0]) {
+                        if (projectionCycled[0]) {
+                            result[0][0] = lowerCorner[0];
+                            result[1][0] = upperCorner[0] + worldSize;
+                        } else {
+                            result[0][0] = upperCorner[0];
+                            result[1][0] = lowerCorner[0];
+                        }
+                    }
+                    if (lowerCorner[1] > upperCorner[1]) {
+                        if (projectionCycled[1]) {
+                            result[0][1] = lowerCorner[1];
+                            result[1][1] = upperCorner[1] + worldSize;
+                        } else {
+                            result[0][1] = upperCorner[1];
+                            result[1][1] = lowerCorner[1];
+                        }
+                    }
+                    return result;
+                }
+
+                function toGlobalPixels(point, zoom) {
+                    var radius = 6378137;
+                    var equator = 2 * Math.PI * radius;
+                    var subequator = 1 / equator;
+                    var pixelsPerMeter = 256 * subequator;
+                    var halfEquator = equator / 2;
+                    var currentZoom = 0;
+
+                    if (zoom != currentZoom) {
+                        pixelsPerMeter = Math.pow(2, zoom + 8) * subequator;
+                        currentZoom = zoom;
+                    }
+
+                    var mercatorCoords = geoToMercator(point);
+                    return [
+                        (halfEquator + mercatorCoords[0]) * pixelsPerMeter,
+                        (halfEquator - mercatorCoords[1]) * pixelsPerMeter
+                    ];
+                }
+
+                function geoToMercator(geo) {
+                    return [
+                        longitudeToX(geo[0]),
+                        latitudeToY(geo[1])
+                    ];
+                }
+
+                function longitudeToX(lng) {
+                    var radius = 6378137;
+                    var c_pi180 = Math.PI / 180;
+                    var longitude = cycleRestrict(lng * c_pi180, -Math.PI, Math.PI);
+                    return radius * longitude;
+                }
+
+                function latitudeToY(lat) {
+                    var radius = 6378137;
+                    var e = 0.0818191908426;
+                    var c_pi180 = Math.PI / 180;
+                    var epsilon = 1e-10;
+                    // epsilon чтобы не получить (-)Infinity
+                    var latitude = restrict(lat, -90 + epsilon, 90 - epsilon) * c_pi180;
+                    var esinLat = e * Math.sin(latitude);
+
+                    // Для широты -90 получается 0, и в результате по широте выходит -Infinity
+                    var tan_temp = Math.tan(Math.PI * 0.25 + latitude * 0.5);
+                    var pow_temp = Math.pow(Math.tan(Math.PI * 0.25 + Math.asin(esinLat) * 0.5), e);
+                    var U = tan_temp / pow_temp;
+
+                    return radius * Math.log(U);
+                }
+
+                function restrict(value, min, max) {
+                    return Math.max(Math.min(value, max), min);
+                }
+
+                function cycleRestrict(value, min, max) {
+                    if (value == Number.POSITIVE_INFINITY) {
+                        return max;
+                    } else if (value == Number.NEGATIVE_INFINITY) {
+                        return min;
+                    }
+                    return value - Math.floor((value - min) / (max - min)) * (max - min);
+                }
+
+                function calculateWorldSize(zoom) {
+                    return Math.pow(2, zoom + 8);
+                }
+
+                let bounds = getBounds(allCoordinates);
+                map.setLocation({
+                    center: getCenter(bounds),
+                    zoom: getScale(bounds, map, true, true)
+                });
+
+            } catch (e) {
+                console.error(e)
+            }
+        })();
+    </script>
+
+<?php elseif ($admin_mode && !$cc_settings['yandex_map_api_key']): ?>
+    <?php nc_print_status(
+        "Для отображения Яндекс.Карт необходим <a href='https://developer.tech.yandex.ru/' target='_blank'>API ключ</a>. 
+        После <a href='https://developer.tech.yandex.ru/' target='_blank'>получения API-ключа</a> 
+        укажите его в настройках инфоблока.",
+        "info");
+    ?>
+<?php endif; ?>
+
+<?php if ($totRows > $recNum): ?>
+    <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+

@@ -1,0 +1,98 @@
+                </div>
+            </div>
+            <div class="tpl-block-dots-control"></div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/css/swiper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/js/swiper.jquery.min.js"></script>
+<script>
+    $(function () {
+        var selector = '#<?= $nc_block_id; ?>';
+
+        var loop = $(selector + ' .swiper-slide').length > 1;
+        var swiper;
+
+        function createSwiper() {
+            if (!swiper) {
+                swiper = undefined;
+                swiper = new Swiper(selector + ' .tpl-block-container', {
+                    direction: 'horizontal',
+                    loop: loop,
+                    pagination: selector + ' .tpl-block-slider .tpl-block-dots-control',
+                    paginationClickable: true,
+                    paginationElement: 'a',
+                    bulletClass: 'tpl-block-dot',
+                    bulletActiveClass: 'tpl-state-active'
+                });
+            }
+        };
+
+        function checkWidth() {
+            $(selector + ' .tpl-block-slide, ' + selector + ' .tpl-block-advantage').removeAttr('style');
+
+            if ($(window).width() <= 980) {
+                if (swiper) {
+                    swiper.destroy(false, true);
+                    swiper = undefined;
+                }
+                hideNeededCards();
+            }
+            else {
+                setMaxHeight();
+                createSwiper();
+            }
+        }
+
+        if (!loop) {
+            $(selector + ' .tpl-block-dots-control').hide();
+        }
+
+        function setMaxHeight() {
+            $(selector + ' .tpl-block-slide').removeAttr('style').each(function () {
+                var max = 0;
+                var $this = $(this);
+
+                $this.find('.tpl-block-advantage').each(function () {
+                    var $this = $(this);
+                    if ($this.height() > max) max = $this.height();
+                }).height(max);
+            });
+        };
+
+        function hideNeededCards() {
+            var $mob = $(selector + ' .tpl-block-slider');
+            var $mob_reviews = $mob.find('.tpl-block-advantage');
+            if (!$mob.find('.tpl-block-show-all-button').length) $mob.append('<a href="#" class="tpl-block-show-all-button">Показать все</a>');
+
+            var $mob_btn = $mob.find('.tpl-block-show-all-button');
+
+            if ($mob_reviews.length > 3) {
+                $mob_reviews.slice(3).hide();
+                $mob_btn.off('click').on('click', function (e) {
+                    e.preventDefault();
+                    if ($mob_reviews.filter(':hidden').length) {
+                        $mob_reviews.filter(':hidden').fadeIn();
+                        $mob_btn.text('Скрыть')
+                    } else {
+                        $mob_reviews.slice(3).fadeOut();
+                        $mob_btn.text('Показать все');
+                        $('HTML,BODY').animate({
+                            scrollTop: $mob.offset().top - 30
+                        });
+                    }
+                });
+            }
+            else {
+                $mob_btn.hide();
+            }
+        };
+
+        checkWidth();
+
+        $(window).resize(function () {
+            checkWidth();
+        });
+    });
+</script>

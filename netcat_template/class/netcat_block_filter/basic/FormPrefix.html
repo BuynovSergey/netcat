@@ -1,0 +1,14 @@
+<?= $f_AdminCommon; ?>
+<?php
+
+if ($filter_exists) {
+    ?><form action="<?= $filter->get_form_action() ?>" method="get"><?php
+} else if ($nc_core->admin_mode) {
+    ?><div class="tpl-filter-not-configured"><?= NC_FILTER_NOT_CONFIGURED ?></div><?php
+}
+
+if ($nc_core->admin_mode) {
+    echo nc_modal_dialog_trigger($filter->get_settings_dialog_url($cc), 'xlarge');
+}
+
+?>

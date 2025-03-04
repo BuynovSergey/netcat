@@ -1,0 +1,26 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+$stage = trim($f_Stage) ?: $f_RowNum + 1;
+if (preg_match('/^\d+$/', $stage)) {
+    $stage = "Этап $stage";
+    $stage_generated = true;
+} else {
+    $stage_generated = false;
+}
+?>
+<?= $f_AdminButtons ?>
+<div class="stage-item">
+    <div class="<?= $cc_settings["stage_class"] ?> stage-item-stage">
+        <?= $stage_generated ? $stage : nc_edit_inline("Stage", $f_Message_ID, $f_Sub_Class_ID) ?>
+    </div>
+    <div class="<?= $cc_settings["name_class"] ?> stage-item-name">
+        <?= nc_edit_inline("Name", $f_Message_ID, $f_Sub_Class_ID) ?>
+    </div>
+    <div class="<?= $cc_settings["description_class"] ?> stage-item-description">
+        <?= nc_edit_inline("Description", $f_Message_ID, $f_Sub_Class_ID) ?>
+    </div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

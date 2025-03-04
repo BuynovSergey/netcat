@@ -1,0 +1,87 @@
+<?php
+$item = $has_netshop ? new nc_netshop_item($resMsg) : $resMsg;
+$item_parent_id = $item['Parent_Message_ID'] ?: $item['Message_ID'];
+$item_list_key = $classID . ':' . $item_parent_id;
+?>
+
+<?= $f_AdminButtons; ?>
+
+<article data-page-type="goods full" class="objects-item-full"<?= $styles; ?> data-component-id="<?= $item['Class_ID']; ?>"
+        data-message-id="<?= $item_parent_id; ?>">
+
+    <div class="item-row">
+        <div class="image-wrapper">
+            <?php if ($f_Image): ?>
+                <div class="item-image-wrapper">
+                    <div class="image">
+                        <a href="<?= $f_Image ?>" data-lightbox="<?= "item_{$classID}_{$f_Message_ID}" ?>">
+                            <?= $f_Image->as_img(array('alt' => $f_Name)); ?>
+                        </a>
+                    </div>
+                </div>
+            <?php endif ?>
+        </div>
+
+        <div class="details-wrapper">
+            <?php if ($cc_settings["show_title_on_detail_page"]): ?>
+                <h1 class="item-name tpl-text-header1"><?= ($has_netshop ? $item['FullName'] : $f_Name); ?></h1>
+            <?php endif ?>
+
+            <div class="item-announce tpl-text-default-paragraph"><?= nc_edit_inline(
+                    'Description',
+                    $f_RowID,
+                    $cc_env['Sub_Class_ID']
+                ); ?></div>
+
+            <?php if ($f_Price): ?>
+                <div class="price-wrapper">
+                    <div class="item-price tpl-text-header4">
+                        <?= $f_Price . ' ' . ($f_Currency === 'RUR' || $f_Currency === 'RUB' || !$f_Currency ? '₽' : $f_Currency) ?>
+                    </div>
+
+                    <?php if (nc_module_check_by_keyword('requests')): ?>
+                        <div class="request-button"><?= nc_requests::make_form_popup_button(
+                                $cc,
+                                "default",
+                                array(
+                                    "button_caption" => "Заказать",
+                                )
+                            ) ?></div>
+                    <?php endif ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="properties-wrapper">
+                <div class="tpl-text-header6">Характеристики</div>
+                <?php $properties = array(
+                    "Vendor" => "Страна-производитель",
+                    "Type" => "Тип товара",
+                    "Article" => "Артикул",
+                ) ?>
+
+                <div class="properties">
+                    <?php foreach ($properties as $key => $label): ?>
+                        <?php if (!isset(${"f_$key"})) {
+                            continue;
+                        } ?>
+
+                        <div class="property">
+                            <div class="property-key"><?= $label ?></div>
+                            <div class="property-value"><?= ${"f_$key"} ?></div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="item-content-wrapper">
+            <div class="item-description tpl-text-default-paragraph"><?= nc_edit_inline(
+                    'Details',
+                    $f_RowID,
+                    $cc_env['Sub_Class_ID']
+                ); ?></div>
+        </div>
+    </div>
+</article>
+
+<?= nc_netshop_goods_scripts(); ?>

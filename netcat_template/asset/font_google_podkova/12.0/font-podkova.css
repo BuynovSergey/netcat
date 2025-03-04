@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Podkova';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Podkova Regular'), local('Podkova-Regular'), url(https://fonts.gstatic.com/s/podkova/v12/K2FxfZ1EmftJSV9VaJ3zIQ.woff) format('woff');
+}
+@font-face {
+  font-family: 'Podkova';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Podkova Medium'), local('Podkova-Medium'), url(https://fonts.gstatic.com/s/podkova/v12/K2F0fZ1EmftJSV9VYGrQMomABA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Podkova';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Podkova SemiBold'), local('Podkova-SemiBold'), url(https://fonts.gstatic.com/s/podkova/v12/K2F0fZ1EmftJSV9VYEbXMomABA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Podkova';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Podkova Bold'), local('Podkova-Bold'), url(https://fonts.gstatic.com/s/podkova/v12/K2F0fZ1EmftJSV9VYCLWMomABA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Podkova';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Podkova ExtraBold'), local('Podkova-ExtraBold'), url(https://fonts.gstatic.com/s/podkova/v12/K2F0fZ1EmftJSV9VYD7VMomABA.woff) format('woff');
+}

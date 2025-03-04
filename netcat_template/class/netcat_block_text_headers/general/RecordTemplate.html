@@ -1,0 +1,20 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<article><?= $f_AdminButtons; ?>
+<?php if ($f_AdditionalTitle || $admin_mode) { ?>
+    <<?= $cc_settings['additionalTitleTag']; ?> class="tpl-text-<?= $cc_settings['additionalTitleClass']; ?>">
+        <?= nc_edit_inline('AdditionalTitle', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </<?= $cc_settings['additionalTitleTag']; ?>>
+<?php } ?>
+<<?= $cc_settings['titleTag']; ?> class="tpl-text-<?= $cc_settings['titleClass']; ?>">
+    <?= nc_edit_inline('Title', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+</<?= $cc_settings['titleTag']; ?>>
+<?php if ($f_Text || $admin_mode) { ?>
+    <div class="tpl-text-default-paragraph">
+        <?= nc_edit_inline('Text', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+    </div>
+<?php } ?>
+<?php if ($f_ButtonText && $f_ButtonURL) { ?>
+    <a href="<?= $f_ButtonURL; ?>" class="tpl-button"><?= $f_ButtonText; ?></a>
+<?php } ?>
+</article>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

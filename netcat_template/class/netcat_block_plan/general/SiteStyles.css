@@ -1,0 +1,85 @@
+.plan {
+    height: 100%;
+    cursor: pointer;
+}
+
+.plan-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 40px;
+}
+
+.plan-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding-top: 40px;
+}
+
+.plan-body {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--tpl-color-background-accent);
+    border-top: 1px solid var(--tpl-color-background-accent);
+}
+
+.plan-body.empty-list {
+    padding: 0;
+    border-bottom: 0;
+}
+
+.plan-price-wrapper {
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 10px
+}
+
+.plan-price {
+    margin: 0;
+}
+
+.plan-button {
+    width: 100%;
+}
+
+.plan-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.plan-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.plan-button {
+    text-transform: uppercase;
+}
+
+.plan-item-icon {
+    display: flex;
+    align-self: flex-start;
+}
+
+.plan-period:before {
+    content: "/";
+    margin-right: 5px;
+}
+
+.plan-item-icon svg path {
+    stroke: var(--tpl-color-brand);
+}
+
+.tpl-component-netcat-module-requests-request,
+.tpl-component-netcat-module-requests-request button {
+    width: 100%;
+}
+
+.tpl-component-netcat-module-requests-request .tpl-block-button-content,
+.tpl-component-netcat-module-requests-request div {
+    display: block !important;
+}

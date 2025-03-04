@@ -1,0 +1,62 @@
+<?php if (!$AUTH_USER_ID): ?>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        jQuery("#nc-auth-form").on("submit", function (event) {
+            event.preventDefault();
+            jQuery('#nc-auth-form').find('.popup-content-error,.popup-content-error-captcha').empty().css({"maxHeight": "0px"});
+            jQuery.post('<?= nc_module_path('auth'); ?>ajax.php',
+                'act=auth&' + jQuery(this).serialize(),
+                function (response) {
+                    if (!response.user_id) {
+                        if (response.captcha_wrong) {
+                            jQuery('#nc-auth-form').find('.popup-content-error-captcha').html('<?= NETCAT_MODULE_CAPTCHA_WRONG_CODE; ?>').css({"maxHeight": "20px"});
+                        } else {
+                            jQuery('#nc-auth-form').find('.popup-content-error').html('<?= NETCAT_MODULE_AUTH_INCORRECT_LOGIN_OR_RASSWORD; ?>').css({"maxHeight": "20px"});
+                        }
+                        return false;
+                    } else {
+                        location.reload();
+                    }
+                },
+                "json");
+        });
+        <?php if (!$auth_settings['deny_reg'] && $is_auth_subs_selected_in_catalogue_settings): ?>
+        jQuery("#nc-reg-form").find('[type="submit"]').prop('disabled', true);
+        jQuery("#nc-reg-form").on("change", function () {
+            let lock_submit = false;
+            if (jQuery('#nc_agreed').is(':checked') == 0) {
+                lock_submit = true;
+            }
+            jQuery(this).find('[type="submit"]').prop('disabled', true);
+            jQuery(this).find(".error").empty().css({"maxHeight": "0px"});
+            if (jQuery('#Password1').val() !== jQuery('#Password2').val()) {
+                jQuery('#Password2').parent().find('.error').html('<?= NETCAT_MODULE_AUTH_PASS_N_COINCIDE; ?>').css({"maxHeight": "20px"});
+                lock_submit = true;
+            }
+            if (jQuery('#Password1').val() == '') {
+                lock_submit = true;
+            }
+            let login_error = jQuery('#login').parent().find('.error');
+            if (jQuery('#login').val()) {
+                jQuery.post('<?= nc_module_path('auth'); ?>ajax.php',
+                    {'act': 'check_login', 'login': jQuery('#login').val()},
+                    function (response) {
+                        if (response === 1) {
+                            lock_submit = true;
+                            login_error.html('<?= ($AUTHORIZE_BY == 'Email' ? NETCAT_MODULE_AUTH_MSG_BADEMAIL : NETCAT_MODULE_AUTH_LOGIN_INCORRECT); ?>');
+                        }
+                        if (response === 2) {
+                            lock_submit = true;
+                            login_error.html('<?= NETCAT_MODULE_AUTH_LOGIN_BUSY; ?>');
+                        }
+                        login_error.css({"maxHeight": "20px"});
+                    }, "json");
+            } else {
+                lock_submit = true;
+            }
+            jQuery("#nc-reg-form").find('[type="submit"]').prop('disabled', lock_submit);
+        });
+        <?php endif; ?>
+    });
+</script>
+<?php endif; ?>

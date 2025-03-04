@@ -1,0 +1,6 @@
+<?
+if (preg_match('/.*?bigmir.net/show/(.+?)(/|$)/i', $f_url, $matches)) {
+  $code = $matches[1];
+} else {
+  $code = $f_url;
+}

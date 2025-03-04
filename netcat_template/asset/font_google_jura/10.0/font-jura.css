@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'Jura';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Jura Light'), local('Jura-Light'), url(https://fonts.gstatic.com/s/jura/v10/z7NUdRfiaC4VVW9rRC9i1w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Jura';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Jura Regular'), local('Jura-Regular'), url(https://fonts.gstatic.com/s/jura/v10/z7NbdRfiaC4VXcBJVw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Jura';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Jura Medium'), local('Jura-Medium'), url(https://fonts.gstatic.com/s/jura/v10/z7NUdRfiaC4VVTdqRC9i1w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Jura';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Jura SemiBold'), local('Jura-SemiBold'), url(https://fonts.gstatic.com/s/jura/v10/z7NUdRfiaC4VVRttRC9i1w.woff) format('woff');
+}
+@font-face {
+  font-family: 'Jura';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Jura Bold'), local('Jura-Bold'), url(https://fonts.gstatic.com/s/jura/v10/z7NUdRfiaC4VVX9sRC9i1w.woff) format('woff');
+}

@@ -1,0 +1,33 @@
+<?php
+
+/** @var string $list_selector */
+/** @var array $settings */
+
+$column_number = $settings['column_number'] ?: 1;
+$column_width = sprintf('%0.4F', 100 / $column_number) . '%';
+
+$vertical_spacing = $settings['vertical_spacing'] ? sprintf('%0.1F', $settings['vertical_spacing']) . 'px' : 0;
+
+$half_vertical_spacing = $settings['vertical_spacing'] ? sprintf('%0.1F', $settings['vertical_spacing'] / 2) . 'px' : 0;
+$half_horizontal_spacing = $settings['horizontal_spacing'] ? sprintf('%0.1F', $settings['horizontal_spacing'] / 2) . 'px' : 0;
+
+if ($half_horizontal_spacing) { // уменьшение размера плитки на горизонтальный отступ
+    $spacer_number = $column_number - 1; // отступов на 1 меньше, чем плиток в строке
+    $spacer_per_tile = sprintf('%0.4F', $settings['horizontal_spacing'] * $spacer_number / $column_number) . 'px';
+    $tile_width = "calc($column_width - $spacer_per_tile)";
+} else {
+    $tile_width = $column_width;
+}
+
+return <<<CSS
+$list_selector { display: flex; flex-direction: row; flex-wrap: wrap; }
+$list_selector > * {
+    width: $tile_width;
+    margin: $vertical_spacing $half_horizontal_spacing 0;
+    align-self: $settings[align_self];
+}
+$list_selector > *:nth-child({$column_number}n) { margin-right: 0 }
+$list_selector > *:nth-child({$column_number}n+1) { margin-left: 0 }
+$list_selector > *:nth-child(-n+{$column_number}) { margin-top: 0; }
+
+CSS;

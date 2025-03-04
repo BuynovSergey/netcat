@@ -1,0 +1,18 @@
+<div id='%ID' class='comments-block'>
+    <div id='%ID' class='comments-block-content'>
+        <div class='comments-block-user'>
+            <div class='comments-block-user-name'>
+                %USER_BLOCK
+            </div>
+            <div class='comments-block-user-date'>
+                ".date("d.m.Y", %DATE)."
+            </div>
+        </div>
+        <div class='comments-block-body'>
+            <div class='comments-block-body-rating'>%RATING_BLOCK</div>
+            <div class='comments-block-body-text'>%COMMENT</div>
+            <div class='comments-block-body-links'>%REPLY_LINK &nbsp; %EDIT_LINK &nbsp; %DELETE_LINK</div>
+        </div>
+    </div>
+    %REPLY_BLOCK
+</div>

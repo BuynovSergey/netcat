@@ -1,0 +1,16 @@
+<!-- FormPrefix --><div class="tpl-block-list tpl-component-news">
+    <h2>Новости</h2>
+    <? if (!$isMainContent): ?>
+    <a href="<?= $subLink ?>" class="tpl-link-more">все новости</a>
+    <? endif; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+<div class="tpl-block-list-object">
+    <div class="tpl-property-date"><?= $f_Date_day . "." . $f_Date_month . "." . $f_Date_year ?></div>
+    <a href="<?= $fullLink; ?>" class="tpl-property-news-title"><?= $f_NewsTitle; ?></a>
+    <div class="tpl-property-announce"><?= $f_Announce; ?></div>
+    <a href="<?= $fullLink; ?>" class="tpl-link-more">Читать полностью</a>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div><!-- /FormSuffix -->

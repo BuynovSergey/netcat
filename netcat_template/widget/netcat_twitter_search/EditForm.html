@@ -1,0 +1,49 @@
+<font color='gray'>Что ищем:</font><br />
+<input name='f_search' size='50' value='<?=$f_search; ?>' /><br /><br />
+<font color='gray'>Заголовок:</font><br />
+<input name='f_window_title' size='50' value='<?=$f_window_title; ?>' /><br /><br />
+<font color='gray'>Подпись:</font><br />
+<input name='f_subject' size='50' value='<?=$f_subject; ?>' /><br /><br />
+<input name='f_live' value='0' type='hidden' />
+<input name='f_live' id='f_live' value='1' type='checkbox' <?=(1 == $f_live ? "checked='checked'" : ""); ?> />
+<label for='f_live'><font color='gray'>голосование для новых результатов</font><br />
+</label><br />
+<input name='f_scrollbar' value='0' type='hidden' />
+<input name='f_scrollbar' id='f_scrollbar' value='1' type='checkbox' <?=(1 == $f_scrollbar ? "checked='checked'" : ""); ?> />
+<label for='f_scrollbar'><font color='gray'>включить прокрутку</font><br />
+</label><br />
+<font color='gray'>Количество твитов:</font><br />
+<input name='f_rpp' size='50' value='<?=$f_rpp; ?>' /><br /><br />
+<input name='f_avatars' value='0' type='hidden' />
+<input name='f_avatars' id='f_avatars' value='1' type='checkbox' <?=(1 == $f_rpp ? "checked='checked'" : ""); ?> />
+<label for='f_avatars'><font color='gray'>показывать аватары</font><br />
+</label><br />
+<input name='f_timestamp' value='0' type='hidden' />
+<input name='f_timestamp' id='f_timestamp' value='1' type='checkbox' <?=(1 == $f_timestamp ? "checked='checked'" : ""); ?> />
+<label for='f_timestamp'><font color='gray'>показывать дату</font><br />
+</label><br />
+<input name='f_hashtags' value='0' type='hidden' />
+<input name='f_hashtags' id='f_hashtags' value='1' type='checkbox' <?=(1 == $f_hashtags ? "checked='checked'" : ""); ?> />
+<label for='f_hashtags'><font color='gray'>показывать #теги</font><br />
+</label><br />
+<input name='f_toptweets' value='0' type='hidden' />
+<input name='f_toptweets' id='f_toptweets' value='1' type='checkbox' <?=(1 == $f_toptweets ? "checked='checked'" : ""); ?> />
+<label for='f_toptweets'><font color='gray'>показывать твиты из топа</font><br />
+</label><br />
+<font color='gray'>Цвет фона оболочки (#RRGGBB):</font><br />
+<input name='f_shell_background' size='50' value='<?=$f_shell_background; ?>' /><br /><br />
+<font color='gray'>Цвет текста оболочки (#RRGGBB):</font><br />
+<input name='f_shell_textcolor' size='50' value='<?=$f_shell_textcolor; ?>' /><br /><br />
+<font color='gray'>Цвет фона твита (#RRGGBB):</font><br />
+<input name='f_tweet_background' size='50' value='<?=$f_tweet_background; ?>' /><br /><br />
+<font color='gray'>Цвет текста твита (#RRGGBB):</font><br />
+<input name='f_tweet_textcolor' size='50' value='<?=$f_tweet_textcolor; ?>' /><br /><br />
+<font color='gray'>Цвет ссылок (#RRGGBB):</font><br />
+<input name='f_linkscolor' size='50' value='<?=$f_linkscolor; ?>' /><br /><br />
+<font color='gray'>Ширина:</font><br />
+<input name='f_width' size='50' value='<?=$f_width; ?>' /><br /><br />
+<font color='gray'>Высота:</font><br />
+<input name='f_height' size='50' value='<?=$f_height; ?>' /><br /><br />
+<input name='f_autowidth' value='0' type='hidden' />
+<input name='f_autowidth' id='f_autowidth' value='1' type='checkbox' <?=(1 == $f_autowidth ? "checked='checked'" : ""); ?> />
+<label for='f_autowidth'><font color='gray'>автоматическая ширина</font><br />

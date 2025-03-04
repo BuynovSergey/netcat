@@ -1,0 +1,56 @@
+<?= $f_AdminCommon; ?>
+<?
+$default_background_path = nc_core('SUB_FOLDER') . nc_core('HTTP_TEMPLATE_PATH') . 'class' . nc_core('component')->get_by_id($cc_env['Class_Template_ID'], 'File_Path') .
+'images/default_background.jpg';
+    $image = !isset($cc_settings['background_image']['path']) ?
+     $default_background_path :
+     $cc_settings['background_image']['path'];
+?>
+<div class="tpl-block-page-block" style="background-image: url('<?= $image; ?>');">
+    <div style="height: <?= $cc_settings['padding_top'];?>px;"></div>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_text_before_header']): ?>
+        <div class="tpl-block-prefix"><?= nc_infoblock_custom_setting_edit_inline('text_before_header', $cc) ?></div>
+        <? endif; ?>
+
+        <div class="tpl-block-row">
+            <? if ($cc_settings['show_header']): ?>
+            <h1><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h1>
+            <? endif; ?>
+
+            <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-text">
+                <p><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></p>
+            </div>
+            <? endif; ?>
+
+            <? 
+            $goods_data = nc_subdivision_goods_data::for_subdivision($sub)->get_first_item();
+            $only_price = !$goods_data || !$goods_data['DiscountValue'];
+            ?>
+            <div class="tpl-block-container">
+                <? if ($goods_data && $cc_settings['show_price']) { ?>
+                <div class="tpl-block-information">
+                    <?= nc_subdivision_goods_data::for_subdivision($sub)->get_edit_trigger_overlay('small'); ?>
+                    <? if (!$only_price) { ?>
+                    <div class="tpl-block-economy">
+                        <span class="tpl-block-prev-price"><?= $goods_data['OriginalPrice'] ?> <?= $goods_data['OriginalPriceCurrency'] ?></span>
+                        <span class="tpl-block-delta-sum">Экономия <?= $goods_data['DiscountValue'] ?><?= $goods_data['DiscountInPercent'] ? '&thinsp;%' : ' ' . $goods_data['DiscountCurrency'] ?></span>
+                    </div>
+                    <? } ?>
+                    <div class="tpl-block-price"><?= $goods_data['ItemPrice'] ?> <?= $goods_data['ItemPriceCurrency'] ?></div>
+                </div>
+                <? } ?>
+
+                <? if (nc_module_check_by_keyword('requests') && $cc_settings['show_form_and_button']): ?>
+                    <div class="tpl-block-form form">
+                        <?= nc_requests::make_form_popup_button($cc, 'default', array('Image' => $f_Image)) ?>
+                    </div>
+                <? endif; ?>
+            </div>
+        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom'];?>px;"></div>
+</div>
+
+

@@ -1,0 +1,7 @@
+<?
+if (!$f_ToUser || $f_ToUser==$AUTH_USER_ID || !$nc_core->get_settings('pm_allow', 'auth')) {
+  $warnText = 'Ошибка отправки сообщения';
+  $posting = 0;
+}
+$f_Status = 0;
+?>

@@ -1,0 +1,43 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+return <<<CSS
+
+$list_selector:not(.swiper-wrapper) > *:not(:first-child) {
+    display: none;
+}
+
+$selector {
+    --swiper-theme-color: var(--tpl-color-foreground-accent, #007aff);
+}
+
+$selector > .tpl-block-list {
+    display: block;
+}
+
+$list_selector .swiper-pagination-bullet {
+    background-color: var(--tpl-color-foreground-main-lightest, #000);
+}
+
+$list_selector .swiper-pagination-bullet-active, 
+$list_selector .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+    background-color: var(--tpl-color-foreground-accent, #007aff);
+}
+
+$list_selector .swiper-scrollbar {
+    background-color: var(--tpl-color-foreground-main-lightest, rgba(0,0,0,0.1));
+}
+
+$list_selector .swiper-scrollbar-drag {
+    background-color: var(--tpl-color-foreground-accent, rgba(0,0,0,0.5));
+}
+
+.swiper-nc-auto-slides-per-view > .swiper-slide {
+    width: auto;
+    min-width: 100px;
+}
+
+CSS;

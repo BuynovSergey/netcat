@@ -1,0 +1,13 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<? if (!($f_RowNum % 2)): ?><div class="tpl-block-row"><? endif; ?>
+            <div class="tpl-block-item">
+                <?= $f_AdminButtons; ?>
+                <div class="tpl-block-icon"><?= nc_image_edit_inline('Icon', $f_RowID, $cc) ?></div>
+                <h4 class="tpl-field-title"><?= nc_edit_inline('Title', $f_RowID, $cc) ?></h4>
+
+                <div class="tpl-block-text">
+                    <span class="tpl-field-text"><?= nc_edit_inline('Text', $f_RowID, $cc) ?></span>
+                </div>
+            </div>
+<? if ($f_RowNum % 2 || $f_RowNum == $totRows-1): ?></div><? endif; ?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

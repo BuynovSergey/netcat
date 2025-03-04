@@ -1,0 +1,20 @@
+<!-- FormPrefix --><?= s_browse_cc($browse_tabs) ?>
+<h2><?= $pre ?></h2>
+<? if (!$totRows) { ?><div style='margin-top: 10px;'>Нет записей</div><? } ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+echo $f_AdminButtons;
+$f_Keyword = $db->get_var("SELECT `Keyword` FROM `Message".$f_ClassID."` WHERE `Message_ID` = '".$f_MessageID."' ");
+$msg_link = $f_SubURL.($f_Keyword ? $f_Keyword.".html" : $f_EnglishName."_".$f_MessageID.".html");
+$f_Comment = nc_bbcode_clear($f_Comment);
+$cc_settings['TextLength'] = $cc_settings['TextLength'] ? $cc_settings['TextLength'] : 30;
+$f_Comment = nc_substr($f_Comment, 0, $cc_settings['TextLength']).(nc_strlen($f_Comment) > $cc_settings['TextLength'] ? "..." : "");
+?>
+<p><?= $f_Created ?>
+    <a href='<?= $msg_link."#nc_commentID".$f_SubClassID."_".$f_MessageID."_".$f_id ?>'><?= $f_Comment ?></a>
+    в разделе
+    <a href='<?= $f_SubURL ?>' style='font-weight: bold;'><?= $f_SubName ?></a>
+</p><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

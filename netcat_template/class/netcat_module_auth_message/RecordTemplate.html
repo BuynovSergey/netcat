@@ -1,0 +1,42 @@
+<?/* Служебная часть */
+for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
+    if($fetch_row[$f_RowNum] instanceof Iterator) {
+        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");
+    } else {
+        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");
+    }
+    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {
+        extract($value);
+    }
+    eval($cc_env["convert2txt"]);
+    ob_start();
+/* Конец служебной части */?>
+
+<?
+if ($f_RowNum && !$show_all && $full_msg_id == $f_RowID) { ?>
+    <tr><td colspan='4' class='nc_divider'></td></tr>
+<? } ?>
+
+<tr class='<?=(!isset($outbox) && $current_user['User_ID']==$f_UserID ? "nc_msg nc_msg_out" : "nc_msg").($full_msg_id != $f_RowID ? " nc_msg_min" : NULL)?>'>
+  <td><b class='nc_arrow'><?=($current_user['User_ID']==$f_UserID ? "«" : "»")?></b></td>
+  <td nowrap>
+     <a <?=(!$f_Status && $f_ToUser==$current_user['User_ID'] ? "style='font-weight:bold;'" : "" )?> href='<?=nc_auth_profile_url(isset($outbox) ? $f_ToUser : $f_UserID)?>'><?=$f_Author?></a>
+  </td>
+  <td>
+        <?=(!$f_Status && $f_ToUser==$current_user['User_ID'] ? "<b><a href='$fullLink'>$f_Subject</a></b>" : "<a href='$fullLink'>$f_Subject</a>")?>
+  </td>
+   <td nowrap><?=$f_Created_day.".".$f_Created_month.".".$f_Created_year." - ".$f_Created_hours.":".$f_Created_minutes?></td>
+</tr>
+<? if ($show_all || $full_msg_id == $f_RowID) { ?>
+  <tr class='<?=($current_user['User_ID']==$f_UserID ? "nc_msg_text nc_msg_out" : "nc_msg_text")?>'>
+       <td colspan='4'>
+          <?=nc_bbcode($f_Message).$f_AdminButtons?>
+        </td>
+   </tr>
+   <tr><td colspan='4' class='nc_divider'></td></tr>
+<? } ?>
+
+<?/* Служебная часть */
+    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);
+}
+/* Конец служебной части */?>

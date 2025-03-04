@@ -1,0 +1,27 @@
+<?php
+
+$size = $cc_settings['object_size'];
+if ($cc_settings['object_size'] === 'custom') {
+    $size = $cc_settings['custom_size'];
+}
+
+list($w, $h) = explode(':', str_replace(',', '.', $size));
+
+if ((float)$w > 0) {
+    $list_image_ratio = "$w / $h";
+    $full_image_ratio = str_replace(',', '.', $w / $h);
+} else {
+    $list_image_ratio = 'auto';
+    $full_image_ratio = 1;
+}
+
+$goods_item_styles = '--item-image-aspect-ratio: ' . $list_image_ratio . '; ';
+$goods_item_styles .= '--item-image-fit: ' . $cc_settings['image_format'] . '; ';
+$goods_item_styles = " style='$goods_item_styles'";
+
+$format_price = function($price) {
+    if (preg_match('/^\d+(?:[.,]\d+)?$/', $price)) {
+        return "$price&nbsp;₽";
+    }
+    return $price;
+};

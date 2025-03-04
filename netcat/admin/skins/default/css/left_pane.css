@@ -1,0 +1,151 @@
+body {
+   margin: 0;
+   padding: 0;
+   font-family: arial, helvetica, sans-serif;
+   font-size: 8.5pt;
+   overflow: hidden;
+   background: #F7F6F5 url('../img/bg_tree.gif') repeat-x fixed;
+}
+
+#siteTree {
+  padding-left: 25px;
+}
+
+#siteTreeContainer {
+   margin: 5px 0 5px 24px;
+   position: relative;
+   z-index: 10;
+}
+
+#siteTreeContainer ul {
+   margin: 0;
+   padding: 0;
+   z-index: 1;
+}
+
+#siteTreeContainer ul li {
+   position: relative;
+   list-style-type: none;
+   margin: 5px 0;
+   padding: 0;
+   line-height: 16px;
+   _height: 16px; /* IE: fix for broken long item names in the tree */
+}
+
+#siteTreeContainer ul li ul {
+   _margin-bottom: -5px; /* IE: fix for the previous fix */
+}
+
+
+#siteTreeContainer ul li a {
+   padding: 1px 4px;
+   color: #000;
+   text-decoration: none;
+}
+
+#siteTreeContainer ul li div {
+   padding: 1px 4px;
+   color: #666;
+}
+
+#siteTreeContainer ul li a.hidden {
+   color: #666;
+}
+
+#siteTreeContainer ul li a.current {
+   border: 1px solid #d5cdbf;
+   background: #e7e2d9;
+}
+
+#siteTreeContainer ul li img  {
+   position: absolute;
+   top: -1px;
+   left: -19px;
+   padding: 0 2px 0 0;
+   vertical-align: text-bottom;
+}
+
+#siteTreeContainer .icon {
+   position: absolute;
+   top: -1px;
+   left: -19px;
+   padding: 0;
+}
+
+#siteTreeContainer ul li img.plus_minus {
+   left: -38px;
+   padding: 0 0 0 2px;
+   border: none;
+   width: 16px;
+   height: 16px;
+}
+
+#siteTreeContainer ul {
+   margin-left: 15px;
+}
+
+#siteTreeContainer ul ul {
+   margin-left: 22px;
+}
+
+
+#siteTreeContainer ul li span.node_id {
+  font-size: 90%;
+  font-weight: bold;
+  color: gray;
+}
+
+.treeHighlightSelected {
+   position: absolute;
+   z-index: 1;
+   height: 20px;
+   _height: 22px; /* IE */
+   width: 100%;
+   top: 0; right: 0; left: 0;
+   border-top: 1px solid #D5CDBF;
+   border-bottom: 1px solid #D5CDBF;
+   background: #E7E2D9;
+}
+
+.treeHighlightOver {
+   position: absolute;
+   z-index: 5;
+   height: 20px;
+   _height: 22px; /* IE */
+   width: 100%;
+   background: #F0F0EF;
+   border-top: 1px solid #DADADA;
+   border-bottom: 1px solid #DADADA;
+}
+
+.treeButtons {
+   position: absolute;
+   padding:0;
+   margin:0;
+   height: 22px;
+   top: -2px;
+   right: 0;
+   width: 84px;
+   text-align:right;
+}
+
+
+#siteTreeContainer ul li div.treeButtons div.button {
+   display: inline;
+   width: 21px;
+   height: 22px;
+   padding: 3px 2px 3px 3px;
+   margin: 0;
+   _padding: 2px;
+   background: url('../img/bg_tree_button.gif') no-repeat;
+   cursor: pointer;
+}
+
+#siteTreeContainer ul li div.treeButtons div.button img, #siteTreeContainer ul li div.treeButtons div.button a {
+   position: static;
+   padding: 0;
+   margin: 0;
+   border: none;
+   width: 16px;
+   height: 16px;
+}

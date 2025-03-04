@@ -1,0 +1,71 @@
+
+        </tbody>
+    </table>
+</div>
+<div style="margin: 15px 0">
+    <?=
+    browse_messages($cc_env, 15, array(
+        'prefix' => "",
+        'suffix' => "",
+        'active' => "<b>%PAGE</b>",
+        'unactive' => "<a href=%URL>%PAGE</a>",
+        'divider' => " | ",
+    )) ?>
+</div>
+
+<script>
+
+    // Удаление выбранных заявок
+    function nc_requests_request_delete_selected() {
+        var ids = [];
+        $nc('.nc-requests-request-list input[name="selected_request_ids[]"]:checked').each(function() {
+            ids.push('&message[]=' + this.value);
+        });
+
+        if (!ids.length) {
+            return;
+        }
+
+        if (confirm("<?= htmlspecialchars(NETCAT_MODULE_REQUESTS_REQUEST_DELETE_SELECTED_CONFIRM) ?>")) {
+            nc.process_start('requests_delete');
+            var delete_path = '<?=
+                    $nc_core->SUB_FOLDER . $nc_core->HTTP_ROOT_PATH .
+                    "message.php?catalogue=$catalogue&sub=$sub&cc=$cc&delete=1&posting=1" .
+                    ($nc_core->token->is_use('drop') ? "&" . $nc_core->token->get_url() : "")
+                ?>' + ids.join('');
+
+            $nc.get(delete_path)
+                .success(function() {
+                    // TODO: несовместимо с NetCat 6
+                    window.location.reload();
+                })
+                .always(function() {
+                    nc.process_stop('requests_delete');
+                })
+        }
+    }
+</script>
+
+<?
+
+// Добавляем в интерфейсе нужные нам кнопки
+if (isset($UI_CONFIG)) {
+    // помним, что шаблон может использоваться как в обычном режиме администрирования,
+    // так и внутри модуля (#module.requests.list(site_id))
+    if (!isset($inside_requests)) {
+        $inside_requests = 0;
+    }
+
+    // TODO: убрать mainViewIframe в NetCat 6
+
+    $UI_CONFIG->actionButtons = array(
+        array(
+            "id" => "delete_selected",
+            "caption" => NETCAT_MODULE_REQUESTS_REQUEST_DELETE_SELECTED,
+            "action" => "(mainViewIframe || window).nc_requests_request_delete_selected()",
+            "align" => "right",
+            "red_border" => true,
+        ),
+    );
+}
+?>

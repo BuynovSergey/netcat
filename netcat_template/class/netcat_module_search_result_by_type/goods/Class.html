@@ -1,0 +1,35 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<?php if (($search_query && ($cc_settings['showBlock'] == 'on' && !$totRows) || $totRows) || $admin_mode) { ?>
+    <?php if ($cc_settings['blockTitle']) { ?>
+        <div class="search-result-title tpl-text-header3">
+            <?= $cc_settings['blockTitle']; ?> (<?= $totRows; ?>)
+        </div>
+    <?php } ?>
+    <?php if (!$totRows) { ?>
+        <div class="search-no-result tpl-text-default-paragraph"><?= NETCAT_MODULE_SEARCH_NO_RESULTS; ?></div>
+    <?php } ?>
+<?php } ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+if ($f_meta['component_id'] && $f_meta['message_id']) {
+    $nc_item = nc_netshop_item::by_id($f_meta['component_id'], $f_meta['message_id']);
+}
+?>
+<?php if ($nc_item): ?>
+    <div class="goods-item">
+        <?php if ((string)$nc_item['Image']): ?>
+            <a href="<?= $nc_item['URL']; ?>" <?= (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") ?> class="goods-image" title="<?= $nc_item['FullName']; ?>">
+                <img src="<?= $nc_item['Image']->resize(240, 240); ?>" alt="<?= $nc_item['FullName']; ?>" class="image" />
+            </a>
+        <?php endif; ?>
+        <a href="<?= $nc_item['URL']; ?>" <?= (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") ?> class="goods-info tpl-text-header4"><?= $nc_item['Name']; ?></a>
+        <div class="tpl-text-default-paragraph"><?= $nc_item['Type']; ?></div>
+        <div class="tpl-text-header6"><?= $nc_item['ItemPriceF']; ?></div>
+    </div>
+<?php endif; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows > $recNum): ?>
+    <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+<!-- /FormSuffix -->

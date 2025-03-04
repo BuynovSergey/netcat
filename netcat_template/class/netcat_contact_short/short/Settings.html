@@ -1,0 +1,37 @@
+<?php
+
+$icon_folder = $nc_core->DOCUMENT_ROOT . $nc_core->HTTP_TEMPLATE_PATH . "icon/";
+$default_icons = array(
+    "Email" => '<svg class="default-icon" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.5 20.5H7.5C4.5 20.5 2.5 19 2.5 15.5V8.5C2.5 5 4.5 3.5 7.5 3.5H17.5C20.5 3.5 22.5 5 22.5 8.5V15.5C22.5 19 20.5 20.5 17.5 20.5Z" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M17.5 9L14.37 11.5C13.34 12.32 11.65 12.32 10.62 11.5L7.5 9" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>',
+    "Телефон" => '<svg class="default-icon" width="21" height="26" viewBox="0 0 21 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 7V19C20 23.8 18.8125 25 14.0625 25H6.9375C2.1875 25 1 23.8 1 19V7C1 2.2 2.1875 1 6.9375 1H14.0625C18.8125 1 20 2.2 20 7Z" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.875 5.19995H8.125" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.4998 21.5201C11.5164 21.5201 12.3404 20.6873 12.3404 19.66C12.3404 18.6328 11.5164 17.8 10.4998 17.8C9.48326 17.8 8.65918 18.6328 8.65918 19.66C8.65918 20.6873 9.48326 21.5201 10.4998 21.5201Z" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>',
+    "Адрес" => '<svg class="default-icon" width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.4999 13.4299C14.223 13.4299 15.6199 12.0331 15.6199 10.3099C15.6199 8.58681 14.223 7.18994 12.4999 7.18994C10.7768 7.18994 9.37988 8.58681 9.37988 10.3099C9.37988 12.0331 10.7768 13.4299 12.4999 13.4299Z" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5"/>
+<path d="M4.1202 8.49C6.0902 -0.169998 18.9202 -0.159997 20.8802 8.5C22.0302 13.58 18.8702 17.88 16.1002 20.54C14.0902 22.48 10.9102 22.48 8.8902 20.54C6.1302 17.88 2.9702 13.57 4.1202 8.49Z" stroke="var(--tpl-object-item--icon-color, #000000)" stroke-width="1.5"/>
+</svg>',
+    "Режим работы" => '<svg class="default-icon" width="24" height="24" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5 22.75C6.57 22.75 1.75 17.93 1.75 12C1.75 6.07 6.57 1.25 12.5 1.25C18.43 1.25 23.25 6.07 23.25 12C23.25 17.93 18.43 22.75 12.5 22.75ZM12.5 2.75C7.4 2.75 3.25 6.9 3.25 12C3.25 17.1 7.4 21.25 12.5 21.25C17.6 21.25 21.75 17.1 21.75 12C21.75 6.9 17.6 2.75 12.5 2.75Z" fill="var(--tpl-object-item--icon-color, #000000)"/>
+<path d="M16.2101 15.93C16.0801 15.93 15.9501 15.9 15.8301 15.82L12.7301 13.97C11.9601 13.51 11.3901 12.5 11.3901 11.61V7.51001C11.3901 7.10001 11.7301 6.76001 12.1401 6.76001C12.5501 6.76001 12.8901 7.10001 12.8901 7.51001V11.61C12.8901 11.97 13.1901 12.5 13.5001 12.68L16.6001 14.53C16.9601 14.74 17.0701 15.2 16.8601 15.56C16.7101 15.8 16.4601 15.93 16.2101 15.93Z" fill="var(--tpl-object-item--icon-color, #000000)"/>
+</svg>',
+    "Ссылка" => nc_get_svg_for_embedding($icon_folder . "font_awesome/link.svg"),
+);
+
+$styles = array();
+
+if ($cc_settings["icon_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-color: var(--tpl-color-$cc_settings[icon_color])";
+}
+
+if ($cc_settings["icon_decor"] !== "none" && $cc_settings["icon_decorColor"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-decor-color: var(--tpl-color-$cc_settings[icon_decorColor])";
+}
+
+$styles[] = "--tpl-object-item-title-size: var(--$cc_settings[title_classname])";
+$styles[] = "--tpl-object-item--icon-space-text: " . str_replace(",", ".", ($cc_settings["text_space"] / 100)) . "em";
+$styles = " style='" . implode(";", $styles) . "'";

@@ -1,0 +1,11 @@
+<?php
+
+$cc_env['MaxRecordsInInfoblock'] = 0;
+
+$filter = nc_infoblock_filter::get_by_filter_infoblock_id($cc);
+$filter_exists = $filter->exists();
+$filter_options = array(
+    'description_class' => 'tpl-text-' . nc_array_value($cc_settings, 'description_font', 'default-paragraph'),
+);
+
+$nc_data = array_values($filter->get_form_elements($filter_options));

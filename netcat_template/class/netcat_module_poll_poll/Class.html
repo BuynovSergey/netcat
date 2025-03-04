@@ -1,0 +1,101 @@
+<!-- FormPrefix --><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+echo $f_AdminButtons;
+if ($cc_settings['PollStyle'] == "open") {
+
+    if (!poll_alreadyAnswered($classID, $f_RowID, $f_ProtectIP, $f_ProtectUsers) && $f_Active) {
+
+        if ($f_MultyAnswer)
+            $InputType = "checkbox"; else
+            $InputType = "radio";
+        ?>
+<form action='<?= $SUB_FOLDER . $HTTP_ROOT_PATH ?>modules/poll/' method='post'>
+    <input type='hidden' name='catalogue' value='<?= $catalogue ?>'>
+    <input type='hidden' name='sub' value='<?= $sub ?>'>
+    <input type='hidden' name='cc' value='<?= $cc ?>'>
+    <input type='hidden' name='PollID' value='<?= $f_RowID ?>'>
+    <table border='0' cellpadding='2' cellspacing='0'>
+        <tr valign='top'>
+            <td colspan='2'><span><?= $f_Question ?></span></td>
+        </tr><?
+        //вывод списка вопросов
+        $icounter = 0;
+        while ($icounter < 11) {
+            $tAnswer = "f_Answer$icounter";
+            if ($$tAnswer) {
+                ?>
+        <tr valign='top'>
+            <td><input type='<?= $InputType ?>' id='r<?= $f_RowID ?>n<?= $icounter ?>' name='Answer<? if ($f_MultyAnswer)
+                           echo $icounter
+                           ?>' value='<? if ($f_MultyAnswer)
+                           echo 1; else
+                           echo $icounter;
+               ?>'></td>
+            <td width='100%'><label for='r<?= $f_RowID ?>n<?= $icounter ?>'><?= $$tAnswer ?></label></td>
+        </tr><?
+            }
+            ++$icounter;
+        }
+		if ($f_Answer11) {
+			$icounter = 11;
+        ?>
+		<tr valign='top'>
+            <td><input type='<?= $InputType ?>' id='r<?= $f_RowID ?>n<?= $icounter ?>' name='Answer<? if ($f_MultyAnswer)
+                           echo $icounter
+                           ?>' value='<? if ($f_MultyAnswer)
+                           echo 1; else
+                           echo $icounter;
+               ?>'></td>
+            <td width='100%'><label for='r<?= $f_RowID ?>n<?= $icounter ?>'>Другой:</label></td>
+        </tr>
+		<tr valign='top'>
+			<td>&nbsp;</td>
+			<td><input name='AltAnswer' type='text' onfocus='r<?= $f_RowID ?>n<?= $icounter ?>.checked=\"checked\"'></td>
+		</tr>
+		<?php }
+		?>
+        <tr>
+            <td colspan='2'><input class='question_submit' type='submit' name='poll' value='<?= $f_SubmitValue ?: "Голосовать" ?>'> &nbsp; Проголосовало: <?= $f_TotalCount ?></td>
+        </tr>
+    </table>
+</form><br><?
+    }
+    else {
+
+        if (!$f_Active)
+            $ActiveText = " (закрыт)"; else
+            $ActiveText = "";
+       ?><b><?= $f_Question ?></b><?= $ActiveText ?><br><?
+        //вывод списка ответов
+        $icounter = 1;
+        while ($icounter < 11) {
+            $tAnswer = "f_Answer$icounter";
+            $tCount = "f_Count$icounter";
+            if ($$tAnswer) {
+
+                echo "<div class='answer_block'>" . $$tAnswer . poll_percentLine($classID, $f_RowID, $$tCount, 100, " (%PERCENT%)<br/><div style='width:%WIDTHpx;height:10px;background: #336699;' title='" . $$tAnswer . "'></div>") . "</div>";
+            }
+            ++$icounter;
+        }
+        if ($f_Answer11) {
+			$icounter = 11;
+			$tAnswer = "f_Answer$icounter";
+            $tCount = "f_Count$icounter";
+           ?><a href='<?= $fullLink ?>?isAlt=1'>Другой</a><?= poll_percentLine($classID, $f_RowID, $$tCount, 100, " (%PERCENT%)<br><br/><div style='width:%WIDTHpx;height:10px;background: #336699;' title='Другой'></div>") ?><br><br><? } ?>
+
+Проголосовало: <?= $f_TotalCount ?>
+<br><? if ($f_Active && $f_ProtectUsers == 1 && !Authorize()) {
+            ?><br>* Для голосования необходимо авторизоваться<br><br><hr size='1' color='#CCCCCC'><br><b>Архив опросов</b><br><?
+        }
+    }
+} else {
+    if (!$f_Active)
+        $ActiveText = " (закрыт)"; else
+        $ActiveText = "";
+    ?>&bull; <a href='<? echo $fullLink ?>'><? echo $f_Question ?></a><? echo $ActiveText ?><br><? }
+?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?
+if ($nextLink || $prevLink) {
+    ?><br>страницы: <? echo browse_messages($cc_env, 10) ?><br> <? } ?><!-- /FormSuffix -->

@@ -1,0 +1,34 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class="news" <?= $styles ?>>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="object-item" title="<?= $f_Name ?>">
+        <?= $f_AdminButtons ?>
+
+        <?php if (!empty($f_Image)): ?>
+            <a href="<?= $fullLink ?>" class="item-image-wrapper"><?= $f_Image->as_img(array("alt" => $f_Name)); ?></a>
+        <?php endif ?>
+
+        <div class="item-info">
+            <a href="<?= $fullLink ?>" class="item-title <?= $cc_settings["title_font_size"] ?>"><?= nc_edit_inline(
+                    "Name",
+                    $f_RowID,
+                    $cc_env["Sub_Class_ID"]
+                ); ?>
+            </a>
+
+            <?php if ($admin_mode || $f_Description): ?>
+                <div class="item-description tpl-text-default-paragraph"><?= nc_edit_inline(
+                        "Description",
+                        $f_RowID,
+                        $cc_env["Sub_Class_ID"]
+                    ); ?></div>
+            <?php endif; ?>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

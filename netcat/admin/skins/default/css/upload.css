@@ -1,0 +1,210 @@
+/************* upload | Стили загрузчика изображений *************/
+
+.nc-upload .nc-upload-files {
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 13px;
+    margin-left: 1px;
+}
+
+.nc-upload .nc-upload-file-remove {
+    border: 0 none;
+    color: #0c4f72;
+    display: inline-block;
+    margin: 0 -5px 0 5px;
+    text-decoration: none;
+    outline: none;
+}
+
+.nc-upload .nc-upload-file-remove:hover {
+    color: #d04000;
+}
+
+.nc-upload-multifile .nc-upload-file-drag-handle, .nc-upload .nc--dragging {
+    cursor: move;
+}
+
+/* ---- Файловые поля без просмотра (без картинок) — вертикальное отображение ---- */
+
+.nc-upload .nc-upload-files {
+    margin: 3px 0;
+}
+
+.nc-upload .nc-upload-file {
+    padding: 3px;
+    transition: background-color 0.3s;
+}
+
+.nc-upload .nc-upload-file.nc--dragged {
+    background-color: #EEE;
+}
+
+.nc-upload .nc-upload-file-drag-icon {
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.nc-upload .nc-icon.nc--file-text {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAGFBMVEUAAAAzMzP///8zMzMzMzMzMzMzMzMzMzM5hn7RAAAAB3RSTlMAAACAo8zvNPnY8QAAAGZJREFUeF5tjjEKgDAMAPOFdnE1EZvdwe4+RV9QW+j3TVqNIN4QjiOEABkwxips5AmmqhStIctkyQScmpZHZ91WVfi8Fd3QlOVC6opOYKvIVvF/9634qSE7Je76ZGchwLXZ4QnIuABAqC9a0CTWMAAAAABJRU5ErkJggg==') no-repeat;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    margin-top: -3px;
+    vertical-align: middle;
+}
+
+.nc-upload .nc-upload-file-preview {
+    display: none;
+}
+
+.nc-upload .nc-upload-file-extension {
+    display: none;
+}
+
+.nc-upload .nc-upload-file-info {
+    display: inline;
+}
+
+.nc-upload .nc-upload-file-name {
+    margin-right: 4px;
+}
+
+.nc-upload .nc-upload-file-size {
+    color: #646464;
+}
+
+.nc-upload .nc-upload-file-size:before {
+    content: '(';
+}
+
+.nc-upload .nc-upload-file-size:after {
+    content: ')';
+}
+
+.nc-upload .nc-upload-file-custom-name {
+    margin-right: 6px;
+}
+
+.nc-upload .nc-upload-file-custom-name input[type="text"] {
+    width: 100%;
+    margin: 8px 0;
+}
+
+.nc-upload .nc-upload-input {
+    margin: 3px 0 10px;
+    padding: 7px 10px;
+}
+
+/* ---- Файловые поля с предпросмотром (с картинками) ---- */
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-custom-name input[type="text"] {
+    margin: -3px 0 16px;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-files {
+    overflow: hidden;
+    margin: 12px 0 0;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file {
+    float: left;
+    margin: 0 0 6px;
+    padding: 0 20px 0 0;
+    position: relative;
+    text-align: center;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file.nc--dragged {
+    background: transparent;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file.nc--dragged .nc-upload-file-preview:before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 2px solid #1a87c2;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-info {
+    margin: 0 0 6px;
+    padding: 0;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-info > * {
+    vertical-align: middle;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-name {
+    display: inline-block;
+    max-width: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-drag-icon {
+    display: none;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-preview {
+    height: 82px;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-preview img {
+    box-sizing: content-box;
+    display: inline;
+    height: 80px;
+    border: 1px solid #f0f0f0;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-preview-other {
+    width: 82px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABkCAMAAAAfQ/Z/AAABKVBMVEVmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZma5L0ceAAAAYnRSTlMAv0CAcDDzPATfk0T379uXVEj7FHTTp54Yx2AMWEaHJBAs6yi3bHGPCGPPoxNZPptQW6vK5wbmZePhYdLYUeRBucgfIDTiaByIXWRrRZ2QOArNeW/ZFpLWwzHLGqWuI9clePDqJ2UAAAHVSURBVHhe7dnXbuswDIBh2okdy3Z2s7uStE333nudvfdefP+HKAoQdhI0shTp5gD6H+ADQd2JEOcFvpVzkV9lo7kIAs1OuyhWLkjW5rMo3kqZj137KNXcOk9rNVCy3e5obbWG0p2sjeR6OEZuZoTm9AMVi1NHxLMiaztoAa/yXLKXQapTgKTqYaLnk1ZyILk8Jnh7O8SlQKAJHIg1h7kb0g49EW4y6X1t4qogko3D3uYgt0XchBA3hcMdLT24jUB6OqpU6OdSxNmiHN9LK3O4f6CVw/MlrRw+Ota0O6pU1DQddXqmlcOrC60cXn7TtDvK0jUdtaB1OszWZbkZ5FWV5YDxuNCT5eyQ593KctD1rb5yjPX7aQ4nWvtxFqmUGkc9YRGX1sDBU63TQVHvdM5/zRnOcIYznOEMZzjDGc5whjOc4QwXf6UqZEfcM+IWVLjnhLyAl8S9UuFeE1KIfpVyngJXIeQNvH1H3vvxtQ9EfPwE8Jk4NjWulvlCRA0AAqSYPZ5mM6Qm74GvSKHvSC/Qc3ykcNmj60xU+N2SquFiXDG6uKgXXzx+/NSh/foNVHlZXftTh6i/eVWt1uYcVGXL/vM4517J3F4ZKM4xWqSQWfniYmzcAYPhiAIKR0sWAAAAAElFTkSuQmCC) no-repeat 50% 50%;
+    background-size: 50%;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-preview-other .nc-upload-file-extension {
+    display: block;
+    position: absolute;
+    top: 36px;
+    right: 31px;
+    box-sizing: content-box;
+    min-width: 30px;
+    max-width: 40px;
+    max-height: 21px;
+    overflow: hidden;
+    text-transform: uppercase;
+    color: #FFF;
+    background: #666;
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-info {
+    display: block;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-name {
+    margin: 0;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-file-size {
+    display: none;
+}
+
+.nc-upload.nc-upload-with-preview .nc-upload-input {
+    margin-top: 0;
+}
+
+.nc-upload-hide-if-full {
+    display: none;
+}

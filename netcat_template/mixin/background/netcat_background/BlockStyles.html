@@ -1,0 +1,38 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$background = array();
+
+foreach (array_reverse($settings) as $layer) {
+    switch ($layer['type']) {
+        case 'color':
+            if (count($settings) === 1) {
+                $background[] = $layer['background_color'];
+            } else {
+                $background[] = "linear-gradient(to right, $layer[background_color], $layer[background_color])";
+            }
+            break;
+        case 'file':
+            $background[] =
+                "url('$layer[background_url]') " .
+                (nc_array_value($layer, 'background_repeat') ?: 'no-repeat') . ' ' . // такое значение по умолчанию в предыдущих версиях
+                (nc_array_value($layer, 'background_position') ?: 'center') . '/' .
+                (nc_array_value($layer, 'background_size') ?: 'cover') . ' ' .       // такое значение по умолчанию в предыдущих версиях
+                nc_array_value($layer, 'background_attachment');
+            break;
+        case 'linear_gradient':
+            $background[] = "linear-gradient({$layer['gradient_angle']}deg, {$layer['lgradient_color'][0]} 0%, {$layer['lgradient_color'][1]} 100%)";
+            break;
+        case 'radial_gradient':
+            $background[] = "radial-gradient(ellipse at center, {$layer['rgradient_color'][0]} 0%, {$layer['rgradient_color'][1]} 100%)";
+            break;
+    }
+}
+
+if (!$background) {
+    return '';
+}
+
+return "$selector { background: " . join(', ', $background) . "; }\n";

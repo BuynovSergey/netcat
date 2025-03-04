@@ -1,0 +1,19 @@
+<div id="<?= $f_container_id; ?>" style="width: <?= $f_container_width; ?>px; height: <?= $f_container_height; ?>px;"></div>
+
+<script type="text/javascript">
+    function fid_yamap_container(ymaps) {
+        var map = new ymaps.Map("<?= $f_container_id; ?>", {
+            center: [<?= $f_map_center_x; ?>, <?= $f_map_center_y; ?>],
+            zoom: <?= $f_map_zoom; ?>,
+            type: "yandex#map"});
+
+    <? if ($f_use_zoom_control || $f_use_map_tools || $f_use_type_selector) { ?>
+        map.controls<?= $f_use_zoom_control  ? '.add("zoomControl")' : ''; ?>
+                    <?= $f_use_map_tools     ? '.add("mapTools")'    : ''; ?>
+                    <?= $f_use_type_selector ? '.add(new ymaps.control.TypeSelector(["yandex#map", "yandex#satellite", "yandex#hybrid", "yandex#publicMap"]))' : ''; ?>;
+    <? } ?>
+
+    };
+</script>
+
+<script type="text/javascript" src="http://api-maps.yandex.ru/2.0/?coordorder=longlat&load=package.full&wizard=constructor&lang=ru-RU&onload=fid_yamap_container"></script>

@@ -1,0 +1,38 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$css = '';
+
+$colors = array(
+    // Цвета палитры — для использования в шаблонах компонентов
+    '--tpl-color-foreground-main' => $settings['color_foreground_main'],
+    '--tpl-color-foreground-accent' => $settings['color_foreground_accent'],
+    '--tpl-color-brand' => $settings['color_brand'],
+    '--tpl-color-background-accent' => $settings['color_background_accent'],
+    '--tpl-color-background-main' => $settings['color_background_main'],
+    // Значения цветов — для использования в миксине инверсии палитры, не должно использоваться где-либо ещё
+    '--tpl-color-fm' => $settings['color_foreground_main'],
+    '--tpl-color-fa' => $settings['color_foreground_accent'],
+    // '--tpl-color-b' => $settings['color_brand'], // сейчас не используется
+    '--tpl-color-ba' => $settings['color_background_accent'],
+    '--tpl-color-bm' => $settings['color_background_main'],
+    // «Актуальные цвета» для свопа цветов фона, см. инверсию
+    '--tpl-color-aba' => $settings['color_background_accent'],
+    '--tpl-color-abm' => $settings['color_background_main'],
+);
+$colors = array_filter($colors); // убрать пустые
+
+$color_generator = new nc_tpl_color_generator();
+$css .= $color_generator->generate_colors_modifications_css($colors);
+
+if (!empty($settings['color_foreground_main'])) {
+    $css .= "color: var(--tpl-color-foreground-main);\n";
+}
+
+if (!empty($settings['color_background_main'])) {
+    $css .= "background-color: var(--tpl-color-background-main);\n";
+}
+
+return "$selector {\n$css }\n";

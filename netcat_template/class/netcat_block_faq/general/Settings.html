@@ -1,0 +1,12 @@
+<?php
+
+$styles = array();
+
+if ($cc_settings["icon_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--icon-color: var(--tpl-color-" . $cc_settings["icon_color"] . ")";
+}
+if ($cc_settings["title_color"] !== "inherit") {
+    $styles[] = "--tpl-object-item--title-color: var(--tpl-color-" . $cc_settings["title_color"] . ")";
+}
+
+$styles = " style='" . implode("; ", $styles) . "'";

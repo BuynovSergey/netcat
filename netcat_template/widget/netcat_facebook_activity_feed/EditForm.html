@@ -1,0 +1,32 @@
+<font color='gray'>Домен:</font><br />
+<input name='f_url' size='50' value='<?=$f_url; ?>' /><br /><br />
+<input name='f_header' value='0' type='hidden' />
+<input name='f_header' id='f_header' value='1' type='checkbox' <?=(1 == $f_header ? "checked='checked'" : ""); ?> />
+<label for='f_header'><font color='gray'>показывать заголовок</font><br />
+</label><br />
+<font color='gray'>Цветовая схема:</font><br />
+<select name='f_colorscheme'>
+<option value='light' <?=('light' == $f_colorscheme ? "selected='selected'" : ""); ?>>светлая</option>
+<option value='dark' <?=('dark' == $f_colorscheme ? "selected='selected'" : ""); ?>>тёмная</option>
+</select><br /><br />
+<font color='gray'>Шрифт:</font><br />
+<select name='f_font'>
+<option value='' <?=('' == $f_font ? "selected='selected'" : ""); ?>></option>
+<option value='arial' <?=('arial' == $f_font ? "selected='selected'" : ""); ?>>arial</option>
+<option value='lucida+grande' <?=('lucida+grande' == $f_font ? "selected='selected'" : ""); ?>>lucida grande</option>
+<option value='segoe+ui' <?=('segoe+ui' == $f_font ? "selected='selected'" : ""); ?>>segoe ui</option>
+<option value='tahoma' <?=('tahoma' == $f_font ? "selected='selected'" : ""); ?>>tahoma</option>
+<option value='trebuchet+ms' <?=('trebuchet+ms' == $f_font ? "selected='selected'" : ""); ?>>trebuchet ms</option>
+<option value='verdana' <?=('verdana' == $f_font ? "selected='selected'" : ""); ?>>verdana</option>
+</select><br /><br />
+<font color='gray'>Цвет границы (HEX):</font><br />
+<input name='f_border_color' size='50' value='<?=$f_border_color; ?>' /><br /><br />
+<input name='f_recommendations' value='0' type='hidden' />
+<input name='f_recommendations' id='f_recommendations' value='1' type='checkbox' <?=(1 == $f_recommendations ? "checked='checked'" : ""); ?> />
+<label for='f_recommendations'>
+<font color='gray'>показывать рекомендации</font><br />
+</label><br />
+<font color='gray'>Ширина:</font><br />
+<input name='f_width' size='50' value='<?=$f_width; ?>' /><br /><br />
+<font color='gray'>Высота:</font><br />
+<input name='f_height' size='50' value='<?=$f_height; ?>' /><br /><br />

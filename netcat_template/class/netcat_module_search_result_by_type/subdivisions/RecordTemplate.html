@@ -1,0 +1,56 @@
+<?/* Служебная часть */
+for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {
+    if($fetch_row[$f_RowNum] instanceof Iterator) {
+        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");
+    } else {
+        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");
+    }
+    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {
+        extract($value);
+    }
+    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;
+    eval($cc_env["convert2txt"]);
+    ob_start();
+/* Конец служебной части */?>
+
+<?php
+try {
+    $tree = array_reverse($nc_core->subdivision->get_parent_tree($f_meta['subdivision_id']));
+    unset($tree[0]);
+    $goods_count = 0;
+    $sub_classes = $nc_core->sub_class->get_by_subdivision_id($f_meta['subdivision_id']);
+    foreach ($sub_classes as $sub_class) {
+        $class_id = $sub_class['Class_ID'];
+        if (!in_array($class_id, $goods_components_ids)) {
+            continue;
+        }
+        $count = $nc_core->db->get_var(
+            "SELECT COUNT(*)
+                 FROM `Message{$class_id}`
+                 WHERE `Subdivision_ID` IN ({$f_meta['subdivision_id']}) AND Checked=1 AND Parent_message_ID=0"
+        );
+        $goods_count += (int)$count;
+    }
+} catch (Exception $exception) {
+}
+?>
+<div class="search-result-item">
+    <div class="item-title tpl-text-header6">
+        <?php
+        $tmp = array();
+        foreach ($tree as $s) {
+            $tmp[] = "<a href='" . nc_folder_url($s['Subdivision_ID']) . "' " . (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") . ">" . $s['Subdivision_Name'] . "</a>";
+        }
+        $tmp = implode('&nbsp;&rarr;&nbsp;', $tmp);
+        ?>
+        <?= $tmp; ?>
+    </div>
+    <div class="body tpl-text-alt-paragraph">
+        <?= $goods_count; ?> <?= $nc_core->lang->get_numerical_inclination($goods_count, array('товар', 'товара', 'товаров')); ?>
+    </div>
+</div>
+
+<?/* Служебная часть */
+    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);
+}
+/* Конец служебной части */?>

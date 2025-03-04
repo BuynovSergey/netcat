@@ -1,0 +1,3 @@
+<?php
+$service_list = $nc_core->db->get_results("SELECT `Field_Name`,`Description` FROM `Field` WHERE `Widget_Class_ID` = '$widget_id' AND `Field_Name` LIKE 'service_%'");
+$service_list = $service_list ?: array();

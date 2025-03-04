@@ -1,0 +1,50 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?php if ($admin_mode): ?>
+    <div class="object-item">
+        <?php else: ?>
+        <a href="<?= $fullLink ?>" class="object-item">
+            <?php endif ?>
+
+            <?= $f_AdminButtons ?>
+
+            <?php if ($f_Image): ?>
+                <div class="item-image">
+                    <div class="image"><?= $f_Image->as_img(array("alt" => $f_Name)); ?></div>
+                </div>
+            <?php endif; ?>
+
+            <div class="item-description-wrapper">
+                <div class="item-description">
+                    <div class="item-name tpl-text-header6"><?= nc_edit_inline("Name", $f_RowID, $cc_env["Sub_Class_ID"]); ?></div>
+
+                    <?php if ($f_Description): ?>
+                        <div class="item-announce tpl-text-default-paragraph"><?= nc_edit_inline(
+                                "Description",
+                                $f_RowID,
+                                $cc_env["Sub_Class_ID"]
+                            ); ?></div>
+                    <?php endif; ?>
+
+                    <div class="item-info">
+                        <?php if ($f_Price): ?>
+                            <span class="item-price tpl-text-header5"><?= nc_edit_inline(
+                                    "Price",
+                                    $f_RowID,
+                                    $cc_env["Sub_Class_ID"]
+                                ); ?></span>
+                        <?php endif ?>
+
+                        <?php if ($cc_settings["showArrow"] && $cc_settings["arrowIcon"]): ?>
+                            <div class="item-arrow">
+                                <?= $cc_settings["arrowIcon"]->as_img() ?>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+            <?php if ($admin_mode): ?>
+    </div>
+<?php else: ?>
+    </a>
+<?php endif ?>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

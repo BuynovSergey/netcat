@@ -1,0 +1,9 @@
+& { min-height: 1em; }
+.object { min-width: 50px; }
+.object a { color: inherit; text-decoration: none; display: block; }
+.partners-object { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; align-self: stretch; justify-self: stretch; text-align: center; }
+.partners-image { position: relative; margin: 0; width: 100%; }
+.partners-image::before { display: block; content: ""; width: 100%; padding-top: var(--tpl-object-item--image-padding-top); }
+.partners-image .image { position: absolute; top: 15%; left: 15%; right: 15%; bottom: 15%; overflow: hidden; width: 70%; height: 70%; }
+.partners-image .image img { max-width: 100%; width: 100%; height: 100%; object-fit: contain; }
+.partners-image * { width: 100%; height: 100%; }

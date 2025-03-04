@@ -1,0 +1,158 @@
+<?php
+
+/**
+ * @param string $date
+ * @param string $format
+ *
+ * @return string
+ */
+$format_date = function ($date, $format) {
+    $months_locale = array(
+        1 => 'января',
+        2 => 'февраля',
+        3 => 'марта',
+        4 => 'апреля',
+        5 => 'мая',
+        6 => 'июня',
+        7 => 'июля',
+        8 => 'августа',
+        9 => 'сентября',
+        10 => 'октября',
+        11 => 'ноября',
+        12 => 'декабря',
+    );
+
+    static $days_locale = array(
+        'Sun' => 'Вс',
+        'Mon' => 'Пн',
+        'Tue' => 'Вт',
+        'Wed' => 'Ср',
+        'Thu' => 'Чт',
+        'Fri' => 'Пт',
+        'Sat' => 'Сб',
+    );
+
+    try {
+        $date = new DateTime($date);
+        $result = $date->format($format);
+
+        foreach ($months_locale as $num => $locale) {
+            $result = str_replace(date('F', mktime(0, 0, 0, $num)), $locale, $result);
+            $result = str_replace(date('M', mktime(0, 0, 0, $num)), mb_substr($locale, 0, 3), $result);
+        }
+
+        foreach ($days_locale as $day => $locale) {
+            $result = str_replace($day, $locale, $result);
+        }
+
+        return $result;
+    } catch (Exception $e) {
+        return $date;
+    }
+
+}
+?>
+
+<?php
+
+// Можно использовать $f_AdminButtons, но в этом шаблоне тулбар редактирования объекта не выводится,
+// т. к. почти все поля можно редактировать inline
+
+/** @var nc_core $nc_core */
+/** @var int $cc ID блока, в котором находится объект (не равен ID этого инфоблока — $nc_partial_infoblock_id) */
+/** @var int $nc_partial_infoblock_id ID этого (object_partial) инфоблока */
+/** @var array $cc_settings настройки этого (object_partial) инфоблока */
+
+$field_name = $cc_settings['field_name'];
+$area_keyword = $nc_core->sub_class->get_by_id($nc_partial_infoblock_id, 'AreaKeyword');
+list($object_component_id, $object_id) = $nc_core->component->get_full_page_area_object($area_keyword);
+
+if ($nc_core->admin_mode && !$field_name) {
+    // Форма выбора поля для администратора, если поле ещё не выбрано
+    $select_id = $nc_block_id . '__field_select';
+    ?>
+    <form action="<?= nc_controller_url('admin.infoblock', 'save', array('isNaked' => 1), true) ?>" method="post">
+        <input type="hidden" name="infoblock_id" value="<?= $nc_partial_infoblock_id ?>">
+
+        <select name="custom_settings[field_name]" id="<?= $select_id ?>">
+            <option><?= NC_FILTER_SELECT_FIELD ?></option>
+            <?php
+            $standard_fields = array(
+                array(
+                    'name' => 'Created',
+                    'description' => NETCAT_FILTER_FIELD_CREATED,
+                    'type' => NC_FIELDTYPE_DATETIME,
+                    'edit_type' => NC_FIELD_PERMISSION_EVERYONE,
+                ),
+                array(
+                    'name' => 'LastUpdated',
+                    'description' => NETCAT_FILTER_FIELD_LAST_UPDATED,
+                    'type' => NC_FIELDTYPE_DATETIME,
+                    'edit_type' => NC_FIELD_PERMISSION_EVERYONE,
+                ),
+            );
+
+            $component = $nc_core->get_component($object_component_id);
+
+            foreach (array_merge($component->get_fields(), $standard_fields) as $field) {
+                if ($field['edit_type'] != NC_FIELD_PERMISSION_EVERYONE || $field['type'] == NC_FIELDTYPE_MULTIFILE) {
+                    continue;
+                }
+
+                echo "<option value='$field[name]' data-field-type='$field[type]'" . ">" . ($field['description'] ?: $field['name']) .
+                    "</option>";
+            }
+
+            ?>
+        </select>
+        <input type="hidden" name="custom_settings[tag]" value="<?= htmlspecialchars($cc_settings['tag']) ?>">
+    </form>
+
+    <script>
+        $nc(function () {
+            const select = $nc('#<?= $select_id ?>');
+            select.change(() => select.closest("form").ajaxSubmit({ success: () => location.reload() }));
+        });
+    </script>
+    <?php
+} elseif (preg_match('/^\w+$/', $field_name)) {
+    $is_standard_time_field = $field_name === 'Created' || $field_name === 'LastUpdated';
+    $field_properties = $nc_core->get_component($object_component_id)->get_field($field_name);
+    $can_show_field = $is_standard_time_field || nc_array_value($field_properties, 'edit_type') == NC_FIELD_PERMISSION_EVERYONE;
+
+    if (!$can_show_field) {
+        return;
+    }
+
+    $value = ${'f_' . $field_name};
+    $tag = $cc_settings['tag'];
+    $field_type = nc_array_value($field_properties, 'type');
+
+    if ($value instanceof nc_image_path_field) {
+        $styles = array();
+        $image_ratio = (htmlspecialchars($cc_settings['custom_image_ratio'] ?: $cc_settings['image_ratio']) ?: '16:9');
+        $styles[] = "--tpl-object--image-ratio: " . str_replace(":", "/", $image_ratio) . ";";
+        $styles = " style='" . implode("; ", $styles) . "'";
+        ?>
+
+        <div class='image-wrapper' <?= $styles ?>><?= $value->as_img(array('class' => 'tpl-block-image')) ?></div>
+        <?php
+    } elseif ($value instanceof nc_multifield) {
+        foreach ($value->to_array() as $file) {
+            echo $file->as_img(array('class' => 'tpl-block-image'));
+        }
+    } elseif (is_array($value)) {
+        echo "<$tag class='tpl-block-text'>" . implode(', ', $value) . "</$tag>";
+    } elseif ($is_standard_time_field || $field_type == NC_FIELDTYPE_DATETIME) {
+        $datetime_format = htmlspecialchars($cc_settings['custom_datetime_format'] ?: $cc_settings['datetime_format']) ?: 'd.m.Y H:i';
+        $value = $format_date($value, $datetime_format);
+        echo "<$tag class='tpl-block-text'>$value</$tag>";
+    } else {
+        echo
+            "<$tag class='tpl-block-text'>" .
+            ($nc_core->admin_mode ? nc_edit_inline($field_name, $object_id, $cc) : $value) .
+            "</$tag>";
+    }
+}
+
+?>

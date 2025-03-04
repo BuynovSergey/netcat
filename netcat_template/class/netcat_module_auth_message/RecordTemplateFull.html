@@ -1,0 +1,10 @@
+<?
+if ($f_RowID) {
+    opt(!$f_Status && $current_user['User_ID'] == $f_ToUser && $db->query("UPDATE Message$classID SET Status=1 WHERE Message_ID=$f_RowID"), NULL);
+    echo s_list_class($sub, $cc, (isset($show_all) ? "&show_all=1" : "")."&m_link=$fullLink&full_msg_id=$f_RowID&curPos=$curPos&group_id=".($f_Parent_Message_ID ? $f_Parent_Message_ID : $f_RowID), 1);
+}
+
+$uid = $f_UserID;
+$f_Parent_Message_ID = ($f_Parent_Message_ID ? $f_Parent_Message_ID : $f_RowID);
+echo ( $f_ToUser ? $addForm : "");
+?>

@@ -1,0 +1,18 @@
+<div class="tpl-block-page-block <?= $cc_settings['background_color'] ? 'tpl-layout-theme-' . $cc_settings['background_color'] : ''; ?> <?= !$cc_settings['background_pattern'] ? 'tpl-layout-disable-bg-pattern' : ''; ?>">
+    <div style="height: <?= $cc_settings['padding_top']; ?>px"></div>
+    <?= $f_AdminCommon; ?>
+    <div class="tpl-block-content">
+        <? if ($cc_settings['show_header']): ?>
+            <h2><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h2>
+        <? endif; ?>
+
+        <? if ($cc_settings['show_text']): ?>
+            <div class="tpl-block-description">
+                <span class="tpl-infoblock-field-text"><?= nc_infoblock_custom_setting_edit_inline('text', $cc) ?></span>
+            </div>
+        <? endif; ?>
+    </div>
+    <div class="tpl-block-table">
+        <div class="tpl-block-background" style="background: <?= $cc_settings['background_color']; ?>"></div>
+        <div class="tpl-block-container">
+            <table>

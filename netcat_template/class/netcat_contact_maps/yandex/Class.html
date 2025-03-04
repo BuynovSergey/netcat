@@ -1,0 +1,153 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+
+<?php $geo_objects = array() ?>
+
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+if ($admin_mode) {
+    $content = ($admin_mode ? "<div>$f_AdminButtons</div>" : '') . $f_PlacemarkContent;
+    $content = "<div style='min-height: 150px; min-width: 350px'>$content</div>";
+} else {
+    $content = $f_PlacemarkContent;
+}
+$geo_objects[] = array(
+    "id" => $f_RowID,
+    "icon" => ($f_PlacemarkIcon && $f_PlacemarkIcon->get_path() != "") ? $f_PlacemarkIcon->get_path() :
+        nc_component_path($cc_env["Real_Class_ID"]) . "marker-map.png",
+    "address" => $f_Address,
+    "coordinates" => $f_Coordinates ?: null,
+    "placemarkContent" => $content ?: null,
+    "hintContent" => $f_HintContent ?: null,
+);
+
+?><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+<?php $container_id = $nc_block_id . '_map'; ?>
+<div id="<?= $container_id ?>" class="map-container" style="width: 100%;"></div>
+
+<?php $map_namespace = preg_replace("/\d/", "", nc_generate_random_string(6)) ?>
+
+<script type="text/javascript">
+(function () {
+    if (window.$) {
+        $(init);
+    } else {
+        document.addEventListener("DOMContentLoaded", init);
+    }
+
+    function init() {
+        const scriptUrl = "https://api-maps.yandex.ru/2.1/?apikey=<?= $cc_settings["api_key"] ?>&lang=ru_RU&ns=" + "<?= $map_namespace ?>";
+        let namespace;
+        const mapContainer = $("#<?= $container_id ?>");
+
+        loadScript(scriptUrl)
+            .then(() => {
+                namespace = <?= $map_namespace ?>;
+                namespace.ready(() => initMap(mapContainer[0]));
+            });
+
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                if (typeof namespace !== "undefined") {
+                    return resolve();
+                }
+
+                const script = document.createElement("script");
+                script.src = src;
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error(`Failed to load script ${src}`));
+                document.body.appendChild(script);
+            });
+        }
+
+        function initMap(selector) {
+            const yandexMap = new namespace.Map(selector, {
+                center: [37.64, 55.76],
+                zoom: 15,
+                controls: ["zoomControl"],
+            });
+
+            // Fill all available height
+            const parentContainer = mapContainer.parents('.tpl-block-<?= $cc ?>');
+
+            function fillHeight() {
+                mapContainer.height(parentContainer.css('min-height') || 400).height(parentContainer.height());
+                yandexMap.container.fitToViewport();
+            }
+
+            fillHeight();
+
+            if (window.ResizeObserver) {
+                const resizeObserver = new ResizeObserver(fillHeight);
+                resizeObserver.observe(parentContainer[0]);
+            } else {
+                $(window).resize(fillHeight);
+            }
+
+            // Init map markers
+
+            const clusterer = new namespace.Clusterer();
+            const promises = [];
+            const payload = [];
+
+            <?= nc_array_json($geo_objects) ?>.forEach(properties => {
+                const promise = () => {
+                    if (properties.coordinates) {
+                        payload.push({
+                            coords: properties.coordinates.split(","),
+                            ...properties
+                        });
+                    } else {
+                        return namespace.geocode(properties.address, { results: 1 })
+                            .then(result => payload.push({
+                                coords: result.geoObjects.get(0).geometry.getCoordinates(),
+                                ...properties
+                            }));
+                    }
+
+                    return Promise.resolve();
+                }
+
+                promises.push(promise());
+            });
+
+            Promise.all(promises).then(() => {
+                payload.forEach(data => {
+                    const placemark = new namespace.Placemark(data.coords,
+                        {
+                            id: data.id,
+                            balloonContent: data.placemarkContent,
+                            hintContent: data.hintContent,
+                        },
+                        {
+                            iconLayout: "default#image",
+                            iconImageHref: data.icon,
+                            iconImageSize: [32, 32]
+                        }
+                    );
+
+                    placemark.events.add("click", (e) => {
+                        const coords = e.get("target").geometry.getCoordinates().map(Number);
+                        yandexMap.panTo(coords, {
+                            delay: 1000
+                        })
+                    })
+
+                    clusterer.add(placemark);
+                });
+
+                yandexMap.geoObjects.add(clusterer);
+                yandexMap.setBounds(clusterer.getBounds(), { checkZoomRange: true }).then(() => {
+                    if (payload.length === 1) {
+                        yandexMap.setZoom(15)
+                    }
+                });
+            })
+        }
+    }
+})();
+</script>
+<!-- /FormSuffix -->

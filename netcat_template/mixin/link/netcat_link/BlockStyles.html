@@ -1,0 +1,81 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$nc_core = nc_core::get_object();
+$css = array();
+$tpl_vars = array();
+
+if (isset($settings['default']['color']) || isset($settings['default']['decoration']['type'])) {
+    $css['default'] = "$selector a {";
+    if ($settings['default']['color'] != '') {
+        if ($settings['default']['color'] == 'custom') {
+            $css['default'] .= "color:{$settings['default']['custom_color']};";
+            $tpl_vars[] = " --tpl-link-color: {$settings['default']['custom_color']};";
+        } else {
+            $css['default'] .= "color:var(--tpl-color-{$settings['default']['color']}); ";
+            $tpl_vars[] = " --tpl-link-color: var(--tpl-color-{$settings['default']['color']});";
+        }
+
+    }
+    if ($settings['default']['decoration']['type'] != '') {
+        $css['default'] .= "text-decoration:{$settings['default']['decoration']['type']}";
+        if ($settings['default']['decoration']['type'] != 'none') {
+            $css['default'] .= " {$settings['default']['decoration']['style']}";
+            if (isset($settings['default']['decoration']['color'])) {
+                $css['default'] .= " {$settings['default']['decoration']['color']}";
+            }
+        }
+        $css['default'] .= ";";
+    }
+    $css['default'] .= "}";
+}
+if (isset($settings['visited']['color']) || isset($settings['visited']['decoration']['type'])) {
+    $css['visited'] = "$selector a:visited {";
+    if ($settings['visited']['color'] != '') {
+        if ($settings['visited']['color'] == 'custom') {
+            $css['visited'] .= "color: {$settings['visited']['custom_color']};";
+            $tpl_vars[] = " --tpl-link-visited-color: {$settings['visited']['custom_color']};";
+        } else {
+            $css['visited'] .= "color: var(--tpl-color-{$settings['visited']['color']}); ";
+            $tpl_vars[] = " --tpl-link-visited-color: var(--tpl-color-{$settings['visited']['color']}); ";
+        }
+    }
+    if ($settings['visited']['decoration']['type'] != '') {
+        $css['visited'] .= "text-decoration:{$settings['visited']['decoration']['type']}";
+        if ($settings['visited']['decoration']['type'] != 'none') {
+            $css['visited'] .= " {$settings['visited']['decoration']['style']}";
+            if (isset($settings['visited']['decoration']['color'])) {
+                $css['visited'] .= " {$settings['visited']['decoration']['color']}";
+            }
+        }
+        $css['visited'] .= ";";
+    }
+    $css['visited'] .= "}";
+}
+if (isset($settings['hover']['color']) || isset($settings['hover']['decoration']['type'])) {
+    $css['hover'] = "$selector a:hover {";
+    if ($settings['hover']['color'] != '') {
+        if ($settings['hover']['color'] == 'custom') {
+            $css['hover'] .= "color:{$settings['hover']['custom_color']};";
+            $tpl_vars[] = " --tpl-link-hover-color: {$settings['hover']['custom_color']};";
+        } else {
+            $css['hover'] .= "color:var(--tpl-color-{$settings['hover']['color']});";
+            $tpl_vars[] = " --tpl-link-hover-color: var(--tpl-color-{$settings['hover']['color']});";
+        }
+    }
+    if ($settings['hover']['decoration']['type'] != '') {
+        $css['hover'] .= "text-decoration:{$settings['hover']['decoration']['type']}";
+        if ($settings['hover']['decoration']['type'] != 'none') {
+            $css['hover'] .= " {$settings['hover']['decoration']['style']}";
+            if (isset($settings['hover']['decoration']['color'])) {
+                $css['hover'] .= " {$settings['hover']['decoration']['color']}";
+            }
+        }
+        $css['hover'] .= ";";
+    }
+    $css['hover'] .= "}";
+}
+$css['vars'] = "$selector * {" . join(" ", $tpl_vars) . "}";
+return join("\n", $css)."\n";

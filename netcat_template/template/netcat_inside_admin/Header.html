@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' content='text/html; charset=<?=$nc_core->NC_CHARSET?>' />
+  <title>Редактирование объектов</title>
+<?php
+  if ($GLOBALS["AJAX_SAVER"]):
+?>
+  <script type='text/javascript'>
+    var formAsyncSaveEnabled = true;
+    var NETCAT_HTTP_REQUEST_SAVING = "<?= str_replace('"', "&quot;", NETCAT_HTTP_REQUEST_SAVING) ?>";
+    var NETCAT_HTTP_REQUEST_SAVED  = "<?= str_replace('"', "&quot;", NETCAT_HTTP_REQUEST_SAVED) ?>";
+    var NETCAT_HTTP_REQUEST_ERROR  = "<?= str_replace('"', "&quot;", NETCAT_HTTP_REQUEST_ERROR) ?>";
+  </script>
+<?php else: ?>
+  <script type='text/javascript'>var formAsyncSaveEnabled = false;</script>
+<?php endif; ?>
+</head>
+<body class='nc_edit_objects'>

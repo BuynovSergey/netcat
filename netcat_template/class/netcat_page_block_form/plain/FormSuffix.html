@@ -1,0 +1,9 @@
+
+        <?
+            if (nc_module_check_by_keyword('requests')) {
+                echo nc_requests::make_form($cc);
+            }
+        ?>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>

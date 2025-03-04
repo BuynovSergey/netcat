@@ -1,0 +1,13 @@
+<?php
+
+if (!$inside_admin) {
+    $sql = "SELECT `Hidden_URL` FROM `Subdivision` WHERE `Parent_Sub_ID` = {$sub} AND `Checked` = 1 ORDER BY `Priority` ASC LIMIT 1";
+    $url = $nc_core->db->get_var($sql);
+
+    if ($url) {
+        header("Location: " . $nc_core->SUB_FOLDER . $url);
+        exit;
+    }
+}
+
+?>

@@ -1,0 +1,40 @@
+                 </tbody>
+                </table>
+            <a href="#" class="tpl-block-show-all-button">
+                Показать всё
+            </a>
+        </div>
+    </div>
+</div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>
+<script>
+    $(function () {
+        var expanded = <?= nc_core('input')->fetch_get('expanded') == 1 ? 1 : 0; ?>;
+        var $goods_property = $('#<?= $nc_block_id; ?>');
+        var $rows = $goods_property.find('.tpl-block-text-content TR');
+        var $button = $goods_property.find('.tpl-block-show-all-button');
+        if ($rows.length <= 5) {
+            $button.hide();
+        } else {
+            if (expanded) {
+                $button.text('Скрыть');
+            } else {
+                $rows.slice(5).hide();
+            }
+            $button.on('click', function (e) {
+                e.preventDefault();
+                if ($rows.filter(':hidden').length) {
+                    $rows.filter(':hidden').fadeIn();
+                    $button.text('Скрыть')
+                } else {
+                    $rows.slice(5).fadeOut();
+                    $button.text('Показать всё')
+                }
+                $('HTML,BODY').animate({
+                    scrollTop: $rows.closest('.tpl-block-text-content').offset().top - 30
+                });
+            });
+        }
+    });
+</script>

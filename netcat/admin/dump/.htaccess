@@ -1,0 +1,4 @@
+# Never allow web access to these files
+
+Order deny,allow
+Deny from all

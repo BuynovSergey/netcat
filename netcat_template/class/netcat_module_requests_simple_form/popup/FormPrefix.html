@@ -1,0 +1,17 @@
+
+<?php echo $f_AdminCommon;
+
+if (nc_module_check_by_keyword('requests')) {
+    $parameters = array();
+
+    if ($cc_settings["button_caption"]) {
+        $parameters["button_caption"] = $cc_settings["button_caption"];
+    }
+
+    echo nc_requests::make_form_popup_button(
+        $cc,
+        $cc_settings['form_type'] ? nc_transliterate($cc_settings['form_type'], true) : 'default',
+        $parameters
+    );
+}
+?>

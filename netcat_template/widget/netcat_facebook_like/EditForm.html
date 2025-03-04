@@ -1,0 +1,33 @@
+<font color='gray'>Ссылка:</font><br />
+<input name='f_url' size='50' value='<?=$f_url; ?>' /><br /><br />
+<font color='gray'>Макет:</font><br />
+<select name='f_layout'>
+<option value='standard' <?=('standard' == $f_layout ? "selected='selected'" : ""); ?>>стандартный</option>
+<option value='button_count' <?=('button_count' == $f_layout ? "selected='selected'" : ""); ?>>button счётчик</option>
+<option value='box_count' <?=('box_count' == $f_layout ? "selected='selected'" : ""); ?>>box счётчик</option>
+</select><br /><br />
+<font color='gray'>Отображение кнопки:</font><br />
+<select name='f_action'>
+<option value='like' <?=('like' == $f_action ? "selected='selected'" : ""); ?>>нравится</option>
+<option value='recommend' <?=('recommend' == $f_action ? "selected='selected'" : ""); ?>>рекомендую</option>
+</select><br /><br />
+<font color='gray'>Шрифт:</font><br />
+<select name='f_font'>
+<option value='' <?=('' == $f_font ? "selected='selected'" : ""); ?>></option>
+<option value='arial' <?=('arial' == $f_font ? "selected='selected'" : ""); ?>>arial</option>
+<option value='lucida+grande' <?=('lucida+grande' == $f_font ? "selected='selected'" : ""); ?>>lucida grande</option>
+<option value='segoe+ui' <?=('segoe+ui' == $f_font ? "selected='selected'" : ""); ?>>segoe ui</option>
+<option value='tahoma' <?=('tahoma' == $f_font ? "selected='selected'" : ""); ?>>tahoma</option>
+<option value='trebuchet+ms' <?=('trebuchet+ms' == $f_font ? "selected='selected'" : ""); ?>>trebuchet ms</option>
+<option value='verdana' <?=('verdana' == $f_font ? "selected='selected'" : ""); ?>>verdana</option>
+</select><br /><br />
+<font color='gray'>Цветовая схема:</font><br />
+<select name='f_colorscheme'>
+<option value='light' <?=('light' == $f_colorscheme ? "selected='selected'" : ""); ?>>светлая</option>
+<option value='dark' <?=('dark' == $f_colorscheme ? "selected='selected'" : ""); ?>>тёмная</option>
+</select><br /><br />
+<input name='f_faces' value='0' type='hidden' />
+<input name='f_faces' id='f_faces' value='1' type='checkbox' <?=(1 == $f_faces ? "checked='checked'" : ""); ?> />
+<label for='f_faces'><font color='gray'>показывать лица</font><br /></label><br />
+<font color='gray'>Ширина:</font><br />
+<input name='f_width' size='50' value='<?=$f_width; ?>' /><br /><br />

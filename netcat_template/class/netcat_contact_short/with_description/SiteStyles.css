@@ -1,0 +1,18 @@
+& { min-height: 1em; }
+.object-item { display: flex; }
+.object-item .tpl-text { display: flex; flex-direction: column; }
+.object-item a { text-decoration: none; }
+.object-item.vertical { flex-direction: column; }
+.object-item.vertical div > .tpl-icon { margin-bottom: var(--tpl-object-item--icon-space-text); }
+.object-item:not(.vertical) { align-items: var(--tpl-object-item--icon-align); }
+.object-item:not(.vertical) div > .tpl-icon { margin-right: var(--tpl-object-item--icon-space-text); }
+.tpl-icon { margin: 0; height: 1em; width: 1em; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+.tpl-icon.tpl-text-inherit { width: 40px; height: 40px; font-size: 40px; min-height: 1.15em; line-height: 1.15; }
+.tpl-icon > svg, .tpl-icon > img { width: 100%; height: 100%; max-width: 100%; max-height: 100%; }
+.tpl-icon img { object-fit: contain; }
+.tpl-icon.colorize svg path { fill: var(--tpl-object-item--icon-color); }
+.tpl-icon[class*='icon-decor-'] { border: 1px solid var(--tpl-object-item--icon-decor-color); }
+.tpl-icon[class*='icon-decor-'][class*='-fill'] { background-color: var(--tpl-object-item--icon-decor-color); }
+.tpl-icon > * { max-width: 50%; max-height: 50%; }
+.tpl-icon[class*='icon-decor-circle'] { border-radius: 50%; }
+.tpl-icon[class*='icon-decor-circle'] > * { max-width: 40%; max-height: 40%; }

@@ -1,0 +1,110 @@
+<?php
+
+$styles = array();
+
+if ($cc_settings['icon_color'] !== 'inherit') {
+    $styles[] = "--tpl-object-item--icon-color: var(--tpl-color-" . $cc_settings['icon_color'] . ")";
+}
+
+if ($cc_settings['title_color'] !== 'inherit') {
+    $styles[] = "--tpl-object-item--title-color: var(--tpl-color-" . $cc_settings['title_color'] . ")";
+}
+
+$styles[] = "--tpl-object-item--icon-space-text: " . str_replace(",", ".", ($cc_settings['icon_space'] / 100)) . "em";
+$styles[] = "--tpl-object--image-ratio: " . str_replace(":", "/", $cc_settings["image_ratio"]) . ";";
+$styles = " style='" . implode("; ", $styles) . "'";
+
+$icon_class = array();
+$icon_class[] = "tpl-icon";
+$icon_class = implode(" ", $icon_class);
+
+if (!function_exists('nc_social_icons')) {
+    function nc_social_icons($text, $template) {
+        $social = array(
+            "vk.com" => array(
+                '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_675_1676)">
+<path d="M0 17.28C0 9.1341 0 5.06119 2.5306 2.5306C5.06119 0 9.1341 0 17.28 0H18.72C26.8659 0 30.9388 0 33.4694 2.5306C36 5.06119 36 9.1341 36 17.28V18.72C36 26.8659 36 30.9388 33.4694 33.4694C30.9388 36 26.8659 36 18.72 36H17.28C9.1341 36 5.06119 36 2.5306 33.4694C0 30.9388 0 26.8659 0 18.72V17.28Z" fill="#0089FA"/>
+<path d="M19.1551 25.9351C10.9501 25.9351 6.2702 20.3101 6.0752 10.9501H10.1852C10.3202 17.8201 13.3501 20.7301 15.7501 21.3301V10.9501H19.6203V16.8751C21.9903 16.6201 24.48 13.9201 25.32 10.9501H29.19C28.545 14.6101 25.845 17.3101 23.925 18.4201C25.845 19.3201 28.9202 21.6751 30.0902 25.9351H25.83C24.915 23.0851 22.6353 20.8801 19.6203 20.5801V25.9351H19.1551Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_675_1676">
+<rect width="36" height="36" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+',
+                'Вконтакте',
+                '#0089FA',
+            ),
+            "facebook.com" => array('facebook', 'Facebook', '#3b5998'),
+            "ok.ru" => array('odnoklassniki', 'Одноклассники', '#F57C20'),
+            "plus.google.com" => array('google-plus', 'Google+', '#DB4437'),
+            "pinterest.com" => array('pinterest', 'Pinterest', '#E60023'),
+            "twitter.com" => array('twitter', 'Twitter', '#1DA1F2'),
+            "del.icio.us" => array('vk', 'Delicious', '#C3C3C3'),
+            "digg.com" => array('digg', 'Digg', '#A500B5'),
+            "reddit.com" => array('reddit', 'Reddit', '#FF4500'),
+            "linkedin.com" => array('linkedin', 'LinkedIn', '#0077B5'),
+            "renren-inc.com" => array('renren', 'Renren', '#F8B400'),
+            "tumblr.com" => array('tumblr', 'Tumblr', '#35465C'),
+            "whatsapp.com" => array('whatsapp', 'WhatsApp', '#25D366'),
+            "skype.com" => array('skype', 'Skype', '#00AFF0'),
+            "telegram.org" => array('telegram', 'Telegram', "#2AABEE"),
+            "t.me" => array('telegram', 'Telegram', "#2AABEE"),
+            "instagram.com" => array('instagram', 'Instagram', '#C13584'),
+            "instagr.am" => array('instagram', 'Instagram', '#C13584'),
+        );
+
+        $urls = preg_split("/(\\r\\n|\n| |,)/", $text);
+
+        $return = "";
+        foreach ($urls as $url) {
+            preg_match_all(
+                '/^
+	                [a-z][a-z0-9+\-.]*:\/\/              # Scheme
+	                ([a-z0-9\-._~%!$&\'()*+,;=]+@)?      # User
+	                (?P<host>[a-z0-9\-._~%]+             # Named or IPv4 host
+	                |\[[a-z0-9\-._~%!$&\'()*+,;=:]+\])   # IPv6+ host
+	                /ix',
+                $url,
+                $result,
+                PREG_PATTERN_ORDER
+            );
+
+            $host = str_replace("www.", "", isset($result['host'][0]) ? $result['host'][0] : '');
+
+            if (!empty($social[$host][0])) {
+                $arrSearch = array(
+                    '%URL',
+                    '%ICON',
+                    '%NAME',
+                );
+
+                if (strpos($social[$host][0], "svg") !== false) {
+                    $icon = $social[$host][0];
+                } else {
+                    $icon = nc_get_icon_from_library(
+                        'font_awesome',
+                        $social[$host][0],
+                        array(
+                            "width" => 24,
+                            "height" => 24,
+                            "fill" => $social[$host][2] ?: "",
+                        )
+                    );
+                }
+
+                $arrReplace = array(
+                    $url,
+                    $icon,
+                    $social[$host][1],
+                );
+
+                $return .= str_replace($arrSearch, $arrReplace, $template);
+            }
+        }
+
+        return $return;
+    }
+}

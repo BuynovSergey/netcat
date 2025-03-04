@@ -1,0 +1,69 @@
+.nc-toolbar { z-index: 2; }
+.nc-infoblock-toolbar { position: absolute; top: 0; right: 10px; z-index: 2; }
+.nc-object-toolbar { right: 0; }
+.nc-object-toolbar-bridge { display: none; }
+
+.tpl-block-page-block { position: relative; background: #01aff2; color: #fff; overflow: hidden; }
+.tpl-block-content { max-width: 980px; margin: 0 auto; }
+h2 { font-size: 42px; line-height: 1.24em; font-weight: 600; display: block; position: relative; text-align: center; color: #fff; max-width: 740px; word-wrap: break-word; margin: 0 auto 30px; }
+h2 * { line-height: 1.24em; }
+.tpl-block-prefix { display: block; margin: 0 auto; position: relative; text-align: center; max-width: 740px; word-wrap: break-word; line-height: 1.44em; }
+.tpl-block-prefix * { line-height: 1.44em; }
+
+.tpl-block-rows { position: relative; overflow: hidden; padding-top:100px; }
+.tpl-block-rows:after { position: absolute; left:50%; width:1px; top:100px; bottom:0; background: rgba(255,255,255,0.3); content:' '; }
+.tpl-block-rows:first-child { margin-top: -60px; }
+
+.tpl-block-row { position: relative; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+.tpl-block-row:last-of-type { border: 0; }
+.tpl-block-row:first-of-type { margin-top: 130px; }
+.tpl-block-row:after { position: absolute; content: ' '; display: block; width: 1px; background: #fff; opacity: 0.3; bottom: 0; top: 0px; left: 50%; }
+
+.tpl-block-item { position: relative; display: inline-block; vertical-align: top; width: 45%; padding-left: 2%; margin-right: -4px; word-wrap: break-word; }
+.tpl-block-item:nth-child(2n) { padding-right: 0; width: 44%; padding-left: 9%; }
+.tpl-block-item:nth-child(2n):after { position: absolute; left: -10000px; right: -10000px; bottom: 0; height: 1px; background: rgba(255, 255, 255, 0.3); content: ' '; display: block; }
+.tpl-block-item:last-child:after { display: none; }
+
+.tpl-block-advantage { padding: 50px 0 60px 0; position: relative; }
+.tpl-block-photo { width: 90px; height: 90px; line-height: 90px; overflow: visible; text-align: center; position: absolute; left: 0; top: 50px; }
+.tpl-block-photo img { width: 100%; height: auto; }
+.tpl-block-text { position: relative; margin-left: 130px; line-height: 1.33em; }
+.tpl-block-text * { line-height: 1.33em; }
+h3 { font-family: 'bebas_neue'; font-size: 30px; padding-top: 5px; padding-bottom: 12px; line-height: 1.05em; }
+h3 * { line-height: 1.05em; }
+
+@media (max-width: 1060px) {
+    .nc-object-toolbar { right: 10px; }
+    .tpl-block-row:first-of-type { margin-top: 80px; }
+    .tpl-block-row:after { /* 		top:80px; */ left: 50%; }
+    .tpl-block-item { width: 46%; padding: 0 2%; }
+    .tpl-block-item:nth-child(2n) { width: 46%; padding: 0 0 0 4%; }
+    .tpl-block-page-block { padding-bottom: 80px; }
+    .tpl-block-text { margin-left: 120px; padding-right: 20px; }
+}
+@media (max-width: 980px) {
+    .tpl-block-text { margin-left: 80px; padding-right: 20px; }
+    .tpl-block-photo { font-size: 40px; width: 60px; height: 60px; line-height: 60px; }
+    .tpl-block-row:first-of-type { margin-top: 50px; }
+    .tpl-block-row:after { /* 		display:none; */ }
+    .tpl-block-icon, .tpl-block-page-block { font-size: 40px; margin: auto; }
+    h3 { font-size: 26px; }
+}
+@media (max-width: 660px) {
+    .tpl-block-page-block { min-width: 460px; }
+    .tpl-block-rows:after { display: none; }
+    .tpl-block-row, .tpl-block-row:first-of-type { max-width: 500px; margin: 0 auto; border: 0; }
+    .tpl-block-row:first-of-type { margin-top: 60px; }
+    .tpl-block-row:after { display: none; }
+    .tpl-block-row:last-child .tpl-block-item:last-child { border-bottom: 0; }
+    .tpl-block-prefix { padding-top: 25px; }
+    .tpl-block-item, .tpl-block-item:nth-child(2n) { display: block; padding: 25px 25px 0 25px; width: auto; margin: 0; border: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+    .tpl-block-advantage { padding: 0 0 25px 0; }
+    .tpl-block-photo { top: 5px; }
+    .tpl-block-text { padding-right: 0; }
+}
+
+
+.tpl-block-page-block.tpl-layout-background-bright H2,
+.tpl-block-page-block.tpl-layout-background-bright .tpl-block-item,
+.tpl-block-page-block.tpl-layout-background-bright .tpl-block-prefix { color: #222; }

@@ -1,0 +1,66 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+$rules = array();
+$flex_direction = $settings['flexbox_direction'];
+$justify_content = $settings['flexbox_justify'];
+$align_items = $settings['flexbox_align'];
+$rules[$list_selector] = array(
+    "display: flex",
+    "flex-direction: $flex_direction",
+    "align-items: $align_items",
+    "flex-wrap: $settings[flexbox_wrap]",
+);
+
+$vertical_spacing = (int)nc_array_value($settings, 'vertical_spacing', 0);
+$horizontal_spacing = (int)nc_array_value($settings, 'horizontal_spacing', 0);
+
+if ($vertical_spacing) {
+    $rules[$list_selector][] = "row-gap: {$vertical_spacing}px";
+}
+
+if ($horizontal_spacing) {
+    $rules[$list_selector][] = "column-gap: {$horizontal_spacing}px";
+}
+
+$item_selector = "$list_selector > *";
+
+if ($justify_content === 'stretch') {
+    $rules[$item_selector][] = "flex-grow: 1";
+    $rules[$list_selector][] = "justify-content: center";
+} else {
+    $rules[$list_selector][] = "justify-content: $justify_content";
+}
+
+$has_height = false;
+foreach (array('min-height', 'height', 'max-height') as $height_property) {
+    $settings_key = 'list_' . strtr($height_property, '-', '_');
+    if (!empty($settings[$settings_key])) {
+        $value = $settings[$settings_key] . $settings[$settings_key . '_unit'];
+        $rules[$list_selector][] = "$height_property: $value";
+        $has_height = true;
+    }
+}
+
+// Форсированная высота 100% для элементов в контейнере:
+$force_height = (
+        ($flex_direction === 'row' && $align_items === 'stretch') ||
+        ($flex_direction === 'column' && $justify_content === 'stretch')
+    ) && preg_match('/^\.tpl-(?:body|container)/', $selector);
+if ($force_height) {
+    $rules["$item_selector > .tpl-block-list"][] = "height: 100%";
+    $rules["$item_selector > .tpl-block-list > *:not(.resize-sensor):not([class^='nc-']):not(.tpl-anchor)"][] = "height: 100%";
+}
+
+$css = '';
+
+foreach ($rules as $selector => $properties) {
+    if ($properties) {
+        $css .= "$selector {\n" . join(";\n", $properties) . ";\n}\n";
+    }
+}
+
+return $css;

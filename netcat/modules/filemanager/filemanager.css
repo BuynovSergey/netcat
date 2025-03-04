@@ -1,0 +1,151 @@
+/* $Id: filemanager.css 8122 2012-09-11 09:18:17Z ewind $ */
+
+/* settings pop-up panel */
+#nc_filemanager_panel {
+    display: none;
+}
+#nc_filemanager_panel fieldset {
+    margin-bottom:5px;
+}
+#nc_filemanager_panel fieldset legend {
+    font-weight:normal;
+}
+#nc_filemanager_panel_name {
+    width:90%;
+}
+#nc_filemanager_panel_loader {
+    float:left;
+    width:16px;
+    height:16px;
+    margin-top:7px;
+    background:url('./images/loader.gif') no-repeat;
+}
+#nc_filemanager_panel_buttons {
+    float:right;
+    text-align:right;
+    margin:5px 0;
+}
+
+/* simply classes */
+br.clear {
+    clear:both;
+}
+.center {
+    text-align:center;
+}
+form {
+    margin:0;
+    padding:0;
+}
+.link {
+    cursor:pointer;
+}
+
+div.block_manager, div.block_form, div.block_current, div.block_preview, div.block_edit, div.block_delete, div.block_rewrite {
+    margin-bottom:10px;
+    
+}
+table.current>tbody>tr>td, table.manager>tbody>tr>td {
+    height: 25px; padding: 0px;
+}
+
+/* preview block */
+div.block_preview {
+    font-size:100%;
+}
+
+/* edit block */
+div.block_edit textarea {
+    width:100%;
+    height:100%;
+}
+
+/* current table */
+table.current {
+    width:100%;
+    border:none;
+    background:#FFF;
+}
+
+/* elements */
+table.current td.title {
+    background:#FFF;
+    font-weight:normal;
+    
+}
+table.current td.value {
+    background:#FFF;
+}
+
+/* manager table */
+table.manager {
+    width:100%;
+    border:none;
+    border-spacing: 0px;
+}
+table.manager>tbody>tr>td {
+    border-bottom: 1px solid #CCC;
+}
+
+/* cols */
+table.manager col.path {width:65%}
+table.manager col.size {width:15%}
+table.manager col.permissions {width:10%}
+table.manager col.buttons {width:10%}
+/* header */
+table.manager td.tab_header {
+    background:#FFF;
+    font-weight:normal;
+}
+/* elements */
+table.manager img.icons {
+    width:16px;
+    height:16px;
+    border:none;
+    margin-right:5px;
+    vertical-align:bottom;
+}
+/* elements buttons table */
+table.manager table.buttons {
+    width:84px;
+    border:none;
+    margin:0 5px 0 10px;
+}
+table.manager table.buttons td {
+    width:21px; /* 16px + padding */
+    text-align:center;
+}
+table.manager td.white {background:#FFF}
+table.manager td.grey {background:#FFF}
+/* footer */
+table.manager td.footer {
+    background:#FFF;
+    font-weight:normal;
+}
+
+/* upload table */
+table.upload {
+    border:none;
+    background:#FFF;
+    border-spacing: 0px;
+}
+table.upload>tbody>tr>td {
+    border-bottom: 1px solid #CCC;
+}
+
+/* cols */
+table.upload col.title {width:30%}
+table.upload col.value {width:70%}
+/* elements */
+table.upload td.title {
+    background:#FFF;
+}
+table.upload td.value {
+    background:#FFF;
+}
+.icons {
+    margin: 0 10px;
+}
+.autocursor {
+    cursor: pointer;
+}

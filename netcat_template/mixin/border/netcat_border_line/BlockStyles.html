@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * Устанавливает переменную --tpl-mixin-border-line-width, которая используется
+ * миксином netcat_border_radius
+ */
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+/**
+ * @param string|null $side
+ * @return string
+ */
+$generate_border_properties = function($side = null) use($selector, $settings) {
+    if (!$side) {
+        $property = 'border';
+        $side = 'top';
+    } else {
+        $property = 'border-' . $side;
+    }
+    if (!$settings["border_{$side}_width"]) {
+        return '';
+    }
+    return "$property: " .
+            $settings["border_{$side}_width"] . "px " .
+            $settings["border_{$side}_style"] . " " .
+            $settings["border_{$side}_color"] . ";";
+};
+
+// Переменные для исправления скругления углов при наличии толстой рамки
+// (пока только когда толщина рамки одинаковая со всех сторон)
+$block_variables = $reset_variables = '';
+
+if ($settings['lock_sides']) {
+    $border_properties = $generate_border_properties();
+    $block_variables = "--tpl-mixin-border-line-width: $settings[border_top_width]px; ";
+    if ($list_selector) {
+        $reset_variables = '--tpl-mixin-border-line-width: 0px; ';
+    }
+} else {
+    $border_properties = '';
+    foreach (array('top', 'right', 'bottom', 'left') as $side) {
+        $border_properties .= $generate_border_properties($side);
+    }
+}
+
+$css = "$selector { $border_properties $block_variables }\n";
+if ($list_selector) {
+    $css .= "$list_selector { $reset_variables }\n";
+}
+
+return $css;

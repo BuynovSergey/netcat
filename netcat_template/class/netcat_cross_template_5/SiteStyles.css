@@ -1,0 +1,60 @@
+& {
+    min-height: 60px;
+}
+
+.banner-wrapper {
+    display: flex;
+    min-height: 212px;
+    position: relative;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--tpl-color-foreground-main);
+    height: 100%;
+}
+
+.banner-wrapper .banner-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 0 0 60%;
+    padding: 0 var(--tpl-object-item--text-padding, 0px);
+    position: relative;
+    z-index: 10;
+}
+
+@nc-list-object (max-width: 480px) {
+    .banner-wrapper .banner-info {
+        flex: auto;
+    }
+}
+
+.banner-wrapper .banner-image {
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.banner-wrapper .image {
+    width: 100%;
+    height: auto;
+}
+
+.banner-wrapper.image-reverse:nth-child(odd) .banner-image,
+.banner-wrapper.image-right .banner-image {
+    right: 0;
+}
+
+.banner-wrapper.image-reverse:nth-child(even),
+.banner-wrapper.image-left {
+    flex-direction: row-reverse;
+    text-align: end;
+}
+
+.banner-wrapper.image-reverse:nth-child(even) .banner-image,
+.banner-wrapper.image-left .banner-image {
+    left: 0;
+}
+
+.tpl-color-brand {
+    color: var(--tpl-color-brand);
+}

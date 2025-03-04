@@ -1,0 +1,15 @@
+<!-- FormPrefix -->
+<?= $f_AdminCommon; ?>
+
+<?php $font_size = $cc_settings["Class"] ? "class='$cc_settings[Class]'" : ""; ?>
+
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+<?= $f_AdminButtons ?>
+<?= "<$cc_settings[Tag] $font_size>" . nc_edit_inline("Name", $f_RowID, $cc_env["Sub_Class_ID"]) .
+"</$cc_settings[Tag]>" ?>
+<!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+<!-- /FormSuffix -->

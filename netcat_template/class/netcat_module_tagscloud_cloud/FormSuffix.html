@@ -1,0 +1,10 @@
+<?
+if ($prevLink || $totRows > ($curPos + $recNum)) {
+    ?><div class='nc_pagination'>
+        страница: <? if ($prevLink) { ?><a href='<?= $prevLink ?>'><? } ?>."&laquo;&laquo;<? if ($prevLink) { ?></a><?
+    }
+    echo browse_messages($cc_env, 10);
+    echo ( $totRows > ($curPos + $recNum) ? " <a href='".($tag ? "?tag=".$tag.($tagcc ? "&tagcc=".$tagcc : "") : "").($totRows > ($curPos + $recNum) ? "&curPos=".($curPos + $recNum) : "" )."'>" : "")."&raquo;&raquo;".($nextLink ? "</a>" : "");
+    ?></div><? }
+?>
+</div>

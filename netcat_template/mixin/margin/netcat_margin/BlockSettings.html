@@ -1,0 +1,101 @@
+<div class="nc-mixins-mixin-settings-netcat-margin nc-mixins-mixin-settings-vertical-container">
+    <table class="nc-mixins-mixin-settings-box nc-mixins-mixin-settings-lock-sides nc--borderless">
+        <tr>
+            <td colspan="5">
+                <input type="number" name="mixin.settings.top_value" value="">
+                <select name="mixin.settings.top_unit">
+                    <option value="px">px</option>
+                    <option value="%">%</option>
+                    <option value="pt">pt</option>
+                    <option value="em">em</option>
+                    <option value="rem">rem</option>
+                    <option value="vh">vh</option>
+                    <option value="vw">vw</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="nc-mixins-mixin-settings-netcat-margin-not-auto-left">
+                <input type="number" name="mixin.settings.left_value" value="" data-side="left">
+                <select name="mixin.settings.left_unit">
+                    <option value="px">px</option>
+                    <option value="%">%</option>
+                    <option value="pt">pt</option>
+                    <option value="em">em</option>
+                    <option value="rem">rem</option>
+                    <option value="vh">vh</option>
+                    <option value="vw">vw</option>
+                </select>
+            </td>
+            <td>
+                <label class="nc-mixins-mixin-settings-netcat-margin-auto-left">
+                    <span>auto</span>
+                    <input type="checkbox" name="mixin.settings.left_auto" value="1">
+                </label>
+            </td>
+            <td>
+                <input type="hidden" name="mixin.settings.lock_sides" value="1">
+                <i class="nc-icon-lock nc-mixins-mixin-settings-lock-sides-button" title="изменять все значения одновременно"></i>
+            </td>
+            <td>
+                <label class="nc-mixins-mixin-settings-netcat-margin-auto-right">
+                    <input type="checkbox" name="mixin.settings.right_auto" value="1"">
+                    <span>auto</span>
+                </label>
+            </td>
+            <td class="nc-mixins-mixin-settings-netcat-margin-not-auto-right">
+                <input type="number" name="mixin.settings.right_value" value="">
+                <select name="mixin.settings.right_unit">
+                    <option value="px">px</option>
+                    <option value="%">%</option>
+                    <option value="pt">pt</option>
+                    <option value="em">em</option>
+                    <option value="rem">rem</option>
+                    <option value="vh">vh</option>
+                    <option value="vw">vw</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <input type="number" name="mixin.settings.bottom_value" value="">
+                <select name="mixin.settings.bottom_unit">
+                    <option value="px">px</option>
+                    <option value="%">%</option>
+                    <option value="pt">pt</option>
+                    <option value="em">em</option>
+                    <option value="rem">rem</option>
+                    <option value="vh">vh</option>
+                    <option value="vw">vw</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <div class="nc-hint nc-mixins-mixin-settings-netcat-margin-hint">
+        При компоновке списка с выравниванием блоков по центру
+        внешний отступ слева и справа для них применяется
+        от краёв контейнера.
+    </div>
+</div>
+
+<script>
+    (function () {
+        var prefix = '.nc-mixins-mixin-settings-netcat-margin';
+
+        function init(event, data) {
+            $nc(prefix + '-auto-left :checkbox').on('change', update_auto_state).trigger('change');
+            $nc(prefix + '-auto-right :checkbox').on('change', update_auto_state).trigger('change');
+        }
+
+        function update_auto_state() {
+            $nc(prefix + '-not-auto-left').toggleClass('nc--disabled', $nc(prefix + '-auto-left :checkbox').is(':checked'));
+            $nc(prefix + '-not-auto-right').toggleClass('nc--disabled', $nc(prefix + '-auto-right :checkbox').is(':checked'));
+        }
+
+        // Инициализация событий
+        $nc(prefix).closest('.nc-mixins-mixin-settings')
+            .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+            .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+    })();
+</script>

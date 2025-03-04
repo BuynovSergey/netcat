@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/netcat/vendor/bacon/bacon-qr-code" />
+      <path value="$PROJECT_DIR$/netcat/vendor/ezyang/htmlpurifier" />
+      <path value="$PROJECT_DIR$/netcat/vendor/sinergi/browser-detector" />
+      <path value="$PROJECT_DIR$/netcat/vendor/christian-riesen/otp" />
+      <path value="$PROJECT_DIR$/netcat/vendor/enshrined/svg-sanitize" />
+      <path value="$PROJECT_DIR$/netcat/vendor/kub-at/php-simple-html-dom-parser" />
+      <path value="$PROJECT_DIR$/netcat/vendor/hybridauth/hybridauth" />
+      <path value="$PROJECT_DIR$/netcat/vendor/giggsey/locale" />
+      <path value="$PROJECT_DIR$/netcat/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/netcat/vendor/symfony/polyfill-util" />
+      <path value="$PROJECT_DIR$/netcat/vendor/caxy/php-htmldiff" />
+      <path value="$PROJECT_DIR$/netcat/vendor/facebook/graph-sdk" />
+      <path value="$PROJECT_DIR$/netcat/vendor/symfony/polyfill-php56" />
+      <path value="$PROJECT_DIR$/netcat/vendor/composer" />
+      <path value="$PROJECT_DIR$/netcat/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/netcat/vendor/paragonie/constant_time_encoding" />
+      <path value="$PROJECT_DIR$/netcat/vendor/dasprid/enum" />
+      <path value="$PROJECT_DIR$/netcat/vendor/mobiledetect/mobiledetectlib" />
+    </include_path>
+  </component>
+</project>

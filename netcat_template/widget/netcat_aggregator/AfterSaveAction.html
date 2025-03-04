@@ -1,0 +1,78 @@
+<?php
+
+// Путь к шаблону виджета (!не виджет-компонента)
+$template_folder = $nc_core->WIDGET_TEMPLATE_FOLDER . 'aggregator/' . $widget_id . '/';
+
+if ( ! file_exists($template_folder)) {
+    mkdir($template_folder);
+}
+
+// Создаем шаблон виджета
+$tpl_file             = $template_folder . 'WidgetTemplate.html';
+$custom_settings_file = $template_folder . 'CustomSettings.html';
+$settings_file        = $template_folder . 'Settings.html';
+$css_file             = $template_folder . 'style.css';
+
+$tpl_content = $post['f_template_header'] . PHP_EOL
+    . '<? foreach($data as $f_RowNum => $row): ?>' . PHP_EOL
+    . '<? extract($row); ?>' . PHP_EOL
+    . $post['f_template_body'] . PHP_EOL
+    . '<? endforeach ?>' . PHP_EOL
+    . $post['f_template_footer'];
+
+$settings_content        = $post['f_settings'];
+$custom_settings_content = $post['f_custom_settings'];
+
+// Парсинг CSS
+$widget_selector  = '.nc-widget-' . $widget_id;
+$larger_selector  = '.nc-lg-';
+$smaller_selector = '.nc-sm-';
+$split_keyword    = '/*NC_WIDGET_SIZE';
+$css_content      = '';
+$sizes_dirty      = explode($split_keyword, $post['f_css']);
+
+foreach ($sizes_dirty as $row) {
+    $row = trim($row);
+    if ($row) {
+        preg_match('/^:([0-9]+),([0-9]+)/ui', $row, $matches);
+
+        $larger        = $matches[1] ? $larger_selector . (int) $matches[1] : false;
+        $smaller       = $matches[2] ? $smaller_selector . (int) $matches[2] : false;
+        $size_selector = $widget_selector . $larger . $smaller;
+        $size_css      = $split_keyword . $row;
+
+        // Вырезаем комментарии /* ... */
+        $size_css = preg_replace('@/\*[^(*/)]*\*/@ui', '', $size_css);
+
+        // Минимизируем css
+        $size_css = preg_replace("/[ \t\r\n]+/", ' ', $size_css);
+        $size_css = str_replace('}', '}' . PHP_EOL, $size_css);
+        $size_css = str_replace(';}', '}', $size_css);
+        $size_css = preg_replace('/[ ]?(,|:|{|})[ ]?/', '$1', $size_css);
+
+        $size_css = explode(PHP_EOL, trim($size_css));
+
+        foreach ($size_css as $css_rule) {
+            if ($pos = strpos($css_rule, '{')) {
+                $selector_list = explode(',', trim(substr($css_rule, 0, $pos)));
+                $style         = substr($css_rule, $pos);
+
+                $selector = '';
+                foreach ($selector_list as $val) {
+                    if ($selector) $selector .= ',' . PHP_EOL;
+                    $selector .= $size_selector . ($val{0}=='>'?'':' ') . $val;
+                }
+
+                $css_content .= $selector . $style . PHP_EOL;
+            }
+        }
+
+        $css_content .= PHP_EOL . PHP_EOL;
+    }
+}
+
+//Сохраняем
+file_put_contents($css_file,             $css_content);
+file_put_contents($tpl_file,             $tpl_content);
+file_put_contents($settings_file,        $settings_content);
+file_put_contents($custom_settings_file, $custom_settings_content);

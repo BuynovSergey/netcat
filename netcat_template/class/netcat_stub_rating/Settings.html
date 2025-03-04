@@ -1,0 +1,27 @@
+<?
+# вывод рейтинга сообщения
+# (int)s_list_class(sub, cc, "&scID=$cc&objID=$f_RowID&showWeight=1", true);
+# вывод рейтинга автора сообщения
+# (int)s_list_class(sub, cc, "&userID=$f_UserID&showUserWeight=1", true);
+# добавление рейтинга объекта
+# s_list_class(sub, cc, "&scID=$cc&objID=$f_RowID&userID=$f_UserID&backlink=".urlencode(htmlspecialchars($GLOBALS[client_url]))."", true);
+global $db, $current_user;
+$scID = (int)$scID;
+$objID = (int)$objID;
+$userID = (int)$userID;
+$recNum = 0;
+
+$rating = 0;
+$user_rating = 0;
+
+if($scID && $objID) {
+  $rating = $db->get_var("SELECT SUM(Rating) FROM Message".$cc_env['Class_ID']."
+             WHERE Object_Sub_Class_ID=".$scID."
+             AND Object_ID=".$objID."");
+}
+if($userID) {
+  $user_rat = $db->get_row("SELECT COUNT(*) AS RatingCount, SUM(Rating) AS RatingSum FROM Message".$cc_env['Class_ID']."
+         WHERE Object_Author_ID=".$userID."", ARRAY_A);
+  if($user_rat['RatingSum'] && $user_rat['RatingCount']) $user_rating = ceil($user_rat['RatingSum']/$user_rat['RatingCount']);
+}
+?>

@@ -1,0 +1,19 @@
+<?= $f_AdminCommon; ?>
+
+<?php
+$nc_core = nc_core::get_object();
+?>
+
+<a href="<?= $nc_core->SUB_FOLDER; ?>/">
+    <?php if ($cc_settings["image"]): ?>
+        <?= $cc_settings["image"]->as_icon(
+            array(
+                "alt" => $current_catalogue["Catalogue_Name"],
+            )
+        ) ?>
+    <?php else: ?>
+        <?= nc_get_svg_for_embedding($nc_core->DOCUMENT_ROOT . $nc_core->HTTP_TEMPLATE_PATH . "icon/material_design_icons/home.svg"); ?>
+        &nbsp;<?= $current_catalogue["Catalogue_Name"]; ?>
+    <?php endif ?>
+</a>
+

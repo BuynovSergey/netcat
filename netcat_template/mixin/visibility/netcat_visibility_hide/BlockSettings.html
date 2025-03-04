@@ -1,0 +1,25 @@
+<div class="nc-mixins-mixin-settings-netcat-visibility-hide">
+    <div class="nc-hint nc-mixins-mixin-settings-netcat-visibility-hide-breakpoint-type-warning">
+        Выбрано применение настроек оформления в зависимости от ширины настраиваемого блока, а не размеров экрана.
+        <div class="nc-margin-top-small nc-text-black" style="font-style: normal">
+            Если границы диапазонов ширины блока установлены неправильно,
+            управление блоком может стать недоступным в режиме редактирования.<br>
+            В этом случае блок будет доступен для управления только в
+            режиме администрирования (вкладка «Сквозные инфоблоки» в управлении сайтом);
+            изменить настройки оформления инфоблока в основной контентной области
+            будет невозможно.
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-visibility-hide';
+
+    $nc(prefix).closest('.nc-mixins-editor')
+        .off(prefix)
+        .on(nc_mixin_settings_editor.breakpoint_type_change_event + prefix, function(event, data) {
+            $nc(prefix + '-breakpoint-type-warning').toggle(data.editor.breakpoint_type === 'block');
+        });
+})();
+</script>

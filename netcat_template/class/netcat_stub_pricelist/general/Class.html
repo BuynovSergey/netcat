@@ -1,0 +1,32 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class="price-list" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons ?>
+    <?php $image_path = $f_Image ? $f_Image->get_path() : "" ?>
+
+    <div class="price-list-item<?= $image_path ? " with-image" : "" ?>">
+        <?php if ($image_path): ?>
+            <div class="price-list-item-image-wrapper">
+                <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+            </div>
+        <?php endif ?>
+
+        <div class="price-list-info">
+            <div class="price-list-title <?= $cc_settings["title_font_size"] ?>"><?= nc_edit_inline("Name", $f_RowID, $cc) ?></div>
+
+            <?php if ($admin_mode || $f_Description): ?>
+                <div class="price-list-description tpl-text-default-paragraph"><?= nc_edit_inline("Description", $f_RowID, $cc) ?></div>
+            <?php endif ?>
+        </div>
+
+        <?php if ($admin_mode || $f_Price): ?>
+            <div class="price-list-price <?= $cc_settings["price_font_size"] ?>"><?= nc_edit_inline("Price", $f_RowID, $cc) ?></div>
+        <?php endif ?>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

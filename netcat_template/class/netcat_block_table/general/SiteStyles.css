@@ -1,0 +1,32 @@
+.tpl-table {
+    width: 100%;
+    min-height: 60px;
+}
+
+.tpl-table td {
+    position: relative;
+}
+
+.tpl-table .align-left {
+    text-align: left;
+}
+
+.tpl-table .align-center {
+    text-align: center;
+}
+
+.tpl-table .align-right {
+    text-align: right;
+}
+
+.tpl-table .align-justify {
+    text-align: justify;
+}
+
+.tpl-table .font-weight-normal {
+    font-weight: 400 !important;
+}
+
+.tpl-table .font-weight-semi-bold {
+    font-weight: 700 !important;
+}

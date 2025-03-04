@@ -1,0 +1,41 @@
+<?= $f_AdminCommon; ?>
+<?php if ($AUTH_USER_ID) { ?>
+    <div class="dropdown">
+        <a href="<?= nc_folder_url($current_catalogue['Auth_Cabinet_Sub_ID']); ?>"
+           class="profile display-<?= $cc_settings['displayAs']; ?>"
+           data-toggle="dropdown" aria-haspopup="true"<?=$styles;?>>
+            <?php if (in_array($cc_settings['displayAs'], array('icon', 'texticon'))) : ?>
+                <? if (!empty($cc_settings['icon'])) : ?>
+                    <? if ($cc_settings['iconColor'] == 'inherit') : ?>
+                    <span class='<?= implode(" ", $icon_class); ?>'><?= $cc_settings['icon']->as_icon(); ?></span>
+                    <? else: ?>
+                    <span class='<?= implode(" ", $icon_class); ?>'><?= $cc_settings['icon']->as_icon(array("style"=>"fill:$icon_fill_color")); ?></span>
+                    <? endif;?>
+                <? else: ?>
+                    <span class='<?= implode(" ", $icon_class); ?>'><i class="far fa-user"></i></span>
+                <? endif; ?>
+            <?php endif; ?>
+            <?php if (in_array($cc_settings['displayAs'], array('text', 'texticon'))) : ?>
+                <span class="profile-name"><?= isset($current_user[$cc_settings['userField']]) ? $current_user[$cc_settings['userField']] : ''; ?></span>
+            <?php endif; ?>
+        </a>
+        <?php if ($current_catalogue['Auth_Cabinet_Sub_ID']) { ?>
+            <?= nc_browse_sub($current_catalogue['Auth_Cabinet_Sub_ID'], $auth_menu); ?>
+        <?php } ?>
+    </div>
+<?php } else { ?>
+    <a href="#" onclick="nc_popup_open('nc-popup-login'); return false;"
+       class="profile display-<?= $cc_settings['displayAs']; ?>"<?=$styles;?>>
+        <?php if (in_array($cc_settings['displayAs'], array('icon', 'texticon'))) : ?>
+            <? if (!empty($cc_settings['icon'])) : ?>
+                 <span class='<?= implode(" ", $icon_class); ?>'><?= $cc_settings['icon']->as_icon(array("style"=>"fill:$icon_fill_color")); ?></span>
+            <? else: ?>
+                <span class='<?= implode(" ", $icon_class); ?>'><i class="far fa-user"></i></span>
+            <? endif; ?>
+        <?php endif; ?>
+        <?php if (in_array($cc_settings['displayAs'], array('text', 'texticon'))) : ?>
+            <span class="profile-name"><?= $cc_settings['enter'];?></span>
+        <?php endif; ?>
+    </a>
+<?php } ?>
+

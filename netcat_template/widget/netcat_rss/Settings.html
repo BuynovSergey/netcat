@@ -1,0 +1,62 @@
+<?
+$ns = array
+(
+        'content' => 'http://purl.org/rss/1.0/modules/content/',
+        'wfw' => 'http://wellformedweb.org/CommentAPI/',
+        'dc' => 'http://purl.org/dc/elements/1.1/'
+);
+
+$articles = array();
+
+$url = $f_url;
+$to_rep = array('А'=>'%D0%90', 'Б'=>'%D0%91', 'В'=>'%D0%92', 'Г'=>'%D0%93', 'Д'=>'%D0%94', 'Е'=>'%D0%95', 'Ё'=>'%D0%81', 'Ж'=>'%D0%96', 'З'=>'%D0%97', 'И'=>'%D0%98', 'Й'=>'%D0%99', 'К'=>'%D0%9A', 'Л'=>'%D0%9B', 'М'=>'%D0%9C', 'Н'=>'%D0%9D', 'О'=>'%D0%9E', 'П'=>'%D0%9F', 'Р'=>'%D0%A0', 'С'=>'%D0%A1', 'Т'=>'%D0%A2', 'У'=>'%D0%A3', 'Ф'=>'%D0%A4', 'Х'=>'%D0%A5', 'Ц'=>'%D0%A6', 'Ч'=>'%D0%A7', 'Ш'=>'%D0%A8', 'Щ'=>'%D0%A9', 'Ъ'=>'%D0%AA', 'Ы'=>'%D0%AB', 'Ь'=>'%D0%AC', 'Э'=>'%D0%AD', 'Ю'=>'%D0%AE', 'Я'=>'%D0%AF', 'а'=>'%D0%B0', 'б'=>'%D0%B1', 'в'=>'%D0%B2', 'г'=>'%D0%B3', 'д'=>'%D0%B4', 'е'=>'%D0%B5', 'ё'=>'%D1%91', 'ж'=>'%D0%B6', 'з'=>'%D0%B7', 'и'=>'%D0%B8', 'й'=>'%D0%B9', 'к'=>'%D0%BA', 'л'=>'%D0%BB', 'м'=>'%D0%BC', 'н'=>'%D0%BD', 'о'=>'%D0%BE', 'п'=>'%D0%BF', 'р'=>'%D1%80', 'с'=>'%D1%81', 'т'=>'%D1%82', 'у'=>'%D1%83', 'ф'=>'%D1%84', 'х'=>'%D1%85', 'ц'=>'%D1%86', 'ч'=>'%D1%87', 'ш'=>'%D1%88', 'щ'=>'%D1%89', 'ъ'=>'%D1%8A', 'ы'=>'%D1%8B', 'ь'=>'%D1%8C', 'э'=>'%D1%8D', 'ю'=>'%D1%8E', 'я'=>'%D1%8F');
+foreach ($to_rep as $key => $val) {
+$url = str_replace($key, $val, $url);
+}
+
+$rawFeed = file_get_contents($url);
+$xml = new SimpleXmlElement($rawFeed);
+
+$channel = array();
+$channel['title']       = $xml->channel->title;
+$channel['link']        = $xml->channel->link;
+$channel['description'] = $xml->channel->description;
+$channel['pubDate']     = $xml->pubDate;
+$channel['timestamp']   = strtotime($xml->pubDate);
+$channel['generator']   = $xml->generator;
+$channel['language']    = $xml->language;
+
+
+foreach ($xml->channel->item as $item) {
+  $article = array();
+  $article['channel'] = $blog;
+  $article['title'] = $item->title;
+  $article['link'] = $item->link;
+  $article['comments'] = $item->comments;
+  $article['pubDate'] = $item->pubDate;
+  $article['timestamp'] = strtotime($item->pubDate);
+  $article['description'] = (string) trim($item->description);
+  $article['isPermaLink'] = $item->guid['isPermaLink'];
+
+  $content = $item->children($ns['content']);
+  $dc      = $item->children($ns['dc']);
+  $wfw     = $item->children($ns['wfw']);
+
+  $article['creator'] = (string) $dc->creator;
+  foreach ($dc->subject as $subject)
+          $article['subject'][] = (string)$subject;
+
+  $article['content'] = (string)trim($content->encoded);
+  $article['commentRss'] = $wfw->commentRss;
+
+  $articles[$article['timestamp']] = $article;
+}
+
+$i = 1;
+foreach ($articles as $a) {
+  if ($i > $f_entry_limit) break;
+  $art .= "<div class='nc_rss-article'><a class='nc_rss-article-link' href='".$a['link']."' ".($f_new_window == 1 ? "target='_blank'" : "").">".$a['title']."</a></div>";
+  $art .= ($f_date == 1 ? "<div class='nc_rss-article-timestamp'>".date("Y-m-d H:i:s", $a['timestamp'])."</div>" : "");
+  $art .= ($f_announcement == 1 ? "<div class='nc_rss-article-desription'>".$a['description']."</div>" : "");
+  $i++;
+}

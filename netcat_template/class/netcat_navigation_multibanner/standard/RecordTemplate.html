@@ -1,0 +1,20 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?= $f_AdminButtons; ?>
+<section class="slider-item" style="background-image: <?= $f_Image ? "url('" . $f_Image . "')" : "none"; ?>;">
+    <div class="slider-content">
+        <div class="slider-header">
+            <div class="tpl-text-header2">
+                <?= nc_edit_inline('Title', $f_RowID, $cc); ?>
+            </div>
+        </div>
+        <div class="slider-postfix">
+            <div class="tpl-text-default-paragraph">
+                <?= nc_edit_inline('Text', $f_RowID, $cc); ?>
+            </div>
+        </div>
+        <?php if ($f_ButtonText && $f_ButtonLink): ?>
+            <a class="tpl-button" href="<?= $f_ButtonLink; ?>"><?= $f_ButtonText ?></a>
+        <?php endif; ?>
+    </div>
+</section>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

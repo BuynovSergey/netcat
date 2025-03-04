@@ -1,0 +1,137 @@
+<?= $f_AdminCommon; ?>
+<style>
+<?php if ($cc_settings['iconColor'] !== 'inherit') { ?>
+    #<?= $nc_block_id; ?> .tpl-icon path {fill: var(--tpl-color-<?= $cc_settings['iconColor']; ?>);}
+<?php } ?>
+<?php if ($cc_settings['iconDecor'] !== 'none' && $cc_settings['iconDecorColor'] !== 'inherit') { ?>
+    #<?= $nc_block_id; ?> .tpl-icon[class*='icon-decor-'] {border: 1px solid var(--tpl-color-<?= $cc_settings['iconDecorColor']; ?>);}
+    #<?= $nc_block_id; ?> .tpl-icon[class*='icon-decor-'][class*='-fill'] {background-color: var(--tpl-color-<?= $cc_settings['iconDecorColor']; ?>);}
+<?php } ?>
+    #<?= $nc_block_id; ?> {--tpl-icon-space: <?= str_replace(",", ".", ($cc_settings['textSpace']/100)); ?>em;}
+</style>
+<?php
+$icon_class = array();
+$icon_class[] = "dropdown-button-icon";
+$icon_class[] = "tpl-icon";
+switch ($cc_settings['displayAs']) {
+    case "inherit":
+        $icon_class[] = "tpl-text-" . $cc_settings['iconSize'];
+        $icon_class[] = $cc_settings['iconDecor'] !== 'none' ? "icon-decor-" . $cc_settings['iconDecor'] : "";
+        $icon = "<span class='" . implode(" ", $icon_class) . "'>" .
+            "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'>" .
+            "<path d='M6 36h36v-4H6v4zm0-10h36v-4H6v4zm0-14v4h36v-4H6z' />" .
+            "</svg>" .
+            "</span>";
+        break;
+    case "image":
+        $icon = "<span class='" . implode(" ", $icon_class) . "'>" . ($cc_settings['image'] ? $cc_settings['image']->as_img() : "") . "</span>";
+        break;
+    case "image_text":
+        $icon = "<span class='" . implode(" ", $icon_class) . "'>" . ($cc_settings['image'] ? $cc_settings['image']->as_img() : "") . "</span>";
+        $text = "<span class='dropdown-button-text tpl-text-default'>" . $cc_settings['buttonText'] . "</span>";
+        break;
+    case "text":
+        $text = "<span class='dropdown-button-text tpl-text-default'>" . $cc_settings['buttonText'] . "</span>";
+        break;
+}
+?>
+<div class="toggle-button"><?= $icon; ?><?= $text; ?></div>
+<div class="dropdown-container" style="display: none">
+  <?= nc_area('netcat_block_hidden_layer_cc_' . $cc); ?>
+</div>
+
+<?php if (!isset($GLOBALS['NAV_HIDDEN_LAYER_DROPDOWN_ASSETS_ADDED'])):
+$GLOBALS['NAV_HIDDEN_LAYER_DROPDOWN_ASSETS_ADDED'] = true;
+?>
+<script>
+    function navHiddenLayerInitDropdown(blockId, options) {
+        var $block = $('#' + blockId),
+            visibleClass = 'dropdown-container_visible',
+            $portal = $('<div></div>').appendTo('body'),
+            $menu = $block.find('.dropdown-container').appendTo($portal),
+            showOnHover = !!options.showOnHover,
+            bodyOffset = parseInt(document.body.style.marginTop || '0'),
+            $area = $menu.find(' > .nc-area'),
+            isBlockEmpty = !$area.length || (
+                $area.children().length <= 1
+                && $area.find('> .nc-container.nc--empty').length > 0
+            );
+        $menu.css('display', '');
+        if (isBlockEmpty) {
+            $menu.addClass('dropdown-container_empty');
+        }
+        // копируем классы в портал
+        $portal.attr('class', $block.attr('class'));
+
+        function show() {
+            $menu.addClass(visibleClass);
+            var buttonBox = $block[0].getBoundingClientRect(),
+                menuBox = $menu[0].getBoundingClientRect(),
+                offset = document.documentElement.scrollTop - bodyOffset,
+                windowHeight = window.innerHeight,
+                bodyWidth = document.body.clientWidth,
+                top = buttonBox.bottom,
+                left = buttonBox.left,
+                leftOverflow = (left + menuBox.width) - bodyWidth,
+                bottomOverflow = (top + menuBox.height) - windowHeight;
+            // вылезли за левую границу экрана
+            if (leftOverflow > 0) {
+                left -= leftOverflow;
+            }
+            // вылезли за нижнюю границу экрана, есть место сверху
+            if (bottomOverflow > 0 && buttonBox.top > menuBox.height) {
+                top = buttonBox.top - menuBox.height
+            }
+            $menu.css({
+                top: (top + offset) + 'px',
+                left: (left) + 'px',
+            });
+        }
+
+        function hide() {
+            $menu.removeClass(visibleClass).css({
+                top: 0,
+                left: 0
+            });
+        }
+
+        if (showOnHover) {
+            var hoverOutTimeout,
+                $nodes = $menu.add($block);
+            $nodes.on('mouseenter', function () {
+                clearTimeout(hoverOutTimeout);
+                show();
+            });
+            $nodes.on('mouseleave', function () {
+                hoverOutTimeout = setTimeout(hide, 300);
+            });
+        }
+
+        function clickOut(e) {
+            if (!$(e.target).closest($menu).length) {
+                hide();
+                $('body').off('click', clickOut);
+            }
+        }
+
+        $block.on('click', function () {
+            if ($menu.hasClass(visibleClass)) {
+                return;
+            }
+            show();
+            setTimeout(function () {
+                $('body').on('click', clickOut);
+            }, 50);
+        });
+    }
+</script>
+<?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    navHiddenLayerInitDropdown(
+        '<?= $nc_block_id ?>',
+        JSON.parse('<?= json_encode($cc_settings) ?>')
+    );
+});
+</script>

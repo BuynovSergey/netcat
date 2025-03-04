@@ -1,0 +1,138 @@
+<div class="nc-mixins-mixin-settings-netcat-layout-accordion">
+
+    <div class="nc-hint nc-mixins-mixin-settings-netcat-layout-accordion-container-hint" style="display: none">
+        Данный тип компоновки может быть применён только к контейнерам,<br>
+        и не будет работать для выбранного блока.
+        <!-- (Теоретически можно применять и к списку объектов — требуется доработка.) -->
+    </div>
+
+    <div class="nc-mixins-mixin-settings-vertical-container">
+        <div>
+            <label>
+                Шрифт заголовка:
+                <span style="display: block">
+                <select name="mixin.settings.header_text_type">
+                    <option value="default">основной</option>
+                    <option value="alt">дополнительный шрифт</option>
+                    <option value="header1">заголовок 1</option>
+                    <option value="header2">заголовок 2</option>
+                    <option value="header3" selected>заголовок 3</option>
+                    <option value="header4">заголовок 4</option>
+                    <option value="header5">заголовок 5</option>
+                    <option value="header6">заголовок 6</option>
+                </select>
+                </span>
+            </label>
+        </div>
+        <div>
+            <br>
+            <span class="nc-btn nc--lighten nc-mixins-mixin-settings-netcat-layout-accordion-header-mixins-open-dialog">
+                Оформление заголовка
+            </span>
+        </div>
+    </div>
+
+    <input type="hidden" name="mixin.settings.header_mixins.Mixin_Settings" value='{"":{"padding":{"9999":{"mixin":"netcat_padding","settings":{"top_value":"32","top_unit":"px","left_value":"0","left_unit":"px","lock_sides":"","right_value":"0","right_unit":"px","bottom_value":"32","bottom_unit":"px"}}},"border":{"9999":{"mixin":"netcat_border_line","settings":{"border_top_width":"1","border_top_style":"solid","border_top_color":"rgba(0, 0, 0, 0.23)","lock_sides":"","border_right_width":"0","border_right_style":"solid","border_right_color":"rgba(0, 0, 0, 0.23)","border_bottom_width":"0","border_bottom_style":"solid","border_bottom_color":"rgba(0, 0, 0, 0.23)","border_left_width":"0","border_left_style":"solid","border_left_color":"rgba(0, 0, 0, 0.23)"}}}}}'>
+    <input type="hidden" name="mixin.settings.header_mixins.Mixin_BreakpointType" value="block">
+    <input type="hidden" name="mixin.settings.header_mixins.Mixin_Preset_ID" value="">
+
+<textarea style="display: none" class="nc-mixins-mixin-settings-netcat-layout-accordion-header-mixins-dialog no_cm">
+    <?= htmlspecialchars(<<<DIALOG
+    <div class="nc-modal-dialog">
+        <div class="nc-modal-dialog-header">
+            <h2>Оформление заголовков аккордеона</h2>
+        </div>
+        <div class="nc-modal-dialog-body">
+            <form class="nc-form">
+            <div id="%Header_Mixin_Editor_ID"></div>
+            <script>
+                new nc_mixin_settings_editor({
+                    target: '#%Header_Mixin_Editor_ID',
+                    field_name_prefix: '',
+                    scope: 'IndexItem',
+                    own_settings: JSON.parse('%Header_Mixin_Settings'),
+                    breakpoint_type: '%Header_Mixin_BreakpointType',
+                    show_preset_select: false,
+                    show_breakpoint_type_select: true
+                });
+            </script>
+            </form>
+        </div>
+        <div class="nc-modal-dialog-footer">
+            <button class="nc-accordion-header-dialog-save">Сохранить</button>
+            <button data-action="close">Отмена</button>
+        </div>
+    </div>
+DIALOG
+) ?>
+</textarea>
+
+    <div>
+        <label>
+            <input type="checkbox" name="mixin.settings.open_first" value="1">
+            раскрывать первый блок при загрузке страницы
+        </label>
+    </div>
+
+    <!--
+    Возможные настройки:
+    высота аккордеона: [ по содержимому вкладок; по высоте родительского контейнера; по самой высокой вкладке ]
+                                                 ↑↑↑   не сочетается с open_one = false   ↑↑↑
+    индикатор: нет; треугольник; шеврон (default); плюс
+    расположение индикатора (справа / слева)
+    отступ до индикатора
+
+    показывать иконку (из поля ‘icon’ пользовательских настроек блоков)
+        размер иконки (в процентах от размера шрифта)
+        отступ после иконки
+
+    закрывать раскрытый блок при открытии другого блока
+    разрешать закрывать последнюю открытую вкладку (могут быть все свёрнуты) ← связано с «раскрывать первый»
+
+    отступ во вкладках
+    -->
+
+</div>
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-layout-accordion',
+        settings_container = $nc(prefix),
+        header_settings = settings_container.find('[name="mixin.settings.header_mixins.Mixin_Settings"]'),
+        header_breakpoint_type = settings_container.find('[name="mixin.settings.header_mixins.Mixin_BreakpointType"]');
+
+    $nc(prefix + '-header-mixins-open-dialog').click(function(click_event) {
+        click_event.preventDefault();
+
+        var dialog_html = settings_container.find(prefix + '-header-mixins-dialog').val();
+        dialog_html = dialog_html
+            .replace(/%Header_Mixin_Editor_ID/g, 'nc_layout_accordion_header_mixin_editor_' + Math.random().toString().substr(2))
+            .replace('%Header_Mixin_Settings', header_settings.val() || '{}')
+            .replace('%Header_Mixin_BreakpointType', header_breakpoint_type.val() || 'block');
+
+        nc.ui.modal_dialog({
+            full_markup: dialog_html,
+            confirm_close: false,
+            on_show: function(dialog) {
+                // Сохранение настроек из диалога с настройками миксинов в основной диалог
+                dialog.find('.nc-accordion-header-dialog-save').click(function() {
+                    header_settings.val(dialog.find('.nc-mixins-json').val());
+                    header_breakpoint_type.val(dialog.find('.nc-mixins-breakpoint-type-select').val()).change();
+                    dialog.destroy();
+                });
+            }
+        }).open();
+    });
+
+    // Инициализация при установке значений
+    function init(event, data) {
+        if (parseInt(data.editor.component_template_id)) {
+            settings_container.children().hide().filter(prefix + '-container-hint').show();
+        }
+    }
+
+    settings_container.closest('.nc-mixins-mixin-settings')
+        .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+        .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+})();
+</script>

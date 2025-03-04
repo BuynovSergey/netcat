@@ -1,0 +1,119 @@
+.object-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.object-item .item-name {
+    text-decoration: none;
+}
+
+.object-item.iconpos-left .item-size {
+    padding-left: calc(var(--tpl-object-icon-size) + var(--tpl-object-item--icon-space-text));
+}
+
+.object-item .item-file-name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--tpl-object-item--icon-space-text);
+}
+
+.object-item.iconpos-top .item-file-name-wrapper {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.object-item .tpl-icon {
+    height: 1em;
+    width: 1em;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.object-item .tpl-icon * {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.object-item .tpl-icon svg, .object-item .tpl-icon img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.object-item .tpl-icon svg path {
+    stroke: var(--tpl-object-item--icon-color, revert-layer);
+}
+
+.object-item .tpl-icon[class*='icon-decor-'] svg, .object-item .tpl-icon[class*='icon-decor-'] img {
+    max-width: 50%;
+    max-height: 50%;
+}
+
+.object-item .tpl-icon[class*='icon-decor-circle'] {
+    border-radius: 50%;
+}
+
+.object-item .tpl-icon[class*='icon-decor-circle'] svg, .object-item .tpl-icon[class*='icon-decor-circle'] img {
+    max-width: 40%;
+    max-height: 40%;
+}
+
+.object-item .tpl-icon[class*='icon-decor-'] {
+    border: 1px solid var(--tpl-object-item--icon-decor-color);
+}
+
+.object-item .tpl-icon[class*='icon-decor-'][class*='-fill'] {
+    background-color: var(--tpl-object-item--icon-decor-color);
+}
+
+.object-item.tpl-align-center {
+    align-items: center;
+}
+
+.object-item.tpl-align-top {
+    align-items: flex-start;
+}
+
+.object-item.tpl-align-bottom {
+    align-items: flex-end;
+}
+
+.object-item > span {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 0px;
+}
+
+.object-item.iconpos-left > .tpl-icon {
+    margin-right: var(--tpl-object-item--icon-space-text);
+}
+
+.object-item.iconpos-right a {
+    flex-wrap: nowrap;
+}
+
+.object-item.iconpos-right .item-icon {
+    order: 12;
+}
+
+.object-item.iconpos-right .item-name {
+    order: 1;
+}
+
+.object-item.iconpos-right > .tpl-icon {
+    margin-left: var(--tpl-object-item--icon-space-text);
+}
+
+.object-item.iconpos-top {
+    flex-direction: column;
+}
+
+.object-item.iconpos-top > .tpl-icon {
+    margin-bottom: var(--tpl-object-item--icon-space-text);
+}

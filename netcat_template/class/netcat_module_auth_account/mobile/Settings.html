@@ -1,0 +1,7 @@
+<?
+$ignore_catalogue = $ignore_sub = $ignore_cc = $ignore_check = $ignore_limit = 1;
+// показывем только свои транзакции
+$query_where = "a.ToUserID = '".$AUTH_USER_ID."'";
+// запрет кэширования
+$cc_env['Cache_Access_ID'] = 2;
+?>

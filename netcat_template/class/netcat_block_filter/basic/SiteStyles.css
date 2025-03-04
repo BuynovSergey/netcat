@@ -1,0 +1,9 @@
+.tpl-filter-multiple label { display: block; }
+.tpl-filter-not-configured { padding: 30px 0; }
+.nc-modal-trigger-overlay { z-index: 1; }
+.tpl-filter-date-to, .tpl-filter-date-from, .tpl-filter-number-from, .tpl-filter-number-to { display: inline-block; }
+.tpl-filter-date label, .tpl-filter-number label { padding-right: 0.5em; }
+.tpl-filter-date-to label, .tpl-filter-number-to label { padding-left: 0.5em; }
+.tpl-filter-string input { width: 100%; }
+.tpl-filter-number input { width: 7em; }
+.tpl-filter-multiple input[type="checkbox"] { margin-right: 0.3em; }

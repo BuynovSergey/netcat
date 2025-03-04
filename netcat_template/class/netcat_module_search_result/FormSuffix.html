@@ -1,0 +1,33 @@
+<?
+        if ($totRows > $f_RowNum) {
+                ?></ol>
+    <div class='nc_search_pages'><div class='nc_search_nav'><strong><?= NETCAT_MODULE_SEARCH_PAGES ?></strong>
+            <? if ($prevLink) { ?>
+                <span class='nc_search_prev'>&larr; Ctrl <a class='prev' href='<?= $prevLink ?>'><?= NETCAT_MODULE_SEARCH_RESULTS_PREV ?></a></span><? } else {
+                ?>
+                <span class='nc_search_inactive'>&larr; Ctrl <?= NETCAT_MODULE_SEARCH_RESULTS_PREV ?></span><?
+    }
+    if ($nextLink) {
+                ?>
+                <span class='nc_search_next'><a class='next' href='<?= $nextLink ?>'><?= NETCAT_MODULE_SEARCH_RESULTS_NEXT ?></a> Ctrl &rarr;</span><?
+    } else {
+                ?><span class='nc_search_inactive'><?= NETCAT_MODULE_SEARCH_RESULTS_NEXT ?> Ctrl &rarr;</span><? }
+            ?>
+        </div>
+        <?= nc_browse_messages($cc_env, 10) ?>
+    </div>
+    <? // навигация Ctrl+стрелки ?>
+    <script type='text/javascript'>
+        if (typeof jQuery != 'undefined') {
+            (function($) {
+                var links = { 37: $('.nc_search_pages a.prev').attr('href'),
+                    39: $('.nc_search_pages a.next').attr('href') };
+                $(document).keydown(function(e) {
+                    if (e.ctrlKey && links[e.keyCode]) { window.location = links[e.keyCode]; }
+                });
+            })(jQuery);
+        }
+    </script>
+    <?
+}
+?>

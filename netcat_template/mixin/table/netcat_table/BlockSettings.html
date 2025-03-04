@@ -1,0 +1,408 @@
+<div class="nc-mixins-mixin-settings-netcat-table">
+    <table class="nc-table">
+        <tr>
+            <th colspan="2">Основные настройки:</th>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Обрамление ячеек:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties nc-mixins-mixin-settings-netcat-border-line">
+                <table class="nc-table nc-mixins-mixin-settings-table">
+                    <tr>
+                        <td>горизонтальная</td>
+                        <td>
+                            <input class="nc-field nc--small" type="number" min="0" value="0"
+                                   name="mixin.settings.table.border.horizontal_width">
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.table.border.horizontal_style">
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                                <option value="double">double</option>
+                                <option value="groove">groove</option>
+                                <option value="ridge">ridge</option>
+                                <option value="inset">inset</option>
+                                <option value="outset">outset</option>
+                                <option value="solid" selected>solid</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="nc-mixins-mixin-settings-netcat-border-line-color">
+                                <input class="nc-field" type="text" name="mixin.settings.table.border.horizontal_color"
+                                       autocomplete="off"
+                                       data-color-input=""
+                                       data-mc-format="rgb"
+                                       data-sync-color=""
+                                       data-nc-swatches>
+                            </div>
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.table.border.horizontal_display">
+                                <option value="all">внутри и снаружи</option>
+                                <option value="inner">внутри таблицы</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>вертикальная</td>
+                        <td>
+                            <input class="nc-field nc--small" type="number"
+                                   name="mixin.settings.table.border.vertical_width" min="0" value="0">
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.table.border.vertical_style">
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                                <option value="double">double</option>
+                                <option value="groove">groove</option>
+                                <option value="ridge">ridge</option>
+                                <option value="inset">inset</option>
+                                <option value="outset">outset</option>
+                                <option value="solid" selected>solid</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="nc-mixins-mixin-settings-netcat-border-line-color">
+                                <input class="nc-field" type="text" name="mixin.settings.table.border.vertical_color"
+                                       autocomplete="off"
+                                       data-color-input=""
+                                       data-mc-format="rgb"
+                                       data-sync-color=""
+                                       data-nc-swatches>
+                            </div>
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.table.border.vertical_display">
+                                <option value="all">внутри и снаружи</option>
+                                <option value="inner">внутри таблицы</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Чередовать фон строк:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties nc-mixins-mixin-settings-netcat-border-line">
+                <label class="nc-field">
+                    <input type="checkbox" name="mixin.settings.table.background_stripe" value="1"
+                           class="nc-mixins-mixin-settings-netcat-table-background-stripe">
+                </label>
+                <div class="nc-mixins-mixin-settings-netcat-table-background-stripe-color">
+                    Фон чередования
+                    <div
+                        class="nc-mixins-mixin-settings-netcat-border-line-color">
+                        <input class="nc-field" type="text" name="mixin.settings.table.background_stripe_color"
+                               autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Вертикальное выравнивание:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties">
+                <select name="mixin.settings.table.vertical-align" class="nc-field">
+                    <option value="">по умолчанию</option>
+                    <option value="top">по верхнему краю</option>
+                    <option value="middle">по центру</option>
+                    <option value="bottom">по нижнему краю</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Отступ в ячейке:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties">
+                <table class="nc-mixins-mixin-settings-box nc-mixins-mixin-settings-lock-sides nc--borderless">
+                    <tr>
+                        <?php
+                        /**
+                         *  mixin.settings.table.padding.lock_sides
+                         *  перенесено сюда, так как если он находится рядом с иконкой, не работает заполнение,
+                         *  при не заполненом поле left
+                         */
+                        ?>
+                        <td></td>
+                        <td>
+                            <input type="number" name="mixin.settings.table.padding.top_value" value="0">
+                            <select name="mixin.settings.table.padding.top_unit">
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="pt">pt</option>
+                                <option value="em">em</option>
+                                <option value="rem">rem</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="number" name="mixin.settings.table.padding.left_value" value="0">
+                            <select name="mixin.settings.table.padding.left_unit">
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="pt">pt</option>
+                                <option value="em">em</option>
+                                <option value="rem">rem</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="hidden" name="mixin.settings.table.padding.lock_sides" value="1">
+                            <i class="nc-icon-lock nc-mixins-mixin-settings-lock-sides-button"
+                               title="изменять все значения одновременно"></i>
+                        </td>
+                        <td>
+                            <input type="number" name="mixin.settings.table.padding.right_value" value="0">
+                            <select name="mixin.settings.table.padding.right_unit" value="px">
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="pt">pt</option>
+                                <option value="em">em</option>
+                                <option value="rem">rem</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="number" name="mixin.settings.table.padding.bottom_value" value="0">
+                            <select name="mixin.settings.table.padding.bottom_unit">
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="pt">pt</option>
+                                <option value="em">em</option>
+                                <option value="rem">rem</option>
+                            </select>
+                        </td>
+                        <td></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <label>
+                    <input type="checkbox" name="mixin.settings.table.lock_column" value="1" class="nc-field">
+                    Закрепить первый столбец
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <th colspan="2">Заголовок таблицы</th>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Фон:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties nc-mixins-mixin-settings-netcat-border-line">
+                <select name="mixin.settings.thead.background_color_selector"
+                        class="nc-field nc-mixins-mixin-settings-netcat-table-color-selector">
+                    <option value="">наследовать от таблицы</option>
+                    <option value="set">задать</option>
+                </select>
+                <div class="nc-mixins-mixin-settings-netcat-table-color">
+                    <div class="nc-mixins-mixin-settings-netcat-border-line-color">
+                        <input class="nc-field" type="text" name="mixin.settings.thead.background_color"
+                               autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Цвет:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties nc-mixins-mixin-settings-netcat-border-line">
+                <select name="mixin.settings.thead.text_color_selector"
+                        class="nc-field nc-mixins-mixin-settings-netcat-table-color-selector">
+                    <option value="">по умолчанию</option>
+                    <option value="set">задать</option>
+                </select>
+                <div class="nc-mixins-mixin-settings-netcat-table-color">
+                    <div class="nc-mixins-mixin-settings-netcat-border-line-color ">
+                        <input class="nc-field " type="text" name="mixin.settings.thead.text_color"
+                               autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Рамка:</th>
+            <td class="nc-mixins-mixin-settings-netcat-border-line">
+                <select name="mixin.settings.thead.border_select"
+                        class="nc-field nc-mixins-mixin-settings-netcat-table-border-selector">
+                    <option value="">наследовать от таблицы</option>
+                    <option value="set">задать</option>
+                </select>
+                <table
+                    class="nc-table nc--bordered nc-mixins-mixin-settings-table nc-mixins-mixin-settings-lock-sides nc-mixins-mixin-settings-netcat-table-border">
+                    <tr>
+                        <td>Верхняя</td>
+                        <td>
+                            <input class="nc-field nc--small" type="number" min="0" value="0"
+                                   name="mixin.settings.thead.border.top_width">
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.thead.border.top_style">
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                                <option value="double">double</option>
+                                <option value="groove">groove</option>
+                                <option value="ridge">ridge</option>
+                                <option value="inset">inset</option>
+                                <option value="outset">outset</option>
+                                <option value="solid" selected>solid</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="nc-mixins-mixin-settings-netcat-border-line-color">
+                                <input class="nc-field" type="text" name="mixin.settings.thead.border.top_color"
+                                       autocomplete="off"
+                                       data-color-input=""
+                                       data-mc-format="rgb"
+                                       data-sync-color=""
+                                       data-nc-swatches>
+                            </div>
+                        </td>
+                        <td class="nc-mixins-mixin-settings-netcat-border-line-lock-cell" rowspan="3">
+                            <input type="hidden" name="mixin.settings.thead.border.lock_sides" value="1">
+                            <i class="nc-icon-lock nc-mixins-mixin-settings-lock-sides-button"
+                               title="изменять все значения одновременно"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Нижняя</td>
+                        <td>
+                            <input class="nc-field nc--small" type="number" min="0" value="0"
+                                   name="mixin.settings.thead.border.bottom_width">
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.thead.border.bottom_style">
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                                <option value="double">double</option>
+                                <option value="groove">groove</option>
+                                <option value="ridge">ridge</option>
+                                <option value="inset">inset</option>
+                                <option value="outset">outset</option>
+                                <option value="solid" selected>solid</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="nc-mixins-mixin-settings-netcat-border-line-color">
+                                <input class="nc-field" type="text" name="mixin.settings.thead.border.bottom_color"
+                                       autocomplete="off"
+                                       data-color-input=""
+                                       data-mc-format="rgb"
+                                       data-sync-color=""
+                                       data-nc-swatches>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Вертикальная</td>
+                        <?php
+                        /**
+                         * для данного параметра оставлено значение left, так как lock_sides с другими значениями не работает.
+                         */
+                        ?>
+                        <td>
+                            <input class="nc-field nc--small" type="number" min="0" value="0"
+                                   name="mixin.settings.thead.border.left_width">
+                        </td>
+                        <td>
+                            <select class="nc-field" name="mixin.settings.thead.border.left_style">
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                                <option value="double">double</option>
+                                <option value="groove">groove</option>
+                                <option value="ridge">ridge</option>
+                                <option value="inset">inset</option>
+                                <option value="outset">outset</option>
+                                <option value="solid" selected>solid</option>
+                            </select>
+                        </td>
+                        <td>
+                            <div class="nc-mixins-mixin-settings-netcat-border-line-color">
+                                <input class="nc-field" type="text" name="mixin.settings.thead.border.left_color"
+                                       autocomplete="off"
+                                       data-color-input=""
+                                       data-mc-format="rgb"
+                                       data-sync-color=""
+                                       data-nc-swatches>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th class="nc-text-right">Вертикальное выравнивание:</th>
+            <td class="nc-mixins-mixin-settings-netcat-table-properties">
+                <select name="mixin.settings.thead.vertical_align" class="nc-field">
+                    <option value="">наследовать от таблицы</option>
+                    <option value="top">по верхнему краю</option>
+                    <option value="middle">по центру</option>
+                    <option value="bottom">по нижнему краю</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    (function () {
+        let prefix = '.nc-mixins-mixin-settings-netcat-table';
+
+        let mixin_settings_container = $nc(prefix);
+
+        function init(event, data) {
+            let updated_container = data.row || $nc(this);
+
+            // задание фона чередования
+            updated_container.find(prefix + '-background-stripe')
+                .on('change', function () {
+                    let _bgstripe = updated_container.find(prefix + '-background-stripe-color');
+                    if ($nc(this).prop("checked")) {
+                        _bgstripe.show();
+                    } else {
+                        _bgstripe.hide();
+                    }
+                })
+                .trigger('change');
+            // задание фона/цвета заголовка/ячейки
+            updated_container.find(prefix + '-color-selector')
+                .on('change', function () {
+                    let _bgcolor = $nc(this).siblings(prefix + '-color');
+                    if ($nc(this).val() === 'set') {
+                        _bgcolor.show();
+                    } else {
+                        _bgcolor.hide();
+                    }
+                })
+                .trigger('change');
+            // задание рамки заголовка/ячейки
+            updated_container.find(prefix + '-border-selector')
+                .on('change', function () {
+                    let _border = $nc(this).siblings(prefix + '-border');
+                    if ($nc(this).val() === 'set') {
+                        _border.show();
+                    } else {
+                        _border.hide();
+                    }
+                })
+                .trigger('change');
+        }
+
+        // Инициализация событий
+        mixin_settings_container.closest('.nc-mixins-mixin-settings')
+            .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+            .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+    })();
+</script>

@@ -1,0 +1,29 @@
+<?php
+
+$cc_settings = nc_get_visual_settings($cc_env['Sub_Class_ID']);
+$size = $cc_settings['object_size'];
+
+if ($cc_settings['object_size'] === 'custom') {
+    $size = $cc_settings['custom_size'];
+}
+
+list($w, $h) = explode(":", str_replace(",", ".", $size));
+
+if ((float)$w > 0) {
+    $padding_top = str_replace(",", ".", ($h / $w) * 100) . "%";
+} else {
+    $padding_top = '100%';
+}
+
+$styles = array();
+$styles[] = "--tpl-object-item--image-padding-top: " . $padding_top;
+
+if ($cc_settings['text_padding_x']) {
+    $styles[] = "--tpl-object-item--text-padding-x: {$cc_settings['text_padding_x']}{$cc_settings['text_padding_unit']}";
+}
+
+if ($cc_settings['text_padding_y']) {
+    $styles[] = "--tpl-object-item--text-padding-y: {$cc_settings['text_padding_y']}{$cc_settings['text_padding_unit']}";
+}
+
+$styles = " style='" . implode(";", $styles) . "'";

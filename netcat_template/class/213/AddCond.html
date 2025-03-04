@@ -1,0 +1,10 @@
+<?
+  if (preg_match('/^[a-zа-яёA-Za-zА-Я]+/i', $f_Phone)) {
+      $posting = 0;	
+      $warnText = "Отправка не выполнена из-за подозрения на спам.";
+  }
+  if (preg_match('/(http|https|ftp):/i', $f_Name) || preg_match('/[a-zA-Z]+/i', $f_Name)) {
+      $posting = 0;	
+      $warnText = "Отправка не выполнена из-за подозрения на спам. Запишите имя кирилицей";
+  }
+?>

@@ -1,0 +1,13 @@
+<?
+// запрос будет составляться вручную
+$ignore_all = 1;
+// поля для выборки
+$query_select = 'User_ID AS user_id , Login AS login';
+// таблица
+$query_from = 'User';
+// самого себя не показываем
+$query_where = "User_ID <> ".$AUTH_USER_ID;
+// по 20 пользоватлей на странице
+$query_limit = ($curPos+0).", 20";
+// в эти переменные попадут результаты выборки
+?>

@@ -1,0 +1,21 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$css = array();
+$transform = array();
+
+foreach (array_reverse($settings) as $layer) {
+    if ($layer['type'] === 'rotate') {
+        $transform[] = "rotate($layer[rotate_angle]deg)";
+    } else if ($layer['type'] === 'translate') {
+        $transform[] = "translate(" . ($layer["translate_x"] ?: 0) . "px, " . ($layer["translate_y"] ?: 0) . "px)";
+    }
+}
+
+if (!$transform) {
+    return '';
+}
+
+return "$selector { transform: " . join(" ", $transform) . "}\n";

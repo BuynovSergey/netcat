@@ -1,0 +1,32 @@
+<?= $f_AdminCommon; ?>
+
+<table class="tpl-table">
+    <?php
+    $column_decor = json_decode($cc_settings['columnDecor'], true);
+    $column_font_size = json_decode($cc_settings['columnFontSize'], true);
+    $column_font_weight = json_decode($cc_settings['columnFontWeight'], true);
+    $column_text_color = json_decode($cc_settings['columnTextColor'], true);
+    ?>
+
+    <?php if (!$cc_settings['hideHeader']): ?>
+        <?php $column_title = json_decode($cc_settings['columnTitle']); ?>
+        <thead>
+        <?php for ($col = 1; $col <= $cc_settings['columnCount']; $col++): ?>
+            <?php
+            $classes = array(
+                "tpl-text-thead",
+                $cc_settings["headerFontSize"],
+                $column_decor[$col] ? $column_decor[$col]["header_align"] : "",
+            );
+            $classes = implode(" ", $classes);
+            $styles = $cc_settings["headerFontColor"] !== "inherit" ? "style='color:var($cc_settings[headerFontColor]);'" : "";
+            ?>
+
+            <th data-col="<?= $col ?>" class="<?= $classes ?>" <?= $styles ?>>
+                <?= $column_title[$col]; ?>
+            </th>
+        <?php endfor ?>
+        </thead>
+    <?php endif ?>
+    <tbody>
+    

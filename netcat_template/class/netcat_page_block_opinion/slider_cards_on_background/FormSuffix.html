@@ -1,0 +1,99 @@
+                </div>
+            </div>
+            <div class="tpl-block-dots-control"></div>
+        </div>
+    </div>
+    <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/css/swiper.min.css">
+<script>
+    $(function(){
+        $.getScript("https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.2.0/js/swiper.jquery.min.js", function(){
+            var loop = $('#<?= $nc_block_id; ?> .swiper-slide').length > 1;
+            var swiper;
+
+            function createSwiper() {
+                if (!swiper) {
+                    swiper = undefined;
+                    swiper = new Swiper('#<?= $nc_block_id; ?> .tpl-block-container', {
+                        direction: 'horizontal',
+                        loop: loop,
+                        pagination: '#<?= $nc_block_id; ?> .tpl-block-slider .tpl-block-dots-control',
+                        paginationClickable: true,
+                        paginationElement: 'a',
+                        bulletClass: 'tpl-block-dot',
+                        bulletActiveClass: 'tpl-state-active',
+                        swipeHandler: <?= nc_core('admin_mode') ? "' '" : "null"; ?>
+                    });
+                }
+            };
+
+            function checkWidth() {
+		        $('#<?= $nc_block_id; ?> .tpl-block-slide, #<?= $nc_block_id; ?> .tpl-block-review').removeAttr('style');
+
+		        if ($(window).width() <= 980) {
+			        if (swiper) {
+				        swiper.destroy(false, true);
+				        swiper = undefined;
+				    }
+			        hideNeededCards();
+		        }
+		        else {
+			        //setMaxHeight();
+			        createSwiper();
+		        }
+	        }
+
+	        if (!loop) {
+		        $('#<?= $nc_block_id; ?> .tpl-block-dots-control').hide();
+	        }
+
+	        function setMaxHeight() {
+		        $('#<?= $nc_block_id; ?> .tpl-block-slide').removeAttr('style').each(function(){
+			        var max = 0;
+		        	var $this = $(this);
+
+		        	$this.find('.tpl-block-review').each(function(){
+		        		var $this = $(this);
+		        		if ($this.height() > max) max = $this.height();
+		        	}).height(max);
+		        });
+	        };
+
+	        function hideNeededCards() {
+		        var $mob = $('#<?= $nc_block_id; ?> .tpl-block-slider');
+		        var $mob_reviews = $mob.find('.tpl-block-review');
+		        if (!$mob.find('.tpl-block-show-all-button').length) $mob.append('<a href="#" class="tpl-block-show-all-button">Показать все</a>');
+
+		        var $mob_btn = $mob.find('.tpl-block-show-all-button');
+
+		        if ($mob_reviews.length > 3) {
+			        $mob_reviews.slice(3).hide();
+			        $mob_btn.off('click').on('click', function (e) {
+		                e.preventDefault();
+		                if ($mob_reviews.filter(':hidden').length) {
+		                    $mob_reviews.filter(':hidden').fadeIn();
+		                    $mob_btn.text('Скрыть')
+		                } else {
+		                    $mob_reviews.slice(3).fadeOut();
+		                    $mob_btn.text('Показать все');
+		                    $('HTML,BODY').animate({
+			                    scrollTop: $mob.offset().top - 30
+			                });
+		                }
+	            	});
+		        }
+		        else {
+			        $mob_btn.hide();
+		        }
+	        };
+
+	        checkWidth();
+
+	        $(window).resize(function(){
+		        checkWidth();
+	        });
+        });
+    });
+</script>

@@ -1,0 +1,189 @@
+& {
+    --box-border-radius: 0px;
+    --box-default-spacing: 50px;
+    min-height: 60px;
+}
+
+.objects-item a {
+    text-decoration: none;
+    color: var(--tpl-color-foreground-main);
+}
+
+.objects-item .item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.objects-item .item-image * {
+    width: 100%;
+    height: 100%;
+}
+
+.objects-item .item-name {
+    color: var(--tpl-color-brand);
+}
+
+&.tpl-block-list .item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: var(--item-image-fit);
+    aspect-ratio: var(--item-image-aspect-ratio);
+}
+
+/* --- СТРАНИЦА ТОВАРА --- */
+
+&.tpl-block-full {
+    margin-bottom: 80px;
+}
+
+&.tpl-block-full .top {
+    margin-top: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--box-default-spacing);
+    max-width: 100%;
+    min-width: 100%;
+}
+
+&.tpl-block-full .gallery,
+&.tpl-block-full .top-text {
+    flex: 1 1 0px;
+}
+
+&.tpl-block-full .fotorama-container {
+    min-width: 100%;
+}
+
+&.tpl-block-full .fotorama img {
+    max-width: 90vw;
+}
+
+&.tpl-block-full .fotorama.not-ready {
+    max-height: 520px;
+    height: 520px;
+    width: 100%;
+    overflow: hidden;
+    opacity: 0;
+}
+
+&.tpl-block-full .fotorama__stage {
+    border-radius: var(--box-border-radius);
+    border: 1px solid var(--tpl-color-background-main-dark, #DFDFDF);
+}
+
+&.tpl-block-full .fotorama__thumb-border {
+    border-radius: var(--box-border-radius);
+    border-color: var(--tpl-color-brand, #5B91F6);
+}
+
+&.tpl-block-full .fotorama__thumb {
+    border-radius: var(--box-border-radius);
+    border: 1px solid var(--tpl-color-background-main-dark, #DFDFDF);
+}
+
+&.tpl-block-full .top-text > *:not(:last-child) {
+    margin-bottom: var(--box-default-spacing);
+}
+
+&.tpl-block-full .property-block h3 {
+    margin: 0;
+}
+
+&.tpl-block-full .properties {
+    padding: 20px 20px 0;
+}
+
+&.tpl-block-full .property {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    border-bottom: 1px solid var(--tpl-color-background-accent, rgba(0, 0, 0, 0.1));
+}
+
+&.tpl-block-full .property .property-name {
+    width: 200px;
+    flex-shrink: 0;
+    padding: 20px;
+}
+
+&.tpl-block-full .property .property-value {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+&.tpl-block-full .price-and-button {
+    display: flex;
+    align-items: center;
+    gap: var(--box-default-spacing);
+    flex-wrap: wrap;
+}
+
+&.tpl-block-full .price {
+    margin: 0;
+}
+
+&.tpl-block-full .details-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+&.tpl-block-full .details {
+    max-width: 804px;
+    margin-top: 60px;
+}
+
+@nc-container(max-width: 1024px) {
+    &.tpl-block-full {
+        margin-bottom: 60px;
+    }
+}
+
+@nc-container(max-width: 768px) {
+    &.tpl-block-full {
+        margin-bottom: 40px;
+    }
+}
+
+@nc-container (max-width: 1000px) {
+    &.tpl-block-full .top > * {
+        width: 100%;
+    }
+
+    &.tpl-block-full .details {
+        margin-top: 40px;
+    }
+}
+
+@nc-container (max-width: 400px) {
+    &.tpl-block-full {
+        --box-default-spacing: 20px;
+    }
+
+    &.tpl-block-full .properties {
+        padding: 0;
+    }
+
+    &.tpl-block-full .property {
+        display: block;
+    }
+
+    &.tpl-block-full .property .property-name {
+        width: auto;
+        padding: 10px 0 0;
+        display: inline-block;
+    }
+
+    &.tpl-block-full .property .property-name:after {
+        content: ": ";
+    }
+
+    &.tpl-block-full .property .property-value {
+        padding: 0 0 10px;
+        display: inline-block;
+    }
+}

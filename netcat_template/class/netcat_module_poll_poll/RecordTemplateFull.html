@@ -1,0 +1,61 @@
+<?
+if ($f_RowID) {
+
+    if (!poll_alreadyAnswered($classID, $f_RowID, $f_ProtectIP, $f_ProtectUsers) && $f_Active) {
+
+        if ($f_MultyAnswer) $InputType = "checkbox"; else $InputType = "radio";
+        ?><form action='<?= $SUB_FOLDER.$HTTP_ROOT_PATH ?>modules/poll/' method='post'>
+            <input type='hidden' name='catalogue' value='<?= $catalogue ?>'>
+            <input type='hidden' name='sub' value='<?= $sub ?>'>
+            <input type='hidden' name='cc' value='<?= $cc ?>'>
+            <input type='hidden' name='PollID' value='<?= $f_RowID ?>'>
+            <table border='0' cellpadding='2' cellspacing='0'>
+                <tr valign='top'>
+                    <td colspan='2'><?= $f_Question ?><br><br></td>
+                </tr><?
+        //вывод списка вопросов
+        $icounter = 0;
+        while ($icounter < 11) {
+            $tAnswer = "f_Answer$icounter";
+            if ($$tAnswer) {
+                ?>
+                        <tr valign='top'>
+                            <td><input type='<?= $InputType ?>' id='r<?= $f_RowID ?>n<?= $icounter ?>' name='Answer<? if ($f_MultyAnswer)
+                        echo $icounter ?>' value='<? if ($f_MultyAnswer) echo 1; else
+                        echo $icounter; ?>'></td>
+                            <td width='100%'><label for='r<?= $f_RowID ?>n<?= $icounter ?>'><?= $$tAnswer ?></label></td>
+                        </tr><?
+            }
+            ++$icounter;
+        }
+        ?>
+                <tr>
+                    <td colspan='2'><br><input type='submit' name='poll' value='<? echo ($f_SubmitValue ? $f_SubmitValue : "Голосовать") ?>'> &nbsp; Проголосовало: <?= $f_TotalCount ?><br><br></td>
+                </tr>
+            </table>
+        </form><br><?
+    }
+    else {
+
+        if (!$f_Active) $ActiveText = " (закрыт)"; else $ActiveText = "";
+        ?><font size='+1'><b><?= $f_Question ?></b><?= $ActiveText ?></font><br><br><?
+        //вывод списка ответов
+        $icounter = 1;
+        while ($icounter < 11) {
+            $tAnswer = "f_Answer$icounter";
+            $tCount = "f_Count$icounter";
+            if ($$tAnswer) {
+
+                echo $$tAnswer.poll_percentLine($classID, $f_RowID, $$tCount, 100, "(%PERCENT%)<br><br/><div style='width:%WIDTHpx;height:10px;background: #336699;' title='" . $$tAnswer . "'></div>")
+                ?><br><br><?
+            }
+            ++$icounter;
+        }
+        ?>
+        <b>Другой</b><br><br><?= poll_alternativeAnswer($classID, $f_RowID) ?>
+        Проголосовало: <?= $f_TotalCount ?><br><br>
+        <br><? if ($f_Active && $f_ProtectUsers == 1 && !Authorize())
+                 ?><br>* Для голосования необходимо авторизоваться<br><br><hr size='1' color='#CCCCCC'><br><b>Архив опросов</b><br><?
+    }
+}
+?><a href='<?= $SUB_FOLDER.$current_sub[Hidden_URL].$current_cc[EnglishName] ?>.html'>вернуться к опросам</a><br><? echo $f_AdminButtons; ?>

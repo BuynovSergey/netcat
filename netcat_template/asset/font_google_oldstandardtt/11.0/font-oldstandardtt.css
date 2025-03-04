@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'Old Standard TT';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Old Standard TT Italic'), local('OldStandardTT-Italic'), url(https://fonts.gstatic.com/s/oldstandardtt/v11/MwQsbh3o1vLImiwAVvYawgcf2eVer2q-bHU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Old Standard TT';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Old Standard TT Regular'), local('OldStandardTT-Regular'), url(https://fonts.gstatic.com/s/oldstandardtt/v11/MwQubh3o1vLImiwAVvYawgcf2eVerlq-.woff) format('woff');
+}
+@font-face {
+  font-family: 'Old Standard TT';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Old Standard TT Bold'), local('OldStandardTT-Bold'), url(https://fonts.gstatic.com/s/oldstandardtt/v11/MwQrbh3o1vLImiwAVvYawgcf2eVWEX-tT1ZZ.woff) format('woff');
+}

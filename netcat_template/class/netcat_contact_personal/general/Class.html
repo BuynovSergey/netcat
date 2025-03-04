@@ -1,0 +1,58 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+
+<div class="contacts-personal" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="contacts-object">
+        <?= $f_AdminButtons ?>
+        <?php
+        $open_tag = $cc_settings["has_detail_page"] ? "a href='$fullLink'" : "div";
+        $close_tag = $cc_settings["has_detail_page"] ? "a" : "div";
+        ?>
+
+        <?php if ($admin_mode || $f_Image): ?>
+            <?= "<$open_tag>" ?>
+            <div class="person-image-wrapper">
+                <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+            </div>
+            <?= "</$close_tag>" ?>
+        <?php endif ?>
+
+        <?php if ($admin_mode || $f_SubName): ?>
+            <div class="tpl-text-alt-paragraph"><?= nc_edit_inline("SubName", $f_RowID, $cc_env["Sub_Class_ID"]) ?></div>
+        <?php endif ?>
+
+        <?= "<$open_tag class='contact-name $cc_settings[title_classname]'>$f_Name</$close_tag>" ?>
+
+        <?php if ($admin_mode || $f_SubTitle): ?>
+            <div class="tpl-text-default-paragraph"><?= nc_edit_inline("SubTitle", $f_RowID, $cc_env["Sub_Class_ID"]) ?></div>
+        <?php endif ?>
+
+        <?php if ($admin_mode || $f_Phone): ?>
+            <div class="tpl-text-default-paragraph">
+                <a href="tel:<?= nc_normalize_phone_number($f_Phone) ?>"><?= nc_edit_inline(
+                        "Phone",
+                        $f_RowID,
+                        $cc_env["Sub_Class_ID"]
+                    ) ?></a>
+            </div>
+        <?php endif ?>
+
+        <?php if ($admin_mode || $f_Email): ?>
+            <div class="tpl-text-default-paragraph">
+                <a href="mailto:<?= $f_Email ?>"><?= nc_edit_inline("Email", $f_RowID, $cc_env["Sub_Class_ID"]) ?></a>
+            </div>
+        <?php endif ?>
+
+        <?php if ($admin_mode || $f_Social): ?>
+            <div class="contacts-object-socials tpl-text-<?= $cc_settings["icon_size"] ?>">
+                <?= nc_social_icons($f_Social, "<a href='%URL' class='$icon_class' title='%NAME' target='_blank'>%ICON</a>") ?>
+            </div>
+        <?php endif ?>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

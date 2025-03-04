@@ -1,0 +1,9 @@
+.nc-editable-image-container { width: 100%; }
+.nc-editable-image-container .nc-editable-image-container-toolbar { top: 10px; right: 406px; }
+.nc-move-place { display: none !important; }
+.nc-object-toolbar { position: absolute; right: 271px; }
+.nc--dropdown.nc-object-toolbar-more UL { width: auto !important; }
+
+.tpl-block-content IMG { position: relative; width: 100%; margin: 0 auto; height: auto; }
+.tpl-block-content .nc-toolbar { z-index: 2; }
+.nc-infoblock-toolbar { position: absolute; right: 10px; z-index: 11; }

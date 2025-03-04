@@ -1,0 +1,104 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+/** @var nc_tpl_asset_collector $assets */
+
+$nc_core = nc_core::get_object();
+$css = array();
+
+$modifications = array(
+    '-smallest' => 0.7,
+    '-smaller' => 0.8,
+    '-small' => 0.9,
+    '-big' => 1.2,
+    '-bigger' => 1.4,
+    '-biggest' => 1.6,
+);
+
+$add_rule = function(&$rules, $text_type_selector, $settings, $key, $dont_scale = false) use ($modifications) {
+    if (!isset($settings[$key]) || !strlen($settings[$key])) {
+        return;
+    }
+    $css_property = strtr($key, '_', '-');
+    $value = $settings[$key];
+    $unit = isset($settings[$key . '_unit']) ? $settings[$key . '_unit'] : '';
+    $rules[$text_type_selector][] = "$css_property:$value$unit;";
+    foreach ($modifications as $modification_suffix => $modification_scale) {
+        if ($dont_scale === true || (is_array($dont_scale) && in_array($unit, $dont_scale, true)) || !is_numeric($value)) {
+            $scaled_value = $value;
+        } else {
+            $scaled_value = str_replace(',', '.', round($value * $modification_scale, 2));
+        }
+        $rules[$text_type_selector . $modification_suffix][] = "$css_property:$scaled_value$unit;";
+    }
+};
+
+
+foreach ($settings as $text_type => $text_type_settings) {
+    $text_type_selector = '.tpl-text-' . strtr($text_type, '_', '-');
+    $text_type_rules = array();
+    // font-family
+    if (!empty($text_type_settings['font_family'])) {
+        if (!empty($text_type_settings['asset'])) {
+            $assets->require_asset($text_type_settings['asset']);
+        }
+        $font_family = '"' . $text_type_settings['font_family'] . '"';
+        if (!empty($text_type_settings['font_family_fallback'])) {
+            $font_family .= ',' . $text_type_settings['font_family_fallback'];
+        }
+        $text_type_rules[$text_type_selector][] = "font-family:$font_family;";
+        foreach ($modifications as $modification_suffix => $modification_scale) {
+            $text_type_rules[$text_type_selector . $modification_suffix][] = "font-family:$font_family;";
+        }
+    }
+
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'font_size');
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'font_weight', true);
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'font_style');
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'margin_top');
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'margin_bottom');
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'line_height', array('', '%'));
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'letter_spacing');
+    $add_rule($text_type_rules, $text_type_selector, $text_type_settings, 'text_transform');
+
+    $has_paragraph_settings = !empty($text_type_settings['children']['p']);
+
+    if ($text_type_rules) {
+        foreach ($text_type_rules as $text_type_rule_selector => $rules) {
+            $full_selector = "$selector $text_type_rule_selector";
+            // Дефолтные стили для текста и заголовков
+            if ($text_type_rule_selector === $text_type_selector) {
+                if ($text_type === 'default') {
+                    $full_selector .= ", $selector";
+                } else if (preg_match('/^header(\d+)$/', $text_type, $matches)) {
+                    $full_selector .= ", $selector h$matches[1]";
+                }
+            }
+            // Дополнительный класс tpl-text-TYPE[-size]-paragraph со свойствами шрифта + отступами
+            if ($has_paragraph_settings) {
+                $full_selector .= ", $selector $text_type_rule_selector-paragraph";
+            }
+            $css[] = "$full_selector {" . join('', $rules) . "}";
+        }
+    }
+
+    if ($has_paragraph_settings) {
+        $child_settings = $text_type_settings['children']['p'];
+        $child_properties = array();
+        $add_rule($child_properties, $text_type_selector, $child_settings, 'margin_top');
+        $add_rule($child_properties, $text_type_selector, $child_settings, 'margin_bottom');
+        $add_rule($child_properties, $text_type_selector, $child_settings, 'text_indent');
+        if ($child_properties) {
+            foreach ($child_properties as $child_selector => $rules) {
+                $full_selector = "$selector $child_selector p, $selector $child_selector-paragraph";
+                if ($text_type === 'default' && $child_selector === $text_type_selector) {
+                    $full_selector .= ", $selector p";
+                }
+                $css[] = "$full_selector {" . join('', $rules) . "}";
+            }
+        }
+    }
+}
+
+return join("\n", $css);

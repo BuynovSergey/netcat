@@ -1,0 +1,20 @@
+<?php
+
+$goods = nc_netshop::get_instance()->goodslist_recent->get_all('DESC', 5, true);
+
+if (count($goods)) {
+    echo '<div class="tpl-widget-netshop-viewed-now">',
+         '<h2>Сейчас смотрят</h2>',
+         '<div class="tpl-block-list-objects">';
+         
+    foreach ($goods as $i => $item_data) {
+        echo nc_core::get_object()->widget->generate('netcat_module_netshop_item', array(
+            'Component_ID' => $item_data['Class_ID'],
+            'Item_ID' => $item_data['Item_ID'],
+            'ListName' => 'Сейчас смотрят',
+            'ListPosition' => $i + 1,
+        ));
+    }
+
+    echo '</div></div>';
+}

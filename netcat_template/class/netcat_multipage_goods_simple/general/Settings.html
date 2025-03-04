@@ -1,0 +1,97 @@
+<?php
+
+$has_netshop = nc_module_check_by_keyword('netshop');
+
+if ($has_netshop) {
+    $netshop = nc_netshop::get_instance();
+    $netshop_cart_items = $netshop->cart->get_items();
+
+    $button = function ($in_cart = 0, $in_stock = 0) use ($cc_settings, $nc_core) {
+        $button_title = $in_cart ? 'В корзине' : ($in_stock ? 'В корзину' : 'Нет в наличии');
+
+        if ($cc_settings['buttonType'] === 'icon') {
+            $icon_class = array();
+            $icon_class[] = 'tpl-icon';
+            $icon_class[] = 'tpl-text-' . $cc_settings['iconSize'];
+            $icon_class[] = $cc_settings['iconDecor'] !== 'none' ? 'icon-decor-' . $cc_settings['iconDecor'] : '';
+
+            $icon_name_addcart = 'icon/google_material_icons/add-shopping-cart.svg';
+            $icon_name_removecart = 'icon/google_material_icons/shopping-cart.svg';
+            $icon_name_nonstock = 'icon/google_material_icons/remove-shopping-cart.svg';
+            $icon = '';
+            if ($in_stock) {
+                $icon .= "<span class='check '" . implode(' ', $icon_class) . "'>"
+                    . nc_get_svg_for_embedding($nc_core->DOCUMENT_ROOT . $nc_core->HTTP_TEMPLATE_PATH . $icon_name_removecart)
+                    . '</span>';
+                $icon .= "<span class='plus '" . implode(' ', $icon_class) . "'>"
+                    . nc_get_svg_for_embedding(
+                        $nc_core->DOCUMENT_ROOT . $nc_core->HTTP_TEMPLATE_PATH
+                        . $icon_name_addcart
+                    ) . '</span>';
+            } else {
+                $icon .= "<span class='empty '" . implode(' ', $icon_class) . "'>"
+                    . nc_get_svg_for_embedding($nc_core->DOCUMENT_ROOT . $nc_core->HTTP_TEMPLATE_PATH . $icon_name_nonstock)
+                    . '</span>';
+            }
+
+            return "<button class='tpl-button tpl-button-icon " . ($in_cart ? 'in-cart' : '') . "' 
+                    title='" . $button_title . "' 
+                    onclick='" . ($in_stock ? 'nc_netshop_cart(this);' : '') . "return false;' >" . $icon . '</button>';
+        } else {
+            return "<button class='tpl-button tpl-button-primary' 
+            onclick='" . ($in_stock ? 'nc_netshop_cart(this);' : '') . "return false;'>" . $button_title . '</button>';
+        }
+    };
+} else {
+    $netshop = false;
+    $netshop_cart_items = array();
+    $button = function () {
+        return '';
+    };
+}
+
+
+
+$styles = array();
+
+if ($cc_settings['buttonType'] === 'icon') {
+    if ($cc_settings['iconColor'] !== 'inherit') {
+        $styles[] = '--tpl-object-item--icon-color: var(--tpl-color-' . $cc_settings['iconColor'] . ')';
+    }
+    if ($cc_settings['iconDecor'] !== 'none' && $cc_settings['iconDecorColor'] !== 'inherit') {
+        $styles[] = '--tpl-object-item--icon-decor-color: var(--tpl-color-' . $cc_settings['iconDecorColor'] . ')';
+    }
+    $styles[] = '--tpl-object-item--icon-space-text: ' . str_replace(',', '.', ($cc_settings['iconSpace'] / 100))
+        . 'em';
+}
+
+$styles[] = "--tpl-object--image-ratio: " . str_replace(":", "/", $cc_settings["image_ratio"]) . ";";
+$styles[] = "--tpl-object-item--title-color: var(--tpl-color-" . $cc_settings["title_font_color"] . ")";
+$styles = " style='" . implode(';', $styles) . "'";
+
+if (!function_exists('nc_netshop_goods_scripts')) {
+    function nc_netshop_goods_scripts() {
+        ob_start(); ?>
+
+        <script>
+            function nc_netshop_cart($this) {
+                var btn = jQuery($this), form = jQuery($this).closest("form");
+                jQuery.post(form.attr("action"), form.serialize() + "&json=1", function (response) {
+                    nc_event_dispatch("ncNetshopCartUpdate", {
+                        cart: response,
+                        form: form,
+                        modal: true
+                    });
+                    if (btn.hasClass("tpl-button-icon")) {
+                        btn.addClass("in-cart");
+                    } else {
+                        btn.html("В корзине");
+                    }
+                }, "json");
+                return false;
+            }
+        </script>
+
+        <? return ob_get_clean();
+    }
+}

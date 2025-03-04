@@ -1,0 +1,58 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<div class="services" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php if ($admin_mode): ?>
+    <div class="object-item">
+        <?php else: ?>
+        <a href="<?= $fullLink ?>" class="object-item">
+            <?php endif ?>
+
+            <?= $f_AdminButtons ?>
+
+            <?php if ($f_Image): ?>
+                <div class="item-image">
+                    <div class="image"><?= $f_Image->as_img(array("alt" => $f_Name)); ?></div>
+                </div>
+            <?php endif; ?>
+
+            <div class="item-description-wrapper">
+                <div class="item-description">
+                    <div class="item-name tpl-text-header6"><?= nc_edit_inline("Name", $f_RowID, $cc_env["Sub_Class_ID"]); ?></div>
+
+                    <?php if ($f_Description): ?>
+                        <div class="item-announce tpl-text-default-paragraph"><?= nc_edit_inline(
+                                "Description",
+                                $f_RowID,
+                                $cc_env["Sub_Class_ID"]
+                            ); ?></div>
+                    <?php endif; ?>
+
+                    <div class="item-info">
+                        <?php if ($f_Price): ?>
+                            <span class="item-price tpl-text-header5"><?= nc_edit_inline(
+                                    "Price",
+                                    $f_RowID,
+                                    $cc_env["Sub_Class_ID"]
+                                ); ?></span>
+                        <?php endif ?>
+
+                        <?php if ($cc_settings["showArrow"] && $cc_settings["arrowIcon"]): ?>
+                            <div class="item-arrow">
+                                <?= $cc_settings["arrowIcon"]->as_img() ?>
+                            </div>
+                        <?php endif ?>
+                    </div>
+                </div>
+            </div>
+            <?php if ($admin_mode): ?>
+    </div>
+<?php else: ?>
+    </a>
+<?php endif ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

@@ -1,0 +1,9 @@
+<?= $f_AdminCommon; ?>
+<?= ($searchForm ? "
+    <div id='nc_admin_filter'>
+      <fieldset>
+        <legend>" . NETCAT_MODERATION_FILTER . "</legend>
+        $searchForm
+      </fieldset>
+    </div>
+    " : "" ); ?>

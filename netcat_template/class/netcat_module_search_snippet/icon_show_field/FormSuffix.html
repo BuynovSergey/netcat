@@ -1,0 +1,28 @@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let searchButton = document.getElementById('nc-search-button<?= $additional; ?>');
+        let searchForm = document.getElementById('nc-search-form-drop<?= $additional; ?>');
+
+        var drop = new Drop({
+            target: searchButton,
+            content: searchForm,
+            hoverOpenDelay: 50,
+            classes: ' <?= $nc_component_css_class; ?>',
+            hoverCloseDelay: 50,
+            focusDelay: 0,
+            blurDelay: 50,
+            openOn: 'click',
+            tetherOptions: {
+                attachment: 'middle right',
+                targetAttachment: 'middle left',
+                constraints: [
+                    {
+                        to: 'scrollParent',
+                        attachment: 'together',
+                        pin: true
+                    }
+                ]
+            }
+        });
+    });
+</script>

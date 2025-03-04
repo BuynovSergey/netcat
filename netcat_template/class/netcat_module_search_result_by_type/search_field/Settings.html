@@ -1,0 +1,5 @@
+<?php
+
+if (!nc_module_check_by_keyword('search')) {
+    nc_print_status('Модуль "Поиск по сайту" выключен или не установлен. <a href="/netcat/admin/#module.list">Включить</a>','error');
+}

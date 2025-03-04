@@ -1,0 +1,21 @@
+<?php
+$cc_settings = nc_get_visual_settings($cc_env['Sub_Class_ID']);
+
+$size = $cc_settings['objectSize'];
+if ($cc_settings['objectSize'] === 'custom') {
+    $size = $cc_settings['customSize'];
+}
+list($w, $h) = explode(":", str_replace(",", ".", $size));
+if ((float)$w > 0) {
+    $padding_top = str_replace(",", ".", ($h / $w) * 100) . "%";
+} else {
+    $padding_top = '100%';
+}
+$styles = array();
+$styles[] = "--tpl-object-item--image-padding-top: " . $padding_top;
+if ($cc_settings['textPaddingValue']) {
+    $styles[] = "--tpl-object-item--text-padding: " . $cc_settings['textPaddingValue']
+        . $cc_settings['textPaddingUnit'];
+}
+$styles = " style='" . implode(";", $styles) . "'";
+?>

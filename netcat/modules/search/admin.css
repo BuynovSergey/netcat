@@ -1,0 +1,548 @@
+#nc_search_admin {
+    padding-bottom: 20px;
+}
+
+#nc_search_admin table.list {
+    width: 100%;
+}
+
+#nc_search_admin table.list tr.disabled td {
+    color: #999999;
+    font-style: italic;
+}
+
+#nc_search_admin table.list .icon_spacer {
+    width: 8px;
+    display: inline-block;
+    /* IE HACK for display: inline-block */
+    zoom: 1;
+    *display: inline;
+}
+
+#nc_search_admin a img {
+    border: none;
+}
+
+#nc_search_admin form.search .ncf_caption,
+#nc_search_admin form.search .ncf_value {
+    float: none;
+    font-size: 100%;
+    width: 100%;
+}
+
+#nc_search_admin form.search .ncf_caption {
+    padding: 4px 0 2px 2px;
+}
+
+#nc_search_admin form.search .ncf_value {
+    padding: 0 0 4px ;
+}
+
+#nc_search_admin form.search .ncf_default {
+    display: none;
+}
+
+#nc_search_admin form.search .ncf_value input,
+#nc_search_admin form.search .ncf_value select {
+    width: 350px;
+    max-width: 100%;
+}
+
+#nc_search_admin #synonym_list .word,
+#nc_search_admin #add_synonym_row {
+    margin: 0 0 4px;
+}
+
+#nc_search_admin #synonym_list .word input {
+    width: 350px;
+}
+
+#nc_search_admin #nc_search_admin form.search .delete_word img {
+    vertical-align: middle;
+    margin: -5px 4px 0 6px;
+}
+
+
+#nc_search_admin #add_synonym_row span,
+#nc_search_admin form.search .delete_word {
+    cursor: pointer;
+}
+
+#nc_search_admin #add_synonym_row img {
+    vertical-align: bottom;
+    margin-right: 4px;
+}
+
+#nc_search_admin #synonym_filter_row {
+    margin: 15px 0 0 -4px;
+}
+
+#nc_search_admin .inline_help_mark,
+#nc_search_admin .search_rule .show_details,
+#nc_search_admin .query_filter #clear_timespan {
+    font-size: 80%;
+    font-weight: bold;
+    cursor: pointer;
+    color: #7CA4BD;
+    margin-left: 10px;
+}
+
+#nc_search_admin .inline_help {
+    display: none;
+    position: absolute;
+    border: 1px solid #999999;
+    background-color: #fffdef;
+    padding: 0 10px;
+    margin: 20px 0 0 35px;
+    width: 350px;
+}
+
+#nc_search_admin .inline_help code {
+    background: #fffacd;
+    padding: 0 3px;
+    font-weight: bold;
+}
+
+#nc_search_admin .search_rule .show_details {
+    margin-left: 6px;
+}
+
+#nc_search_admin .live_filter {
+    /*background: url("../../admin/skins/default/img/idtab_bg2.gif") repeat-x scroll #F2F2F2;
+    border: 1px solid #CCCCCC;*/
+    color: black;
+    margin-bottom: 10px;
+    _margin-bottom: -10px;
+}
+
+#nc_search_admin .live_filter img {
+    vertical-align: top;
+}
+
+#nc_search_admin .live_filter input,
+#nc_search_admin .live_filter select {
+    vertical-align: top;
+    margin-right: 4px;
+    padding: 3px;
+}
+
+#nc_search_admin .live_filter input {
+    width: 200px;
+    padding: 4px;
+}
+
+#nc_search_admin .live_filter .icon img {
+    margin: 1px 6px 0 -3px;
+}
+#nc_search_admin .live_filter .icon {
+    display: none;
+}
+
+#nc_search_admin .live_filter .reset {
+    display: none;
+    cursor: pointer;
+}
+
+#nc_search_admin form.search .stopword_variants code {
+    font-size: 125%;
+    font-weight: bold;
+    background: #fffacd;
+    padding: 0 3px;
+}
+
+#nc_search_admin form.search .space_before {
+    margin-top: 6px;
+}
+
+#nc_search_admin form.search .rule_radio,
+#nc_search_admin form.search .rule_interval_row {
+    margin-left: 10px;
+}
+
+#nc_search_admin form.search .rule_interval_row {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#nc_search_admin form.search .rule_interval_row_last {
+    margin-top: 0;
+}
+
+#nc_search_admin form.search textarea.rule_area  {
+    margin: 4px 0 0 34px;
+    width: 316px;
+    height: 100px;
+}
+
+#nc_search_admin form.search .rule_time input,
+#nc_search_admin form.search .rule_interval_input {
+    width: 25px;
+    margin: 0 2px;
+    text-align: center;
+}
+
+#nc_search_admin div.search_indexing .log_entry {
+    margin: 4px 0;
+    padding: 4px 10px;
+    background-color: #F7F6F5;
+}
+
+#nc_search_admin div.search_indexing .log_entry .type {
+    color: #999999;
+    padding: 0 8px;
+}
+
+#nc_search_admin a.ajax,
+#nc_search_admin a.internal {
+    text-decoration: none;
+    border-bottom: 1px dotted #0075BA;
+}
+
+#nc_search_admin .search_rule .actions {
+    margin-top: 8px;
+}
+
+#nc_search_admin .search_rule .details {
+    margin: 2px 0 4px;
+    padding: 8px 12px 2px;
+    background-color: #EEEEEE;
+    display: none;
+}
+
+#nc_search_admin .search_rule .details .site,
+#nc_search_admin .search_rule .details .list,
+#nc_search_admin .search_rule .details .schedule {
+    margin-bottom: 8px;
+}
+
+#nc_search_admin .search_rule .details .list .item {
+    margin: 2px 0 2px 10px;
+}
+
+#nc_search_admin .search_rule .details .list .item a {
+    padding: 0 2px;
+}
+
+#nc_search_admin .query_filter {
+    width: 100%;
+    border: 1px solid #CCCCCC;
+    color: black;
+}
+
+#nc_search_admin .query_filter td {
+    padding: 3px 15px 3px 6px;
+    white-space: nowrap;
+    vertical-align: bottom;
+    word-spacing: 3px;
+    width: 10%;
+}
+
+#nc_search_admin .query_filter td.fragment_cell {
+    width: 30%;
+}
+
+#nc_search_admin .query_filter .caption {
+    margin-bottom: 4px;
+    font-weight: normal;
+    word-spacing: 2px;
+}
+
+#nc_search_admin .query_filter td.submit {
+    width: 50%;
+    text-align: right;
+    padding-right: 6px;
+}
+
+#nc_search_admin .query_filter input.fragment {
+    width: 100%;
+}
+
+#nc_search_admin input.i2 {
+    text-align: center !important;
+    width: 2em;
+}
+
+#nc_search_admin input.i3 {
+    text-align: center !important;
+    width: 2.5em;
+}
+
+#nc_search_admin input.i4 {
+    text-align: center !important;
+    width: 3em;
+}
+
+#nc_search_admin input.i7 {
+    text-align: center !important;
+    width: 5.5em;
+}
+
+#nc_search_admin .query_filter #clear_timespan {
+    visibility: hidden;
+    margin-left: 3px;
+}
+
+#nc_search_admin .query_filter .timespan input {
+    margin: 0 2px;
+}
+
+#nc_search_admin .query_sort {
+    text-align: right;
+    margin: 0 3px 30px 0;
+}
+
+#nc_search_admin .query_details_header {
+    margin-bottom: 8px;
+}
+
+#nc_search_admin .area_hint .area_description {
+    text-align: left;
+    padding: 8px 16px;
+    width: 250px;
+    margin: 0;
+}
+
+#nc_search_admin .area_hint .area_description .header {
+    margin-bottom: 4px;
+}
+
+#nc_search_admin .settings {
+    line-height: 180%;
+}
+
+#nc_search_admin .settings legend {
+    line-height: 150%;
+}
+
+#nc_search_admin .settings label {
+    padding: 4px;  /* for highlighting */
+    margin: 0 -3px;
+    _padding: 0 1px;
+    _margin: -1px 0;
+}
+
+#nc_search_admin .settings .caption {
+    padding: 8px 0 6px;
+}
+
+#nc_search_admin .settings input {
+    margin-left: 0; /* align checkboxes */
+    margin-bottom: 5px !important;
+}
+
+#nc_search_admin .settings input[type=text] {
+    margin-left: 3px !important;
+    margin-right: 3px !important;
+}
+
+#nc_search_admin .settings input,
+#nc_search_admin .settings select {
+    vertical-align: baseline;
+}
+
+#nc_search_admin .settings blockquote {
+    margin: 0 22px 3px;
+    padding: 0;
+}
+
+#nc_search_admin .settings #purge_now {
+    display: none;
+}
+
+#nc_search_admin .settings .subgroup {
+    margin-top: 3px;
+}
+
+#nc_search_admin .settings .submit_button {
+    margin: 6px 21px 0;
+}
+
+#nc_search_admin .settings textarea {
+    margin-bottom: 8px;
+    width: 400px;
+    height: 80px;
+}
+
+#nc_search_admin .settings textarea.code {
+    margin: 0;
+    width: 100%;
+    height: 300px;
+}
+
+#nc_search_admin .fields textarea {
+    margin: 0;
+    width: 100%;
+}
+
+#nc_search_admin .fields .tag_weight {
+    margin: 2px 0;
+}
+
+#nc_search_admin .fields .tag_weight input {
+    margin: 0 4px;
+}
+
+#nc_search_admin .fields .tag_weight .query {
+    width: 350px;
+}
+
+
+#nc_search_admin .fields #add_tag_weight {
+    margin: 6px 4px 4px 2px;
+    cursor: pointer;
+    line-height: 120%;
+}
+
+#nc_search_admin .fields #add_tag_weight img {
+    vertical-align: bottom;
+    margin-right: 2px;
+    _margin-top: -2px;
+}
+
+#nc_search_admin .custom_field {
+    padding: 4px 0;
+    margin: 1px 8px 8px 1px;
+    width: 450px;
+    float: left;
+}
+
+#nc_search_admin .custom_field input,
+#nc_search_admin .custom_field textarea,
+#nc_search_admin .custom_field select {
+    width: 450px;
+}
+#nc_search_admin .custom_field .input{
+    border: none;
+}
+#nc_search_admin .custom_field_checkboxes {
+    margin: 6px 0 0 2px;
+    _margin: 6px 0 0 0;
+}
+
+#nc_search_admin .custom_field .settings_cb input {
+    width: auto;
+}
+
+#nc_search_admin .custom_field_delete_hover {
+    /* broken */
+}
+
+#nc_search_admin #add_custom_field {
+    clear: both;
+    cursor: pointer;
+}
+
+#nc_search_admin .result_count {
+    margin: 6px 3px;
+}
+
+#nc_search_admin .broken_link_list {
+    line-height: 150%;
+}
+
+#nc_search_admin .broken_link_list ul {
+    margin-bottom: 6px;
+}
+#nc_search_admin .broken_link_list li {
+    padding: 5px 0;
+}
+
+#nc_search_admin .stat .legend {
+    font-weight: normal;
+    font-size: 15px;
+    color: #4F4F4F;
+    margin: 0;
+    padding: 28px 0 14px 0;
+}
+
+#nc_search_admin .stat table.list {
+    margin-bottom: 16px;
+}
+
+#nc_search_admin .stat .param {
+    margin: 2px 0;
+}
+
+#nc_search_admin #index_custom_area {
+    /*border: 1px solid #CCCCCC;
+    background-color: #F2F2F2;*/
+    color: black;
+    padding: 5px 8px;
+}
+
+#nc_search_admin #index_custom_area table {
+    width: 100%;
+    _width: 0;
+}
+
+#nc_search_admin #index_custom_area table td {
+    white-space: nowrap;
+}
+
+#nc_search_admin #index_custom_area table .caption {
+    padding-right: 3px;
+}
+
+
+#nc_search_admin #index_custom_area .input {
+    width: 90%;
+    border: none;
+}
+
+#nc_search_admin #index_custom_area .input input {
+    width: 100%;
+}
+
+#nc_search_admin .system_settings .ncf_default {
+    display: none;
+}
+
+#nc_search_admin .system_settings .ncf_caption {
+    font-size: 11px;
+    width: 170px;
+    text-align: right;
+    padding: 7px 30px 2px 30px;
+}
+#nc_search_admin .system_settings .ncf_value{
+    padding-left: 30px;
+}
+#nc_search_admin .system_settings .ncf_value input {
+    width: 300px;
+}
+
+#nc_search_admin .extension_cb_row {
+    margin: 6px 0 3px -3px;
+}
+
+#nc_search_admin .log_settings form {
+    margin: 0;
+}
+
+#nc_search_admin .log_settings #settings_visible,
+#nc_search_admin .log_settings #settings_hidden {
+    cursor: pointer;
+}
+
+#nc_search_admin .log_settings #settings_visible {
+    display: none;
+}
+
+#nc_search_admin .log_settings #settings_hidden {
+}
+
+#nc_search_admin .log_settings .submit_row {
+    margin-top: 6px;
+}
+
+#nc_search_admin table.log_entries {
+    margin-top: 6px;
+}
+
+#nc_search_admin table.log_entries tr {
+    vertical-align: top;
+    text-align: center;
+}
+
+#nc_search_admin #enable_search_checkbox {
+    margin: 0 0 8px 2px;
+}

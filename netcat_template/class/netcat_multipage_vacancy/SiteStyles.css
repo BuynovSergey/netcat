@@ -1,0 +1,26 @@
+& { min-height: 1em; }
+/* item */
+.vacancy-item { display: flex; }
+.vacancy-item:last-child { }
+.vacancy-item .item-info { max-width: 80%; margin-right: auto; }
+.vacancy-item .item-info .title { text-decoration: none; display:inline-block; }
+.vacancy-item .item-info .description { }
+.vacancy-item .item-salary { }
+@nc-list-object (max-width: 500px) {
+  .vacancy-item { flex-direction: column; }
+}
+@nc-list-object (min-width: 500px) {
+  .vacancy-item { flex-direction: row; }
+}
+@nc-list-object (max-width: 400px) {
+  .vacancy-item .item-salary { text-align: left; margin-left: 0; }
+}
+.vacancy-item .no-salary { }
+/* full */
+.vacancy-full .item-salary { font-weight: 600; padding: 0.5rem 0; }
+.vacancy-full .item-salary .no-salary { }
+.vacancy-full .item-details { padding-bottom: 0.5rem; }
+.vacancy-full .send-email-block { }
+.vacancy-full .icon-email { line-height: 1; font-size: 1.2em; margin-right: 0.5rem; width: 1.2em; height: 1.2em; }
+.vacancy-full .icon-email svg { width: 1em; height: 1em; }
+.vacancy-full .icon-email svg path { fill: var(--tpl-color-brand); }

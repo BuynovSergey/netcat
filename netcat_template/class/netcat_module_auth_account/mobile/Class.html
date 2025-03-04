@@ -1,0 +1,18 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+Ваш текущий баланс: <b><?= $current_user[$nc_core->get_settings('pa_field', 'auth')] ?></b><br/><br/>
+<? if ($totRows) { ?>
+    <table class='nc_user_list'>
+        <th style='width: 50%'>Дата и время</th>
+        <th style='width: 50%'>Сумма</th>
+    <? } else {
+        ?>Нет истории транзакций<? }
+    ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><tr>
+  <td><?=$f_Created_date." ".$f_Created_time?></td>
+  <td><?=( $f_Type == '+' ? "<span style='color:green;'>+</span>" : "<span style='color:red;'>-</span>")?> 
+      <a href='<?=$fullLink?>'><?=$f_Sum?></a></td>
+</tr><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? if ($totRows) { ?></table><? } ?><!-- /FormSuffix -->

@@ -1,0 +1,8 @@
+<?
+#redirection section
+ob_end_clean();
+if($_POST[f_BackLink]) $goBackLink = $f_BackLink;
+else $goBackLink = $SUB_FOLDER."/";
+header("Location: $goBackLink");
+die();
+?>

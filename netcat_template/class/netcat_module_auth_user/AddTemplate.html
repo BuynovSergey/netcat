@@ -1,0 +1,117 @@
+<?php $auth_settings = $nc_core->get_settings('', 'auth') ?>
+<?php if ($auth_settings['deny_reg']): ?>
+    <?= NETCAT_MODULE_AUTH_SELFREG_DISABLED; ?>
+<?php else: ?>
+    <?= ($warnText ? "<div class='warnText'>$warnText</div>" : null); ?>
+    <form name='adminForm' id='adminForm' class="tpl-module-auth-registration-form" enctype='multipart/form-data'
+          method='post' action='<?= $nc_core->SUB_FOLDER . $nc_core->HTTP_ROOT_PATH ?>add.php'>
+        <div id='nc_moderate_form'>
+            <div class='nc_clear'></div>
+            <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>'/>
+            <input name='catalogue' type='hidden' value='<?= $catalogue ?>'/>
+            <input name='cc' type='hidden' value='<?= $cc ?>'/>
+            <input name='sub' type='hidden' value='<?= $sub ?>'/>
+            <input name='posting' type='hidden' value='1'/>
+            <input name='curPos' type='hidden' value='<?= $curPos ?>'/>
+            <div class='nc_clear'></div>
+        </div>
+
+        <?php
+        $cmp = new nc_Component('User');
+        $user_fields = $cmp->get_fields();
+
+        $login_field = array();
+
+        $allowed_fields = explode(',', $nc_core->get_settings('field_custom', 'auth'));
+        $show_all_fields = $nc_core->get_settings('field_all', 'auth');
+
+        foreach ($user_fields as $user_field) {
+
+            if ($user_field['name'] === $nc_core->AUTHORIZE_BY) {
+                $login_field = $user_field;
+                continue;
+            }
+
+            $is_field_accessible_by_admin_only = +$user_field['edit_type'] === NC_FIELD_PERMISSION_ADMIN;
+            $is_field_accessible_by_no_one = +$user_field['edit_type'] === NC_FIELD_PERMISSION_NOONE;
+            $should_hide_field_from_user = ($is_field_accessible_by_admin_only && !nc_field_check_admin_perm()) || $is_field_accessible_by_no_one;
+            $is_field_marked_as_disabled = !$show_all_fields && !in_array($user_field['name'], $allowed_fields, true);
+
+            if ($should_hide_field_from_user || $is_field_marked_as_disabled) {
+                continue;
+            }
+
+            // остаются поля доступные для заполнения в полной форме регистрации
+            // в модальном окне регистрации только емайл и пароль, остальные поля не заполняются
+            ?>
+            <div class="tpl-field">
+                <label for="f_<?= $user_field['name']; ?>"><?= $user_field['description']; ?><?= $user_field['not_null'] ? " *" : ""; ?>:</label>
+                <?= nc_put_field($user_field['name'], "id='f_" . $user_field['name'] . "' class='tpl-field-input' " . ($user_field['not_null'] ? "required" : ""), '0', 0); ?>
+            </div>
+            <?php
+        }
+        ?>
+        <div class="tpl-field">
+            <label for="f_<?= $login_field['name']; ?>"><?= $login_field['description']; ?> <?= $login_field['not_null'] ? "*" : ""; ?>:</label>
+            <?= nc_put_field($login_field['name'],"id='f_Login' class='tpl-field-input' " . ($login_field['not_null'] ? "required" : ""), '0', 0); ?>
+            <span id='nc_auth_wait' class='nc_auth_login_check nc_auth_check'><?= NETCAT_MODULE_AUTH_LOGIN_WAIT ?></span>
+            <span id='nc_auth_login_ok' class='nc_auth_login_check nc_auth_check_success'><?= NETCAT_MODULE_AUTH_LOGIN_FREE ?></span>
+            <span id='nc_auth_login_fail' class='nc_auth_login_check nc_auth_check_error'><?= NETCAT_MODULE_AUTH_LOGIN_BUSY ?></span>
+            <span id='nc_auth_login_incorrect' class='nc_auth_login_check nc_auth_check_error'><?= NETCAT_MODULE_AUTH_LOGIN_INCORRECT ?></span>
+        </div>
+        <div class="tpl-field">
+            <label for="f_Password1"><?=NETCAT_MODULE_AUTH_PASSWORD;?> *:</label>
+            <input id='f_Password1' name='Password1' type='password' size='25' class='tpl-field-input-password' value='' required/>
+            <span id='nc_auth_pass1_security' class='nc_auth_pass1_check nc_auth_check'><?=NETCAT_MODULE_AUTH_PASS_RELIABILITY;?></span>
+            <span id='nc_auth_pass1_s1' class='nc_auth_pass1_check nc_auth_check_error'><?= NETCAT_MODULE_AUTH_PASS_LOW; ?></span>
+            <span id='nc_auth_pass1_s2' class='nc_auth_pass1_check nc_auth_check_error'><?= NETCAT_MODULE_AUTH_PASS_MIDDLE; ?></span>
+            <span id='nc_auth_pass1_s3' class='nc_auth_pass1_check nc_auth_check_success'><?= NETCAT_MODULE_AUTH_PASS_HIGH; ?></span>
+            <span id='nc_auth_pass1_s4' class='nc_auth_pass1_check nc_auth_check_success'><?= NETCAT_MODULE_AUTH_PASS_VHIGH; ?></span>
+            <span id='nc_auth_pass1_empty' class='nc_auth_pass1_check nc_auth_check_error'><?= NETCAT_MODULE_AUTH_PASS_EMPTY; ?></span>
+            <span id='nc_auth_pass_min' class='nc_auth_pass1_check nc_auth_check_success'><?= NETCAT_MODULE_AUTH_PASS_SHORT; ?></span>
+        </div>
+        <div class="tpl-field">
+            <label for="f_Password2"><?=NETCAT_MODULE_AUTH_PASSWORD_CONFIRMATION;?> *:</label>
+            <input id='f_Password2' name='Password2' type='password' size='25' class='tpl-field-input-password' value='' required/>
+            <span id='nc_auth_pass2_ok' class='nc_auth_pass2_check nc_auth_check_success'><?= NETCAT_MODULE_AUTH_PASS_COINCIDE; ?></span>
+            <span id='nc_auth_pass2_fail' class='nc_auth_pass2_check nc_auth_check_error'><?= NETCAT_MODULE_AUTH_PASS_N_COINCIDE; ?></span>
+        </div>
+        <?php if ($nc_core->modules->get_by_keyword('captcha')): ?>
+            <?php if (!$AUTH_USER_ID && $current_cc['UseCaptcha'] && $MODULE_VARS['captcha']): ?>
+                <div class="tpl-field">
+                    <label for="nc_captcha_code"><?= NETCAT_MODERATION_CAPTCHA; ?>*:</label>
+                    <div class="tpl-field-input-captcha">
+                        <?php $icon_refresh = nc_get_svg_for_embedding($nc_core->DOCUMENT_ROOT
+                            . $nc_core->HTTP_TEMPLATE_PATH . "/icon/google_material_icons/refresh.svg"); ?>
+                        <?= nc_captcha_formfield('', '', '', '', $icon_refresh); ?>
+                        <input type='text' name='nc_captcha_code' size='10'>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($nc_core->get_settings('agreed', 'auth')): ?>
+            <div class="tpl-field tpl-field-agreed">
+                <input type='checkbox' name='nc_agreed' id='nc_agreed' value='1' required/>
+                <label for='nc_agreed'><?= str_replace('%USER_AGR', nc_folder_url($current_catalogue['Rules_Sub_ID']), NETCAT_MODULE_AUTH_USER_AGREEMENT) ?></label>
+            </div>
+        <?php endif; ?>
+        <div class="tpl-field tpl-field-button">
+            <button type='submit' class="tpl-button-primary" title='<?= NETCAT_MODULE_AUTH_REGISTER ?>'><?= NETCAT_MODULE_AUTH_REGISTER ?></button>
+        </div>
+        <script type="text/javascript"
+                src="<?= $nc_core->SUB_FOLDER . $nc_core->HTTP_ROOT_PATH; ?>modules/auth/auth.js"></script>
+        <script type='text/javascript'>
+            var SUB_FOLDER = '<?= $nc_core->SUB_FOLDER ?>';
+            var NETCAT_PATH = '<?= $nc_core->HTTP_ROOT_PATH ?>';
+            var nc_auth_obj = "";
+            document.addEventListener('DOMContentLoaded', function () {
+                nc_auth_obj = new nc_auth(<?= json_encode(array(
+                    'check_login' => $auth_settings['check_login'],
+                    'pass_min'    => intval($auth_settings['pass_min']),
+                    'check_pass'  => $auth_settings['check_pass'],
+                    'check_pass2' => $auth_settings['check_pass2'],
+                )) ?>);
+            });
+        </script>
+    </form>
+<?php endif; ?>

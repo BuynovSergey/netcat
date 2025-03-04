@@ -1,0 +1,31 @@
+<?php
+
+/** @var nc_core $nc_core */
+
+$requests = nc_requests::get_instance();
+$order = false;
+
+// --- Создание заказа в магазине ---
+if (!empty($f_Item_ID)) {
+    $order = $requests->create_netshop_order(
+        isset($f_Source_Subdivision_ID) ? $f_Source_Subdivision_ID : $sub,
+        $f_Item_ID,
+        !empty($f_Quantity) ? abs($f_Quantity) : 1,
+        array(
+            'ContactName' => (string)$f_Name,
+            'Email' => isset($f_Email) ? $f_Email : '',
+            'Phone' => isset($f_Phone) ? $f_Phone : '',
+            'Comments' => isset($f_Comment) ? $f_Comment : '',
+        )
+    );
+}
+
+// --- Отправка письма о заявке ---
+$requests->send_request_creation_notification($msgID);
+
+
+// --- Готово ---
+?>
+
+<h4>Отлично!</h4>
+<p>Заявка отправлена</p>

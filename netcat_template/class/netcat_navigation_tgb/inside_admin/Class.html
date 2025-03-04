@@ -1,0 +1,13 @@
+<!-- FormPrefix --><? require_once $nc_parent_field_path; ?> 
+<?= ($searchForm ? "
+    <div id='nc_admin_filter'>
+      <fieldset>
+        <legend>" . NETCAT_MODERATION_FILTER . "</legend>
+        $searchForm
+      </fieldset>
+    </div>
+    " : "" ); ?><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? require_once $nc_parent_field_path; ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><? require_once $nc_parent_field_path; ?><!-- /FormSuffix -->

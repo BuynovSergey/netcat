@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'El Messiri';
+  font-style: normal;
+  font-weight: 400;
+  src: local('El Messiri'), local('ElMessiri-Regular'), url(https://fonts.gstatic.com/s/elmessiri/v5/K2F0fZBRmr9vQ1pHEey6MomABA.woff) format('woff');
+}
+@font-face {
+  font-family: 'El Messiri';
+  font-style: normal;
+  font-weight: 500;
+  src: local('El Messiri Medium'), local('ElMessiri-Medium'), url(https://fonts.gstatic.com/s/elmessiri/v5/K2F3fZBRmr9vQ1pHEey6On6jFynSZg.woff) format('woff');
+}
+@font-face {
+  font-family: 'El Messiri';
+  font-style: normal;
+  font-weight: 600;
+  src: local('El Messiri SemiBold'), local('ElMessiri-SemiBold'), url(https://fonts.gstatic.com/s/elmessiri/v5/K2F3fZBRmr9vQ1pHEey6OlKkFynSZg.woff) format('woff');
+}
+@font-face {
+  font-family: 'El Messiri';
+  font-style: normal;
+  font-weight: 700;
+  src: local('El Messiri Bold'), local('ElMessiri-Bold'), url(https://fonts.gstatic.com/s/elmessiri/v5/K2F3fZBRmr9vQ1pHEey6OjalFynSZg.woff) format('woff');
+}

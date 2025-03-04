@@ -1,0 +1,48 @@
+<? 
+# если не нужно учитывать мнение автора, следует добавить к условию:
+# $current_user['User_ID']!=$f_Object_Author_ID
+
+if($current_user['User_ID']) {
+
+  # зависимость рейтинга от типа пользователя по классу $perm
+  # if($perm->isDirector() || $perm->isSupervisor) $kRating = 3;
+  # if($perm->isManager()) $kRating = 2;
+  # if(!$kRating) $kRating = 1;
+
+  # зависимость рейтинга от типа пользователя по группам
+  switch ( $current_user['PermissionGroup_ID'] ) {
+  case 1:
+    $kRating = 1;
+  break;
+  case 2:
+    $kRating = 2;
+  break;
+  case 3:
+    $kRating = 3;
+  break;
+  default:
+    $kRating = 1;
+  }
+
+  # проверим чтобыне голосовал до этого
+  $voted = $db->get_var("SELECT Message_ID FROM Message$classID WHERE Object_ID=".(int)$f_Object_ID." AND Object_Sub_Class_ID=".(int)$f_Object_Sub_Class_ID." AND User_ID=".$current_user['User_ID']."");
+  if(!$voted) {
+    if($RatingPlus) $f_Rating = $kRating * 1;
+    else $f_Rating = $kRating * (-1);
+  }
+  else {
+    ob_end_clean();
+    if($_POST[f_BackLink]) $goBackLink = $f_BackLink;
+    else $goBackLink = "/";
+    header("Location: $goBackLink");
+    die();
+  }
+}
+else {
+  ob_end_clean();
+  if($_POST[f_BackLink]) $goBackLink = $f_BackLink;
+  else $goBackLink = "/";
+  header("Location: $goBackLink");
+  die();
+}
+?>

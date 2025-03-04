@@ -1,0 +1,27 @@
+<!-- FormPrefix --><div class="tpl-block-page-block">
+    <?= $f_AdminCommon ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate -->
+    <div class="tpl-block-content">
+        <div class="tpl-block-logo">
+            <a class="tpl-field-logo nc--toolbar-position-right" href="/"><?= nc_image_edit_inline('Logo', $f_RowID, $cc) ?></a>
+        </div>
+        <? if ($cc_settings['show_phone']) { ?>
+            <div class="tpl-block-phone">
+                <div class="tpl-field-phone"><?= nc_edit_inline('Phone', $f_RowID, $cc) ?></div>
+                <div class="tpl-field-work-time"><?= nc_edit_inline('WorkTime', $f_RowID, $cc) ?></div>
+            </div>
+        <? } ?>
+        <div class="tpl-block-flex-spacer"></div>
+        <? if (nc_module_check_by_keyword('requests') && $cc_settings['show_form_and_button']): ?>
+            <div class="tpl-block-form">
+                <?= nc_requests::make_form_popup_button($cc); ?>
+            </div>
+        <? endif; ?>
+    </div>
+<!-- /RecordTemplate -->
+
+<!-- FormSuffix -->
+    <div class="tpl-block-shadow"></div>
+</div><!-- /FormSuffix -->

@@ -1,0 +1,98 @@
+.nc-infoblock-object .nc-infoblock-insert {
+    display: none;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul > li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    display: block;
+}
+
+.menu-item {
+    break-inside: avoid;
+}
+
+.menu-item-link {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--tpl-object-item--icon-space-text);
+}
+
+.menu-item-with-submenu .menu-item-link {
+    display: inline-flex;
+}
+
+.toggle-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.toggle-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-icon.icon-alternate {
+    height: 16px;
+    width: 16px;
+}
+
+.icon-alternate::before,
+.icon-alternate::after {
+    content: "";
+    position: absolute;
+    background-color: var(--tpl-object-item--symbol-color, var(--tpl-color-foreground-main));
+    transition: transform 0.2s ease;
+}
+
+.icon-alternate::before {
+    width: 100%;
+    height: 1.5px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.icon-alternate::after {
+    width: 1.5px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.icon-rotated {
+    margin-top: 2px;
+}
+
+.icon-rotated svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.2s ease;
+}
+
+.tpl-accordion-trigger-opened .icon-alternate::after,
+.tpl-dropdown-trigger-opened .icon-alternate::after {
+    transform: translateX(-50%) rotate(90deg);
+}
+
+.tpl-accordion-trigger-opened .icon-rotated svg,
+.tpl-dropdown-trigger-opened .icon-rotated svg {
+    transform: rotate(180deg);
+}
+
+.tpl-dropdown-to-top .menu-item-symbol,
+.tpl-dropdown-to-right .menu-item-symbol,
+.tpl-dropdown-to-bottom .menu-item-symbol,
+.tpl-accordion-trigger .menu-item-symbol {
+    visibility: visible;
+}

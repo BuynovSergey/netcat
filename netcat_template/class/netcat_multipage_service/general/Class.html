@@ -1,0 +1,43 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<div class="services" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="object-item">
+        <?= $f_AdminButtons; ?>
+
+        <?php if ($f_Image): ?>
+            <a href="<?= $fullLink; ?>" class="item-image-wrapper">
+                <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+            </a>
+        <?php endif ?>
+
+        <div class="item-content">
+            <?php if ($admin_mode || $f_Name): ?>
+                <a href="<?= $fullLink ?>" class="item-name <?= $cc_settings["title_font_size"] ?>"><?= nc_edit_inline(
+                        "Name",
+                        $f_RowID,
+                        $cc_env["Sub_Class_ID"]
+                    ) ?>
+                </a>
+            <?php endif ?>
+
+            <?php if ($admin_mode || $f_Description): ?>
+                <div class="item-announce tpl-text-default-paragraph"><?= nc_edit_inline(
+                        "Description",
+                        $f_RowID,
+                        $cc_env["Sub_Class_ID"]
+                    ) ?>
+                </div>
+            <?php endif ?>
+
+            <?php if ($admin_mode || $f_Price): ?>
+                <div class="item-price tpl-text-alt-paragraph"><?= nc_edit_inline("Price", $f_RowID, $cc_env["Sub_Class_ID"]) ?></div>
+            <?php endif ?>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

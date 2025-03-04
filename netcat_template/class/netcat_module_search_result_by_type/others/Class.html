@@ -1,0 +1,26 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<?php if (($search_query && ($cc_settings['showBlock'] == 'on' && !$totRows) || $totRows) || $admin_mode) { ?>
+    <?php if($cc_settings['blockTitle']) { ?>
+    <div class="search-result-title tpl-text-header3">
+        <?= $cc_settings['blockTitle']; ?> (<?= $totRows; ?>)
+    </div>
+    <?php } ?>
+    <?php if (!$totRows) { ?>
+        <div class="search-no-result tpl-text-default-paragraph"><?= NETCAT_MODULE_SEARCH_NO_RESULTS; ?></div>
+    <?php } ?>
+<?php } ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="search-result-item">
+    <a href='<?= $f_url ?>'<?= (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") ?> class="tpl-text-header5">
+        <?= $f_title ?>
+    </a>
+    <?php if (nc_search::should('ShowMatchedFragment')) { ?>
+        <div class='nc_search_context tpl-text-default-paragraph'><?= strip_tags($f_context, "<strong>") ?></div> 
+    <?php } ?>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows > $recNum): ?>
+    <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+<!-- /FormSuffix -->

@@ -1,0 +1,11 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$text_align = '';
+if ($settings['inside_text_align']) {
+    $text_align = 'text-align: ' . $settings['inside_text_align'] . ';';
+}
+
+return "$selector { $text_align }";

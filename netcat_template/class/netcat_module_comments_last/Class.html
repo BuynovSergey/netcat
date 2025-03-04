@@ -1,0 +1,19 @@
+<!-- FormPrefix --><? echo $f_AdminCommon; ?>
+<h3>Последние комментарии</h3><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?
+echo $f_AdminButtons;
+$f_Keyword = $db->get_var("SELECT `Keyword` FROM `Message".$f_ClassID."` WHERE `Message_ID` = '".$f_MessageID."' ");
+$msg_link = $f_SubURL.($f_Keyword ? $f_Keyword.".html" : $f_EnglishName."_".$f_MessageID.".html");
+$f_Comment = nc_bbcode_clear($f_Comment);
+$cc_settings['TextLength'] = $cc_settings['TextLength'] ? $cc_settings['TextLength'] : 30;
+$f_Comment = nc_substr($f_Comment, 0, $cc_settings['TextLength']).(nc_strlen($f_Comment) > $cc_settings['TextLength'] ? "..." : "");
+?>
+<p><? echo $f_Created ?>
+    <a href='<? echo $msg_link ?>#nc_commentID<? echo $f_SubClassID."_".$f_MessageID."_".$f_id ?>'><? echo $f_Comment ?></a>
+    - пишет <? echo ($f_UserID ? "<a href='".nc_auth_profile_url($f_UserID, 1)."'>$f_Login</a>" : ($f_Guest ? $f_Guest : NETCAT_MODULE_COMMENTS_GUEST)) ?> 
+    в разделе
+    <a href='<? echo $f_SubURL ?>' style='font-weight: bold;'><? echo $f_SubName ?></a>
+</p><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,71 @@
+<?= $f_AdminCommon; ?>
+<?php
+global $action, $message;
+$site_url = $nc_core->catalogue->get_url_by_id($catalogue);
+$full_url_without_query = $site_url . $nc_core->url->get_parsed_url('path');
+$h1 = $nc_core->page->get_h1();
+
+$breadcrumb_position = 1;
+
+$icon_home = '<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">'
+    . '<path d="M1472 992v480q0 26-19 45t-45 19h-384v-384h-256v384h-384q-26 0-45-19t-19-45v-480q0-1 .5-3t.5-3l575-474 575 474q1 2 1 '
+    . '6zm223-69l-62 74q-8 9-21 11h-3q-13 0-21-7l-692-577-692 577q-12 8-24 7-13-2-21-11l-62-74q-8-10-7-23.5t11-21.5l719-599q32-26 '
+    . '76-26t76 26l244 204v-195q0-14 9-23t23-9h192q14 0 23 9t9 23v408l219 182q10 8 11 21.5t-7 23.5z"/></svg>';
+
+$space = (str_replace(",", ".", $cc_settings['dividerSpace'] / 100)) . "em";
+$divider = ($cc_settings['divider'] ? '<li class="divider">' . $cc_settings['divider'] . '</li>' : '');
+
+$current_cc_subdivision_id = $current_sub['Subdivision_ID'] ?: 0;
+?>
+<ol class='breadcrumbs <?= $cc_settings["title_size"] ?>' itemscope='' itemtype='https://schema.org/BreadcrumbList' <?= $styles ?>>
+    <li itemprop='itemListElement' itemscope='' itemtype='https://schema.org/ListItem' <?= $cc_settings['showCatalogueLink'] !== 'on' ?
+        "style='display:none;'" : ""; ?>>
+        <a itemprop='item' href='<?= $site_url; ?>/'>
+            <?php if ($cc_settings['catalogueLinkAs'] === 'main'): ?>
+                <span itemprop='name'>Главная</span>
+            <?php elseif ($cc_settings['catalogueLinkAs'] === 'main'): ?>
+                <span itemprop='name'><?= $current_catalogue['Catalogue_Name']; ?></span>
+            <?php elseif ($cc_settings['catalogueLinkAs'] === 'customname'): ?>
+                <span itemprop='name'><?= $cc_settings['customName']; ?></span>
+            <?php elseif ($cc_settings['catalogueLinkAs'] === 'icon'): ?>
+                <span class="tpl-text-<?= $cc_settings['iconSize']; ?>"
+                        style="--icon-color:var(--tpl-color-<?= $cc_settings['iconColor']; ?>)"><?= $icon_home; ?></span>
+                <meta itemprop="name" content="<?= $current_catalogue['Catalogue_Name']; ?>"/>
+            <?php endif; ?>
+            <meta itemprop='position' content='<?= $breadcrumb_position; ?>'/>
+        </a>
+    </li>
+    <?= $cc_settings['showCatalogueLink'] === 'on' ? $divider : ""; ?>
+    <?php foreach ($nc_core->nav->get_path(1) as $sd): ?>
+        <?php if (property_exists($sd, 'id')): ?>
+            <?php $breadcrumb_position++; ?>
+            <?php if (($action !== 'full' && $current_cc_subdivision_id === $sd->id) || ($action !== 'full' && !$cc)): ?>
+                <li itemprop='itemListElement' itemscope='' itemtype='https://schema.org/ListItem' class='active'>
+                    <a itemprop='item' href='<?= $site_url . $sd->url ?>'>
+                        <span itemprop='name'><?= $sd->name ?></span>
+                        <meta itemprop='position' content='<?= $breadcrumb_position; ?>'/>
+                    </a>
+                </li>
+            <?php else: ?>
+                <li itemprop='itemListElement' itemscope='' itemtype='https://schema.org/ListItem'>
+                    <a itemprop='item' href='<?= $site_url . $sd->url ?>'>
+                        <span itemprop='name'><?= $sd->name ?></span>
+                        <meta itemprop='position' content='<?= $breadcrumb_position; ?>'/>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if ((int)$current_cc_subdivision_id !== (int)$sd->id): ?>
+                <?= $divider; ?>
+            <?php endif; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php if ($action === 'full'): ?>
+        <?= $divider; ?>
+        <li itemprop='itemListElement' itemscope='' itemtype='https://schema.org/ListItem' class='active'>
+            <a itemprop='item' href='<?= $full_url_without_query; ?>'>
+                <span itemprop='name'><?= $h1; ?></span>
+                <meta itemprop='position' content='<?= $breadcrumb_position + 1; ?>'/>
+            </a>
+        </li>
+    <?php endif; ?>
+</ol>

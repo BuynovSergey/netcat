@@ -1,0 +1,21 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$colors = array(
+    '--tpl-color-foreground-main' => '--tpl-color-bm',
+    '--tpl-color-foreground-accent' => '--tpl-color-ba',
+    '--tpl-color-background-main' => '--tpl-color-fm',
+    '--tpl-color-background-accent' => '--tpl-color-fa',
+    '--tpl-color-abm' => '--tpl-color-fm',
+    '--tpl-color-aba' => '--tpl-color-fa',
+);
+
+$color_generator = new nc_tpl_color_generator();
+
+return "$selector {
+{$color_generator->generate_swapped_colors_css($colors)}
+color: var(--tpl-color-foreground-main);
+background-color: var(--tpl-color-background-main);
+}\n";

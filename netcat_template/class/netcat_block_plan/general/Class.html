@@ -1,0 +1,111 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<div class="plans-wrapper">
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="plan<?= $f_IsSelected ? " selected" : "" ?>">
+        <?= $f_AdminButtons; ?>
+
+        <div class="plan-header">
+            <div class="plan-title tpl-text-header5"><?= nc_edit_inline("Name", $f_RowID, $cc_env["Sub_Class_ID"]) ?></div>
+            <?php if ($f_Subtitle): ?>
+                <div class="plan-subtitle tpl-text-alt"><?= nc_edit_inline(
+                        "Subtitle",
+                        $f_RowID,
+                        $cc_env["Sub_Class_ID"]
+                    ) ?></div>
+            <?php endif ?>
+        </div>
+
+        <div class="plan-body<?= empty($f_Items) ? " empty-list" : "" ?>">
+            <?php
+            $items = !empty($f_Items) ? explode("\n", $f_Items) : array();
+            if ($items):?>
+                <div class="plan-items">
+                    <?php foreach ($items as $item): ?>
+                        <div class="plan-item">
+                            <div class="plan-item-icon">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0.75 7.625L5.75 12.625L13.25 1.375" stroke="#CC2530" stroke-width="1.5"
+                                            stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="plan-item-name tpl-text-alt"><?= trim($item) ?></div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            <?php endif ?>
+        </div>
+
+        <div class="plan-footer">
+            <?php if ($f_Price): ?>
+                <div class="plan-price-wrapper">
+                    <span class="plan-price tpl-text-header5"><?= nc_edit_inline("Price", $f_RowID, $cc_env["Sub_Class_ID"]) ?></span>
+                    <?php if ($f_Period): ?>
+                        <span class="plan-period tpl-text-alt"><?= nc_edit_inline("Period", $f_RowID, $cc_env["Sub_Class_ID"]) ?></span>
+                    <?php endif ?>
+                </div>
+            <?php endif ?>
+
+            <?php if ($cc_settings["button_mode"] !== "mode-none"): ?>
+                <?php $class_name = $f_IsSelected ? "tpl-button-primary" : "tpl-button-secondary"; ?>
+
+                <?php if ($cc_settings["button_mode"] == "mode-link"): ?>
+                    <a href="<?= $f_ButtonLink ?: '#' ?>"
+                            class="plan-button tpl-text-alt tpl-button <?= $class_name ?>"><?= $f_ButtonCaption ?></a>
+
+                <?php elseif ($cc_settings["button_mode"] == "mode-requests" && nc_module_check_by_keyword("requests")): ?>
+                    <?= nc_requests::make_form_popup_button(
+                        $cc,
+                        "default",
+                        array(
+                            'button_caption' => $f_ButtonCaption ?: "Заказать",
+                            "button_custom_class_list" => "plan-button tpl-button " .
+                                ($f_IsSelected ? "tpl-button-primary" : "tpl-button-secondary"),
+                            'Comment' => 'Заказ на товар «' . htmlspecialchars($f_Name) . '».',
+                        )
+                    ) ?>
+                <?php endif ?>
+            <?php endif ?>
+        </div>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+
+<script>
+    (function () {
+        if (window.$) {
+            $(init);
+        } else {
+            document.addEventListener("DOMContentLoaded", init);
+        }
+
+        function init() {
+            const wrapper = $("#<?= $nc_block_id ?>").find(".plans-wrapper");
+            const plans = wrapper.find(".plan");
+
+            plans.on("click", function () {
+                const _this = $(this);
+
+                if (_this.hasClass("selected")) {
+                    return;
+                }
+
+                plans.removeClass("selected")
+                    .find(".plan-button")
+                    .removeClass("tpl-button-primary")
+                    .addClass("tpl-button-secondary");
+
+                _this.addClass("selected");
+
+                _this.find(".plan-button")
+                    .removeClass("tpl-button-secondary")
+                    .addClass("tpl-button-primary");
+            })
+        }
+    })()
+</script>
+<!-- /FormSuffix -->

@@ -1,0 +1,149 @@
+<div class="nc-mixins-mixin-settings-netcat-background">
+    <!-- шаблон слоя фона -->
+    <div class="nc-mixins-mixin-settings-netcat-background-layer nc-mixins-mixin-settings-row nc-mixins-mixin-settings-row-template">
+        <div class="nc-mixins-mixin-settings-row-move">
+            <i class="nc-icon nc--move" title="изменить порядок"></i>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-background-layer-type">
+            <select name="mixin.settings.#.type" class="nc-mixins-mixin-settings-netcat-background-layer-type-select">
+                <option value="color">цвет</option>
+                <option value="file">изображение</option>
+                <!--<option value="gradient">градиент</option>-->
+                <option value="linear_gradient">линейный градиент</option>
+                <option value="radial_gradient">радиальный градиент</option>
+            </select>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-background-layer-properties">
+            <div class="nc-mixins-mixin-settings-netcat-background-layer-properties-color">
+                <label>
+                    <input type="text" name="mixin.settings.#.background_color" autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches>
+                </label>
+            </div>
+            <div class="nc-mixins-mixin-settings-netcat-background-layer-properties-file" data-uploader data-uploader-allowed="image/*" data-uploader-ext="jpg, jpeg, png, gif, webp, svg, ico">
+
+                <input type="url" name="mixin.settings.#.background_url" placeholder="путь к файлу" value="" />
+                <button type="button" class="nc-mixin-uploader-button js-mixin-upload">Выбрать</button>
+                <input type="file" class="nc-mixin-uploader-file">
+
+                <select name="mixin.settings.#.background_size">
+                    <option value="auto">исходный размер</option>
+                    <option value="cover" selected>вписать с обрезкой</option>
+                    <option value="contain">вписать без обрезки</option>
+                </select>
+
+                <select name="mixin.settings.#.background_position">
+                    <option value="" disabled>- положение -</option>
+                    <option value="center" selected>по центру</option>
+                    <option value="left top">слева / сверху</option>
+                    <option value="left center">слева / по центру</option>
+                    <option value="left bottom">слева / снизу</option>
+                    <option value="right top">справа / сверху</option>
+                    <option value="right center">справа / по центру</option>
+                    <option value="right bottom">справа / снизу</option>
+                    <option value="center top">по центру / сверху</option>
+                    <option value="center bottom">по центру / снизу</option>
+                </select>
+
+                <select name="mixin.settings.#.background_repeat">
+                    <option value="no-repeat" selected>без повтора</option>
+                    <option value="repeat">повторять</option>
+                    <option value="repeat-x">повторять по горизонтали</option>
+                    <option value="repeat-y">повторять по вертикали</option>
+                </select>
+
+                <select name="mixin.settings.#.background_attachment">
+                    <option value="" selected>прокрутка с содержимым</option>
+                    <option value="fixed">неподвижный фон</option>
+                </select>
+
+
+            </div>
+            <div class="nc-mixins-mixin-settings-netcat-background-layer-properties-linear_gradient">
+                <div>
+                    <label>
+                        <span>угол наклона</span>
+                        <input type="number" name="mixin.settings.#.gradient_angle" min="-360" max="360" value="0">
+                    </label>
+                    <label>
+                        <input type="text" name="mixin.settings.#.lgradient_color.0" autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </label>
+                    <label>
+                        <input type="text" name="mixin.settings.#.lgradient_color.1" autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </label>
+                </div>
+            </div>
+            <div class="nc-mixins-mixin-settings-netcat-background-layer-properties-radial_gradient">
+                <div>
+                    <label>
+                        <input type="text" name="mixin.settings.#.rgradient_color.0" autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </label>
+                    <label>
+                        <input type="text" name="mixin.settings.#.rgradient_color.1" autocomplete="off"
+                               data-color-input=""
+                               data-mc-format="rgb"
+                               data-sync-color=""
+                               data-nc-swatches>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="nc-mixins-mixin-settings-row-remove">
+            <i class="nc-icon nc--remove" title="удалить"></i>
+        </div>
+    </div>
+    <!-- тут будут собственно слои -->
+    <div class="nc-mixins-mixin-settings-rows">
+    </div>
+    <!-- кнопка добавления нового слоя -->
+    <div>
+        <a href="#" class="nc-mixins-mixin-settings-row-add">Добавить</a>
+    </div>
+</div>
+
+<script>
+    (function () {
+
+        var prefix = '.nc-mixins-mixin-settings-netcat-background';
+        var background_settings_container = $nc(prefix);
+
+        function init(event, data) {
+            var updated_container = data.row || $nc(this);
+            // переключение типа слоя
+            updated_container.find(prefix + '-layer-type-select')
+                .on('change', update_layer_type)
+                .trigger('change');
+        }
+
+        // Инициализация событий
+        background_settings_container.closest('.nc-mixins-mixin-settings')
+            .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+            .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init)
+            .off(nc_mixin_settings_editor.mixin_settings_new_row_event)
+            .on(nc_mixin_settings_editor.mixin_settings_new_row_event, init);
+
+        // переключение типа слоя фона (цвет/картинка/градиент)
+        function update_layer_type() {
+            var select = $nc(this),
+                type = select.val(),
+                properties_container = select.closest(prefix + '-layer').find(prefix + '-layer-properties');
+            properties_container.children().hide().filter(prefix + '-layer-properties-' + type).show();
+        }
+
+    })();
+</script>

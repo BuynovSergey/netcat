@@ -1,0 +1,40 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+
+<?php if ($cc_settings['displayAs'] == 'li'): ?>
+<ul>
+    <?php endif; ?>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= $f_AdminButtons; ?>
+    <?php $buttonText = nc_edit_inline('Name', $f_RowID, $cc_env['Sub_Class_ID']); ?>
+
+    <?php switch ($cc_settings['displayAs']) {
+        case "li":
+            ?>
+            <li <?= $cc_settings['liStyle'] == 'outDots' ? "class='no-bullet'" : ""; ?>>
+                <a href="<?= $f_Link; ?>" <?= $f_newWindow ? "target='_blank'" : ""; ?>><?= $buttonText; ?></a>
+            </li>
+            <?php
+            break;
+        case "button":
+            ?>
+            <button type="button"
+                    class="tpl-button tpl-button-<?= $f_IsPrimary ? "primary" : "secondary" ?>"
+                    onclick="window.open('<?= $f_Link; ?>','<?= $f_newWindow ? '_blank' : "_self"; ?>');">
+                <?= $buttonText; ?>
+            </button>
+            <?php
+            break;
+        case "a":
+        default:
+            ?>
+            <a href="<?= $f_Link; ?>" class="tpl-text-default tpl-text-<?= $f_IsPrimary ? "primary" : "secondary" ?>" <?= $f_newWindow ?
+                "target='_blank'" : ""; ?>><?= $buttonText; ?></a>
+            <?php
+            break;
+    } ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->    <?php if ($cc_settings['displayAs'] == 'li'): ?>
+</ul>
+<?php endif; ?>
+<!-- /FormSuffix -->

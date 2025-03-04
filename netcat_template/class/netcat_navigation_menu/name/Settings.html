@@ -1,0 +1,11 @@
+<?php
+require $nc_parent_field_path;
+
+$styles = array();
+
+if (nc_array_value($cc_settings, "submenu_symbol_color") !== "inherit" && !empty($cc_settings["submenu_symbol_color"])) {
+    $styles[] = "--tpl-object-item--symbol-color: var(--tpl-color-" . $cc_settings["submenu_symbol_color"] . ")";
+}
+
+$styles[] = "--tpl-object-item--icon-space-text: " . sprintf("%0.2F", nc_array_value($cc_settings, 'symbol_space', 0) / 100) . "em";
+$styles = " style='" . implode("; ", $styles) . "'";

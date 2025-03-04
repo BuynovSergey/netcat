@@ -1,0 +1,21 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+
+$height = '';
+if ($settings['height']) {
+    $height = 'height: ' . $settings['height'] . $settings['height_unit'] . ';';
+}
+
+$min_height = '';
+if ($settings['height_min']) {
+    $min_height = 'min-height: ' . $settings['height_min'] . $settings['height_min_unit'] . ';';
+}
+
+$max_height = '';
+if ($settings['height_max']) {
+    $max_height = 'max-height: ' . $settings['height_max'] . $settings['height_max_unit'] . ';';
+}
+
+return "$selector { $height $min_height $max_height } ";

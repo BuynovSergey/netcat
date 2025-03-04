@@ -1,0 +1,27 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+
+<div class="projects" <?= $styles ?>>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><div class="object-item">
+        <?= $f_AdminButtons; ?>
+        <a href="<?= $fullLink; ?>">
+            <?php if ($f_Image): ?>
+                <div class="item-image-wrapper">
+                    <img src="<?= $f_Image->get_path() ?>" alt="<?= $f_Name ?>">
+                </div>
+            <?php endif ?>
+
+            <div class="item-name <?= $cc_settings["title_font_size"] ?>"><?= nc_edit_inline(
+                    "Name",
+                    $f_RowID,
+                    $cc_env["Sub_Class_ID"]
+                ) ?></div>
+        </a>
+    </div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --></div>
+
+<?php if ($totRows > $recNum): ?>
+  <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?><!-- /FormSuffix -->

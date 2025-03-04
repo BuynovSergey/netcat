@@ -1,0 +1,26 @@
+<?
+$email_field = $nc_core->get_settings('UserEmailField');
+$user_info = $db->get_row("SELECT `".$AUTHORIZE_BY."` AS `login`, `".$email_field."` AS `email` FROM `User` WHERE `User_ID` = '".$f_ToUser."' ", ARRAY_A);
+
+// уведомление по почте
+if ( $nc_core->get_settings('pm_notify', 'auth') ) {
+  $mailbody = "Здравствуйте, ".$user_info['login']." !
+Вам пришло новое сообщение на сайте ".$_SERVER['HTTP_HOST']."
+
+Можете посмотреть его по ссылке http://".$_SERVER['HTTP_HOST'].$SUB_FOLDER.nc_message_link($message, $classID)."?auth_hash=".$nc_auth->hash->create_auth_hash($f_ToUser);
+
+  $mailer = new CMIMEMail();
+  $mailer->mailbody($mailbody);
+  $mailer->send($user_info['email'], $system_env['SpamFromEmail'], $system_env['SpamFromEmail'], "Новое личное сообщение на сайте ".$_SERVER['HTTP_HOST'], $system_env['SpamFromName']);
+}
+
+if($inside_admin) {
+	ob_end_clean();
+	header("Location: ".$goBackLink."&inside_admin=1");
+	exit;
+}
+else {
+	echo $IsChecked ? "Сообщение для <b>".$user_info['login']."</b> отправлено." : NETCAT_MODERATION_MSG_OBJADDMOD;
+	echo "<br /><br />".$goBack;
+}
+?>

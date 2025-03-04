@@ -1,0 +1,7 @@
+<?php
+if (nc_module_check_by_keyword('auth')) {
+    $nc_auth = nc_auth::get_object();
+
+    $auth_settings = nc_core()->get_settings('','auth');
+}
+?>

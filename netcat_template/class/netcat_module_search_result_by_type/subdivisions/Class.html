@@ -1,0 +1,54 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+<?php if (($search_query && ($cc_settings['showBlock'] == 'on' && !$totRows) || $totRows) || $admin_mode) { ?>
+    <?php if($cc_settings['blockTitle']) { ?>
+    <div class="search-result-title tpl-text-header3">
+        <?= $cc_settings['blockTitle']; ?> (<?= $totRows; ?>)
+    </div>
+    <?php } ?>
+    <?php if (!$totRows) { ?>
+        <div class="search-no-result tpl-text-default-paragraph"><?= NETCAT_MODULE_SEARCH_NO_RESULTS; ?></div>
+    <?php } ?>
+<?php } ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?php
+try {
+    $tree = array_reverse($nc_core->subdivision->get_parent_tree($f_meta['subdivision_id']));
+    unset($tree[0]);
+    $goods_count = 0;
+    $sub_classes = $nc_core->sub_class->get_by_subdivision_id($f_meta['subdivision_id']);
+    foreach ($sub_classes as $sub_class) {
+        $class_id = $sub_class['Class_ID'];
+        if (!in_array($class_id, $goods_components_ids)) {
+            continue;
+        }
+        $count = $nc_core->db->get_var(
+            "SELECT COUNT(*)
+                 FROM `Message{$class_id}`
+                 WHERE `Subdivision_ID` IN ({$f_meta['subdivision_id']}) AND Checked=1 AND Parent_message_ID=0"
+        );
+        $goods_count += (int)$count;
+    }
+} catch (Exception $exception) {
+}
+?>
+<div class="search-result-item">
+    <div class="item-title tpl-text-header6">
+        <?php
+        $tmp = array();
+        foreach ($tree as $s) {
+            $tmp[] = "<a href='" . nc_folder_url($s['Subdivision_ID']) . "' " . (nc_search::should('OpenLinksInNewWindow') ? " target='_blank'" : "") . ">" . $s['Subdivision_Name'] . "</a>";
+        }
+        $tmp = implode('&nbsp;&rarr;&nbsp;', $tmp);
+        ?>
+        <?= $tmp; ?>
+    </div>
+    <div class="body tpl-text-alt-paragraph">
+        <?= $goods_count; ?> <?= $nc_core->lang->get_numerical_inclination($goods_count, array('товар', 'товара', 'товаров')); ?>
+    </div>
+</div><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><?php if ($totRows > $recNum): ?>
+    <?= nc_browse_messages($cc_env, 10); ?>
+<?php endif; ?>
+<!-- /FormSuffix -->

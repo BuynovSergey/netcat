@@ -1,0 +1,314 @@
+<?php
+
+$pangrams1 = array(
+    'Южно-эфиопский грач увёл мышь за хобот на съезд ящериц.',
+    'Съешь ещё этих мягких французских булок, да выпей же чаю.',
+    'В чащах юга жил-был цитрус... — да, но фальшивый экземпляр!',
+    'Обдав его удушающей пылью, множество ярких фаэтонов исчезло из цирка.',
+    'Флегматичная эта верблюдица жуёт у подъезда засыхающий горький шиповник.',
+    'Аэрофотосъёмка ландшафта уже выявила земли богачей и процветающих крестьян.',
+    'Широкая электрификация южных губерний даст мощный толчок подъёму сельского хозяйства.',
+    'Однажды съев фейхоа, я, как зацикленный, ностальгирую всё чаще и больше по этому чуду.',
+    'Вступив в бой с шипящими змеями — эфой и гадюкой, — маленький, цепкий, храбрый ёж съел их.',
+    'Всё ускоряющаяся эволюция компьютерных технологий предъявила жёсткие требования к производителям как собственно вычислительной техники, так и периферийных устройств.',
+);
+
+$pangrams2 = array(
+    'Jived fox nymph grabs quick waltz.',
+    'How vexingly quick daft zebras jump!',
+    'The five boxing wizards jump quickly.',
+    'Jackdaws love my big sphinx of quartz.',
+    'Pack my box with five dozen liquor jugs.',
+    'The quick brown fox jumps over the lazy dog.',
+    'Five or six big jet planes zoomed quickly by the tower.',
+    'My grandfather picks up quartz and valuable onyx jewels.',
+    'Sixty zippers were quickly picked from the woven jute bag.',
+    'Grumpy wizards make toxic brew for the evil Queen and Jack.',
+);
+
+$text_types = array(
+    'default' => array('title' => 'Основной текст', 'paragraphs' => true, 'test' => '<p>'),
+    'alt' => array('title' => 'Дополнительный шрифт', 'paragraphs' => true, 'test' => '<div class="tpl-text-alt">'),
+    'header1' => array('title' => 'Заголовок 1', 'paragraphs' => false, 'test' => '<h1>'),
+    'header2' => array('title' => 'Заголовок 2', 'paragraphs' => false, 'test' => '<h2>'),
+    'header3' => array('title' => 'Заголовок 3', 'paragraphs' => false, 'test' => '<h3>'),
+    'header4' => array('title' => 'Заголовок 4', 'paragraphs' => false, 'test' => '<h4>'),
+    'header5' => array('title' => 'Заголовок 5', 'paragraphs' => false, 'test' => '<h5>'),
+    'header6' => array('title' => 'Заголовок 6', 'paragraphs' => false, 'test' => '<h6>'),
+//    'small' => array('title' => 'Уменьшенный текст', 'paragraphs' => true, 'test' => '<div class="tpl-text-small">'),
+//    'big' => array('title' => 'Увеличенный текст', 'paragraphs' => true, 'test' => '<div class="tpl-text-big">'),
+);
+
+?>
+<div class="nc-mixins-mixin-settings-netcat-text">
+    <?php foreach ($text_types as $type => $options): ?>
+    <div class="nc-mixins-mixin-settings-netcat-text-type" data-type="<?= $type ?>" data-test="<?= htmlspecialchars($options['test']) ?>">
+        <div class="nc-mixins-mixin-settings-netcat-text-type-tab">
+            <div class="nc-mixins-mixin-settings-netcat-text-sample">
+                <?= $options['title'] ?>
+                <div class="nc-mixins-mixin-settings-netcat-text-sample-expanded">
+                    <?= 'Образец текста: ' . $pangrams1[rand(0, count($pangrams1) - 1)]; ?>
+                </div>
+                <div class="nc-mixins-mixin-settings-netcat-text-sample-expanded">
+                    <?= 'Text sample: ' . $pangrams2[rand(0, count($pangrams2) - 1)]; ?>
+                </div>
+            </div>
+            <a class="nc-mixins-mixin-settings-netcat-text-reset">сбросить настройки</a>
+        </div>
+        <div class="nc-mixins-mixin-settings-netcat-text-settings">
+            <div class="nc-mixins-mixin-settings-vertical-container">
+                <div>
+                    <label>Шрифт:
+                        <select name="mixin.settings.<?= $type ?>.font_family" class="nc-mixins-mixin-font-select">
+                            <option value="">наследовать</option>
+                        </select>
+                    </label>
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.asset">
+                    <input type="hidden" name="mixin.settings.<?= $type ?>.font_family_fallback">
+                </div>
+                <div>
+                    <label>Размер:
+                        <input type="number" name="mixin.settings.<?= $type ?>.font_size" min="0">
+                        <select name="mixin.settings.<?= $type ?>.font_size_unit">
+                            <option value="px">px</option>
+                            <option value="pt">pt</option>
+                            <option value="rem">rem</option>
+                            <option value="em">em</option>
+                            <option value="vh">vh</option>
+                            <option value="vw">vw</option>
+                            <option value="%">%</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>Вес:
+                        <select name="mixin.settings.<?= $type ?>.font_weight">
+                            <option value="">наследовать</option>
+                            <option value="100">100 (тонкий)</option>
+                            <option value="200">200 (сверхсветлый)</option>
+                            <option value="300">300 (светлый)</option>
+                            <option value="400">400 (нормальный)</option>
+                            <option value="500">500 (средний)</option>
+                            <option value="600">600 (полужирный)</option>
+                            <option value="700">700 (жирный)</option>
+                            <option value="800">800 (сверхжирный)</option>
+                            <option value="900">900 (черный)</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>Стиль:
+                        <select name="mixin.settings.<?= $type ?>.font_style">
+                            <option value="">наследовать</option>
+                            <option value="normal">обычный</option>
+                            <option value="italic">курсив</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>Регистр:
+                        <select name="mixin.settings.<?= $type ?>.text_transform">
+                            <option value="">наследовать</option>
+                            <option value="none">не изменять</option>
+                            <option value="uppercase">ВСЕ ЗАГЛАВНЫЕ</option>
+                            <option value="lowercase">все строчные</option>
+                            <option value="capitalize">Первая Заглавная</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="nc-mixins-mixin-settings-group-header">
+                Отступы
+            </div>
+            <div class="nc-mixins-mixin-settings-vertical-container">
+                <div>
+                    <label>Перед <?= $options['paragraphs'] ? 'параграфом' : 'блоком' ?>:
+                        <input type="number" name="mixin.settings.<?= $type . ($options['paragraphs'] ? '.children.p' : '') ?>.margin_top" class="nc--for-expanded">
+                        <select name="mixin.settings.<?= $type . ($options['paragraphs'] ? '.children.p' : '') ?>.margin_top_unit">
+                            <option value="px">px</option>
+                            <option value="pt">pt</option>
+                            <option value="rem">rem</option>
+                            <option value="em">em</option>
+                            <option value="vh">vh</option>
+                            <option value="vw">vw</option>
+                            <option value="%">%</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>После <?= $options['paragraphs'] ? 'параграфа' : 'блока' ?>:
+                        <input type="number" name="mixin.settings.<?= $type . ($options['paragraphs'] ? '.children.p' : '') ?>.margin_bottom" class="nc--for-expanded">
+                        <select name="mixin.settings.<?= $type . ($options['paragraphs'] ? '.children.p' : '') ?>.margin_bottom_unit">
+                            <option value="px">px</option>
+                            <option value="pt">pt</option>
+                            <option value="rem">rem</option>
+                            <option value="em">em</option>
+                            <option value="vh">vh</option>
+                            <option value="vw">vw</option>
+                            <option value="%">%</option>
+                        </select>
+                    </label>
+                </div>
+                <?php if ($options['paragraphs']): ?>
+                <div>
+                    <label>Первой строки:
+                        <input type="number" name="mixin.settings.<?= $type ?>.children.p.text_indent" class="nc--for-expanded">
+                        <select name="mixin.settings.<?= $type ?>.children.p.text_indent_unit">
+                            <option value="px">px</option>
+                            <option value="pt">pt</option>
+                            <option value="rem">rem</option>
+                            <option value="em">em</option>
+                            <option value="vh">vh</option>
+                            <option value="vw">vw</option>
+                            <option value="%">%</option>
+                        </select>
+                    </label>
+                </div>
+                <?php endif; ?>
+            </div>
+            <div class="nc-mixins-mixin-settings-group-header">
+                Интервалы
+            </div>
+            <div class="nc-mixins-mixin-settings-vertical-container">
+                <div>
+                    <label>Межстрочный:
+                        <input type="number" name="mixin.settings.<?= $type ?>.line_height" min="0">
+                        <select name="mixin.settings.<?= $type ?>.line_height_unit">
+                            <option value="">—</option>
+                            <option value="px" selected>px</option>
+                            <option value="pt">pt</option>
+                            <option value="rem">rem</option>
+                            <option value="em">em</option>
+                            <option value="vh">vh</option>
+                            <option value="vw">vw</option>
+                            <option value="%">%</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>Межбуквенный:
+                        <input type="number" name="mixin.settings.<?= $type ?>.letter_spacing">
+                        <select name="mixin.settings.<?= $type ?>.letter_spacing_unit">
+                            <option value="px">px</option>
+                            <option value="pt">pt</option>
+                            <option value="rem">rem</option>
+                            <option value="em">em</option>
+                            <option value="vh">vh</option>
+                            <option value="vw">vw</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-text';
+
+    function init(event, data) {
+        var settings_container = $nc(this);
+        if (settings_container.data('initialized')) {
+            return;
+        }
+
+        function get_input(block, input_name_suffix) {
+            return block.find('[name$=".' + input_name_suffix + '"]');
+        }
+
+        var infoblock_id = settings_container.closest('form').find('input[name="infoblock_id"]').val(),
+            infoblock = $nc('.tpl-container-' + infoblock_id + ', .tpl-block-' + infoblock_id);
+
+        function get_block_style(type_block, property_name) {
+            if (!infoblock.length || property_name === 'line-height') {
+                // line-height: все значения вернутся в px, для line-height это может быть неправильным
+                // возможный способ обойти это — создавать копию в infoblock.parent() со всеми установленными
+                // стилями и получать значение оттуда [возможное улучшение в будущем]
+                return '';
+            }
+            var cache_key = 'style:' + property_name,
+                property_value = type_block.data(cache_key);
+            if (!property_value) {
+                var test_markup = type_block.data('test'),
+                    test_element = $nc(test_markup).html('T').hide().appendTo(infoblock.parent());
+                property_value = test_element.css(property_name);
+                type_block.data(cache_key, property_value);
+                test_element.remove();
+            }
+            return property_value;
+        }
+
+        function update_sample(type_block) {
+            var inputs = type_block.find('input:not([type="hidden"]), select:not([name$="_unit"])'),
+                has_no_custom_properties = true,
+                css = {},
+                css_for_expanded = {},
+                sample =  type_block.find(prefix + '-sample');
+
+            inputs.each(function() {
+                var input = $nc(this),
+                    input_value = input.val(),
+                    property = this.name.substring(this.name.lastIndexOf('.') + 1),
+                    css_property = property.replace('_', '-'),
+                    value = input_value.length ? input_value + (get_input(type_block, property + '_unit').val() || '') : '';
+                if (value.length) {
+                    has_no_custom_properties = false;
+                    if (css_property === 'font-family' && /\d/.test(value)) {
+                        value = '"' + value + '"';
+                    }
+                }
+                if (input.is('.nc--for-expanded')) {
+                    css_for_expanded[css_property] = value || '';
+                } else {
+                    css[css_property] = value || get_block_style(type_block, css_property);
+                }
+            });
+
+            sample.closest(prefix + '-type-tab').toggleClass('nc--default', has_no_custom_properties);
+            sample.attr('style', '').css(css);
+            sample.find(prefix + '-sample-expanded').attr('style', '').css(css_for_expanded);
+        }
+
+        // Показать/спрятать настройки при нажатии на тип текста (à la accordéon)
+        settings_container.find(prefix + '-type-tab').click(function() {
+            settings_container.find(prefix + '-type').removeClass('nc--clicked');
+            $nc(this).closest(prefix + '-type').addClass('nc--clicked');
+        });
+
+        // Отслеживание изменений для настроек типов текста
+        settings_container.find('input, select').on('change input', function() {
+            var type_block = $nc(this).closest(prefix + '-type');
+            clearTimeout(type_block.data('update_sample_timeout'));
+            type_block.data('update_sample_timeout', setTimeout(function() { update_sample(type_block); }), 50);
+        });
+
+        // Изменение значения font-family
+        get_input(settings_container, 'font_family').change(function() {
+            var select = $nc(this),
+                font_family = select.find('option:selected'),
+                settings_block = select.closest(prefix + '-settings');
+            // Сохранить дополнительные сведения о шрифте, чтобы не нужно было их вычислять при генерации стилей
+            get_input(settings_block, 'asset').val(font_family.data('asset'));
+            get_input(settings_block, 'font_family_fallback').val(font_family.data('fallback')).trigger('input');
+        }).change();
+
+        // Нажатие на «сбросить настройки»
+        settings_container.find(prefix + '-reset').click(function() {
+            var type_block = $nc(this).closest(prefix + '-type');
+            type_block.find('select').prop('selectedIndex', 0);
+            type_block.find('input').val('').first().trigger('input');
+        });
+
+        // Больше не выполнять init() для этого блока:
+        settings_container.data('initialized', true);
+    }
+
+    // Инициализация событий
+    $nc(prefix).closest('.nc-mixins-mixin-settings')
+        .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+        .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+})();
+</script>

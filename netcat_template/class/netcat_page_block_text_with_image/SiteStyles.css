@@ -1,0 +1,16 @@
+.nc-infoblock-toolbar { position: absolute; right: 10px; z-index: 2; }
+
+.tpl-block-page-block { position: relative; min-width: 460px; }
+.tpl-block-content { margin: 0 auto; max-width: 1060px; min-width: 420px; padding: 0 20px; display: flex; justify-content: space-between; }
+.tpl-block-container { max-width: 520px; min-width: 420px; }
+H3 { font-weight: bold; font-size: 32px; line-height: 1.22em; color: #333; margin-bottom: 23px; word-wrap: break-word; }
+H3 * { line-height: 1.22em; }
+.tpl-block-text { margin-bottom: 53px; padding-left: 2px; word-wrap: break-word; line-height: 1.44em; }
+.tpl-block-text * { line-height: 1.44em; }
+.tpl-block-image { position: relative; width: 430px; min-width: 430px; max-height: 360px; text-align: center; margin-top: 8px; }
+.tpl-block-image IMG { max-width: 430px; max-height: 360px; }
+@media (max-width: 1010px) {
+    .tpl-block-content { flex-direction: column-reverse; justify-content: flex-start; align-items: center; }
+    .tpl-block-container { text-align: center; }
+    .tpl-block-image { margin-bottom: 43px; }
+}

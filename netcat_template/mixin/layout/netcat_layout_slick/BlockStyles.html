@@ -1,0 +1,19 @@
+<?php
+
+/** @var string $selector */
+/** @var string $list_selector */
+/** @var array $settings */
+
+$padding = ((int)nc_array_value($settings, 'space_between', 0) / 2) . 'px';
+
+$css = array(
+    ":not(.slick-slider)$list_selector > *:not(:first-child) { display: none; }",
+    "$list_selector .slick-slide { padding: $padding; }",
+);
+
+if ($settings['arrows_position'] === 'in') {
+    $css[] = "$list_selector .slick-prev { left: 0px; }";
+    $css[] = "$list_selector .slick-next { right: 0px; }";
+}
+
+return implode("\n", $css);

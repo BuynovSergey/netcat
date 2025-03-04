@@ -1,0 +1,63 @@
+<font color='gray'>Тематика новостей:</font><br />
+<select name='f_tema'>
+<option value='hardware' <?=('hardware' == $f_tema ? "selected='selected'" : ""); ?>>Hardware</option>
+<option value='computers' <?=('computers' == $f_tema ? "selected='selected'" : ""); ?>>Hi-Tech</option>
+<option value='auto' <?=('auto' == $f_tema ? "selected='selected'" : ""); ?>>Авто</option>
+<option value='auto_racing' <?=('auto_racing' == $f_tema ? "selected='selected'" : ""); ?>>Автоспорт</option>
+<option value='basketball' <?=('basketball' == $f_tema ? "selected='selected'" : ""); ?>>Баскетбол</option>
+<option value='security' <?=('security' == $f_tema ? "selected='selected'" : ""); ?>>Безопасность</option>
+<option value='world' <?=('world' == $f_tema ? "selected='selected'" : ""); ?>>В мире</option>
+<option value='galleries' <?=('galleries' == $f_tema ? "selected='selected'" : ""); ?>>Выставки</option>
+<option value='index' <?=('index' == $f_tema ? "selected='selected'" : ""); ?>>Главные новости</option>
+<option value='flu' <?=('flu' == $f_tema ? "selected='selected'" : ""); ?>>Грипп</option>
+<option value='martial_arts' <?=('martial_arts' == $f_tema ? "selected='selected'" : ""); ?>>Единоборства</option>
+<option value='health' <?=('health' == $f_tema ? "selected='selected'" : ""); ?>>Здоровье</option>
+<option value='internet' <?=('internet' == $f_tema ? "selected='selected'" : ""); ?>>Интернет</option>
+<option value='movies' <?=('movies' == $f_tema ? "selected='selected'" : ""); ?>>Кино</option>
+<option value='culture' <?=('culture' == $f_tema ? "selected='selected'" : ""); ?>>Культура</option>
+<option value='metallurgy' <?=('metallurgy' == $f_tema ? "selected='selected'" : ""); ?>>Металлургия</option>
+<option value='mobile' <?=('mobile' == $f_tema ? "selected='selected'" : ""); ?>>Мобильная связь</option>
+<option value='music' <?=('music' == $f_tema ? "selected='selected'" : ""); ?>>Музыка</option>
+<option value='science' <?=('science' == $f_tema ? "selected='selected'" : ""); ?>>Наука</option>
+<option value='realty' <?=('realty' == $f_tema ? "selected='selected'" : ""); ?>>Недвижимость</option>
+<option value='blogs' <?=('blogs' == $f_tema ? "selected='selected'" : ""); ?>>Новости в блогах</option>
+<option value='society' <?=('society' == $f_tema ? "selected='selected'" : ""); ?>>Общество</option>
+<option value='politics' <?=('politics' == $f_tema ? "selected='selected'" : ""); ?>>Политика</option>
+<option value='incident' <?=('incident' == $f_tema ? "selected='selected'" : ""); ?>>Происшествия</option>
+<option value='religion' <?=('religion' == $f_tema ? "selected='selected'" : ""); ?>>Религия</option>
+<option value='software' <?=('software' == $f_tema ? "selected='selected'" : ""); ?>>Софт</option>
+<option value='sport' <?=('sport' == $f_tema ? "selected='selected'" : ""); ?>>Спорт</option>
+<option value='insurance' <?=('insurance' == $f_tema ? "selected='selected'" : ""); ?>>Страхование</option>
+<option value='theaters' <?=('theaters' == $f_tema ? "selected='selected'" : ""); ?>>Театры</option>
+<option value='topnews' <?=('topnews' == $f_tema ? "selected='selected'" : ""); ?>>Тема дня</option>
+<option value='tennis' <?=('tennis' == $f_tema ? "selected='selected'" : ""); ?>>Теннис</option>
+<option value='transport' <?=('transport' == $f_tema ? "selected='selected'" : ""); ?>>Транспорт</option>
+<option value='travels' <?=('travels' == $f_tema ? "selected='selected'" : ""); ?>>Туризм</option>
+<option value='finances' <?=('finances' == $f_tema ? "selected='selected'" : ""); ?>>Финансы</option>
+<option value='football' <?=('football' == $f_tema ? "selected='selected'" : ""); ?>>Футбол</option>
+<option value='hockey' <?=('hockey' == $f_tema ? "selected='selected'" : ""); ?>>Хоккей</option>
+<option value='business' <?=('business' == $f_tema ? "selected='selected'" : ""); ?>>Экономика</option>
+<option value='energy' <?=('energy' == $f_tema ? "selected='selected'" : ""); ?>>Энергетика</option>
+</select><br /><br /><font color='gray'>Количество заголовков:</font><br />
+<select name='f_kol'>
+<option value='3' <?=('3' == $f_kol ? "selected='selected'" : ""); ?>>3</option>
+<option value='5' <?=('5' == $f_kol ? "selected='selected'" : ""); ?>>5</option>
+<option value='15' <?=('15' == $f_kol ? "selected='selected'" : ""); ?>>15</option>
+</select><br /><br /><font color='gray'>Время и дата:</font><br />
+<select name='f_date'>
+<option value='0' <?=('0' == $f_date ? "selected='selected'" : ""); ?>>не показывать</option>
+<option value='1' <?=('1' == $f_date ? "selected='selected'" : ""); ?>>показывать время</option>
+<option value='2' <?=('2' == $f_date ? "selected='selected'" : ""); ?>>показывать время и дату</option>
+</select><br /><br /><font color='gray'>Сортировка:</font><br />
+<select name='f_sort'>
+<option value='0' <?=('0' == $f_sort ? "selected='selected'" : ""); ?>>по важности</option>
+<option value='1' <?=('1' == $f_sort ? "selected='selected'" : ""); ?>>по времени</option>
+</select><br /><br /><input name='f_annotations' value='0' type='hidden' />
+<input name='f_annotations' id='f_annotations' value='1' type='checkbox' <?=(1 == $f_annotations ? "checked='checked'" : ""); ?> />
+<label for='f_annotations'><font color='gray'>аннотации новостей</font><br />
+</label><br />
+<font color='gray'>Язык:</font><br />
+<select name='f_lang'>
+<option value='ru' <?=('ru' == $f_lang ? "selected='selected'" : ""); ?>>Русский</option>
+<option value='ua' <?=('ua' == $f_lang ? "selected='selected'" : ""); ?>>Украинский</option>
+</select><br /><br />

@@ -1,0 +1,15 @@
+<?php
+
+/** @var string $selector */
+/** @var array $settings */
+$_zindex = $_position = "";
+
+if ($settings['zindex'] !== '') {
+    $_zindex = "z-index: {$settings['zindex']};";
+}
+
+if ($settings['size'] !== '') {
+    $_position = "{$settings['position']}: {$settings['size']}{$settings['size_unit']};";
+}
+
+return "{$selector} {position:sticky !important; {$_position} {$_zindex}}";

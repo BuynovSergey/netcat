@@ -1,0 +1,31 @@
+<!-- FormPrefix --><form action='<?=$SUB_FOLDER?>/netcat/modules/auth/add_relation.php' method='post'>
+<table class='nc_user_list'>
+<tr>
+<th>Пользователь</th>
+<th>Отношение</th>
+</tr><!-- /FormPrefix -->
+
+<!-- RecordTemplate --><? 
+$is_friend = nc_auth_is_friend($f_user_id);
+$is_banned = nc_auth_is_banned($f_user_id);
+$is_neutral = !($is_friend || $is_banned) ;
+?>
+<tr>
+  <td><a href='<?=nc_auth_profile_url($f_user_id)?>'><?=$f_login?></a></td>
+  <td align='center'>
+    <input type='radio' name='user_<?=$f_user_id?>' value='1'  <?=($is_friend ? 'checked' : '')?> > Друг
+    <input type='radio' name='user_<?=$f_user_id?>' value='-1' <?=($is_neutral ? 'checked' : '')?> > Нейтраль
+    <input type='radio' name='user_<?=$f_user_id?>' value='2'  <?=($is_banned ? 'checked' : '')?> > Враг
+  </td>
+</tr><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><tr><td colspan='2' align='center'>
+<input type='submit' value='OK'>
+</td></tr>
+</table>
+<input type='hidden' value='<?=$_SERVER['REQUEST_URI']?>' name='redirect_url'>
+</form>
+
+<div class='nc_pagination'>Страницы: <?=browse_messages($cc_env, 10)?></div>
+
+<!-- /FormSuffix -->

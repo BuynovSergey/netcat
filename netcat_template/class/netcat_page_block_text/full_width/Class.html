@@ -1,0 +1,9 @@
+<!-- FormPrefix --><?= $f_AdminCommon ?>
+<?php if ($cc_settings['show_header']): ?>
+  <h1><?= nc_infoblock_custom_setting_edit_inline('header', $cc) ?></h1>
+<?php endif; ?>
+<!-- /FormPrefix -->
+
+<!-- RecordTemplate --><?= nc_edit_inline('Text', $f_RowID, $cc) ?><!-- /RecordTemplate -->
+
+<!-- FormSuffix --><!-- /FormSuffix -->

@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Alegreya Italic'), local('Alegreya-Italic'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaHrEBBsBhlBjvfkSLk967p4Q.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 500;
+  src: local('Alegreya Medium Italic'), local('Alegreya-MediumItalic'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaErEBBsBhlBjvfkSLk_1nK8phUKA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Alegreya Bold Italic'), local('Alegreya-BoldItalic'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaErEBBsBhlBjvfkSLk_xHM8phUKA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 800;
+  src: local('Alegreya ExtraBold Italic'), local('Alegreya-ExtraBoldItalic'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaErEBBsBhlBjvfkSLk_w3P8phUKA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: italic;
+  font-weight: 900;
+  src: local('Alegreya Black Italic'), local('Alegreya-BlackItalic'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaErEBBsBhlBjvfkSLk_ynO8phUKA.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Alegreya Regular'), local('Alegreya-Regular'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaBrEBBsBhlBjvfkSLlx64.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 500;
+  src: local('Alegreya Medium'), local('Alegreya-Medium'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaGrEBBsBhlBjvfkSoS5L3Kwpg.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Alegreya Bold'), local('Alegreya-Bold'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaGrEBBsBhlBjvfkSpa4r3Kwpg.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Alegreya ExtraBold'), local('Alegreya-ExtraBold'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaGrEBBsBhlBjvfkSpG4b3Kwpg.woff) format('woff');
+}
+@font-face {
+  font-family: 'Alegreya';
+  font-style: normal;
+  font-weight: 900;
+  src: local('Alegreya Black'), local('Alegreya-Black'), url(https://fonts.gstatic.com/s/alegreya/v12/4UaGrEBBsBhlBjvfkSpi4L3Kwpg.woff) format('woff');
+}

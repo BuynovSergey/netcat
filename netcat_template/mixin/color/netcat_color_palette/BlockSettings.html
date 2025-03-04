@@ -1,0 +1,121 @@
+<div class="nc-mixins-mixin-settings-netcat-palette">
+    <div>
+        <label>
+            Палитра:
+            <select name="mixin.settings.palette" class="nc-mixins-mixin-settings-netcat-palette-select">
+                <option value="">пользовательская</option>
+                <!-- data-colors должны быть в том же регистре, который использует minicolors (UPPERCASE) -->
+                <option data-colors="#212121;#34444C;#0B7BD5;#869FAB;#FFFFFF" value="gray_blue">серо-голубая</option>
+                <option data-colors="#212121;#A1A1A1;#D4957E;#F8E1DA;#F6F6F6" value="brownish_pink">коричневато-розовая</option>
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            <span class="nc-mixins-mixin-settings-netcat-palette-color-label">Основной цвет:</span>
+            <span><input type="text" name="mixin.settings.color_foreground_main"
+                        class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                        autocomplete="off" spellcheck="false"></span>
+        </label>
+    </div>
+    <div>
+        <label>
+            <span class="nc-mixins-mixin-settings-netcat-palette-color-label">Дополнительный (акцентирующий) цвет:</span>
+            <span><input type="text" name="mixin.settings.color_foreground_accent"
+                        class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                        autocomplete="off" spellcheck="false"></span>
+        </label>
+    </div>
+    <div>
+        <label>
+            <span class="nc-mixins-mixin-settings-netcat-palette-color-label">Фирменный цвет:</span>
+            <span><input type="text" name="mixin.settings.color_brand"
+                        class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                        autocomplete="off" spellcheck="false"></span>
+        </label>
+    </div>
+    <div>
+        <label>
+            <span class="nc-mixins-mixin-settings-netcat-palette-color-label">Основной цвет фона:</span>
+            <span><input type="text" name="mixin.settings.color_background_main"
+                        class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                        autocomplete="off" spellcheck="false"></span>
+        </label>
+    </div>
+    <div>
+        <label>
+            <span class="nc-mixins-mixin-settings-netcat-palette-color-label">Дополнительный цвет фона:</span>
+            <span><input type="text" name="mixin.settings.color_background_accent"
+                        class="nc-input nc-mixins-mixin-settings-netcat-palette-color"
+                        autocomplete="off" spellcheck="false"></span>
+        </label>
+    </div>
+</div>
+<style>
+    .nc-mixins-mixin-settings-netcat-palette label {
+        margin: 0;
+    }
+    .nc-mixins-mixin-settings-netcat-palette-color-label {
+        display: inline-block;
+        width: 270px;
+        margin-right: 10px;
+        text-align: right;
+    }
+</style>
+<script>
+(function() {
+    var prefix = '.nc-mixins-mixin-settings-netcat-palette';
+    var color_names = ['foreground_main', 'foreground_accent', 'brand', 'background_accent', 'background_main'];
+
+    function init(event, data) {
+        var updated_container = $nc(this),
+            palette_select = updated_container.find(prefix + '-select');
+
+        function get_color_input(name) {
+            return updated_container.find('input[name="mixin.settings.color_' + name + '"]');
+        }
+
+        function set_colors(colors_string) {
+            var colors = colors_string.split(";");
+            palette_select.data('setting_palette', true);
+            for (var i = 0; i < color_names.length; i++) {
+                get_color_input(color_names[i]).minicolors('value', colors[i]);
+            }
+            palette_select.data('setting_palette', false);
+        }
+
+        function get_colors() {
+            var colors = [];
+            for (var i = 0; i < color_names.length; i++) {
+                colors.push(get_color_input(color_names[i]).val());
+            }
+            return colors.join(';');
+        }
+
+        updated_container.find('.nc-mixins-mixin-settings-netcat-palette-color')
+            .minicolors('destroy')
+            .minicolors({ theme: 'netcat', letterCase: 'uppercase' })
+            .off('change' + prefix)
+            .on('change' + prefix, function() {
+                if (!palette_select.data('setting_palette')) {
+                    palette_select.val('').find('option[data-colors="' + get_colors() + '"]').prop('selected', true);
+                }
+            });
+
+        // выбор палитры
+        palette_select.off('change' + prefix)
+            .on('change' + prefix, function() {
+                var colors = palette_select.find('option:selected').data('colors');
+                if (colors) {
+                    set_colors(colors);
+                }
+            });
+    }
+
+    // Инициализация событий
+    $nc(prefix).closest('.nc-mixins-mixin-settings')
+        .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+        .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+})();
+</script>

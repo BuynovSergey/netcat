@@ -1,0 +1,50 @@
+<div class='nc-modal-dialog' data-hidden-tabs='tab-system'>
+    <div class='nc-modal-dialog-header'>
+        <h2><?= NETCAT_MODULE_REQUESTS_REQUEST_NUMBER . ' ' . $message ?></h2>
+    </div>
+    <div class='nc-modal-dialog-body'>
+        <?= ($warnText ? "<div class='warnText'>$warnText</div>" : NULL) ?>
+    <form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post' action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>message.php'>
+
+        <div id='nc_moderate_form'>
+            <div class='nc_clear'></div>
+            <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>'/>
+            <?= $nc_core->token->get_input() ?>
+            <input name='catalogue' type='hidden' value='<?= $catalogue ?>'/>
+            <input name='cc' type='hidden' value='<?= $cc ?>'/>
+            <input name='sub' type='hidden' value='<?= $sub ?>'/><input name='message' type='hidden' value='<?= $message ?>'/>
+            <input name='posting' type='hidden' value='1'/>
+            <input name='curPos' type='hidden' value='<?= $curPos ?>'/>
+            <input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>'/>
+            <?= nc_form_moderate('change', $admin_mode, 0, $systemTableID, $current_cc, (isset($f_Checked) ? $f_Checked : null), $f_Priority, $f_Keyword, $f_ncTitle, $f_ncKeywords, $f_ncDescription) ?>
+        </div>
+        <div data-tab-caption="<?= NETCAT_MODULE_REQUESTS_REQUEST_EDIT; ?>" data-tab-id="request-edit-form">
+
+            <?php
+
+            $skipped_fields = nc_requests::get_instance($catalogue)->get_request_component_auxiliary_fields();
+
+            $fields = $nc_core->get_component($classID)->get_fields(null, false);
+            foreach ($fields as $field_name) {
+                if (in_array($field_name, $skipped_fields) || $field_name == 'Item_VariantName') {
+                    continue;
+                }
+
+                echo nc_put_field($field_name, '', $classID, true);
+            }
+
+            ?>
+
+            <div><?= NETCAT_MODERATION_INFO_REQFIELDS ?></div>
+            <br/>
+        </div>
+    </form>
+</div>
+<div class="nc-modal-dialog-footer">
+    <div class="nc-modal-dialog-footer-text">
+    </div>
+    <button data-action="submit">Сохранить</button>
+    <button data-action="close">Отмена</button>
+</div>
+
+</div>

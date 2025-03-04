@@ -1,0 +1,237 @@
+<div class="nc-mixins-mixin-settings-netcat-link">
+    <table class="nc-table nc--bordered nc-mixins-mixin-settings-table nc--wide">
+        <tr>
+            <th width="10%" nowrap=""><i>обычная</i></th>
+            <td>
+                <div><label>цвет ссылки</label></div>
+                <div class="nc-mixins-mixin-settings-netcat-link-color">
+                    <span>
+                    <select name="mixin.settings.default.color"
+                            class="nc-mixins-mixin-settings-netcat-link-color-select">
+                        <option value="">по умолчанию</option>
+                        <option value="foreground-main">палитра: основной цвет</option>
+                        <option value="foreground-accent">палитра: дополнительный цвет</option>
+                        <option value="brand">палитра: фирменный цвет</option>
+                        <option value="background-main">палитра: основной цвет фона</option>
+                        <option value="background-accent">палитра: дополнительный цвет фона</option>
+                        <option value="custom">свой цвет</option>
+                    </select>
+                    </span>
+                    <span>
+                    <input name="mixin.settings.default.custom_color"
+                           class="nc-input nc-mixins-mixin-settings-netcat-link-color-custom" type="text"
+                           autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches/>
+                    </span>
+                </div>
+                <div>подчеркивание ссылки</div>
+                <div class="nc-mixins-mixin-settings-netcat-link-decoration">
+                    <span>
+                    <select name="mixin.settings.default.decoration.type"
+                            class="nc-mixins-mixin-settings-netcat-link-decoration-type">
+                        <option value="">по умолчанию</option>
+                        <option value="none">без подчеркивания</option>
+                        <option value="underline">под текстом</option>
+                        <option value="overline">над текстом</option>
+                        <option value="line-through">зачеркнутый</option>
+                    </select>
+                    </span>
+                    <span>
+                    <select name="mixin.settings.default.decoration.style"
+                            class="nc-mixins-mixin-settings-netcat-link-decoration-style">
+                        <option value="" selected disabled>стиль</option>
+                        <option value="solid">сплошная линия</option>
+                        <option value="dashed">прерывистая линия</option>
+                        <option value="dotted">точками</option>
+                        <option value="double">двойная линия</option>
+                        <option value="wavy">волнистая линия</option>
+                    </select>
+                    </span>
+                    <span>
+                    <input class="nc-input nc-mixins-mixin-settings-netcat-link-decoration-color" type="text"
+                           name="mixin.settings.default.decoration.color"
+                           autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches placeholder="цвет">
+                    </span>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="10%" nowrap=""><i>при наведении</i></th>
+            <td>
+                <div><label>цвет ссылки</label></div>
+                <div class="nc-mixins-mixin-settings-netcat-link-color">
+                    <span>
+                    <select name="mixin.settings.hover.color" class="nc-mixins-mixin-settings-netcat-link-color-select">
+                        <option value="">наследовать</option>
+                        <option value="foreground-main">палитра: основной цвет</option>
+                        <option value="foreground-accent">палитра: дополнительный цвет</option>
+                        <option value="brand">палитра: фирменный цвет</option>
+                        <option value="background-main">палитра: основной цвет фона</option>
+                        <option value="background-accent">палитра: дополнительный цвет фона</option>
+                        <option value="custom">свой цвет</option>
+                    </select>
+                    </span>
+                    <span>
+                    <input name="mixin.settings.hover.custom_color"
+                           class="nc-input nc-mixins-mixin-settings-netcat-link-color-custom" type="text"
+                           autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches/>
+                    </span>
+                </div>
+                <div>подчеркивание ссылки</div>
+                <div class="nc-mixins-mixin-settings-netcat-link-decoration">
+                    <span>
+                    <select name="mixin.settings.hover.decoration.type"
+                            class="nc-mixins-mixin-settings-netcat-link-decoration-type">
+                        <option value="">наследовать</option>
+                        <option value="none">без подчеркивания</option>
+                        <option value="underline">под текстом</option>
+                        <option value="overline">над текстом</option>
+                        <option value="line-through">зачеркнутый</option>
+                    </select>
+                    </span>
+                    <span>
+                    <select name="mixin.settings.hover.decoration.style"
+                            class="nc-mixins-mixin-settings-netcat-link-decoration-style">
+                        <option value="" selected disabled>стиль</option>
+                        <option value="solid">сплошная линия</option>
+                        <option value="dashed">прерывистая линия</option>
+                        <option value="dotted">точками</option>
+                        <option value="double">двойная линия</option>
+                        <option value="wavy">волнистая линия</option>
+                    </select>
+                    </span>
+                    <span>
+                    <input class="nc-input nc-mixins-mixin-settings-netcat-link-decoration-color" type="text"
+                           name="mixin.settings.hover.decoration.color"
+                           autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches placeholder="цвет">
+                    </span>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <th width="10%" nowrap=""><i>посещенная</i></th>
+            <td>
+                <div><label>цвет ссылки</label></div>
+                <div class="nc-mixins-mixin-settings-netcat-link-color">
+                    <span>
+                    <select name="mixin.settings.visited.color"
+                            class="nc-mixins-mixin-settings-netcat-link-color-select">
+                        <option value="">наследовать</option>
+                        <option value="foreground-main">палитра: основной цвет</option>
+                        <option value="foreground-accent">палитра: дополнительный цвет</option>
+                        <option value="brand">палитра: фирменный цвет</option>
+                        <option value="background-main">палитра: основной цвет фона</option>
+                        <option value="background-accent">палитра: дополнительный цвет фона</option>
+                        <option value="custom">свой цвет</option>
+                    </select>
+                    </span>
+                    <span>
+                    <input name="mixin.settings.visited.custom_color"
+                           class="nc-input nc-mixins-mixin-settings-netcat-link-color-custom" type="text"
+                           autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches/>
+                    </span>
+                </div>
+                <div>подчеркивание ссылки</div>
+                <div class="nc-mixins-mixin-settings-netcat-link-decoration">
+                    <span>
+                    <select name="mixin.settings.visited.decoration.type"
+                            class="nc-mixins-mixin-settings-netcat-link-decoration-type">
+                        <option value="">наследовать</option>
+                        <option value="none">без подчеркивания</option>
+                        <option value="underline">под текстом</option>
+                        <option value="overline">над текстом</option>
+                        <option value="line-through">зачеркнутый</option>
+                    </select>
+                    </span>
+                    <span>
+                    <select name="mixin.settings.visited.decoration.style"
+                            class="nc-mixins-mixin-settings-netcat-link-decoration-style">
+                        <option value="" selected disabled>стиль</option>
+                        <option value="solid">сплошная линия</option>
+                        <option value="dashed">прерывистая линия</option>
+                        <option value="dotted">точками</option>
+                        <option value="double">двойная линия</option>
+                        <option value="wavy">волнистая линия</option>
+                    </select>
+                    </span>
+                    <span>
+                    <input class="nc-input nc-mixins-mixin-settings-netcat-link-decoration-color" type="text"
+                           name="mixin.settings.visited.decoration.color"
+                           autocomplete="off"
+                           data-color-input=""
+                           data-mc-format="rgb"
+                           data-sync-color=""
+                           data-nc-swatches placeholder="цвет">
+                    </span>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    (function () {
+        var prefix = '.nc-mixins-mixin-settings-netcat-link';
+
+        function init(event, data) {
+            var settings_container = $nc(this);
+            if (settings_container.data('initialized')) {
+                return;
+            }
+            // Показать/спрятать выбор цвета при выборе цвета ссылки
+            settings_container.find(prefix + '-color-select').on('change', function () {
+                var custom_color = $nc(this).closest(prefix + '-color').find(prefix + '-color-custom');
+                //custom_color.minicolors('destroy');
+                if ($nc(this).val() == 'custom') {
+                    custom_color.show();
+                } else {
+                    custom_color.hide();
+                }
+            }).trigger('change');
+
+            // Показать/спрятать выбор стиля/цвета при выборе decoration
+            settings_container.find(prefix + '-decoration-type').on('change', function () {
+                let custom_color = $nc(this).closest(prefix + '-decoration').find(prefix + '-decoration-color');
+                let custom_style = $nc(this).closest(prefix + '-decoration').find(prefix + '-decoration-style');
+                //custom_color.minicolors('destroy');
+                if ($nc(this).val() == 'none' || $nc(this).val() == '') {
+                    custom_color.hide();
+                    custom_style.hide();
+                } else {
+                    custom_color.show();
+                    custom_style.show();
+                }
+            }).trigger('change');
+
+            // Больше не выполнять init() для этого блока:
+            settings_container.data('initialized', true);
+        }
+
+        // Инициализация событий
+        $nc(prefix).closest('.nc-mixins-mixin-settings')
+            .off(nc_mixin_settings_editor.mixin_settings_set_values_event)
+            .on(nc_mixin_settings_editor.mixin_settings_set_values_event, init);
+
+    })();
+</script>

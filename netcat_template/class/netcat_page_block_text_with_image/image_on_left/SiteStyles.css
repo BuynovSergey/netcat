@@ -1,0 +1,4 @@
+.tpl-block-container { max-width: 520px; min-width: 420px; order: 2; }
+@media (max-width: 1010px) {
+    .tpl-block-content { flex-direction: column; order: inherit; }
+}

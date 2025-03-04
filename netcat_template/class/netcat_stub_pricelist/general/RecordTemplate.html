@@ -1,0 +1,24 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+<?= $f_AdminButtons ?>
+    <?php $image_path = $f_Image ? $f_Image->get_path() : "" ?>
+
+    <div class="price-list-item<?= $image_path ? " with-image" : "" ?>">
+        <?php if ($image_path): ?>
+            <div class="price-list-item-image-wrapper">
+                <?= $f_Image->as_img(array("alt" => $f_Name)) ?>
+            </div>
+        <?php endif ?>
+
+        <div class="price-list-info">
+            <div class="price-list-title <?= $cc_settings["title_font_size"] ?>"><?= nc_edit_inline("Name", $f_RowID, $cc) ?></div>
+
+            <?php if ($admin_mode || $f_Description): ?>
+                <div class="price-list-description tpl-text-default-paragraph"><?= nc_edit_inline("Description", $f_RowID, $cc) ?></div>
+            <?php endif ?>
+        </div>
+
+        <?php if ($admin_mode || $f_Price): ?>
+            <div class="price-list-price <?= $cc_settings["price_font_size"] ?>"><?= nc_edit_inline("Price", $f_RowID, $cc) ?></div>
+        <?php endif ?>
+    </div>
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>

@@ -1,0 +1,79 @@
+        </div>
+        <div class="tpl-block-dots-control">
+            <a class="tpl-block-dot" href="#"></a>
+        </div>
+        <div style="height: <?= $cc_settings['padding_bottom']; ?>px"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        var $quote = $('#<?= $nc_block_id; ?>');
+        var $dots = $quote.find('.tpl-block-dots-control');
+        var $quotes = $quote.find('.tpl-block-quotes .tpl-block-quote');
+        $dots.find('.tpl-block-dot').removeClass('tpl-state-active');
+        for (var i = 1; i < $quotes.length; i++) {
+            $dots.append($dots.find('.tpl-block-dot').eq(0).clone());
+        }
+        $dots.find('.tpl-block-dot').eq(0).addClass('tpl-state-active');
+
+        $dots.find('.tpl-block-dot').on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var index = $this.index('#<?= $nc_block_id; ?> .tpl-block-dot');
+            var $currentQuote = $quotes.filter(':visible');
+            var $nextQuote = $quotes.eq(index);
+
+            if (
+                    $this.hasClass('tpl-state-active') ||
+                    $currentQuote.filter(':animated').length ||
+                    $nextQuote.filter(':animated').length
+            ) {
+                return false;
+            }
+
+            $this.addClass('tpl-state-active').siblings().removeClass('tpl-state-active');
+
+            $currentQuote.css({
+                position: 'absolute',
+                top: 0,
+                left: '50%',
+                marginLeft: 0 - $currentQuote.outerWidth() / 2,
+                width: $currentQuote.outerWidth()
+            }).fadeOut(function () {
+                $currentQuote.css({
+                    position: '',
+                    top: '',
+                    left: '',
+                    marginLeft: '',
+                    width: ''
+                })
+            });
+            $nextQuote.fadeIn();
+            $('HTML,BODY').animate({
+                scrollTop: $nextQuote.offset().top - 30
+            });
+        });
+
+        $quote.find('.tpl-block-slider-control .tpl-block-button.tpl-layout-prev, .tpl-block-slider-control .tpl-block-button.tpl-layout-next').on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var $dots_items = $dots.find('.tpl-block-dot');
+            var active_index = $dots_items.filter('.tpl-state-active').index('#<?= $nc_block_id; ?> .tpl-block-dot');
+            var dots_count = $dots_items.length;
+
+            if ($this.is('.tpl-layout-prev')) {
+                var new_index = active_index - 1;
+                if (new_index < 0) {
+                    new_index = dots_count - 1;
+                }
+            } else {
+                var new_index = active_index + 1;
+                if (new_index >= dots_count) {
+                    new_index = 0;
+                }
+            }
+
+            $dots_items.eq(new_index).triggerHandler('click');
+        });
+    });
+</script>

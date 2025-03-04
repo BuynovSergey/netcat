@@ -1,0 +1,36 @@
+<div class="nc-mixin-netcat-position">
+    <div class="netcat-position-settings-zindex">
+        <label>
+            z-index:
+            <input name="mixin.settings.zindex" type="number" min="0" max='800' value=""/>
+        </label>
+        <small>максимальное значение z-index — 800</small>
+    </div>
+
+    <div class="netcat-position-settings-trbl">
+        <label>
+            <table border="0" class="nc-mixins-mixin-settings-box">
+                <tr>
+                    <td>прилипнуть</td>
+                    <td>
+                        <select name="mixin.settings.position">
+                            <option value="top">к верхнему краю</option>
+                            <option value="bottom">к нижнему краю</option>
+                        </select>
+                    </td>
+                    <td>сделав отступ в</td>
+                    <td>
+                        <input name="mixin.settings.size" type="number" min="-9999" max="9999" value="0" >
+                        <select name="mixin.settings.size_unit">
+                            <option value="px">px</option>
+                            <option value="em">em</option>
+                            <option value="em">rem</option>
+                            <option value="%">%</option>
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+        </label>
+    </div>
+</div>

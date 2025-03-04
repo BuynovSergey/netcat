@@ -1,0 +1,23 @@
+<?php if ($menu_level == 1): ?>
+    <?= $f_AdminCommon; ?>
+<?php endif; ?>
+
+<?php
+if ($menu_is_custom && $res) {
+    $fetch_row = $nc_core->subdivision->process_raw_data($res);
+}
+
+if ($totRows && $make_submenu && $cc_settings['submenu_symbol']) {
+    list($icon, $icon_type) = explode(';', "$cc_settings[submenu_symbol];;");
+} else {
+    $icon = $icon_type = 'none';
+}
+
+?>
+<?php if ($totRows): ?>
+<ul <?= $styles ?>>
+    <?php else: ?>
+        <?php if ($admin_mode): ?>Нет подразделов<?php endif; ?>
+        <!-- EMPTY SUBMENU -->
+    <?php endif; ?>
+    

@@ -1,0 +1,19 @@
+<font color='gray'>Ссылка:</font><br />
+<input name='f_url' size='50' value='<?=$f_url; ?>' /><br /><br />
+<input name='f_announcement' value='0' type='hidden' />
+<input name='f_announcement' id='f_announcement' value='1' type='checkbox' <?=(1 == $f_announcement ? "checked='checked'" : ""); ?> />
+<label for='f_announcement'>
+<font color='gray'>показывать анонсы</font><br />
+</label><br />
+<input name='f_date' value='0' type='hidden' />
+<input name='f_date' id='f_date' value='1' type='checkbox' <?=(1 == $f_date ? "checked='checked'" : ""); ?> />
+<label for='f_date'>
+<font color='gray'>показывать даты</font><br />
+</label><br />
+<font color='gray'>Количество записей:</font><br />
+<input name='f_entry_limit' size='50' value='<?=$f_entry_limit; ?>' /><br /><br />
+<input name='f_new_window' value='0' type='hidden' />
+<input name='f_new_window' id='f_new_window' value='1' type='checkbox' <?=(1 == $f_new_window ? "checked='checked'" : ""); ?> />
+<label for='f_new_window'>
+<font color='gray'>открывать в новом окне</font><br />
+</label><br />

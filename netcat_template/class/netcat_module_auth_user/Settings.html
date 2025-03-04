@@ -1,0 +1,45 @@
+<? 
+// доступны личные сообщения, друзья-враги
+$pm_allow = $nc_core->get_settings('pm_allow', 'auth');
+$friend_allow = $nc_core->get_settings('friend_allow', 'auth');
+$banned_allow = $nc_core->get_settings('banned_allow', 'auth');
+$allow_rel = $AUTH_USER_ID && ( $friend_allow || $banned_allow);
+
+// список друзей и врагов для списка
+if ( $AUTH_USER_ID && $action != 'full') {
+  $friends = nc_auth_get_all_friend();
+  $banned =  nc_auth_get_all_banned();
+}
+
+// получение друзей пользователя при просмотре его профайла
+if ( $action == 'full' ) {
+  $noIam = $AUTH_USER_ID && $AUTH_USER_ID != $message;
+  $friend_list = false; 
+  if ( $friend_allow ) {
+    foreach (  nc_auth_get_all_friend ( $message, 0, 1) as $f ) {
+      $friend_list[] = "<a href='".nc_auth_profile_url($f['Related_ID'])."'>".$f[$AUTHORIZE_BY]."</a>";  
+    }
+  }
+}
+
+// выборка пользователей
+$query_where = " 1 ";
+if ($MODULE_VARS['auth']['USER_BIND_TO_CATALOGUE']) $query_where .= ' AND Catalogue_ID IN(0,'.$catalogue.')';
+// поиск по логину
+if ( $search_login ) {
+ $search_login = $db->escape($search_login );
+ $query_where .= " AND ( `Email` LIKE '%".$search_login ."%' OR `Name` LIKE '%".$search_login ."%' )";
+}
+// только онлайн
+if ( $search_online ) {
+  $query_from = " `Session` AS `s` ";
+  $query_where .= "AND s.`User_ID` = a.`User_ID` AND s.`SessionTime` > '".nc_auth_time_left()."' ";
+  $query_group = "a.User_ID";
+} 
+
+// шаблон вывода пользователей онлай
+$users_online_tpl['prefix']  = "Пользователи: ";
+$users_online_tpl['suffix']  = "<br/>";
+$users_online_tpl['divider'] = ", ";
+$users_online_tpl['link']    = "<a href='%URL'>%NAME</a>";
+?>

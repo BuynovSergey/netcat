@@ -1,0 +1,56 @@
+<!-- FormPrefix --><?= $f_AdminCommon; ?>
+
+<table class="tpl-table">
+    <?php
+    $column_decor = json_decode($cc_settings['columnDecor'], true);
+    $column_font_size = json_decode($cc_settings['columnFontSize'], true);
+    $column_font_weight = json_decode($cc_settings['columnFontWeight'], true);
+    $column_text_color = json_decode($cc_settings['columnTextColor'], true);
+    ?>
+
+    <?php if (!$cc_settings['hideHeader']): ?>
+        <?php $column_title = json_decode($cc_settings['columnTitle']); ?>
+        <thead>
+        <?php for ($col = 1; $col <= $cc_settings['columnCount']; $col++): ?>
+            <?php
+            $classes = array(
+                "tpl-text-thead",
+                $cc_settings["headerFontSize"],
+                $column_decor[$col] ? $column_decor[$col]["header_align"] : "",
+            );
+            $classes = implode(" ", $classes);
+            $styles = $cc_settings["headerFontColor"] !== "inherit" ? "style='color:var($cc_settings[headerFontColor]);'" : "";
+            ?>
+
+            <th data-col="<?= $col ?>" class="<?= $classes ?>" <?= $styles ?>>
+                <?= $column_title[$col]; ?>
+            </th>
+        <?php endfor ?>
+        </thead>
+    <?php endif ?>
+    <tbody>
+    <!-- /FormPrefix -->
+
+<!-- RecordTemplate --><tr>
+        <?php $column_values = $f_rowData ? unserialize($f_rowData) : array(); ?>
+        <?php for ($col = 1; $col <= $cc_settings['columnCount']; $col++): ?>
+
+            <?php
+            $classes = array();
+            $classes[] = $column_font_size[$col] ? $column_font_size[$col]["cell_font_size"] : "tpl-text-default";
+            $classes[] .= $column_font_weight[$col] ? $column_font_weight[$col]["cell_font_weight"] : "";
+            $classes[] .= $column_decor[$col] ? $column_decor[$col]["cell_align"] : "align-left";
+            $classes = implode(" ", $classes);
+            $text_color = $column_text_color[$col] ? $column_text_color[$col]["cell_text_color"] : "--tpl-foreground-main";
+            ?>
+
+            <td data-col="<?= $col ?>" class="<?= $classes ?>" style="color:var(<?= $text_color ?>);">
+                <?= ($col == 1 ? $f_AdminButtons : ""); ?>
+                <?= nl2br(isset($column_values[$col]) ? $column_values[$col] : null); ?>
+            </td>
+        <?php endfor ?>
+    </tr><!-- /RecordTemplate -->
+
+<!-- FormSuffix -->    </tbody>
+</table>
+<!-- /FormSuffix -->

@@ -1,0 +1,38 @@
+<?= ($warnText ? "<div class='warnText'>$warnText</div>" : null) ?>
+<form name='adminForm' id='adminForm' class='nc-form' enctype='multipart/form-data' method='post'
+      action='<?= $SUB_FOLDER ?><?= $HTTP_ROOT_PATH ?>message.php'>
+    <div id='nc_moderate_form'>
+        <div class='nc_clear'></div>
+        <input name='admin_mode' type='hidden' value='<?= $admin_mode ?>'/>
+        <?= $nc_core->token->get_input() ?>
+        <input name='catalogue' type='hidden' value='<?= $catalogue ?>'/>
+        <input name='cc' type='hidden' value='<?= $cc ?>'/>
+        <input name='sub' type='hidden' value='<?= $sub ?>'/>
+        <input name='message' type='hidden' value='<?= $message ?>'/>
+        <input name='posting' type='hidden' value='1'/>
+        <input name='curPos' type='hidden' value='<?= $curPos ?>'/>
+        <input name='f_Parent_Message_ID' type='hidden' value='<?= $f_Parent_Message_ID ?>'/>
+        <?= nc_form_moderate('change', $admin_mode, 0, $systemTableID, $current_cc, (isset($f_Checked) ? $f_Checked : null), $f_Priority, $f_Keyword, $f_ncTitle, $f_ncKeywords,
+            $f_ncDescription) ?>
+    </div>
+    <?php
+    $cc_settings = nc_get_visual_settings($cc);
+    $column_title = json_decode($cc_settings['columnTitle']);
+    $column_values = unserialize($f_rowData);
+    ?>
+    <table class="nc-table nc--wide">
+        <?php for ($col = 1; $col <= $cc_settings['columnCount']; $col++) { ?>
+            <tr>
+                <th width="1%" nowrap=""><label class="nc-field-caption">
+                        <?= $column_title[$col] ?: "Содержимое колонки #{$col}"; ?>
+                    </label>
+                </th>
+                <td>
+                    <textarea name="columnData[<?= $col; ?>]" rows="2" class="nc--wide"><?= $column_values[$col]; ?></textarea>
+                </td>
+            </tr>
+        <?php } ?>
+    </table>
+    <div class='nc-hint nc-hint-required-fields'><?= NETCAT_MODERATION_INFO_REQFIELDS ?></div>
+    <?= nc_submit_button(NETCAT_MODERATION_BUTTON_CHANGE) ?>
+</form>

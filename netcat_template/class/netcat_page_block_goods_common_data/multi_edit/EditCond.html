@@ -1,0 +1,14 @@
+<?
+
+if (is_array($nc_multiple_changes)) {
+    foreach ($nc_multiple_changes as $object_id => $values) {
+        /** @var nc_core $nc_core */
+        $currency_forms = $nc_core->lang->get_ru_count_forms($values['OriginalPriceCurrency']);
+
+        $nc_multiple_changes[$object_id]['OriginalPriceCurrency'] = $nc_core->lang->get_ru_numerical_inclination($values['OriginalPrice'], $currency_forms);
+        $nc_multiple_changes[$object_id]['ItemPriceCurrency'] = $nc_core->lang->get_ru_numerical_inclination($values['ItemPrice'], $currency_forms);
+        $nc_multiple_changes[$object_id]['DiscountCurrency'] = $nc_core->lang->get_ru_numerical_inclination($values['DiscountValue'], $currency_forms);
+    }
+}
+
+

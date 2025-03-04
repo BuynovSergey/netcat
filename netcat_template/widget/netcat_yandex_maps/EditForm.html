@@ -1,0 +1,19 @@
+<font color='gray'>ID контейнера div с картой:</font><br />
+<input name='f_container_id' size='50' value='<?= $f_container_id ?>' /><br /><br />
+<font color='gray'>Ширина контейнера:</font><br />
+<input name='f_container_width' size='50' value='<?= $f_container_width ?>' /><br /><br />
+<font color='gray'>Высота контейнера:</font><br />
+<input name='f_container_height' size='50' value='<?= $f_container_height ?>' /><br /><br />
+<font color='gray'>Х координата центра карты (*):</font><br />
+<input name='f_map_center_x' size='50' value='<?= $f_map_center_x ?>' /><br /><br />
+<font color='gray'>У координата центра карты (*):</font><br />
+<input name='f_map_center_y' size='50' value='<?= $f_map_center_y ?>' /><br /><br />
+<font color='gray'>Масштаб карты (*):</font><br />
+<input name='f_map_zoom' size='50' value='<?= $f_map_zoom ?>' /><br /><br />
+
+<div>
+    <div>Показывать панели:</div>
+    <div>Масштабирование <input type="checkbox" name='f_use_zoom_control' <?= $f_use_zoom_control ? 'checked="checked"' : ''; ?> size='50' value='1' /></div>
+    <div>Инструменты <input type="checkbox" name='f_use_map_tools' <?= $f_use_map_tools ? 'checked="checked"' : ''; ?> size='50' value='1' /></div>
+    <div>Режим карты <input type="checkbox" name='f_use_type_selector' <?= $f_use_type_selector ? 'checked="checked"' : ''; ?> size='50' value='1' /></div>
+</div>

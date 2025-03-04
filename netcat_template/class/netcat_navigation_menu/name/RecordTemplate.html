@@ -1,0 +1,59 @@
+<?/* Служебная часть */for ($f_RowNum = 0; $f_RowNum < $rowCount; $f_RowNum++) {    if($fetch_row[$f_RowNum] instanceof Iterator) {        extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, "f");    } else {        extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, "f");    }    foreach($iteration_RecordTemplate[$f_RowNum] as $value) {        extract($value);    }    !isset($cc_env["convert2txt"]) ? $cc_env["convert2txt"] = null : null;    eval($cc_env["convert2txt"]);    ob_start();/* Конец служебной части */?>
+
+    <?php
+    if ($menu_is_custom) {
+        // Для вручную отобранных ссылок нужно установить $f_current, $f_active
+        $f_current = $f_Subdivision_ID == $sub;
+        $f_active = $f_current || $nc_core->subdivision->is_parent_of($sub, $f_Subdivision_ID);
+    }
+
+    $sub_menu = null;
+    if ($make_submenu) {
+        if ((!$menu_submenu_settings[$menu_level - 1]['only_active'] || $f_active)) {
+            $sub_menu = $make_submenu($f_Subdivision_ID);
+        }
+    }
+
+    $classes =
+        'tpl-dropdown-trigger tpl-mixin-padding-pass-down menu-item' .
+        ($sub_menu ? ' menu-item-with-submenu' : '') .
+        ($f_active ? ' menu-item-active' : '') .
+        ($f_current ? ' menu-item-current' : '');
+
+    $href = $get_menu_item_href($f_Subdivision_ID);
+
+    ?>
+    <li class="<?= $classes ?>">
+        <?= $f_AdminButtons; ?>
+        <a <?= $href ? 'href="' . htmlspecialchars($href) . '"' : 'onclick="return !1"'
+        ?> class="menu-item-link tpl-mixin-padding-target tpl-text-<?= $cc_settings['item_font'] ?><?= $f_active ?
+            " menu-item-link-active" : "" ?>">
+            <div class="menu-item-text"><?= htmlspecialchars($f_Subdivision_Name) ?></div>
+
+            <?php
+            if ($icon !== "none" && $sub_menu): ?>
+                <div class="toggle-btn">
+                    <div class="toggle-icon icon-<?= $icon_type ?: "" ?>">
+                        <?php if ($icon == "caret"): ?>
+                            <svg fill="var(--tpl-object-item--symbol-color, #000000)" width="18" height="18" viewBox="0 0 32 32"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 11.305l-7.997 11.39L8 11.305z"/>
+                            </svg>
+                        <?php endif ?>
+
+                        <?php if ($icon == "chevron"): ?>
+                            <svg width="18" height="10" viewBox="0 0 18 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.9201 0.950195L10.4001 7.4702C9.63008 8.2402 8.37008 8.2402 7.60008 7.4702L1.08008 0.950195"
+                                        stroke="var(--tpl-object-item--symbol-color, #000000)" stroke-width="1.5" stroke-miterlimit="10"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                            </svg>
+                        <?php endif ?>
+                    </div>
+                </div>
+            <?php endif ?>
+        </a>
+        <?= $sub_menu ?>
+    </li>
+    
+<?/* Служебная часть */    echo nc_finishing_RecordTemplate(ob_get_clean(), $inside_admin, $classID, $f_RowID, $parent_message, $cc, $cc_env["Class_Name"], $no_cache_marks);}/* Конец служебной части */?>
